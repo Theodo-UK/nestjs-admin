@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  db:
+    # In production, you may want to use a managed database service
+    image: postgres:10.6-alpine
+    environment:
+      - POSTGRES_DB=api
+      - POSTGRES_USER=nestjs
+      # You should definitely change the password in production
+      - POSTGRES_PASSWORD=!ChangeMe!
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+    ports:
+      - '5432:5432'
+
+  db-test:
+    image: postgres:10.6-alpine
+    environment: # Credentials must differ from the main database in order to avoid what we call in France "Programmation par coïncidence"
+      - POSTGRES_DB=seed
+      - POSTGRES_USER=seed
+      - POSTGRES_PASSWORD=Ge0rgesMoustaki
+    ports:
+      - '5434:5432'
+
+volumes:
+  db-data: {}

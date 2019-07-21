@@ -1,0 +1,113 @@
+version: 2.1
+
+executors:
+  defaults_typescript:
+    docker:
+      - image: circleci/node:10.13.0
+      - image: circleci/postgres:9.6-alpine-ram
+        environment:
+          - POSTGRES_DB=seed
+          - POSTGRES_USER=seed
+          - POSTGRES_PASSWORD=Ge0rgesMoustaki
+          - PGPORT=5434
+
+commands:
+  yarn-install:
+    parameters:
+      workspace:
+        type: string
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/nest-admin/<< parameters.workspace >>
+      - restore_cache:
+          key: node-modules-cache-{{ checksum "<< parameters.workspace >>/yarn.lock" }}
+      - run:
+          working_directory: << parameters.workspace >>
+          name: Install front dependencies
+          command: yarn
+      - run:
+          working_directory: << parameters.workspace >>
+          name: Install bundle size
+          command: yarn add bundlesize --save-dev
+      - save_cache:
+          key: node-modules-cache-{{ checksum "<< parameters.workspace >>/yarn.lock" }}
+          paths:
+            - << parameters.workspace >>/node_modules
+      - persist_to_workspace:
+          root: ~/nest-admin/<< parameters.workspace >>
+          paths:
+            - node_modules
+            - .env
+
+  yarn-tests:
+    parameters:
+      workspace:
+        type: string
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/nest-admin/<< parameters.workspace >>
+      - run:
+          working_directory: << parameters.workspace >>
+          name: Unit test with coverage
+          command: yarn test:coverage
+      - store_artifacts:
+          path: << parameters.workspace >>/coverage
+      - run:
+          working_directory: << parameters.workspace >>
+          name: Run Typescript checker
+          command: yarn tsc
+
+  yarn-linter:
+    parameters:
+      workspace:
+        type: string
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/nest-admin/<< parameters.workspace >>
+      - run:
+          working_directory: << parameters.workspace >>
+          name: Run linter
+          command: yarn lint
+      - store_artifacts:
+          path: << parameters.workspace >>/coverage
+
+jobs:
+  yarn-install-back:
+    executor: defaults_typescript
+    working_directory: ~/nest-admin
+    steps:
+      - yarn-install:
+          workspace: backend
+
+  nest-tests:
+    executor: defaults_typescript
+    working_directory: ~/nest-admin
+    environment:
+      NODE_ENV: test
+    steps:
+      - yarn-tests:
+          workspace: backend
+
+  nest-linter:
+    executor: defaults_typescript
+    working_directory: ~/nest-admin
+    environment:
+      NODE_ENV: prod
+    steps:
+      - yarn-linter:
+          workspace: backend
+
+workflows:
+  version: 2
+  stack:
+    jobs:
+      - yarn-install-back
+      - nest-tests:
+          requires:
+            - yarn-install-back
+      - nest-linter:
+          requires:
+            - yarn-install-back

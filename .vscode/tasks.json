@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [{
+    "label": "Django shell",
+    "type": "shell",
+    "command": "docker-compose exec backend ./manage.py shell",
+    "presentation": {
+      "reveal": "always",
+      "panel": "new"
+    }
+  }, {
+    "label": "Run Django tests",
+    "type": "shell",
+    "command": "docker-compose exec backend ./manage.py test",
+    "group": "test",
+    "presentation": {
+      "reveal": "always",
+      "panel": "dedicated"
+    }
+  }, {
+    "label": "Make migrations",
+    "type": "shell",
+    "command": "docker-compose exec backend ./manage.py makemigrations",
+    "presentation": {
+      "reveal": "always",
+      "panel": "dedicated"
+    }
+  }, {
+    "label": "Run migrations",
+    "type": "shell",
+    "command": "docker-compose exec backend ./manage.py migrate",
+    "presentation": {
+      "reveal": "always",
+      "panel": "dedicated"
+    }
+  }]
+}

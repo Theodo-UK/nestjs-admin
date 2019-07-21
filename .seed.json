@@ -1,0 +1,1 @@
+{"project_name":"nest-admin","generateAPIPlatform":false,"generateDjango":false,"generateNestJS":true,"generateReact":false,"generateReactNative":false,"generateNext":false,"generateNuxt":false,"app_port":"3000","cleanProjectName":"nestadmin","refresh_token":"refreshToken","access_token_minutes_to_live":10,"refresh_token_minutes_to_live":525600}

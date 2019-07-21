@@ -1,0 +1,27 @@
+{
+  "editor.formatOnSave": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  "flow.pathToFlow": "${workspaceFolder}/frontend/node_modules/.bin/flow",
+
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.pylintEnabled": false,
+
+  "[javascript]": {
+    "editor.tabSize": 2,
+    "javascript.validate.enable": false
+  },
+  "[json]": {
+    "editor.tabSize": 2
+  },
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.tabSize": 4
+  }
+}
