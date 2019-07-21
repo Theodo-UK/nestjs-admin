@@ -1,17 +1,38 @@
-import { Get, Controller, Render } from '@nestjs/common';
-import { AdminSite } from './admin.service';
+import { Get, Controller, Render, Param, Query } from '@nestjs/common'
+import { AdminSite } from './admin.service'
+
+function getPaginationOptions(page?: number) {
+  page = page || 0
+  // @architecture configuration "williamd: this could be made configurable on a per-section basis"
+  const perPage = 25
+
+  return {
+    skip: perPage * page,
+    take: perPage,
+  }
+}
 
 @Controller('admin')
 export class AdminController {
-  constructor(private adminSite: AdminSite) { }
+  constructor(private adminSite: AdminSite) {}
 
   @Get()
   @Render('index.njk')
   root() {
-    const sections = Object.values(this.adminSite.sections).sort(
-      (s1, s2) => s1.name.localeCompare(s2.name)
-    )
+    const sections = this.adminSite.getSectionList()
+    return { sections }
+  }
 
-    return { sections };
+  @Get(':section/:entity')
+  @Render('entity-list.njk')
+  async entityList(
+    @Param('section') sectionName: string,
+    @Param('entity') entityName: string,
+    @Query('page') page?: number,
+  ) {
+    const section = this.adminSite.getSection(sectionName)
+    const repository = section.getRepository(entityName)
+    const [entities, count] = await repository.findAndCount(getPaginationOptions(page))
+    return { entities, count, metadata: repository.metadata }
   }
 }

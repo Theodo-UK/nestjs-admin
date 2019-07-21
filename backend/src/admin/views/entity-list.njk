@@ -1,0 +1,13 @@
+<html>
+<body>
+  <h1>{{ metadata.name }}</h1>
+  <h2>{{ count }} results</h2>
+  <ul>
+    {% for entity in entities %}
+      <li>
+        {{ entity }}
+      </li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
