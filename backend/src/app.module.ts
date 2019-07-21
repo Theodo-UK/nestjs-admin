@@ -10,11 +10,11 @@ import { AdminModule } from './admin/admin.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
+    AdminModule,
     UserModule,
     AuthModule,
-    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
