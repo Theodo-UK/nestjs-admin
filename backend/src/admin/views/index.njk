@@ -7,7 +7,11 @@
         <h2>{{ section.name }}</h2>
         <ul>
           {% for entityMD in section.getEntitiesMetadata() %}
-            <li>{{ entityMD.name }}</li>
+            <li>
+              <a href="{{ 'changelist' | adminUrl(section.name, entityMD.name) }}">
+                {{ entityMD.name }}
+              </a>
+            </li>
           {% endfor %}
         </ul>
       </li>

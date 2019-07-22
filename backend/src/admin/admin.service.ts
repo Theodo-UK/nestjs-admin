@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Connection, EntitySchema, Repository } from 'typeorm';
+import { parseName } from './utils/formatting'
 
 type EntityType = Function | EntitySchema<any> | string
-
-function parseName(name:string) {
-  return name.toLowerCase()
-}
 
 class AdminSection {
   repositories: { [key: string]: Repository<unknown> } = {}

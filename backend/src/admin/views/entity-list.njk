@@ -5,7 +5,7 @@
   <ul>
     {% for entity in entities %}
       <li>
-        {{ entity }}
+        {{ entity | displayName(metadata) }}
       </li>
     {% endfor %}
   </ul>
