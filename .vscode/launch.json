@@ -5,7 +5,8 @@
       "type": "node",
       "request": "attach",
       "name": "Nest",
-      "port": 9229
+      "port": 9229,
+      "restart": true
     },
   ]
 }
