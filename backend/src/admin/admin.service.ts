@@ -4,7 +4,7 @@ import { parseName } from './utils/formatting'
 
 type EntityType = Function | EntitySchema<any> | string
 
-class AdminSection {
+export class AdminSection {
   repositories: { [key: string]: Repository<unknown> } = {}
   constructor(public readonly name: string) { }
 

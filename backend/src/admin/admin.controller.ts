@@ -33,6 +33,6 @@ export class AdminController {
     const section = this.adminSite.getSection(sectionName)
     const repository = section.getRepository(entityName)
     const [entities, count] = await repository.findAndCount(getPaginationOptions(page))
-    return { entities, count, metadata: repository.metadata }
+    return { section, entities, count, metadata: repository.metadata }
   }
 }

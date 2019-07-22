@@ -5,7 +5,9 @@
   <ul>
     {% for entity in entities %}
       <li>
-        {{ entity | displayName(metadata) }}
+        <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
+          {{ entity | displayName(metadata) }}
+        </a>
       </li>
     {% endfor %}
   </ul>

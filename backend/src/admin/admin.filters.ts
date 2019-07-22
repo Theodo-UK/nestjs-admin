@@ -13,7 +13,7 @@ function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
 function changeUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
   if (metadata.primaryColumns.length !== 1) {
     // @debt TODO "williamd: probably still covers most cases, but still TODO"
-    throw 'Entities with multiple primary columns unsupported. If you have this use case, please open a GitHub issue'
+    throw `Entities with composite primary keys unsupported (${metadata.name}). If you have this use case, please open a GitHub issue`
   }
   const primaryKey = metadata.primaryColumns[0].getEntityValue(entity)
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}`
