@@ -6,7 +6,10 @@
     {% for column in metadata.columns %}
       <div>
         <label>{{ column.propertyName }}</label>
-        <input value="{{ column.getEntityValue(entity) }}" />
+        <input
+          name="{{ column.propertyName }}"
+          value="{{ column.getEntityValue(entity) }}"
+        />
       </div>
     {% endfor %}
     <button type="submit">Submit</button>

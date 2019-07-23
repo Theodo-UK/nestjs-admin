@@ -1,5 +1,6 @@
-import { Get, Controller, Render, Param, Query } from '@nestjs/common'
-import { AdminSite } from './admin.service'
+import { Get, Post, Controller, Render, Param, Query, Body } from '@nestjs/common'
+import { AdminSite, AdminSection } from './admin.service'
+import { Repository, EntityMetadata } from 'typeorm';
 
 function getPaginationOptions(page?: number) {
   page = page || 0
@@ -12,9 +13,38 @@ function getPaginationOptions(page?: number) {
   }
 }
 
+type AdminModelsQuery = {
+  sectionName?: string,
+  entityName?: string,
+  primaryKey?: string
+}
+
+type AdminModelsResult = {
+  section: AdminSection,
+  repository: Repository<unknown>,
+  metadata: EntityMetadata,
+  entity: object
+}
+
 @Controller('admin')
 export class AdminController {
   constructor(private adminSite: AdminSite) { }
+
+  async getAdminModels(query: AdminModelsQuery): Promise<AdminModelsResult> {
+    // @ts-ignore
+    const result: AdminModelsResult = {}
+    if (query.sectionName) {
+      result.section = this.adminSite.getSection(query.sectionName)
+      if (query.entityName) {
+        result.repository = result.section.getRepository(query.entityName)
+        result.metadata = result.repository.metadata
+        if (query.primaryKey) {
+          result.entity = await result.repository.findOneOrFail(query.primaryKey) as object
+        }
+      }
+    }
+    return result
+  }
 
   @Get()
   @Render('index.njk')
@@ -23,29 +53,36 @@ export class AdminController {
     return { sections }
   }
 
-  @Get(':section/:entity')
+  @Get(':sectionName/:entityName')
   @Render('changelist.njk')
   async changeList(
-    @Param('section') sectionName: string,
-    @Param('entity') entityName: string,
+    @Param() params: AdminModelsQuery,
     @Query('page') page?: number,
   ) {
-    const section = this.adminSite.getSection(sectionName)
-    const repository = section.getRepository(entityName)
+    const { section, repository, metadata } = await this.getAdminModels(params)
     const [entities, count] = await repository.findAndCount(getPaginationOptions(page))
-    return { section, entities, count, metadata: repository.metadata }
+    return { section, entities, count, metadata }
   }
 
-  @Get(':section/:entity/:pk')
+  @Get(':sectionName/:entityName/:primaryKey')
   @Render('change.njk')
-  async change(
-    @Param('section') sectionName: string,
-    @Param('entity') entityName: string,
-    @Param('pk') primaryKey: string,
+  async change(@Param() params: AdminModelsQuery, ) {
+    const { section, metadata, entity } = await this.getAdminModels(params)
+    return { section, metadata, entity }
+  }
+
+  @Post(':sectionName/:entityName/:primaryKey')
+  @Render('change.njk')
+  async update(
+    @Body() updateEntityDto: object,
+    @Param() params: AdminModelsQuery,
   ) {
-    const section = this.adminSite.getSection(sectionName)
-    const repository = section.getRepository(entityName)
-    const entity = await repository.findOneOrFail(primaryKey)
-    return { section, metadata: repository.metadata, entity }
+    const { section, repository, metadata, entity } = await this.getAdminModels(params)
+
+    const updateCriteria = metadata.getEntityIdMap(entity)
+    await repository.update(updateCriteria, updateEntityDto)
+
+    const updatedEntity = await repository.findOneOrFail(params.primaryKey)
+    return { section, metadata, entity: updatedEntity }
   }
 }
