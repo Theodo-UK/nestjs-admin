@@ -4,13 +4,16 @@
   <h2>{{ entity | displayName(metadata) }}</h2>
   <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}">
     {% for column in metadata.columns %}
-      <div>
-        <label>{{ column.propertyName }}</label>
-        <input
-          name="{{ column.propertyName }}"
-          value="{{ column.getEntityValue(entity) }}"
-        />
-      </div>
+      <fieldset>
+        <label for={{ column.propertyName }}>{{ column.propertyName }}</label>
+        <div>
+          <input
+            id="{{ column.propertyName }}"
+            name="{{ column.propertyName }}"
+            value="{{ column.getEntityValue(entity) }}"
+          />
+        </div>
+      </fieldset>
     {% endfor %}
     <button type="submit">Submit</button>
   </form>
