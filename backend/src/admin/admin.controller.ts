@@ -14,7 +14,7 @@ function getPaginationOptions(page?: number) {
 
 @Controller('admin')
 export class AdminController {
-  constructor(private adminSite: AdminSite) {}
+  constructor(private adminSite: AdminSite) { }
 
   @Get()
   @Render('index.njk')
@@ -24,8 +24,8 @@ export class AdminController {
   }
 
   @Get(':section/:entity')
-  @Render('entity-list.njk')
-  async entityList(
+  @Render('changelist.njk')
+  async changeList(
     @Param('section') sectionName: string,
     @Param('entity') entityName: string,
     @Query('page') page?: number,
