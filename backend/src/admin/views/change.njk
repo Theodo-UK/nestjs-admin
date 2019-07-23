@@ -1,0 +1,15 @@
+<html>
+<body>
+  <h1>{{ metadata.name }}</h1>
+  <h2>{{ entity | displayName(metadata) }}</h2>
+  <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}">
+    {% for column in metadata.columns %}
+      <div>
+        <label>{{ column.propertyName }}</label>
+        <input value="{{ column.getEntityValue(entity) }}" />
+      </div>
+    {% endfor %}
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

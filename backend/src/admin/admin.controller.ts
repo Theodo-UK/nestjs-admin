@@ -35,4 +35,17 @@ export class AdminController {
     const [entities, count] = await repository.findAndCount(getPaginationOptions(page))
     return { section, entities, count, metadata: repository.metadata }
   }
+
+  @Get(':section/:entity/:pk')
+  @Render('change.njk')
+  async change(
+    @Param('section') sectionName: string,
+    @Param('entity') entityName: string,
+    @Param('pk') primaryKey: string,
+  ) {
+    const section = this.adminSite.getSection(sectionName)
+    const repository = section.getRepository(entityName)
+    const entity = await repository.findOneOrFail(primaryKey)
+    return { section, metadata: repository.metadata, entity }
+  }
 }
