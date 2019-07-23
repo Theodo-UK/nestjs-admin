@@ -48,7 +48,7 @@ export class AdminController {
 
   @Get()
   @Render('index.njk')
-  root() {
+  index() {
     const sections = this.adminSite.getSectionList()
     return { sections }
   }
