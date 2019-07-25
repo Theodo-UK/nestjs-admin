@@ -1,6 +1,6 @@
 import { Get, Post, Controller, Render, Param, Query, Body } from '@nestjs/common'
 import { AdminSite, AdminSection } from './admin.service'
-import { Repository, EntityMetadata } from 'typeorm';
+import { Repository, EntityMetadata } from 'typeorm'
 
 function getPaginationOptions(page?: number) {
   page = page || 0
@@ -14,21 +14,21 @@ function getPaginationOptions(page?: number) {
 }
 
 type AdminModelsQuery = {
-  sectionName?: string,
-  entityName?: string,
+  sectionName?: string
+  entityName?: string
   primaryKey?: string
 }
 
 type AdminModelsResult = {
-  section: AdminSection,
-  repository: Repository<unknown>,
-  metadata: EntityMetadata,
+  section: AdminSection
+  repository: Repository<unknown>
+  metadata: EntityMetadata
   entity: object
 }
 
 @Controller('admin')
 export class AdminController {
-  constructor(private adminSite: AdminSite) { }
+  constructor(private adminSite: AdminSite) {}
 
   async getAdminModels(query: AdminModelsQuery): Promise<AdminModelsResult> {
     // @ts-ignore
@@ -39,7 +39,7 @@ export class AdminController {
         result.repository = result.section.getRepository(query.entityName)
         result.metadata = result.repository.metadata
         if (query.primaryKey) {
-          result.entity = await result.repository.findOneOrFail(query.primaryKey) as object
+          result.entity = (await result.repository.findOneOrFail(query.primaryKey, {})) as object
         }
       }
     }
@@ -55,10 +55,7 @@ export class AdminController {
 
   @Get(':sectionName/:entityName')
   @Render('changelist.njk')
-  async changeList(
-    @Param() params: AdminModelsQuery,
-    @Query('page') page?: number,
-  ) {
+  async changeList(@Param() params: AdminModelsQuery, @Query('page') page?: number) {
     const { section, repository, metadata } = await this.getAdminModels(params)
     const [entities, count] = await repository.findAndCount(getPaginationOptions(page))
     return { section, entities, count, metadata }
@@ -66,17 +63,14 @@ export class AdminController {
 
   @Get(':sectionName/:entityName/:primaryKey')
   @Render('change.njk')
-  async change(@Param() params: AdminModelsQuery, ) {
+  async change(@Param() params: AdminModelsQuery) {
     const { section, metadata, entity } = await this.getAdminModels(params)
     return { section, metadata, entity }
   }
 
   @Post(':sectionName/:entityName/:primaryKey')
   @Render('change.njk')
-  async update(
-    @Body() updateEntityDto: object,
-    @Param() params: AdminModelsQuery,
-  ) {
+  async update(@Body() updateEntityDto: object, @Param() params: AdminModelsQuery) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
 
     const updateCriteria = metadata.getEntityIdMap(entity)

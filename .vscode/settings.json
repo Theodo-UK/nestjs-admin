@@ -3,11 +3,12 @@
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
+  "prettier.parser": "typescript",
   "[javascript]": {
     "editor.tabSize": 2,
     "javascript.validate.enable": false
   },
   "[json]": {
     "editor.tabSize": 2
-  },
+  }
 }

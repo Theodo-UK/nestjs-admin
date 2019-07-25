@@ -1,19 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
+import { Agency } from './agency.entity'
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column({ length: 50 })
-  name: string;
+  name: string
 
   @Column({ length: 100 })
-  password: string;
+  password: string
 
   @Column({ length: 100 })
-  email: string;
+  email: string
 
   @Column('simple-array')
-  roles: string[];
+  roles: string[]
+
+  @ManyToOne(type => Agency, agency => agency.users, { eager: true })
+  agency: Agency
 }

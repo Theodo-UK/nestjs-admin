@@ -1,7 +1,7 @@
 import { Environment } from 'nunjucks'
 import { parseName } from './utils/formatting'
-import { EntityMetadata } from 'typeorm';
-import { AdminSection } from './admin.service';
+import { EntityMetadata } from 'typeorm'
+import { AdminSection } from './admin.service'
 
 type Route = 'changelist' | 'change'
 
@@ -13,7 +13,11 @@ function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
 function changeUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
   if (metadata.primaryColumns.length !== 1) {
     // @debt TODO "williamd: probably still covers most cases, but still TODO"
-    throw `Entities with composite primary keys unsupported (${metadata.name}). If you have this use case, please open a GitHub issue`
+    throw new Error(
+      `Entities with composite primary keys unsupported (${
+        metadata.name
+      }). If you have this use case, please open a GitHub issue`,
+    )
   }
   const primaryKey = metadata.primaryColumns[0].getEntityValue(entity)
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}`
@@ -27,7 +31,7 @@ function adminUrl(route: Route, ...args: RouteArgs) {
       return changeUrl(...(args as [any, any, any]))
     default:
       const guard: never = route
-      throw `Route "${route}" doesn't exist`
+      throw new Error(`Route "${route}" doesn't exist`)
   }
 }
 
@@ -41,6 +45,6 @@ function displayName(entity: object, metadata: EntityMetadata) {
 }
 
 export function addFilters(env: Environment) {
-  env.addFilter('adminUrl', adminUrl);
-  env.addFilter('displayName', displayName);
+  env.addFilter('adminUrl', adminUrl)
+  env.addFilter('displayName', displayName)
 }
