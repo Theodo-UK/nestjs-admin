@@ -1,10 +1,11 @@
 import { Get, Post, Controller, Render, Param, Query, Body } from '@nestjs/common'
-import { AdminSite, AdminSection } from './admin.service'
 import { Repository, EntityMetadata } from 'typeorm'
+import { AdminSite, AdminSection } from './admin.service'
+import { getWidgetTemplate } from './utils/formatting'
 
 function getPaginationOptions(page?: number) {
   page = page || 0
-  // @architecture configuration "williamd: this could be made configurable on a per-section basis"
+  // @debt architecture "williamd: this could be made configurable on a per-section basis"
   const perPage = 25
 
   return {
@@ -65,7 +66,7 @@ export class AdminController {
   @Render('change.njk')
   async change(@Param() params: AdminModelsQuery) {
     const { section, metadata, entity } = await this.getAdminModels(params)
-    return { section, metadata, entity }
+    return { section, metadata, entity, getWidgetTemplate }
   }
 
   @Post(':sectionName/:entityName/:primaryKey')
@@ -77,6 +78,6 @@ export class AdminController {
     await repository.update(updateCriteria, updateEntityDto)
 
     const updatedEntity = await repository.findOneOrFail(params.primaryKey)
-    return { section, metadata, entity: updatedEntity }
+    return { section, metadata, entity: updatedEntity, getWidgetTemplate }
   }
 }
