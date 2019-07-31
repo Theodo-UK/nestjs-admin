@@ -18,6 +18,9 @@ export class User {
   @Column('simple-array')
   roles: string[]
 
+  @Column('text', { nullable: true })
+  description: string
+
   @ManyToOne(type => Agency, agency => agency.users, { eager: true })
   agency: Agency
 }
