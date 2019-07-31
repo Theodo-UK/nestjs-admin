@@ -3,18 +3,11 @@
   <h1>{{ metadata.name }}</h1>
   <h2>{{ entity | displayName(metadata) }}</h2>
   <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}">
-    {% for column in metadata.columns %}
+    {% asyncEach column in metadata.columns %}
       <fieldset>
-        <label for={{ column.propertyName }}>{{ column.propertyName }}</label>
-        <div>
-          <input
-            id="{{ column.propertyName }}"
-            name="{{ column.propertyName }}"
-            value="{{ column.getEntityValue(entity) }}"
-          />
-        </div>
+        {% include getWidgetTemplate(column) %}
       </fieldset>
-    {% endfor %}
+    {% endeach %}
     <button type="submit">Submit</button>
   </form>
 </body>

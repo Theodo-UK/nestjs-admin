@@ -1,4 +1,3 @@
-import { Environment } from 'nunjucks'
 import { parseName } from './utils/formatting'
 import { EntityMetadata } from 'typeorm'
 import { AdminSection } from './admin.service'
@@ -23,7 +22,7 @@ function changeUrl(section: AdminSection, metadata: EntityMetadata, entity: obje
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}`
 }
 
-function adminUrl(route: Route, ...args: RouteArgs) {
+export function adminUrl(route: Route, ...args: RouteArgs) {
   switch (route) {
     case 'changelist':
       return changeListUrl(...(args as [any, any]))
@@ -35,16 +34,11 @@ function adminUrl(route: Route, ...args: RouteArgs) {
   }
 }
 
-function displayName(entity: object, metadata: EntityMetadata) {
+export function displayName(entity: object, metadata: EntityMetadata) {
   // @ts-ignore
   if (entity.__proto__.hasOwnProperty('toString')) {
     return entity.toString()
   }
   const primaryColumns = metadata.primaryColumns.map(col => col.getEntityValue(entity))
   return primaryColumns.join(' - ')
-}
-
-export function addFilters(env: Environment) {
-  env.addFilter('adminUrl', adminUrl)
-  env.addFilter('displayName', displayName)
 }

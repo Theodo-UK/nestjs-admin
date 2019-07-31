@@ -43,7 +43,7 @@ export class AdminSite {
   register(unsafeName: string, entity: EntityType) {
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
-    const repository = this.connection.getRepository(entity)
+    const repository = this.getRepository(entity)
     section.register(repository)
   }
 
@@ -67,5 +67,9 @@ export class AdminSite {
       )
     }
     return section
+  }
+
+  getRepository(entityName: EntityType) {
+    return this.connection.getRepository(entityName)
   }
 }

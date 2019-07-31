@@ -1,7 +1,7 @@
-import { Get, Post, Controller, Render, Param, Query, Body } from '@nestjs/common'
+import { Get, Post, Controller, Param, Query, Body } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
 import { AdminSite, AdminSection } from './admin.service'
-import { getWidgetTemplate } from './utils/formatting'
+import { AdminNunjucksEnvironment } from './admin.environment'
 
 function getPaginationOptions(page?: number) {
   page = page || 0
@@ -29,7 +29,7 @@ type AdminModelsResult = {
 
 @Controller('admin')
 export class AdminController {
-  constructor(private adminSite: AdminSite) {}
+  constructor(private adminSite: AdminSite, private env: AdminNunjucksEnvironment) {}
 
   async getAdminModels(query: AdminModelsQuery): Promise<AdminModelsResult> {
     // @ts-ignore
@@ -47,37 +47,64 @@ export class AdminController {
     return result
   }
 
+  async render(name: string, context?: object) {
+    const prom = new Promise((resolve, reject) => {
+      this.env.env.render(name, context, function(err, res) {
+        if (err) {
+          reject(err)
+          return err
+        }
+        resolve(res)
+        return res
+      })
+    })
+    const rendered = await prom
+    return rendered
+  }
+
   @Get()
-  @Render('index.njk')
-  index() {
+  async index() {
     const sections = this.adminSite.getSectionList()
-    return { sections }
+    return await this.render('index.njk', { sections })
   }
 
   @Get(':sectionName/:entityName')
-  @Render('changelist.njk')
   async changeList(@Param() params: AdminModelsQuery, @Query('page') page?: number) {
     const { section, repository, metadata } = await this.getAdminModels(params)
     const [entities, count] = await repository.findAndCount(getPaginationOptions(page))
-    return { section, entities, count, metadata }
+    return await this.render('changelist.njk', { section, entities, count, metadata })
   }
 
   @Get(':sectionName/:entityName/:primaryKey')
-  @Render('change.njk')
   async change(@Param() params: AdminModelsQuery) {
     const { section, metadata, entity } = await this.getAdminModels(params)
-    return { section, metadata, entity, getWidgetTemplate }
+    return await this.render('change.njk', { section, metadata, entity })
+  }
+
+  private cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
+    const propertyNames: Array<keyof typeof values> = Object.keys(values)
+    const columns = propertyNames.map(property => metadata.findColumnWithPropertyName(property))
+    const cleanedValues = propertyNames.map((property, index) => {
+      const column = columns[index]
+      if (!values[property]) {
+        if (!!column.relationMetadata) {
+          // We got an empty value for a foreign key, we want it null
+          return null
+        }
+      }
+    })
+    return cleanedValues
   }
 
   @Post(':sectionName/:entityName/:primaryKey')
-  @Render('change.njk')
   async update(@Body() updateEntityDto: object, @Param() params: AdminModelsQuery) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
 
     const updateCriteria = metadata.getEntityIdMap(entity)
-    await repository.update(updateCriteria, updateEntityDto)
+    const updatedValues = this.cleanValues(updateEntityDto, metadata)
+    await repository.update(updateCriteria, updatedValues)
 
     const updatedEntity = await repository.findOneOrFail(params.primaryKey)
-    return { section, metadata, entity: updatedEntity, getWidgetTemplate }
+    return await this.render('change.njk', { section, metadata, entity: updatedEntity })
   }
 }

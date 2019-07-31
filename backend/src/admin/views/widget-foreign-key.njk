@@ -1,0 +1,19 @@
+{% setAsync 'options', getRelationOptions, [adminSite, column.relationMetadata] %}
+{% macro maybeSelected(column, value) %}
+  {% if value == column.getEntityValue(entity) %}selected{% endif %}
+{% endmacro %}
+
+<label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
+<div>
+  <select id="{{ column.propertyName }}" name="{{ column.propertyName }}">
+    <option value>
+      --
+    </option>
+
+    {% for option in options %}
+      <option value="{{ option.id }}" {{ maybeSelected(column, option.id) }}>
+        {{ option | displayName(column.relationMetadata.inverseEntityMetadata) }}
+      </option>
+    {% endfor %}
+  </select>
+</div>
