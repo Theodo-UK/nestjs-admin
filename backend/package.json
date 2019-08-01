@@ -1,10 +1,19 @@
 {
-  "name": "project",
-  "version": "0.0.0",
+  "name": "nestjs-admin",
+  "version": "0.0.1-alpha1",
   "description": "description",
-  "author": "AleBlondin",
+  "author": "William Duclot",
+  "main": "dist/libs/nestjs-admin/src/index.js",
+  "types": "dist/libs/nestjs-admin/src/index.d.ts",
+  "directories": {
+    "lib": "libs/nestjs-admin"
+  },
   "license": "MIT",
+  "files": [
+    "libs/nestjs-admin/**/*"
+  ],
   "scripts": {
+    "postbuild": "cp -r libs/nestjs-admin/src/views dist/libs/nestjs-admin/src/views",
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "migration:generate": "ts-node node_modules/.bin/typeorm migration:generate",
