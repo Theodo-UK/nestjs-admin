@@ -1,5 +1,15 @@
 {
   "language": "ts",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "projects": {
+    "nest-admin": {
+      "root": "libs/nest-admin",
+      "sourceRoot": "libs/nest-admin/src"
+    },
+    "nestjs-admin": {
+      "root": "libs/nestjs-admin",
+      "sourceRoot": "libs/nestjs-admin/src"
+    }
+  }
 }

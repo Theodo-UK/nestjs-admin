@@ -1,20 +1,14 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { AdminModule } from './admin/admin.module';
-
+import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { AdminModule } from '@app/nestjs-admin'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { AuthModule } from './auth/auth.module'
+import { UserModule } from './user/user.module'
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(),
-    AdminModule,
-    UserModule,
-    AuthModule,
-  ],
+  imports: [TypeOrmModule.forRoot(), AdminModule, UserModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

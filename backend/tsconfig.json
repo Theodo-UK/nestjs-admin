@@ -9,7 +9,11 @@
     "target": "es6",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "@app/nestjs-admin": ["libs/nestjs-admin/src"],
+      "@app/nestjs-admin/*": ["libs/nestjs-admin/src/*"]
+    }
   },
   "exclude": ["node_modules"]
 }

@@ -1,0 +1,19 @@
+{
+  "name": "nestjs-admin",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williamdclt/nestjs-admin"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^6.0.0",
+    "@nestjs/core": "^6.0.0"
+  },
+  "dependencies": {
+    "nunjucks": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/nunjucks": "^3.1.1"
+  }
+}
