@@ -82,17 +82,22 @@ export class AdminController {
   }
 
   private cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
-    const propertyNames: Array<keyof typeof values> = Object.keys(values)
-    const columns = propertyNames.map(metadata.findColumnWithPropertyName)
-    const cleanedValues = propertyNames.map((property, index) => {
-      const column = columns[index]
+    // @debt architecture "williamd: this should probably be moved to an EntityAdmin"
+    const propertyNames = Object.keys(values)
+    const cleanedValues: typeof values = {}
+
+    for (const property of propertyNames) {
+      const column = metadata.findColumnWithPropertyName(property)
       if (!values[property]) {
         if (!!column.relationMetadata) {
           // We got an empty value for a foreign key, we want it null
-          return null
+          cleanedValues[property] = null
         }
       }
-    })
+      if (cleanedValues[property] === undefined) {
+        cleanedValues[property] = values[property]
+      }
+    }
     return cleanedValues
   }
 

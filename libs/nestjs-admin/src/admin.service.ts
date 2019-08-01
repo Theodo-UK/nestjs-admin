@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { Connection, EntitySchema, Repository } from 'typeorm'
 import { parseName } from './utils/formatting'
 
-type EntityType = Function | EntitySchema<any> | string
+type EntityType = new () => unknown
 
 export class AdminSection {
   repositories: { [key: string]: Repository<unknown> } = {}
