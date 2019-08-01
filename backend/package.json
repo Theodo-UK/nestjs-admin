@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "files": [
-    "libs/nestjs-admin/**/*"
+    "dist/**/*"
   ],
   "scripts": {
     "postbuild": "cp -r libs/nestjs-admin/src/views dist/libs/nestjs-admin/src/views",
