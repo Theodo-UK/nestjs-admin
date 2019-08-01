@@ -13,74 +13,59 @@ executors:
 
 commands:
   yarn-install:
-    parameters:
-      workspace:
-        type: string
     steps:
       - checkout
       - attach_workspace:
-          at: ~/nestjs-admin/<< parameters.workspace >>
+          at: ~/nestjs-admin
       - restore_cache:
-          key: node-modules-cache-{{ checksum "<< parameters.workspace >>/yarn.lock" }}
+          key: node-modules-cache-{{ checksum "yarn.lock" }}
       - run:
-          working_directory: << parameters.workspace >>
           name: Install front dependencies
           command: yarn
       - run:
-          working_directory: << parameters.workspace >>
           name: Install bundle size
           command: yarn add bundlesize --save-dev
       - save_cache:
-          key: node-modules-cache-{{ checksum "<< parameters.workspace >>/yarn.lock" }}
+          key: node-modules-cache-{{ checksum "yarn.lock" }}
           paths:
-            - << parameters.workspace >>/node_modules
+            - node_modules
       - persist_to_workspace:
-          root: ~/nestjs-admin/<< parameters.workspace >>
+          root: ~/nestjs-admin
           paths:
             - node_modules
             - .env
 
   yarn-tests:
-    parameters:
-      workspace:
-        type: string
     steps:
       - checkout
       - attach_workspace:
-          at: ~/nestjs-admin/<< parameters.workspace >>
+          at: ~/nestjs-admin
       - run:
-          working_directory: << parameters.workspace >>
           name: Unit test with coverage
           command: yarn test:coverage
       - store_artifacts:
-          path: << parameters.workspace >>/coverage
+          path: coverage
       - run:
-          working_directory: << parameters.workspace >>
           name: Run Typescript checker
           command: yarn tsc
 
   yarn-linter:
-    parameters:
-      workspace:
-        type: string
     steps:
       - checkout
       - attach_workspace:
-          at: ~/nestjs-admin/<< parameters.workspace >>
+          at: ~/nestjs-admin
       - run:
-          working_directory: << parameters.workspace >>
           name: Run linter
           command: yarn lint
       - store_artifacts:
-          path: << parameters.workspace >>/coverage
+          path: coverage
 
 jobs:
   yarn-install-back:
     executor: defaults_typescript
     working_directory: ~/nestjs-admin
     steps:
-      - yarn-install:
-          workspace: backend
+      - yarn-install
 
   nest-tests:
     executor: defaults_typescript
@@ -88,8 +73,7 @@ jobs:
     environment:
       NODE_ENV: test
     steps:
-      - yarn-tests:
-          workspace: backend
+      - yarn-tests
 
   nest-linter:
     executor: defaults_typescript
@@ -97,8 +81,7 @@ jobs:
     environment:
       NODE_ENV: prod
     steps:
-      - yarn-linter:
-          workspace: backend
+      - yarn-linter
 
 workflows:
   version: 2
