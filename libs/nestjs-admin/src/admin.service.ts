@@ -4,24 +4,42 @@ import { parseName } from './utils/formatting'
 
 type EntityType = new () => unknown
 
-export class AdminSection {
-  repositories: { [key: string]: Repository<unknown> } = {}
-  constructor(public readonly name: string) {}
+export class AdminEntity {
+  constructor(public readonly entity: EntityType, private readonly connection: Connection) {}
 
-  register(repository: Repository<unknown>) {
-    const name = repository.metadata.name
-    this.repositories[name.toLowerCase()] = repository
+  get repository() {
+    return this.connection.getRepository(this.entity)
+  }
+
+  get metadata() {
+    return this.repository.metadata
+  }
+
+  get name() {
+    return this.metadata.name
+  }
+}
+
+export class AdminSection {
+  entities: { [key: string]: AdminEntity } = {}
+  constructor(public readonly name: string, private readonly connection: Connection) {}
+
+  register(entity: EntityType) {
+    const adminEntity = new AdminEntity(entity, this.connection)
+    this.entities[parseName(adminEntity.name)] = adminEntity
   }
 
   getEntitiesMetadata() {
-    return Object.values(this.repositories).map(r => r.metadata)
+    return Object.values(this.entities).map(e => e.metadata)
   }
 
   getRepository(entityName: string) {
-    const repository = this.repositories[entityName]
-    if (!repository) {
-      throw new Error(`Repository for "${entityName}" does not exist`)
-    }
+    const adminEntity = this.entities[entityName]
+    if (!adminEntity) throw new Error(`Admin for "${entityName}" has not been registered`)
+
+    const repository = adminEntity.repository
+    if (!repository) throw new Error(`Repository for "${entityName}" does not exist`)
+
     return repository
   }
 }
@@ -34,7 +52,7 @@ export class AdminSite {
 
   private getOrCreateSection(sectionName: string) {
     if (!this.sections[sectionName]) {
-      this.sections[sectionName] = new AdminSection(sectionName)
+      this.sections[sectionName] = new AdminSection(sectionName, this.connection)
     }
     return this.sections[sectionName]
   }
@@ -43,8 +61,7 @@ export class AdminSite {
   register(unsafeName: string, entity: EntityType) {
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
-    const repository = this.getRepository(entity)
-    section.register(repository)
+    section.register(entity)
   }
 
   getSectionList() {
