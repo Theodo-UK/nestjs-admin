@@ -19,7 +19,7 @@ commands:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/nest-admin/<< parameters.workspace >>
+          at: ~/nestjs-admin/<< parameters.workspace >>
       - restore_cache:
           key: node-modules-cache-{{ checksum "<< parameters.workspace >>/yarn.lock" }}
       - run:
@@ -35,7 +35,7 @@ commands:
           paths:
             - << parameters.workspace >>/node_modules
       - persist_to_workspace:
-          root: ~/nest-admin/<< parameters.workspace >>
+          root: ~/nestjs-admin/<< parameters.workspace >>
           paths:
             - node_modules
             - .env
@@ -47,7 +47,7 @@ commands:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/nest-admin/<< parameters.workspace >>
+          at: ~/nestjs-admin/<< parameters.workspace >>
       - run:
           working_directory: << parameters.workspace >>
           name: Unit test with coverage
@@ -66,7 +66,7 @@ commands:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/nest-admin/<< parameters.workspace >>
+          at: ~/nestjs-admin/<< parameters.workspace >>
       - run:
           working_directory: << parameters.workspace >>
           name: Run linter
@@ -77,14 +77,14 @@ commands:
 jobs:
   yarn-install-back:
     executor: defaults_typescript
-    working_directory: ~/nest-admin
+    working_directory: ~/nestjs-admin
     steps:
       - yarn-install:
           workspace: backend
 
   nest-tests:
     executor: defaults_typescript
-    working_directory: ~/nest-admin
+    working_directory: ~/nestjs-admin
     environment:
       NODE_ENV: test
     steps:
@@ -93,7 +93,7 @@ jobs:
 
   nest-linter:
     executor: defaults_typescript
-    working_directory: ~/nest-admin
+    working_directory: ~/nestjs-admin
     environment:
       NODE_ENV: prod
     steps:
