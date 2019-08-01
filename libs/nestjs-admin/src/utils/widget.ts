@@ -1,7 +1,7 @@
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
 import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
 import { AdminSite } from '../admin.service'
-import { isFunction } from './typechecks'
+import { isClass } from './typechecks'
 
 export function getWidgetTemplate(column: ColumnMetadata) {
   if (!!column.relationMetadata) {
@@ -24,8 +24,10 @@ export async function getRelationOptions(
   relation: RelationMetadata,
   cb: any,
 ) {
-  const type = isFunction(relation.type) ? relation.type() : relation.type
-  const repository = adminSite.getRepository(type)
+  if (!isClass(relation.type)) {
+    throw new Error(`${relation.type} is not an entity, it cannot be used as relation`)
+  }
+  const repository = adminSite.getRepository(relation.type)
   const options = await repository.find()
   cb(null, options)
 }
