@@ -49,6 +49,7 @@
     "class-validator": "^0.9.1",
     "cookie-parser": "^1.4.4",
     "dotenv-safe": "^6.1.0",
+    "jest-cli": "^24.8.0",
     "lodash": "^4.17.11",
     "nunjucks": "^3.2.0",
     "passport": "^0.4.0",
