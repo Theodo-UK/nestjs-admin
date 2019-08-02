@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { AdminController } from './admin.controller'
-import { AdminSite } from './admin.service'
+import AdminSite from './adminSite'
 import { AdminNunjucksEnvironment } from './admin.environment'
 
 @Module({

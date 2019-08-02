@@ -1,6 +1,7 @@
 import { Get, Post, Controller, Param, Query, Body } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
-import { AdminSite, AdminSection } from './admin.service'
+import AdminSite from './adminSite'
+import AdminSection from './adminSection'
 import { AdminNunjucksEnvironment } from './admin.environment'
 
 function getPaginationOptions(page?: number) {

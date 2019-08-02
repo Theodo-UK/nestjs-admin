@@ -1,6 +1,6 @@
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
 import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
-import { AdminSite } from '../admin.service'
+import AdminSite from '../adminSite'
 import { isClass } from './typechecks'
 
 export function getWidgetTemplate(column: ColumnMetadata) {
