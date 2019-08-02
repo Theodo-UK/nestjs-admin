@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Connection } from 'typeorm'
+import { Connection, EntityMetadata } from 'typeorm'
 import { parseName } from './utils/formatting'
 import AdminSection from './adminSection'
 import { EntityType } from './types'
@@ -48,6 +48,26 @@ class AdminSite {
 
   getRepository(entityName: EntityType) {
     return this.connection.getRepository(entityName)
+  }
+
+  cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
+    // @debt architecture "williamd: this should probably be moved to a Form class"
+    const propertyNames = Object.keys(values)
+    const cleanedValues: typeof values = {}
+
+    for (const property of propertyNames) {
+      const column = metadata.findColumnWithPropertyName(property)
+      if (!values[property]) {
+        if (!!column.relationMetadata) {
+          // We got an empty value for a foreign key, we want it null
+          cleanedValues[property] = null
+        }
+      }
+      if (cleanedValues[property] === undefined) {
+        cleanedValues[property] = values[property]
+      }
+    }
+    return cleanedValues
   }
 }
 
