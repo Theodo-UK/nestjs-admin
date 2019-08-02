@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Connection, EntitySchema, Repository } from 'typeorm'
+import { Connection } from 'typeorm'
 import { parseName } from './utils/formatting'
 
 type EntityType = new () => unknown
