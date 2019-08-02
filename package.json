@@ -28,12 +28,14 @@
     "start:debug": "nodemon --config nodemon-debug.json",
     "prestart:prod": "rimraf dist && npm run build",
     "start:prod": "node dist/main.js",
-    "lint": "tslint -p tsconfig.json -c tslint.json",
-    "test": "ts-node -r dotenv-safe/config node_modules/.bin/jest * dotenv_config_path=.env.test --maxWorkers=4",
+    "test:unit": "ts-node -r dotenv-safe/config node_modules/.bin/jest * dotenv_config_path=.env.test --maxWorkers=4",
+    "test:lint": "tslint -p tsconfig.json -c tslint.json",
+    "test:type": "tsc --noEmit",
     "test:watch": "jest --watch",
     "test:coverage": "ts-node -r dotenv-safe/config node_modules/.bin/jest * --coverage dotenv_config_path=.env.test --maxWorkers=4",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest",
-    "test:e2e": "jest --config ./test/jest-e2e.json --maxWorkers=4"
+    "test:e2e": "jest --config ./test/jest-e2e.json --maxWorkers=4",
+    "test": "yarn test:lint && yarn test:type && yarn test:unit"
   },
   "dependencies": {
     "@nestjs/common": "^6.3.1",

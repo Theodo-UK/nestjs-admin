@@ -47,7 +47,7 @@ commands:
           path: coverage
       - run:
           name: Run Typescript checker
-          command: yarn tsc
+          command: yarn test:type
 
   yarn-linter:
     steps:
@@ -56,7 +56,7 @@ commands:
           at: ~/nestjs-admin
       - run:
           name: Run linter
-          command: yarn lint
+          command: yarn test:lint
       - store_artifacts:
           path: coverage
 
