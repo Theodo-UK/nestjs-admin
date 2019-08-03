@@ -1,6 +1,6 @@
 import { parseName } from './utils/formatting'
 import { EntityMetadata } from 'typeorm'
-import { AdminSection } from './admin.service'
+import AdminSection from './adminSection'
 
 type Route = 'changelist' | 'change'
 

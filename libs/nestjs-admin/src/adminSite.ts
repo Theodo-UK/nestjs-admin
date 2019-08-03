@@ -1,51 +1,11 @@
 import { Injectable } from '@nestjs/common'
-import { Connection, EntitySchema, Repository } from 'typeorm'
+import { Connection, EntityMetadata } from 'typeorm'
 import { parseName } from './utils/formatting'
-
-type EntityType = new () => unknown
-
-export class AdminEntity {
-  constructor(public readonly entity: EntityType, private readonly connection: Connection) {}
-
-  get repository() {
-    return this.connection.getRepository(this.entity)
-  }
-
-  get metadata() {
-    return this.repository.metadata
-  }
-
-  get name() {
-    return this.metadata.name
-  }
-}
-
-export class AdminSection {
-  entities: { [key: string]: AdminEntity } = {}
-  constructor(public readonly name: string, private readonly connection: Connection) {}
-
-  register(entity: EntityType) {
-    const adminEntity = new AdminEntity(entity, this.connection)
-    this.entities[parseName(adminEntity.name)] = adminEntity
-  }
-
-  getEntitiesMetadata() {
-    return Object.values(this.entities).map(e => e.metadata)
-  }
-
-  getRepository(entityName: string) {
-    const adminEntity = this.entities[entityName]
-    if (!adminEntity) throw new Error(`Admin for "${entityName}" has not been registered`)
-
-    const repository = adminEntity.repository
-    if (!repository) throw new Error(`Repository for "${entityName}" does not exist`)
-
-    return repository
-  }
-}
+import AdminSection from './adminSection'
+import { EntityType } from './types'
 
 @Injectable()
-export class AdminSite {
+class AdminSite {
   constructor(private readonly connection: Connection) {}
 
   sections: { [sectionName: string]: AdminSection } = {}
@@ -89,4 +49,26 @@ export class AdminSite {
   getRepository(entityName: EntityType) {
     return this.connection.getRepository(entityName)
   }
+
+  cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
+    // @debt architecture "williamd: this should probably be moved to a Form class"
+    const propertyNames = Object.keys(values)
+    const cleanedValues: typeof values = {}
+
+    for (const property of propertyNames) {
+      const column = metadata.findColumnWithPropertyName(property)
+      if (!values[property]) {
+        if (!!column.relationMetadata) {
+          // We got an empty value for a foreign key, we want it null
+          cleanedValues[property] = null
+        }
+      }
+      if (cleanedValues[property] === undefined) {
+        cleanedValues[property] = values[property]
+      }
+    }
+    return cleanedValues
+  }
 }
+
+export default AdminSite

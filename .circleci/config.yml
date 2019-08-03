@@ -22,9 +22,6 @@ commands:
       - run:
           name: Install front dependencies
           command: yarn
-      - run:
-          name: Install bundle size
-          command: yarn add bundlesize --save-dev
       - save_cache:
           key: node-modules-cache-{{ checksum "yarn.lock" }}
           paths:
@@ -47,7 +44,7 @@ commands:
           path: coverage
       - run:
           name: Run Typescript checker
-          command: yarn tsc
+          command: yarn test:type
 
   yarn-linter:
     steps:
@@ -56,7 +53,7 @@ commands:
           at: ~/nestjs-admin
       - run:
           name: Run linter
-          command: yarn lint
+          command: yarn test:lint
       - store_artifacts:
           path: coverage
 

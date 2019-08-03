@@ -1,6 +1,7 @@
 import { Get, Post, Controller, Param, Query, Body } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
-import { AdminSite, AdminSection } from './admin.service'
+import AdminSite from './adminSite'
+import AdminSection from './adminSection'
 import { AdminNunjucksEnvironment } from './admin.environment'
 
 function getPaginationOptions(page?: number) {
@@ -81,32 +82,12 @@ export class AdminController {
     return await this.render('change.njk', { section, metadata, entity })
   }
 
-  private cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
-    // @debt architecture "williamd: this should probably be moved to an EntityAdmin"
-    const propertyNames = Object.keys(values)
-    const cleanedValues: typeof values = {}
-
-    for (const property of propertyNames) {
-      const column = metadata.findColumnWithPropertyName(property)
-      if (!values[property]) {
-        if (!!column.relationMetadata) {
-          // We got an empty value for a foreign key, we want it null
-          cleanedValues[property] = null
-        }
-      }
-      if (cleanedValues[property] === undefined) {
-        cleanedValues[property] = values[property]
-      }
-    }
-    return cleanedValues
-  }
-
   @Post(':sectionName/:entityName/:primaryKey')
   async update(@Body() updateEntityDto: object, @Param() params: AdminModelsQuery) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
 
     const updateCriteria = metadata.getEntityIdMap(entity)
-    const updatedValues = this.cleanValues(updateEntityDto, metadata)
+    const updatedValues = this.adminSite.cleanValues(updateEntityDto, metadata)
     await repository.update(updateCriteria, updatedValues)
 
     const updatedEntity = await repository.findOneOrFail(params.primaryKey)

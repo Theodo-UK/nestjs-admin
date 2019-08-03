@@ -2,7 +2,7 @@ import * as nunjucks from 'nunjucks'
 import { join } from 'path'
 import { Injectable } from '@nestjs/common'
 import * as filters from './admin.filters'
-import { AdminSite } from './admin.service'
+import AdminSite from './adminSite'
 import { getWidgetTemplate, getRelationOptions } from './utils/widget'
 import { SetAsyncExtension } from './extensions/setAsync'
 
