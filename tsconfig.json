@@ -12,8 +12,9 @@
     "baseUrl": "./",
     "paths": {
       "@app/nestjs-admin": ["libs/nestjs-admin/src"],
-      "@app/nestjs-admin/*": ["libs/nestjs-admin/src/*"]
+      "@app/nestjs-admin/*": ["libs/nestjs-admin/src/*"],
+      "*": ["src/@types/*"]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./src/@types"]
 }

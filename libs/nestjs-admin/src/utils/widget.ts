@@ -14,6 +14,7 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     return 'widget-foreign-key.njk'
   }
 
+  /* tslint:disable:ban-types */
   // The restrict type is just to type-check that we're not making a typo
   type Restrict<T, U extends T> = U
   type ImplementedTypes =
@@ -53,14 +54,15 @@ export function getWidgetTemplate(column: ColumnMetadata) {
         | 'citext'
         | 'longtext'
         | 'long'
+        | 'date'
         // | 'datetime'
         // | 'datetime2'
         // | 'datetimeoffset'
         // | 'time'
         // | 'time with time zone'
         // | 'time without time zone'
-        // | 'timestamp'
-        // | 'timestamp without time zone'
+        | 'timestamp'
+        | 'timestamp without time zone'
         // | 'timestamp with time zone'
         // | 'timestamp with local time zone'
         // | 'simple-json'
@@ -89,7 +91,6 @@ export function getWidgetTemplate(column: ColumnMetadata) {
         // | 'timestamptz'
         // | 'timestamp with local time zone'
         // | 'smalldatetime'
-        // | 'date'
         // | 'interval year to month'
         // | 'interval day to second'
         // | 'interval'
@@ -147,12 +148,16 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'ntext':
     case 'citext':
       return 'widget-textarea.njk'
+    // @ts-ignore
+    case String:
     case 'tinytext':
     case 'uuid':
       return 'widget-text.njk'
     case 'simple-array':
     case 'simple_array':
       return 'widget-simple-array.njk'
+    // @ts-ignore
+    case Number:
     case 'number':
     case 'integer':
     case 'tinyint':
@@ -176,10 +181,17 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'double precision':
     case 'fixed':
       return 'widget-decimal.njk'
+    // @ts-ignore
+    case Date:
+    case 'date':
+    case 'timestamp':
+    case 'timestamp without time zone':
+      return 'widget-date.njk'
     default:
       const guard: never = type
       return 'widget-text.njk'
   }
+  /* tslint:enable:ban-types */
 }
 
 export async function getRelationOptions(

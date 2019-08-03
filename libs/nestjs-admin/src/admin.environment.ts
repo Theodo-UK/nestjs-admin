@@ -1,4 +1,5 @@
 import * as nunjucks from 'nunjucks'
+import * as dateFilter from 'nunjucks-date-filter'
 import { join } from 'path'
 import { Injectable } from '@nestjs/common'
 import * as filters from './admin.filters'
@@ -18,11 +19,13 @@ export class AdminNunjucksEnvironment {
 
     this.env.addExtension('SetAsyncExtension', new SetAsyncExtension())
 
+    dateFilter.setDefaultFormat('YYYY-MM-DD')
+    this.env.addFilter('date', dateFilter)
     this.env.addFilter('adminUrl', filters.adminUrl)
     this.env.addFilter('displayName', filters.displayName)
 
     this.env.addGlobal('adminSite', adminSite)
     this.env.addGlobal('getWidgetTemplate', getWidgetTemplate)
-    this.env.addGlobal('getRelationOptions', getRelationOptions)
+    this.env.addGlobal('getRelationOptions', getRelationOptions) // Meh name
   }
 }
