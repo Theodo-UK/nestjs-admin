@@ -1,0 +1,10 @@
+<label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
+<div>
+  <input
+    type="number"
+    step="any"
+    id="{{ column.propertyName }}"
+    name="{{ column.propertyName }}"
+    value="{{ column.getEntityValue(entity) }}"
+  />
+</div>
