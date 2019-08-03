@@ -22,9 +22,6 @@ commands:
       - run:
           name: Install front dependencies
           command: yarn
-      - run:
-          name: Install bundle size
-          command: yarn add bundlesize --save-dev
       - save_cache:
           key: node-modules-cache-{{ checksum "yarn.lock" }}
           paths:
