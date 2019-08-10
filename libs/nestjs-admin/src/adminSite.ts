@@ -3,6 +3,7 @@ import { Connection, EntityMetadata } from 'typeorm'
 import { parseName } from './utils/formatting'
 import AdminSection from './adminSection'
 import { EntityType } from './types'
+import { isIntegerType, isNumberType, isDateType, isBooleanType, isEnumType } from './utils/column'
 
 @Injectable()
 class AdminSite {
@@ -57,10 +58,18 @@ class AdminSite {
 
     for (const property of propertyNames) {
       const column = metadata.findColumnWithPropertyName(property)
-      if (!values[property]) {
-        if (!!column.relationMetadata) {
-          // We got an empty value for a foreign key, we want it null
+      const value = values[property]
+      if (!value) {
+        if (
+          !!column.relationMetadata ||
+          (isNumberType(column.type) && value !== 0) ||
+          isDateType(column.type) ||
+          isEnumType(column.type)
+        ) {
           cleanedValues[property] = null
+        }
+        if (isBooleanType(column.type) && value !== false) {
+          cleanedValues[property] = column.isNullable ? null : false
         }
       }
       if (cleanedValues[property] === undefined) {

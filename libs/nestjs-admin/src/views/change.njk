@@ -4,6 +4,7 @@
   <h2>{{ entity | displayName(metadata) }}</h2>
   <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}">
     {% asyncEach column in metadata.columns %}
+      {% set value=column.getEntityValue(entity) %}
       <fieldset>
         {% include getWidgetTemplate(column) %}
       </fieldset>

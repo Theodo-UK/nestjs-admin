@@ -5,6 +5,6 @@
     step="1"
     id="{{ column.propertyName }}"
     name="{{ column.propertyName }}"
-    value="{{ column.getEntityValue(entity) }}"
+    {% if value %}value={{ value }}{% endif %}
   />
 </div>
