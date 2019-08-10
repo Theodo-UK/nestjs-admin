@@ -2,6 +2,7 @@
 <body>
   <h1>{{ metadata.name }}</h1>
   <h2>{{ count }} results</h2>
+  <a href="{{ 'add' | adminUrl(section, metadata, entity) }}"><button>Add</button></a>
   <ul>
     {% for entity in entities %}
       <li>

@@ -1,33 +1,18 @@
-import { parseName } from './utils/formatting'
 import { EntityMetadata } from 'typeorm'
-import AdminSection from './adminSection'
+import * as urls from './utils/urls'
 
-type Route = 'changelist' | 'change'
+type Route = 'changelist' | 'change' | 'add'
 
 type RouteArgs = string[]
-
-function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
-  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}`
-}
-function changeUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
-  if (metadata.primaryColumns.length !== 1) {
-    // @debt TODO "williamd: probably still covers most cases, but still TODO"
-    throw new Error(
-      `Entities with composite primary keys unsupported (${
-        metadata.name
-      }). If you have this use case, please open a GitHub issue`,
-    )
-  }
-  const primaryKey = metadata.primaryColumns[0].getEntityValue(entity)
-  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}`
-}
 
 export function adminUrl(route: Route, ...args: RouteArgs) {
   switch (route) {
     case 'changelist':
-      return changeListUrl(...(args as [any, any]))
+      return urls.changeListUrl(...(args as [any, any]))
     case 'change':
-      return changeUrl(...(args as [any, any, any]))
+      return urls.changeUrl(...(args as [any, any, any]))
+    case 'add':
+      return urls.addUrl(...(args as [any, any]))
     default:
       const guard: never = route
       throw new Error(`Route "${route}" doesn't exist`)

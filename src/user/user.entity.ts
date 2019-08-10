@@ -5,8 +5,11 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm'
 import { Agency } from './agency.entity'
+import { Group } from './group.entity'
 
 export enum Gender {
   MALE = 'male',
@@ -39,6 +42,10 @@ export class User {
 
   @ManyToOne(type => Agency, agency => agency.users, { eager: true })
   agency: Agency
+
+  @ManyToMany(type => Group)
+  @JoinTable()
+  groups: Group[]
 
   @Column({ nullable: true })
   weight: number
