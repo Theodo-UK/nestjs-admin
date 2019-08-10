@@ -1,71 +1,83 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
-
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<h1 align="center">
+  NestJS Admin
+</h1>
+<h3 align="center">
+  A generic administration interface for TypeORM entities
+</h3>
+<a href="https://www.npmjs.com/package/nestjs-admin"><img src="https://img.shields.io/npm/v/nestjs-admin.svg" alt="NPM Version" /></a>
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Ready-to-use user interface for administrative activities. Allows to list, edit, create, delete entities.
+
+This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-django-admin/), from the concept to the API.
+
+> This is still very much a work in progress. Most of the functionalities aren't there, and in particular there is no authentication for the admin interface yet.
+>
+> Your help is more than welcome!
 
 ## Installation
 
-```bash
-$ yarn
-```
-
-## Running the app
+Add nestjs-admin to your dependencies:
 
 ```bash
-# start database
-$ docker-compose up -d
-
-# Execute migrations
-$ yarn migration:run
-
-# watch mode
-$ yarn start:dev
+yarn add nestjs-admin # With yarn
+npm install nestjs-admin # With NPM
 ```
 
-## Test
+Add the AdminModule to your app modules:
 
-```bash
-# unit tests
-$ yarn test
+```ts
+// app.module.ts
+// ...
+import { AdminModule } from '@app/nestjs-admin'
 
-# e2e tests
-$ yarn test:e2e
-
-# test coverage
-$ yarn test:cov
+@Module({
+  imports: [TypeOrmModule.forRoot(), AdminModule /* ... */],
+  controllers: [
+    /* ... */
+  ],
+  providers: [
+    /* ... */
+  ],
+})
+export class AppModule {}
 ```
 
-## Migrations
+Register the entities you want to administrate in the admin site:
 
-```bash
-# Generate a migration
-$ yarn migration:generate -n YourMigrationName
+```ts
+// user.module.ts
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Module } from '@nestjs/common'
 
-# Run all pending migrations
-$ yarn migration:run
+import { User } from './user.entity'
+import { AdminModule, AdminSite } from '@app/nestjs-admin'
+
+@Module({
+  imports: [TypeOrmModule.forFeature([User]), AdminModule],
+  controllers: [],
+  providers: [],
+  exports: [TypeOrmModule],
+})
+export class UserModule {
+  constructor(private readonly adminSite: AdminSite) {
+    // Register the User entity under the "User" section
+    adminSite.register('User', User)
+  }
+}
 ```
+
+You can now access the admin interface at `/admin`!
+
+## Contributing
+
+Any contribution is welcome. If you want to implement a feature, you need to know that we are following [django-admin's API](https://docs.djangoproject.com/en/2.2/ref/contrib/admin/) as closely as possible. Why?
+
+- It's been well-thought-out by smart people
+- Python translates well to Typescript
+- It allows us to not have to think about what the API should look like and just use Django admin as a list of desirable features
+
+This repo is actually an example of how to use nestjs-admin. You can `docker-compose up`, `yarn start:debug` and go to `localhost:8000/admin` to see an admin interface for a complex entity. The code for the admin module is in `libs/nestjs-admin`.
+
+If you use VSCode, a `.vscode/` is committed that contains a good configuration to contribute. In particular, it contains a config for the debugger.
