@@ -1,8 +1,10 @@
-import { Get, Post, Controller, Param, Query, Body } from '@nestjs/common'
+import { Get, Post, Controller, Param, Query, Body, Response } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
+import * as express from 'express'
 import AdminSite from './adminSite'
 import AdminSection from './adminSection'
 import { AdminNunjucksEnvironment } from './admin.environment'
+import * as urls from './utils/urls'
 
 function getPaginationOptions(page?: number) {
   page = page || 0
@@ -83,13 +85,17 @@ export class AdminController {
   }
 
   @Post(':sectionName/:entityName/add')
-  async create(@Body() createEntityDto: object, @Param() params: AdminModelsQuery) {
+  async create(
+    @Body() createEntityDto: object,
+    @Param() params: AdminModelsQuery,
+    @Response() response: express.Response,
+  ) {
     const { section, repository, metadata } = await this.getAdminModels(params)
 
     const cleanedValues = this.adminSite.cleanValues(createEntityDto, metadata)
     const createdEntity = await repository.save(cleanedValues)
 
-    return await this.render('add.njk', { section, metadata })
+    return response.redirect(urls.changeUrl(section, metadata, createdEntity))
   }
 
   @Get(':sectionName/:entityName/:primaryKey/change')
