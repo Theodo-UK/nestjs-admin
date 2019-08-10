@@ -2,14 +2,11 @@ import { parseName } from './utils/formatting'
 import { EntityMetadata } from 'typeorm'
 import AdminSection from './adminSection'
 
-type Route = 'changelist' | 'change'
+type Route = 'changelist' | 'change' | 'add'
 
 type RouteArgs = string[]
 
-function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
-  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}`
-}
-function changeUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
+function getPrimaryKeyValue(metadata: EntityMetadata, entity: object) {
   if (metadata.primaryColumns.length !== 1) {
     // @debt TODO "williamd: probably still covers most cases, but still TODO"
     throw new Error(
@@ -18,8 +15,20 @@ function changeUrl(section: AdminSection, metadata: EntityMetadata, entity: obje
       }). If you have this use case, please open a GitHub issue`,
     )
   }
-  const primaryKey = metadata.primaryColumns[0].getEntityValue(entity)
-  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}`
+  return metadata.primaryColumns[0].getEntityValue(entity)
+}
+
+function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
+  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}`
+}
+
+function changeUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
+  const primaryKey = getPrimaryKeyValue(metadata, entity)
+  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}/change`
+}
+
+function addUrl(section: AdminSection, metadata: EntityMetadata) {
+  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/add`
 }
 
 export function adminUrl(route: Route, ...args: RouteArgs) {
@@ -28,6 +37,8 @@ export function adminUrl(route: Route, ...args: RouteArgs) {
       return changeListUrl(...(args as [any, any]))
     case 'change':
       return changeUrl(...(args as [any, any, any]))
+    case 'add':
+      return addUrl(...(args as [any, any]))
     default:
       const guard: never = route
       throw new Error(`Route "${route}" doesn't exist`)
