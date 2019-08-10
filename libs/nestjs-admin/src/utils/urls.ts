@@ -14,6 +14,10 @@ function getPrimaryKeyValue(metadata: EntityMetadata, entity: object) {
   return metadata.primaryColumns[0].getEntityValue(entity)
 }
 
+export function indexUrl() {
+  return `/admin`
+}
+
 export function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}`
 }

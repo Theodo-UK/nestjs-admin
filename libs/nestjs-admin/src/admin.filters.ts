@@ -1,12 +1,14 @@
 import { EntityMetadata } from 'typeorm'
 import * as urls from './utils/urls'
 
-type Route = 'changelist' | 'change' | 'add'
+type Route = 'index' | 'changelist' | 'change' | 'add'
 
 type RouteArgs = string[]
 
 export function adminUrl(route: Route, ...args: RouteArgs) {
   switch (route) {
+    case 'index':
+      return urls.indexUrl()
     case 'changelist':
       return urls.changeListUrl(...(args as [any, any]))
     case 'change':
