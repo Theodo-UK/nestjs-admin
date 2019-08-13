@@ -34,6 +34,14 @@ type AdminModelsResult = {
 export class AdminController {
   constructor(private adminSite: AdminSite, private env: AdminNunjucksEnvironment) {}
 
+  async getEntityWithRelations(repository: Repository<unknown>, primaryKey: any) {
+    const metadata = repository.metadata
+    const relations = metadata.relations.map(r => r.propertyName)
+    return (await repository.findOneOrFail(primaryKey, {
+      relations,
+    })) as object
+  }
+
   async getAdminModels(query: AdminModelsQuery): Promise<AdminModelsResult> {
     // @ts-ignore
     const result: AdminModelsResult = {}
@@ -43,7 +51,7 @@ export class AdminController {
         result.repository = result.section.getRepository(query.entityName)
         result.metadata = result.repository.metadata
         if (query.primaryKey) {
-          result.entity = (await result.repository.findOneOrFail(query.primaryKey, {})) as object
+          result.entity = await this.getEntityWithRelations(result.repository, query.primaryKey)
         }
       }
     }
@@ -108,11 +116,10 @@ export class AdminController {
   async update(@Body() updateEntityDto: object, @Param() params: AdminModelsQuery) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
 
-    const updateCriteria = metadata.getEntityIdMap(entity)
-    const updatedValues = this.adminSite.cleanValues(updateEntityDto, metadata)
-    await repository.update(updateCriteria, updatedValues)
+    const updatedValues = await this.adminSite.cleanValues(updateEntityDto, metadata)
+    await repository.save({ ...entity, ...updatedValues })
 
-    const updatedEntity = await repository.findOneOrFail(params.primaryKey)
+    const updatedEntity = await this.getEntityWithRelations(repository, params.primaryKey)
     return await this.render('change.njk', { section, metadata, entity: updatedEntity })
   }
 }

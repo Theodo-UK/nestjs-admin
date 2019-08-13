@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common'
-import { Connection, EntityMetadata } from 'typeorm'
+import { Connection, EntityMetadata, ColumnType, Column } from 'typeorm'
 import { parseName } from './utils/formatting'
 import AdminSection from './adminSection'
 import { EntityType } from './types'
-import { isIntegerType, isNumberType, isDateType, isBooleanType, isEnumType } from './utils/column'
+import {
+  isIntegerType,
+  isNumberType,
+  isDateType,
+  isBooleanType,
+  isEnumType,
+  isDecimalType,
+} from './utils/column'
+import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
 
 @Injectable()
 class AdminSite {
@@ -51,14 +59,23 @@ class AdminSite {
     return this.connection.getRepository(entityName)
   }
 
-  cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
+  async cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
     // @debt architecture "williamd: this should probably be moved to a Form class"
     const propertyNames = Object.keys(values)
     const cleanedValues: typeof values = {}
 
     for (const property of propertyNames) {
-      const column = metadata.findColumnWithPropertyName(property)
       const value = values[property]
+      const column = metadata.findColumnWithPropertyName(property)
+
+      if (!column) {
+        // Manytomany
+        const relation = metadata.findRelationWithPropertyPath(property)
+        const repo = this.connection.getRepository(relation.type)
+        cleanedValues[property] = await repo.findByIds(value)
+        continue
+      }
+
       if (!value) {
         if (
           !!column.relationMetadata ||
@@ -71,9 +88,17 @@ class AdminSite {
         if (isBooleanType(column.type) && value !== false) {
           cleanedValues[property] = column.isNullable ? null : false
         }
+      } else {
+        if (isIntegerType(column.type)) {
+          cleanedValues[property] = parseInt(value, 10)
+        }
+        if (isDecimalType(column.type)) {
+          cleanedValues[property] = parseFloat(value)
+        }
       }
+
       if (cleanedValues[property] === undefined) {
-        cleanedValues[property] = values[property]
+        cleanedValues[property] = value
       }
     }
     return cleanedValues
