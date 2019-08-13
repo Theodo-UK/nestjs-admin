@@ -11,7 +11,6 @@ import {
   isEnumType,
   isDecimalType,
 } from './utils/column'
-import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
 
 @Injectable()
 class AdminSite {
