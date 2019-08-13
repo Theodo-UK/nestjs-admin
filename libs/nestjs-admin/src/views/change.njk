@@ -10,6 +10,11 @@
         {% include getWidgetTemplate(column) %}
       </fieldset>
     {% endeach %}
+    {% asyncEach relation in metadata.manyToManyRelations %}
+      <fieldset>
+        {% include 'widget-manytomany.njk' %}
+      </fieldset>
+    {% endeach %}
     <button type="submit">Submit</button>
   </form>
 </body>

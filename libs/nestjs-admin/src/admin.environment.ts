@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common'
 import * as filters from './admin.filters'
 import AdminSite from './adminSite'
 import { getWidgetTemplate, getRelationOptions } from './utils/widget'
+import { isEntityInList } from './utils/entity'
 import { SetAsyncExtension } from './extensions/setAsync'
 
 @Injectable()
@@ -27,5 +28,6 @@ export class AdminNunjucksEnvironment {
     this.env.addGlobal('adminSite', adminSite)
     this.env.addGlobal('getWidgetTemplate', getWidgetTemplate)
     this.env.addGlobal('getRelationOptions', getRelationOptions) // Meh name
+    this.env.addGlobal('isEntityInList', isEntityInList)
   }
 }

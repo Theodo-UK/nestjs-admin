@@ -1,18 +1,7 @@
 import { EntityMetadata } from 'typeorm'
 import AdminSection from '../adminSection'
 import { parseName } from './formatting'
-
-function getPrimaryKeyValue(metadata: EntityMetadata, entity: object) {
-  if (metadata.primaryColumns.length !== 1) {
-    // @debt TODO "williamd: probably still covers most cases, but still TODO"
-    throw new Error(
-      `Entities with composite primary keys unsupported (${
-        metadata.name
-      }). If you have this use case, please open a GitHub issue`,
-    )
-  }
-  return metadata.primaryColumns[0].getEntityValue(entity)
-}
+import { getPrimaryKeyValue } from './entity'
 
 export function indexUrl() {
   return `/admin`
