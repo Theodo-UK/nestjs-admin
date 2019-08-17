@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
-import { AdminController } from './admin.controller'
-import AdminSite from './adminSite'
-import { AdminNunjucksEnvironment } from './admin.environment'
+import { DefaultAdminController } from './admin.controller'
+import DefaultAdminSite from './adminSite'
+import DefaultAdminNunjucksEnvironment from './admin.environment'
 
 @Module({
-  controllers: [AdminController],
-  providers: [AdminSite, AdminNunjucksEnvironment],
-  exports: [AdminSite],
+  controllers: [DefaultAdminController],
+  providers: [DefaultAdminSite, DefaultAdminNunjucksEnvironment],
+  exports: [DefaultAdminSite, DefaultAdminNunjucksEnvironment],
 })
-export class AdminModule {}
+export class DefaultAdminModule {}

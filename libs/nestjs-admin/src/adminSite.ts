@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Connection, EntityMetadata, ColumnType, Column } from 'typeorm'
+import { Connection, EntityMetadata } from 'typeorm'
 import { parseName } from './utils/formatting'
 import AdminSection from './adminSection'
 import { EntityType } from './types'
@@ -11,10 +11,9 @@ import {
   isEnumType,
   isDecimalType,
 } from './utils/column'
-import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
 
 @Injectable()
-class AdminSite {
+class DefaultAdminSite {
   constructor(private readonly connection: Connection) {}
 
   sections: { [sectionName: string]: AdminSection } = {}
@@ -105,4 +104,4 @@ class AdminSite {
   }
 }
 
-export default AdminSite
+export default DefaultAdminSite

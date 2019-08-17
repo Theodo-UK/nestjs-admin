@@ -9,7 +9,7 @@ import { isEntityInList } from './utils/entity'
 import { SetAsyncExtension } from './extensions/setAsync'
 
 @Injectable()
-export class AdminNunjucksEnvironment {
+class DefaultAdminNunjucksEnvironment {
   env: nunjucks.Environment
 
   constructor(adminSite: AdminSite) {
@@ -31,3 +31,5 @@ export class AdminNunjucksEnvironment {
     this.env.addGlobal('isEntityInList', isEntityInList)
   }
 }
+
+export default DefaultAdminNunjucksEnvironment
