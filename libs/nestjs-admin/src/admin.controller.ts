@@ -1,9 +1,9 @@
 import { Get, Post, Controller, Param, Query, Body, Response } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
 import * as express from 'express'
-import AdminSite from './adminSite'
-import AdminSection from './adminSection'
-import { AdminNunjucksEnvironment } from './admin.environment'
+import DefaultAdminSite from './adminSite'
+import DefaultAdminSection from './adminSection'
+import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
 
 function getPaginationOptions(page?: number) {
@@ -24,15 +24,15 @@ type AdminModelsQuery = {
 }
 
 type AdminModelsResult = {
-  section: AdminSection
+  section: DefaultAdminSection
   repository: Repository<unknown>
   metadata: EntityMetadata
   entity: object
 }
 
 @Controller('admin')
-export class AdminController {
-  constructor(private adminSite: AdminSite, private env: AdminNunjucksEnvironment) {}
+export class DefaultAdminController {
+  constructor(private adminSite: DefaultAdminSite, private env: DefaultAdminNunjucksEnvironment) {}
 
   async getEntityWithRelations(repository: Repository<unknown>, primaryKey: any) {
     const metadata = repository.metadata

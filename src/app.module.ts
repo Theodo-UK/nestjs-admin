@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AdminModule } from '@app/nestjs-admin'
+import { AdminSite } from './admin/admin.site'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
+import { AdminModule } from './admin/admin.module'
 
 @Module({
   imports: [TypeOrmModule.forRoot(), AdminModule, UserModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AdminSite],
 })
 export class AppModule {}
