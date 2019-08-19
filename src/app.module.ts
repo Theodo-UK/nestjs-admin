@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AdminSite } from './admin/admin.site'
+import { DefaultAdminModule } from '@app/nestjs-admin'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
-import { AdminModule } from './admin/admin.module'
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), AdminModule, UserModule, AuthModule],
+  imports: [TypeOrmModule.forRoot(), DefaultAdminModule, UserModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService, AdminSite],
+  providers: [AppService],
 })
 export class AppModule {}
