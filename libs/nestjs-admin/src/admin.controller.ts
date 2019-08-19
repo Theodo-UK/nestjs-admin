@@ -1,10 +1,11 @@
-import { Get, Post, Controller, Param, Query, Body, Response } from '@nestjs/common'
+import { Get, Post, Controller, Param, Query, Body, Response, Delete } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
 import * as express from 'express'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
+import { async } from 'rxjs/internal/scheduler/async'
 
 function getPaginationOptions(page?: number) {
   page = page || 0
@@ -110,6 +111,13 @@ export class DefaultAdminController {
   async change(@Param() params: AdminModelsQuery) {
     const { section, metadata, entity } = await this.getAdminModels(params)
     return await this.render('change.njk', { section, metadata, entity })
+  }
+
+  @Post(':sectionName/:entityName/:primaryKey/delete')
+  async delete(@Param() params: AdminModelsQuery, @Response() response: express.Response) {
+    const { section, repository, metadata, entity } = await this.getAdminModels(params)
+    await repository.remove(entity)
+    return response.redirect(urls.changeListUrl(section, metadata))
   }
 
   @Post(':sectionName/:entityName/:primaryKey/change')
