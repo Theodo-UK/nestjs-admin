@@ -7,7 +7,11 @@
     {% asyncEach column in metadata.columns %}
       {% set value=column.getEntityValue(entity) %}
       <fieldset>
-        {% include getWidgetTemplate(column) %}
+        {% if not column.isGenerated %}
+          {% include getWidgetTemplate(column) %}
+        {% else %}
+          {% include "widget-plaintext.njk" %}
+        {% endif %}
       </fieldset>
     {% endeach %}
     {% asyncEach relation in metadata.manyToManyRelations %}
