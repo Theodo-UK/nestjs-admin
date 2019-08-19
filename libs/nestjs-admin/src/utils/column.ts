@@ -29,6 +29,7 @@ export type DecimalColumnType =
 export type NumberColumnType = IntegerColumnType | DecimalColumnType
 
 export type DateType =
+  | 'date'
   | 'datetime'
   | 'datetime2'
   | 'datetimeoffset'
@@ -84,6 +85,7 @@ export function isNumberType(type: ColumnType): type is NumberColumnType {
 export function isDateType(type: ColumnType): type is DateType {
   return [
     Date,
+    'date',
     'datetime',
     'datetime2',
     'datetimeoffset',
