@@ -1,23 +1,20 @@
 <html>
-  <body>
-    <a href="{{ 'index' | adminUrl }}">Back</a>
-    <h1>{{ metadata.name }}</h1>
-    <h2>{{ count }}
-      results</h2>
-    <a href="{{ 'add' | adminUrl(section, metadata, entity) }}">
-      <button>Add</button>
-    </a>
-    <ul>
-      {% for entity in entities %}
-        <li>
-          <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
-            {{ entity | displayName(metadata) }}
-          </a>
-          <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
-            <input type="submit" value="delete">
-          </form>
-        </li>
-      {% endfor %}
-    </ul>
-  </body>
+<body>
+  <a href="{{ 'index' | adminUrl }}">Back</a>
+  <h1>{{ metadata.name }}</h1>
+  <h2>{{ count }} results</h2>
+  <a href="{{ 'add' | adminUrl(section, metadata, entity) }}"><button>Add</button></a>
+  <ul>
+    {% for entity in entities %}
+      <li>
+        <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
+          {{ entity | displayName(metadata) }}
+        </a>
+        <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
+          <input type="submit" value="delete">
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+</body>
 </html>
