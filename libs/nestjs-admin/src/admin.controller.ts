@@ -5,7 +5,6 @@ import DefaultAdminSite from './adminSite'
 import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
-import { async } from 'rxjs/internal/scheduler/async'
 
 function getPaginationOptions(page?: number) {
   page = page || 0
