@@ -5,9 +5,11 @@
   <h2>Add new {{ metadata.name }}</h2>
   <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
     {% asyncEach column in metadata.columns %}
-      <fieldset>
-        {% include getWidgetTemplate(column) %}
-      </fieldset>
+      {% if not column.isGenerated %}
+        <fieldset>
+          {% include getWidgetTemplate(column) %}
+        </fieldset>
+      {% endif %}
     {% endeach %}
     <button type="submit">Submit</button>
   </form>

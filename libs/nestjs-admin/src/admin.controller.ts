@@ -100,7 +100,7 @@ export class DefaultAdminController {
   ) {
     const { section, repository, metadata } = await this.getAdminModels(params)
 
-    const cleanedValues = this.adminSite.cleanValues(createEntityDto, metadata)
+    const cleanedValues = await this.adminSite.cleanValues(createEntityDto, metadata)
     const createdEntity = await repository.save(cleanedValues)
 
     return response.redirect(urls.changeUrl(section, metadata, createdEntity))

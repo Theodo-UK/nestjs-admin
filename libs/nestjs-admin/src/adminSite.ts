@@ -60,6 +60,8 @@ class DefaultAdminSite {
 
   async cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
     // @debt architecture "williamd: this should probably be moved to a Form class"
+    // Also, this whole function is a mess of state and special cases. We need to find
+    // a better way to organise this.
     const propertyNames = Object.keys(values)
     const cleanedValues: typeof values = {}
 
@@ -80,7 +82,8 @@ class DefaultAdminSite {
           !!column.relationMetadata ||
           (isNumberType(column.type) && value !== 0) ||
           isDateType(column.type) ||
-          isEnumType(column.type)
+          isEnumType(column.type) ||
+          isDateType(column.type)
         ) {
           cleanedValues[property] = null
         }
@@ -98,6 +101,10 @@ class DefaultAdminSite {
 
       if (cleanedValues[property] === undefined) {
         cleanedValues[property] = value
+      }
+
+      if (column.isGenerated) {
+        cleanedValues[property] = undefined
       }
     }
     return cleanedValues
