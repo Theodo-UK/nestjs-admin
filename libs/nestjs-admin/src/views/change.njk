@@ -3,10 +3,10 @@
   <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
   <h1>{{ metadata.name }}</h1>
   <h2>{{ entity | displayName(metadata) }}</h2>
-  <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}">
+  <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
     {% asyncEach column in metadata.columns %}
       {% set value=column.getEntityValue(entity) %}
-      <fieldset>
+      <fieldset class="entity-form__field {{ column.propertyName }}">
         {% if not column.isGenerated %}
           {% include getWidgetTemplate(column) %}
         {% else %}
