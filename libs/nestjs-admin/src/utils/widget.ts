@@ -55,6 +55,8 @@ export function getWidgetTemplate(column: ColumnMetadata) {
         | 'longtext'
         | 'long'
         | 'date'
+        | 'boolean'
+        | 'bool'
         // | 'datetime'
         // | 'datetime2'
         // | 'datetimeoffset'
@@ -72,8 +74,6 @@ export function getWidgetTemplate(column: ColumnMetadata) {
         // | 'float8'
         // | 'smallmoney'
         // | 'money'
-        // | 'boolean'
-        // | 'bool'
         // | 'tinyblob'
         // | 'mediumblob'
         // | 'blob'
@@ -187,6 +187,9 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'timestamp':
     case 'timestamp without time zone':
       return 'widget-date.njk'
+    case 'boolean':
+    case 'bool':
+      return column.isNullable ? 'widget-boolean-nullable.njk' : 'widget-boolean.njk'
     default:
       const guard: never = type
       return 'widget-text.njk'

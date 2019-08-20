@@ -97,6 +97,27 @@ class DefaultAdminSite {
         if (isDecimalType(column.type)) {
           cleanedValues[property] = parseFloat(value)
         }
+        if (isBooleanType(column.type)) {
+          if (column.isNullable) {
+            switch (value) {
+              case 'true':
+                cleanedValues[property] = true
+                break
+              case 'false':
+                cleanedValues[property] = false
+                break
+              case 'null':
+                cleanedValues[property] = null
+                break
+            }
+          } else {
+            // Due to checkboxes not sending any value on submit, we need a to send a default value.
+            // If the checkbox is unchecked we'll only have the default, if it is checked we'll have
+            // an array with the default and the 'checked' value
+            const singleValue = Array.isArray(value) ? value[value.length - 1] : value
+            cleanedValues[property] = singleValue === '1'
+          }
+        }
       }
 
       if (cleanedValues[property] === undefined) {

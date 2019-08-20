@@ -80,6 +80,9 @@ export class User {
   @Column('boolean', { nullable: true })
   isActive: boolean
 
+  @Column('boolean', { nullable: false })
+  isCool: boolean
+
   @Column('json', { nullable: true })
   additionalData: any
 
