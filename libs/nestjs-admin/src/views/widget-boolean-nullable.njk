@@ -4,8 +4,20 @@
     id="{{ column.propertyName }}"
     name="{{ column.propertyName }}"
   >
-    <option value='null' {% if column.getEntityValue(entity) == null %}selected{% endif %}>Unknown</option>
-    <option value='true' {% if column.getEntityValue(entity) == true %}selected{% endif %}>True</option>
-    <option value='false' {% if column.getEntityValue(entity) == false %}selected{% endif %}>False</option>
+    <option value='null'
+      {% if column.getEntityValue(entity) == null %}selected{% endif %}
+    >
+      Unknown
+    </option>
+    <option value='true'
+      {% if column.getEntityValue(entity) == true %}selected{% endif %}
+    >
+      True
+    </option>
+    <option value='false'
+      {% if column.getEntityValue(entity) == false %}selected{% endif %}
+    >
+      False
+    </option>
   </select>
 </div>

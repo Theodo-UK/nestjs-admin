@@ -1,9 +1,16 @@
 <label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
 <div>
   <input
+    type="hidden"
+    id="{{ column.propertyName }}"
+    name="{{ column.propertyName }}"
+    value=0
+  />
+  <input
     type="checkbox"
     id="{{ column.propertyName }}"
     name="{{ column.propertyName }}"
+    value=1
     {% if column.getEntityValue(entity) %}checked{% endif %}
   />
 </div>

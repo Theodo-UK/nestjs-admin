@@ -62,7 +62,7 @@ class DefaultAdminSite {
     // @debt architecture "williamd: this should probably be moved to a Form class"
     // Also, this whole function is a mess of state and special cases. We need to find
     // a better way to organise this.
-    const propertyNames = metadata.columns.map(column => column.propertyName)
+    const propertyNames = Object.keys(values)
     const cleanedValues: typeof values = {}
 
     for (const property of propertyNames) {
@@ -111,7 +111,8 @@ class DefaultAdminSite {
                 break
             }
           } else {
-            cleanedValues[property] = true
+            const singleValue = Array.isArray(value) ? value[value.length - 1] : value
+            cleanedValues[property] = singleValue === '1'
           }
         }
       }
