@@ -39,7 +39,7 @@ commands:
           at: ~/nestjs-admin
       - run:
           name: Run migrations
-          command: yarn migration:run
+          command: yarn test:migration:run
       - run:
           name: Unit test with coverage
           command: yarn test:coverage
