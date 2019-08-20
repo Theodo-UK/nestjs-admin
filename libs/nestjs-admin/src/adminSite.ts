@@ -62,7 +62,7 @@ class DefaultAdminSite {
     // @debt architecture "williamd: this should probably be moved to a Form class"
     // Also, this whole function is a mess of state and special cases. We need to find
     // a better way to organise this.
-    const propertyNames = Object.keys(values)
+    const propertyNames = metadata.columns.map(column => column.propertyName)
     const cleanedValues: typeof values = {}
 
     for (const property of propertyNames) {
@@ -96,6 +96,23 @@ class DefaultAdminSite {
         }
         if (isDecimalType(column.type)) {
           cleanedValues[property] = parseFloat(value)
+        }
+        if (isBooleanType(column.type)) {
+          if (column.isNullable) {
+            switch (value) {
+              case 'true':
+                cleanedValues[property] = true
+                break
+              case 'false':
+                cleanedValues[property] = false
+                break
+              case 'null':
+                cleanedValues[property] = null
+                break
+            }
+          } else {
+            cleanedValues[property] = true
+          }
         }
       }
 
