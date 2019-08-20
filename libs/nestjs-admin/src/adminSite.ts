@@ -123,10 +123,6 @@ class DefaultAdminSite {
       if (cleanedValues[property] === undefined) {
         cleanedValues[property] = value
       }
-
-      if (column.isGenerated) {
-        cleanedValues[property] = undefined
-      }
     }
     return cleanedValues
   }
