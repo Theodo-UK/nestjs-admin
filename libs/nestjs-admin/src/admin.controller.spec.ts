@@ -1,18 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { DefaultAdminController } from './admin.controller'
+import { INestApplication } from '@nestjs/common'
+import { AppModule } from '../../../src/app.module'
 
 describe('Admin Controller', () => {
-  let controller: DefaultAdminController
+  let app: INestApplication
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [DefaultAdminController],
+      imports: [AppModule],
     }).compile()
 
-    controller = module.get<DefaultAdminController>(DefaultAdminController)
+    app = module.createNestApplication()
+    await app.init()
   })
-
   it('should be defined', () => {
-    expect(controller).toBeDefined()
+    expect(app).toBeDefined()
   })
 })
