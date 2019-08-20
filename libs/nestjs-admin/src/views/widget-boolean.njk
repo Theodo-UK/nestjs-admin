@@ -1,6 +1,7 @@
 <label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
 <div>
-  {# False values aren't sent by default, so we send a hidden false value and override if necessary #}
+  {# Because checkboxes don't send a value if left unchecked, we include a hidden default field
+  to pass the false value. If the box is checked, both values are sent and the true value is used #}
   <input
     type="hidden"
     id="{{ column.propertyName }}"

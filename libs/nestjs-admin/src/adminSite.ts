@@ -111,8 +111,9 @@ class DefaultAdminSite {
                 break
             }
           } else {
-            // False boolean values aren't sent from the frontend by default
-            // To work around this, we send the false value then override it with a true value, in an array
+            // Due to checkboxes not sending any value on submit, we need a to send a default value.
+            // If the checkbox is unchecked we'll only have the default, if it is checked we'll have
+            // an array with the default and the 'checked' value
             const singleValue = Array.isArray(value) ? value[value.length - 1] : value
             cleanedValues[property] = singleValue === '1'
           }
