@@ -111,6 +111,8 @@ class DefaultAdminSite {
                 break
             }
           } else {
+            // False boolean values aren't sent from the frontend by default
+            // To work around this, we send the false value then override it with a true value, in an array
             const singleValue = Array.isArray(value) ? value[value.length - 1] : value
             cleanedValues[property] = singleValue === '1'
           }

@@ -1,5 +1,6 @@
 <label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
 <div>
+  {# False values aren't sent by default, so we send a hidden false value and override if necessary #}
   <input
     type="hidden"
     id="{{ column.propertyName }}"
