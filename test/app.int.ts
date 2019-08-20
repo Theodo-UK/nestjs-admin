@@ -2,9 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import * as request from 'supertest'
-import { AppModule } from './app.module'
+import { AppModule } from '../src/app.module'
 import { Repository } from 'typeorm'
-import { User } from './user/user.entity'
+import { User } from '../src/user/user.entity'
+import { createTestUser } from './utils'
 
 describe('AppController', () => {
   let app: INestApplication
@@ -28,7 +29,7 @@ describe('AppController', () => {
 
   it('can delete a user', async () => {
     // add the user to the database
-    const userData = { firstName: 'Max' }
+    const userData = createTestUser({ firstName: 'Max' })
     const userRepository: Repository<User> = app.get(getRepositoryToken(User))
     const user = await userRepository.save(userData)
     expect(await userRepository.findOneOrFail(user.id)).toBeDefined()

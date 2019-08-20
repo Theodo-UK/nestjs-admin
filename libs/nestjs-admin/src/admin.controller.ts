@@ -32,7 +32,18 @@ type AdminModelsResult = {
 
 @Controller('admin')
 export class DefaultAdminController {
-  constructor(private adminSite: DefaultAdminSite, private env: DefaultAdminNunjucksEnvironment) {}
+  constructor(
+    private defaultAdminSite: DefaultAdminSite,
+    private defaultEnv: DefaultAdminNunjucksEnvironment,
+  ) {}
+
+  get adminSite() {
+    return this.defaultAdminSite
+  }
+
+  get env() {
+    return this.defaultEnv
+  }
 
   async getEntityWithRelations(repository: Repository<unknown>, primaryKey: any) {
     const metadata = repository.metadata
