@@ -93,14 +93,14 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
-    "testRegex": ".(spec|test).ts$",
+    "rootDir": ".",
+    "testRegex": "(libs|src|test)/.*.(spec|test|int).ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "moduleNameMapper": {
-      "^@app/nestjs-admin(.*)$": "<rootDir>/../libs/nestjs-admin/src$1",
-      "^@/(.*)$": "<rootDir>/$1"
+      "^@app/nestjs-admin(.*)$": "<rootDir>/libs/nestjs-admin/src$1",
+      "^@/(.*)$": "<rootDir>/src/$1"
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
