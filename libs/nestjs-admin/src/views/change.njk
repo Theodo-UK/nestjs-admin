@@ -21,5 +21,8 @@
     {% endeach %}
     <button type="submit">Submit</button>
   </form>
+  <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
+    <input type="submit" value="delete">
+  </form>
 </body>
 </html>

@@ -16,6 +16,11 @@ export function changeUrl(section: AdminSection, metadata: EntityMetadata, entit
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}/change`
 }
 
+export function deleteUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
+  const primaryKey = getPrimaryKeyValue(metadata, entity)
+  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}/delete`
+}
+
 export function addUrl(section: AdminSection, metadata: EntityMetadata) {
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/add`
 }

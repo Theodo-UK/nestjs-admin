@@ -112,6 +112,13 @@ export class DefaultAdminController {
     return await this.render('change.njk', { section, metadata, entity })
   }
 
+  @Post(':sectionName/:entityName/:primaryKey/delete')
+  async delete(@Param() params: AdminModelsQuery, @Response() response: express.Response) {
+    const { section, repository, metadata, entity } = await this.getAdminModels(params)
+    await repository.remove(entity)
+    return response.redirect(urls.changeListUrl(section, metadata))
+  }
+
   @Post(':sectionName/:entityName/:primaryKey/change')
   async update(@Body() updateEntityDto: object, @Param() params: AdminModelsQuery) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)

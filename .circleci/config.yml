@@ -38,6 +38,9 @@ commands:
       - attach_workspace:
           at: ~/nestjs-admin
       - run:
+          name: Run migrations
+          command: yarn test:migration:run
+      - run:
           name: Unit test with coverage
           command: yarn test:coverage
       - store_artifacts:

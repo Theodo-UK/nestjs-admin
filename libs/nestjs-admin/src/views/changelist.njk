@@ -10,6 +10,9 @@
         <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
           {{ entity | displayName(metadata) }}
         </a>
+        <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
+          <input type="submit" value="delete">
+        </form>
       </li>
     {% endfor %}
   </ul>
