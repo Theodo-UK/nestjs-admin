@@ -1,0 +1,9 @@
+<label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
+<div>
+  <input
+    type="time"
+    id="{{ column.propertyName }}"
+    name="{{ column.propertyName }}"
+    {% if value %}value="{{ value }}"{% endif %}
+  />
+</div>

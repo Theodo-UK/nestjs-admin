@@ -60,9 +60,9 @@ export function getWidgetTemplate(column: ColumnMetadata) {
         // | 'datetime'
         // | 'datetime2'
         // | 'datetimeoffset'
-        // | 'time'
+        | 'time'
         // | 'time with time zone'
-        // | 'time without time zone'
+        | 'time without time zone'
         | 'timestamp'
         | 'timestamp without time zone'
         // | 'timestamp with time zone'
@@ -190,6 +190,9 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'boolean':
     case 'bool':
       return column.isNullable ? 'widget-boolean-nullable.njk' : 'widget-boolean.njk'
+    case 'time':
+    case 'time without time zone':
+      return 'widget-time.njk'
     default:
       const guard: never = type
       return 'widget-text.njk'
