@@ -12,9 +12,9 @@
 
 <label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
 <div>
-  {% for value in column.getEntityValue(entity) %}
+  {% for singleValue in value %}
     {% set fieldName = column.propertyName + "["+ loop.index0+ "]" %}
-    {{ field(fieldName, value) }}
+    {{ field(fieldName, singleValue) }}
   {% endfor %}
 
   {% set fieldName = column.propertyName + "["+ "3" + "]" %}

@@ -1,17 +1,24 @@
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
-import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
-import AdminSite from '../adminSite'
-import { isClass } from './typechecks'
 import {
   SimpleColumnType,
   PrimaryGeneratedColumnType,
   WithPrecisionColumnType,
 } from 'typeorm/driver/types/ColumnTypes'
+import TextWidget from './textWidget'
+import IntegerWidget from './integerWidget'
+import { DefaultAdminSite } from '..'
+import TextareaWidget from './textareaWidget'
+import ArrayWidget from './arrayWidget'
+import DecimalWidget from './decimalWidget'
+import DateWidget from './dateWidget'
+import BooleanWidget from './booleanWidget'
+import ForeignKeyWidget from './foreignKeyWidget'
+import { Widget } from './widget.interface'
 
-export function getWidgetTemplate(column: ColumnMetadata) {
+export function getDefaultWidget(column: ColumnMetadata, adminSite: DefaultAdminSite): Widget {
   if (!!column.relationMetadata) {
     // the column is a foreign key
-    return 'widget-foreign-key.njk'
+    return new ForeignKeyWidget(column, adminSite)
   }
 
   /* tslint:disable:ban-types */
@@ -147,15 +154,15 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'longtext':
     case 'ntext':
     case 'citext':
-      return 'widget-textarea.njk'
+      return new TextareaWidget(column, adminSite)
     // @ts-ignore
     case String:
     case 'tinytext':
     case 'uuid':
-      return 'widget-text.njk'
+      return new TextWidget(column, adminSite)
     case 'simple-array':
     case 'simple_array':
-      return 'widget-simple-array.njk'
+      return new ArrayWidget(column, adminSite)
     // @ts-ignore
     case Number:
     case 'number':
@@ -171,7 +178,7 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'int64':
     case 'unsigned big int':
     case 'long':
-      return 'widget-integer.njk'
+      return new IntegerWidget(column, adminSite)
     case 'numeric':
     case 'float':
     case 'dec':
@@ -180,34 +187,20 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'double':
     case 'double precision':
     case 'fixed':
-      return 'widget-decimal.njk'
+      return new DecimalWidget(column, adminSite)
     // @ts-ignore
     case Date:
     case 'date':
     case 'timestamp':
     case 'timestamp without time zone':
-      return 'widget-date.njk'
+      return new DateWidget(column, adminSite)
     case 'boolean':
     case 'bool':
-      return column.isNullable ? 'widget-boolean-nullable.njk' : 'widget-boolean.njk'
+      return new BooleanWidget(column, adminSite)
+
     default:
       const guard: never = type
-      return 'widget-text.njk'
+      return new TextWidget(column, adminSite)
   }
   /* tslint:enable:ban-types */
-}
-
-export async function getRelationOptions(
-  adminSite: AdminSite,
-  relation: RelationMetadata,
-  cb: any,
-) {
-  cb(null, [])
-  return
-  // if (!isClass(relation.type)) {
-  //   throw new Error(`${relation.type} is not an entity, it cannot be used as relation`)
-  // }
-  // const repository = adminSite.getRepository(relation.type)
-  // const options = await repository.find()
-  // cb(null, options)
 }

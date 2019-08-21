@@ -28,7 +28,7 @@ class DefaultAdminNunjucksEnvironment {
     this.env.addGlobal('adminSite', adminSite)
     this.env.addGlobal('getWidgetTemplate', getWidgetTemplate)
     this.env.addGlobal('getRelationOptions', getRelationOptions) // Meh name
-    this.env.addGlobal('isEntityInList', isEntityInList)
+    this.env.addGlobal('isEntityINList', isEntityInList)
   }
 }
 

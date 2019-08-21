@@ -1,10 +1,12 @@
-import { Get, Post, Controller, Param, Query, Body, Response } from '@nestjs/common'
+import { Get, Post, Controller, Param, Query, Body, Response, Inject } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
 import * as express from 'express'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
+import AdminEntity from './adminEntity'
+import { REQUEST } from '@nestjs/core'
 
 function getPaginationOptions(page?: number) {
   page = page || 0
@@ -25,6 +27,7 @@ type AdminModelsQuery = {
 
 type AdminModelsResult = {
   section: DefaultAdminSection
+  adminEntity: AdminEntity
   repository: Repository<unknown>
   metadata: EntityMetadata
   entity: object
@@ -35,6 +38,7 @@ export class DefaultAdminController {
   constructor(
     private defaultAdminSite: DefaultAdminSite,
     private defaultEnv: DefaultAdminNunjucksEnvironment,
+    @Inject(REQUEST) private readonly request: any,
   ) {}
 
   get adminSite() {
@@ -59,8 +63,9 @@ export class DefaultAdminController {
     if (query.sectionName) {
       result.section = this.adminSite.getSection(query.sectionName)
       if (query.entityName) {
-        result.repository = result.section.getRepository(query.entityName)
-        result.metadata = result.repository.metadata
+        result.adminEntity = result.section.getAdminEntity(query.entityName)
+        result.repository = result.adminEntity.repository
+        result.metadata = result.adminEntity.metadata
         if (query.primaryKey) {
           result.entity = await this.getEntityWithRelations(result.repository, query.primaryKey)
         }
@@ -70,6 +75,7 @@ export class DefaultAdminController {
   }
 
   async render(name: string, context?: object) {
+    const request = express.request
     const prom = new Promise((resolve, reject) => {
       this.env.env.render(name, context, function(err, res) {
         if (err) {
@@ -99,8 +105,8 @@ export class DefaultAdminController {
 
   @Get(':sectionName/:entityName/add')
   async add(@Param() params: AdminModelsQuery) {
-    const { section, metadata } = await this.getAdminModels(params)
-    return await this.render('add.njk', { section, metadata })
+    const { section, metadata, adminEntity } = await this.getAdminModels(params)
+    return await this.render('add.njk', { section, metadata, adminEntity })
   }
 
   @Post(':sectionName/:entityName/add')
