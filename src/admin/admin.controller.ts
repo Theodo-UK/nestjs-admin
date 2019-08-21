@@ -2,7 +2,6 @@ import { Controller, Inject } from '@nestjs/common'
 import { DefaultAdminController } from '@app/nestjs-admin'
 import { AdminSite } from './admin'
 
-@Controller('admin')
 export class AdminController extends DefaultAdminController {
   @Inject(AdminSite)
   // tslint:disable-next-line
