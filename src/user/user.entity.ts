@@ -77,7 +77,7 @@ export class User {
   @Column('time', { nullable: true })
   birthtime: Date
 
-  @Column('time with time zone', { nullable: true })
+  @Column('time without time zone', { nullable: true })
   deathtime: Date
 
   @Column('boolean', { nullable: true })
