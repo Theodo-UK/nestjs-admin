@@ -80,6 +80,9 @@ export class User {
   @Column('time without time zone', { nullable: true })
   deathtime: Date
 
+  @Column('timestamp', { nullable: true })
+  hireDatetime: Date
+
   @Column('boolean', { nullable: true })
   isActive: boolean
 

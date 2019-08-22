@@ -181,12 +181,13 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'double precision':
     case 'fixed':
       return 'widget-decimal.njk'
+    case 'date':
+      return 'widget-date.njk'
     // @ts-ignore
     case Date:
-    case 'date':
     case 'timestamp':
     case 'timestamp without time zone':
-      return 'widget-date.njk'
+      return 'widget-datetime.njk'
     case 'boolean':
     case 'bool':
       return column.isNullable ? 'widget-boolean-nullable.njk' : 'widget-boolean.njk'
