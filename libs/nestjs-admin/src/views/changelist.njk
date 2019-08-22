@@ -1,5 +1,8 @@
-<html>
-<body>
+{% set useJquery = false %}
+{% extends 'base.njk'%}
+
+{% block body %}
+
   <a href="{{ 'index' | adminUrl }}">Back</a>
   <h1>{{ metadata.name }}</h1>
   <h2>{{ count }} results</h2>
@@ -16,5 +19,14 @@
       </li>
     {% endfor %}
   </ul>
-</body>
-</html>
+
+{% set paginationIndices = getPaginationIndices(page, resultsPerPage, count) %}
+{% for val in paginationIndices %}
+  {% if val == '...' %}
+  <span>...</span>
+  {% else %}
+    <span><a href="{{ generatePaginationUrl(request, val) }}" class="js-pagination-button" data-page="{{ val }}">{{ val }}</a></span>
+  {% endif %}
+{% endfor %}
+
+{% endblock %}

@@ -6,14 +6,14 @@ import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
 
-function getPaginationOptions(page?: number) {
-  page = page || 0
-  // @debt architecture "williamd: this could be made configurable on a per-section basis"
-  const perPage = 25
+const resultsPerPage = 25 // number of results per page
 
+function getPaginationQueryOptions(page: number) {
+  page--
+  // @debt architecture "williamd: this could be made configurable on a per-section basis"
   return {
-    skip: perPage * page,
-    take: perPage,
+    skip: resultsPerPage * page,
+    take: resultsPerPage,
   }
 }
 
@@ -91,10 +91,18 @@ export class DefaultAdminController {
   }
 
   @Get(':sectionName/:entityName')
-  async changeList(@Param() params: AdminModelsQuery, @Query('page') page?: number) {
+  async changeList(@Param() params: AdminModelsQuery, @Query('page') pageParam: string = '1') {
     const { section, repository, metadata } = await this.getAdminModels(params)
-    const [entities, count] = await repository.findAndCount(getPaginationOptions(page))
-    return await this.render('changelist.njk', { section, entities, count, metadata })
+    const page = parseInt(pageParam, 10)
+    const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
+    return await this.render('changelist.njk', {
+      section,
+      entities,
+      count,
+      metadata,
+      page,
+      resultsPerPage,
+    })
   }
 
   @Get(':sectionName/:entityName/add')
