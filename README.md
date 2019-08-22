@@ -78,6 +78,22 @@ Any contribution is welcome. If you want to implement a feature, you need to kno
 - Python translates well to Typescript
 - It allows us to not have to think about what the API should look like and just use Django admin as a list of desirable features
 
-This repo is actually an example of how to use nestjs-admin. You can `docker-compose up`, `yarn start:debug` and go to `localhost:8000/admin` to see an admin interface for a complex entity. The code for the admin module is in `libs/nestjs-admin`.
+### Start the example app
 
-If you use VSCode, a `.vscode/` is committed that contains a good configuration to contribute. In particular, it contains a config for the debugger.
+This repo is actually an example of how to use nestjs-admin. You can start it with:
+
+```bash
+docker-compose up
+yarn migration:run
+yarn start:debug
+```
+
+Then go to `localhost:8000/admin` to see an admin interface for a complex entity. The code for the actual library is in `libs/nestjs-admin`.
+
+### Tooling
+
+If you use VSCode, a `.vscode/` is committed that contains a good configuration to contribute. In particular, it contains a config for a ready-to-use debugger.
+
+### ADRs
+
+You'll find [ADRs](https://github.com/joelparkerhenderson/architecture_decision_record#suggestions-for-writing-good-adrs) in `docs/adr`
