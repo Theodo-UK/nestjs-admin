@@ -1,99 +1,47 @@
+import { Request } from 'express'
 import lodash = require('lodash')
 
-export function getPaginationRanges(current: number, resultsPerPage: number, totalResults: number) {
-  const delta = 2
-  const pages = Math.ceil(totalResults / resultsPerPage)
-  current = Math.min(Math.max(1, current), pages)
-
-  const nranges = [
-    [1],
-    lodash.range(Math.max(1, current - delta), Math.min(current + delta + 1, pages + 1)),
-    [pages],
-  ]
-
-  return nranges.reduce(
-    function(ranges, currRange) {
-      if (currRange.length === 0) return [...ranges]
-
-      const prevRange: number[] = ranges[ranges.length - 1]
-      if (prevRange[prevRange.length - 1] >= currRange[0] - 1) {
-        const lastRange = ranges.pop()
-
-        const newRange = [...lastRange, ...currRange]
-        return [...ranges, lodash.uniq(newRange)]
-      } else {
-        return [...ranges, currRange]
-      }
-    },
-    [nranges[0]],
-  )
-}
-
-export function getPaginationIndices1dd(
-  current: number,
+export function getPaginationRanges(
+  currentPage: number,
   resultsPerPage: number,
   totalResults: number,
 ) {
+  const paddingAroundCurrentPage = 2
   const pages = Math.ceil(totalResults / resultsPerPage)
-  const last = pages
-  const delta = 2
-  const left = current - delta
-  const right = current + delta + 1
-  const range = []
-  const rangeWithDots = []
-  let l = null
 
-  for (let i = 1; i <= last; i++) {
-    if (i === 1 || i === last || (i >= left && i < right)) {
-      range.push(i)
-    }
-  }
+  // make sure we don't have an out-of-range page
+  currentPage = Math.min(Math.max(1, currentPage), pages)
 
-  for (const i of range) {
-    if (l) {
-      if (i - l === 2) {
-        rangeWithDots.push(l + 1)
-      } else if (i - l !== 1) {
-        rangeWithDots.push('...')
+  const paginationRanges = [
+    [1],
+    lodash.range(
+      Math.max(1, currentPage - paddingAroundCurrentPage),
+      Math.min(currentPage + paddingAroundCurrentPage + 1, pages + 1),
+    ),
+    [pages],
+  ]
+
+  return paginationRanges.reduce(
+    function(ranges, currRange) {
+      if (currRange.length === 0) return ranges
+
+      const unchangedRanges = [...ranges]
+      const prevRange: number[] = unchangedRanges.pop()
+
+      if (prevRange[prevRange.length - 1] >= currRange[0] - 1) {
+        // The two ranges are sequential or intersecting; merge them
+        const newRange = lodash.uniq([...prevRange, ...currRange])
+        return [...unchangedRanges, newRange]
+      } else {
+        return [...unchangedRanges, prevRange, currRange]
       }
-    }
-    rangeWithDots.push(i)
-    l = i
-  }
-
-  return rangeWithDots
+    },
+    [paginationRanges[0]],
+  )
 }
 
-export function generatePaginationUrl(request: Request, page: number) {
-  let url = request.url
-  if (!url) url = window.location.href
-
-  const key = 'page'
-  const re = new RegExp('([?&])' + key + '=.*?(&|#|$)(.*)', 'gi')
-  let hash = null
-
-  if (re.test(url)) {
-    if (typeof page !== 'undefined' && page !== null) {
-      return url.replace(re, '$1' + key + '=' + page + '$2$3')
-    } else {
-      hash = url.split('#')
-      url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '')
-      if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
-        url += '#' + hash[1]
-      }
-      return url
-    }
-  } else {
-    if (typeof page !== 'undefined' && page !== null) {
-      const separator = url.indexOf('?') !== -1 ? '&' : '?'
-      hash = url.split('#')
-      url = hash[0] + separator + key + '=' + page
-      if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
-        url += '#' + hash[1]
-      }
-      return url
-    } else {
-      return url
-    }
-  }
+export function generatePaginatedUrl(request: Request, page: number) {
+  const url = new URL(request.url, 'http://example.com') // URL base isn't actually used
+  url.searchParams.set('page', page.toString())
+  return request.path + url.search
 }
