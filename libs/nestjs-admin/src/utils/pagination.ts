@@ -1,12 +1,9 @@
 export function getPaginationIndices(
-  currentPage: number,
+  current: number,
   resultsPerPage: number,
   totalResults: number,
 ) {
   const pages = Math.ceil(totalResults / resultsPerPage)
-
-  // tslint:disable-next-line: radix
-  const current = currentPage
   const last = pages
   const delta = 2
   const left = current - delta
