@@ -9,10 +9,9 @@ import * as urls from './utils/urls'
 const resultsPerPage = 25 // number of results per page
 
 function getPaginationQueryOptions(page: number) {
-  page--
   // @debt architecture "williamd: this could be made configurable on a per-section basis"
   return {
-    skip: resultsPerPage * page,
+    skip: resultsPerPage * (page - 1),
     take: resultsPerPage,
   }
 }
@@ -95,6 +94,7 @@ export class DefaultAdminController {
     const { section, repository, metadata } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
     const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
+
     return await this.render('changelist.njk', {
       section,
       entities,

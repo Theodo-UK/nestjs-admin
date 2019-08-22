@@ -1,4 +1,35 @@
-export function getPaginationIndices(
+import lodash = require('lodash')
+
+export function getPaginationRanges(current: number, resultsPerPage: number, totalResults: number) {
+  const delta = 2
+  const pages = Math.ceil(totalResults / resultsPerPage)
+  current = Math.min(Math.max(1, current), pages)
+
+  const nranges = [
+    [1],
+    lodash.range(Math.max(1, current - delta), Math.min(current + delta + 1, pages + 1)),
+    [pages],
+  ]
+
+  return nranges.reduce(
+    function(ranges, currRange) {
+      if (currRange.length === 0) return [...ranges]
+
+      const prevRange: number[] = ranges[ranges.length - 1]
+      if (prevRange[prevRange.length - 1] >= currRange[0] - 1) {
+        const lastRange = ranges.pop()
+
+        const newRange = [...lastRange, ...currRange]
+        return [...ranges, lodash.uniq(newRange)]
+      } else {
+        return [...ranges, currRange]
+      }
+    },
+    [nranges[0]],
+  )
+}
+
+export function getPaginationIndices1dd(
   current: number,
   resultsPerPage: number,
   totalResults: number,

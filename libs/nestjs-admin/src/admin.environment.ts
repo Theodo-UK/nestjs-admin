@@ -7,7 +7,7 @@ import * as filters from './admin.filters'
 import AdminSite from './adminSite'
 import { getWidgetTemplate, getRelationOptions } from './utils/widget'
 import { isEntityInList } from './utils/entity'
-import { getPaginationIndices, generatePaginationUrl } from './utils/pagination'
+import { getPaginationRanges, generatePaginationUrl } from './utils/pagination'
 import { SetAsyncExtension } from './extensions/setAsync'
 
 @Injectable({
@@ -34,7 +34,7 @@ class DefaultAdminNunjucksEnvironment {
     this.env.addGlobal('getWidgetTemplate', getWidgetTemplate)
     this.env.addGlobal('getRelationOptions', getRelationOptions) // Meh name
     this.env.addGlobal('isEntityInList', isEntityInList)
-    this.env.addGlobal('getPaginationIndices', getPaginationIndices)
+    this.env.addGlobal('getPaginationRanges', getPaginationRanges)
     this.env.addGlobal('generatePaginationUrl', generatePaginationUrl)
   }
 }

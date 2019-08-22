@@ -20,12 +20,13 @@
     {% endfor %}
   </ul>
 
-{% set paginationIndices = getPaginationIndices(page, resultsPerPage, count) %}
-{% for val in paginationIndices %}
-  {% if val == '...' %}
-  <span>...</span>
-  {% else %}
-    <span><a href="{{ generatePaginationUrl(request, val) }}" class="js-pagination-button" data-page="{{ val }}">{{ val }}</a></span>
+{% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
+{% for pageRange in paginationRanges %}
+  {% for pageNumber in pageRange %}
+    <a href="{{ generatePaginationUrl(request, pageNumber) }}">{{ pageNumber }}</a>
+  {% endfor %}
+  {% if not loop.last %}
+    ...
   {% endif %}
 {% endfor %}
 
