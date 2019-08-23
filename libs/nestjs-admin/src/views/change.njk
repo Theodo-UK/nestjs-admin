@@ -3,29 +3,39 @@
 
 {% block body %}
 
-  <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
-  <h1>{{ metadata.name }}</h1>
-  <h2>{{ entity | displayName(metadata) }}</h2>
-  <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
-    {% asyncEach column in metadata.columns %}
-      {% set value=column.getEntityValue(entity) %}
-      <fieldset class="entity-form__field {{ column.propertyName }}">
-        {% if not column.isGenerated %}
-          {% include getWidgetTemplate(column) %}
-        {% else %}
-          {% include "widget-plaintext.njk" %}
-        {% endif %}
-      </fieldset>
-    {% endeach %}
-    {% asyncEach relation in metadata.manyToManyRelations %}
-      <fieldset>
-        {% include 'widget-manytomany.njk' %}
-      </fieldset>
-    {% endeach %}
-    <button type="submit">Submit</button>
-  </form>
-  <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
-    <input type="submit" value="delete">
-  </form>
+<div class="container-fluid admin-content">
+  <div class="row">
+    <div class="col-12">
+      <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
+      <h2>{{ metadata.name }}</h2>
+      <h4>{{ entity | displayName(metadata) }}</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
+        {% asyncEach column in metadata.columns %}
+          {% set value=column.getEntityValue(entity) %}
+          <fieldset class="entity-form__field {{ column.propertyName }}">
+            {% if not column.isGenerated %}
+              {% include getWidgetTemplate(column) %}
+            {% else %}
+              {% include "widget-plaintext.njk" %}
+            {% endif %}
+          </fieldset>
+        {% endeach %}
+        {% asyncEach relation in metadata.manyToManyRelations %}
+          <fieldset>
+            {% include 'widget-manytomany.njk' %}
+          </fieldset>
+        {% endeach %}
+        <button type="submit">Submit</button>
+      </form>
+      <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
+        <input type="submit" value="delete">
+      </form>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
