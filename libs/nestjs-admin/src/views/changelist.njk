@@ -3,29 +3,37 @@
 
 {% block body %}
 
-  <a href="{{ 'index' | adminUrl }}">Back</a>
-  <h1>{{ metadata.name }}</h1>
-  <h2>{{ count }} results</h2>
-  <a href="{{ 'add' | adminUrl(section, metadata, entity) }}"><button>Add</button></a>
-  <ul>
-    {% for entity in entities %}
-      <li>
-        <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
-          {{ entity | displayName(metadata) }}
-        </a>
-        <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
-          <input type="submit" value="delete">
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <a href="{{ 'index' | adminUrl }}">Back</a>
+      <h2>{{ metadata.name }}</h2>
+      <h4>{{ count }} results</h4>
+      <a href="{{ 'add' | adminUrl(section, metadata, entity) }}"><button>Add</button></a>
+    </div>
+    <div class="col-12">
+      <ul>
+        {% for entity in entities %}
+          <li>
+            <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
+              {{ entity | displayName(metadata) }}
+            </a>
+            <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
+              <input type="submit" value="delete">
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
 
-{% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
-{% for pageRange in paginationRanges %}
-  {% for pageNumber in pageRange %}
-    <a href="{{ generatePaginatedUrl(request, pageNumber) }}">{{ pageNumber }}</a>
-  {% endfor %}
-  {{ "..." if not loop.last }}
-{% endfor %}
+      {% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
+      {% for pageRange in paginationRanges %}
+        {% for pageNumber in pageRange %}
+          <a href="{{ generatePaginatedUrl(request, pageNumber) }}">{{ pageNumber }}</a>
+        {% endfor %}
+        {{ "..." if not loop.last }}
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
 {% endblock %}
