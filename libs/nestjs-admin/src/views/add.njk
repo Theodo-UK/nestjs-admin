@@ -1,5 +1,8 @@
-<html>
-<body>
+{% set useJquery = false %}
+{% extends 'base.njk'%}
+
+{% block body %}
+
   <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
   <h1>{{ metadata.name }}</h1>
   <h2>Add new {{ metadata.name }}</h2>
@@ -13,5 +16,5 @@
     {% endeach %}
     <button type="submit">Submit</button>
   </form>
-</body>
-</html>
+
+{% endblock %}

@@ -1,15 +1,35 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% if useJquery %}
-<script
-  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
-  crossorigin="anonymous"></script>
-{% endif %}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- NestJS Admin CSS -->
+  <link rel="stylesheet" href="/static/css/base.css">
+
+  {% if not siteTitle %}
+    {% set siteTitle = adminSite.siteHeader %}
+  {% endif %}
+
+  <title>{{ siteTitle }}</title>
+
+  {% if useJquery %}
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+    crossorigin="anonymous"></script>
+  {% endif %}
 
 </head>
 <body>
+
+<nav class="admin-header navbar navbar-dark bg-dark">
+  <span class="navbar-brand mb-0 h1">{{ adminSite.siteHeader }}</span>
+</nav>
 
 {% block body %}
 {% endblock %}
