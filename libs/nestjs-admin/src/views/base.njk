@@ -11,11 +11,7 @@
   <!-- NestJS Admin CSS -->
   <link rel="stylesheet" href="/static/css/base.css">
 
-  {% if not siteTitle %}
-    {% set siteTitle = adminSite.siteHeader %}
-  {% endif %}
-
-  <title>{{ siteTitle }}</title>
+  <title>{{ siteTitle | default(adminSite.siteHeader) }}</title>
 
   {% if useJquery %}
   <script
@@ -28,7 +24,7 @@
 <body>
 
 <nav class="admin-header navbar navbar-dark bg-dark">
-  <span class="navbar-brand mb-0 h1">{{ adminSite.siteHeader }}</span>
+  <a class="navbar-brand mb-0 h1" href="{{ 'index' | adminUrl() }}">{{ adminSite.siteHeader }}</a>
 </nav>
 
 {% block body %}
