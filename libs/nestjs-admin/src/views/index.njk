@@ -8,24 +8,22 @@
 {% block body %}
 
 {% for section in sections %}
-  <div class="mt-4">
-    <table class="table table-bordered table-striped section-table">
-      <thead class="thead-dark">
-        <tr><th>{{ section.name }}</th></tr>
-      </thead>
-      <tbody>
-      {% for entityMD in section.getEntitiesMetadata() %}
-        <tr>
-          <td>
-            <a href="{{ 'changelist' | adminUrl(section, entityMD) }}">
-              {{ entityMD.name }}
-            </a>
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  <table class="table table-bordered table-striped section-table">
+    <thead class="thead-dark">
+      <tr><th>{{ section.name }}</th></tr>
+    </thead>
+    <tbody>
+    {% for entityMD in section.getEntitiesMetadata() %}
+      <tr>
+        <td>
+          <a href="{{ 'changelist' | adminUrl(section, entityMD) }}">
+            {{ entityMD.name }}
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 {% endfor %}
 
 {% endblock %}
