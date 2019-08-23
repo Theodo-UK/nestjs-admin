@@ -1,12 +1,18 @@
 {% set useJquery = false %}
 {% extends 'base.njk'%}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+
 {% block body %}
 
 {% for section in sections %}
   <div class="mt-4">
-    <h2>{{ section.name }}</h2>
-    <table class="table">
+    <table class="table table-bordered table-striped section-table">
+      <thead class="thead-dark">
+        <tr><th>{{ section.name }}</th></tr>
+      </thead>
       <tbody>
       {% for entityMD in section.getEntitiesMetadata() %}
         <tr>

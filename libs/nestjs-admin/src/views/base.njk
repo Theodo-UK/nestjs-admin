@@ -11,6 +11,9 @@
   <!-- NestJS Admin CSS -->
   <link rel="stylesheet" href="/static/css/base.css">
 
+  {% block stylesheets %}
+  {% endblock %}
+
   <title>{{ siteTitle | default(adminSite.siteHeader) }}</title>
 
   {% if useJquery %}
