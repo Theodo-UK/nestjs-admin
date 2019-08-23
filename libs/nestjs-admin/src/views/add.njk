@@ -3,18 +3,24 @@
 
 {% block body %}
 
-  <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
-  <h1>{{ metadata.name }}</h1>
-  <h2>Add new {{ metadata.name }}</h2>
-  <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
-    {% asyncEach column in metadata.columns %}
-      {% if not column.isGenerated %}
-        <fieldset>
-          {% include getWidgetTemplate(column) %}
-        </fieldset>
-      {% endif %}
-    {% endeach %}
-    <button type="submit">Submit</button>
-  </form>
+  <div class="container-fluid admin-content">
+    <div class="row">
+      <div class="col-12">
+        <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
+        <h1>{{ metadata.name }}</h1>
+        <h2>Add new {{ metadata.name }}</h2>
+        <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
+          {% asyncEach column in metadata.columns %}
+            {% if not column.isGenerated %}
+              <fieldset>
+                {% include getWidgetTemplate(column) %}
+              </fieldset>
+            {% endif %}
+          {% endeach %}
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
