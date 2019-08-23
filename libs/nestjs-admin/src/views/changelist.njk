@@ -1,5 +1,8 @@
-<html>
-<body>
+{% set useJquery = false %}
+{% extends 'base.njk'%}
+
+{% block body %}
+
   <a href="{{ 'index' | adminUrl }}">Back</a>
   <h1>{{ metadata.name }}</h1>
   <h2>{{ count }} results</h2>
@@ -16,5 +19,13 @@
       </li>
     {% endfor %}
   </ul>
-</body>
-</html>
+
+{% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
+{% for pageRange in paginationRanges %}
+  {% for pageNumber in pageRange %}
+    <a href="{{ generatePaginatedUrl(request, pageNumber) }}">{{ pageNumber }}</a>
+  {% endfor %}
+  {{ "..." if not loop.last }}
+{% endfor %}
+
+{% endblock %}
