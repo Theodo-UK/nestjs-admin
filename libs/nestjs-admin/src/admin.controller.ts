@@ -6,7 +6,7 @@ import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
 
-const resultsPerPage = 25 // number of results per page
+const resultsPerPage = 25
 
 function getPaginationQueryOptions(page: number) {
   // @debt architecture "williamd: this could be made configurable on a per-section basis"

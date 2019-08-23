@@ -23,9 +23,6 @@
 {% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
 {% for pageRange in paginationRanges %}
   {% for pageNumber in pageRange %}
-
-
-
     <a href="{{ generatePaginatedUrl(request, pageNumber) }}">{{ pageNumber }}</a>
   {% endfor %}
   {{ "..." if not loop.last }}

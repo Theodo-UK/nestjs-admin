@@ -7,18 +7,18 @@ export function getPaginationRanges(
   totalResults: number,
 ) {
   const paddingAroundCurrentPage = 2
-  const pages = Math.ceil(totalResults / resultsPerPage)
+  const pagesCount = Math.ceil(totalResults / resultsPerPage)
 
   // make sure we don't have an out-of-range page
-  currentPage = Math.min(Math.max(1, currentPage), pages)
+  currentPage = Math.min(Math.max(1, currentPage), pagesCount)
 
   const paginationRanges = [
     [1],
     lodash.range(
       Math.max(1, currentPage - paddingAroundCurrentPage),
-      Math.min(currentPage + paddingAroundCurrentPage + 1, pages + 1),
+      Math.min(currentPage + paddingAroundCurrentPage + 1, pagesCount + 1),
     ),
-    [pages],
+    [pagesCount],
   ]
 
   return paginationRanges.reduce(
