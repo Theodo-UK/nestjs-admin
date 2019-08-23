@@ -7,7 +7,9 @@ export function getPaginationRanges(
   totalResults: number,
 ) {
   const paddingAroundCurrentPage = 2
-  const pageCount = Math.ceil(totalResults / resultsPerPage)
+
+  // 0 results corresponds to 1 page
+  const pageCount = Math.max(Math.ceil(totalResults / resultsPerPage), 1)
 
   // make sure we don't have an out-of-range page
   currentPage = Math.min(Math.max(1, currentPage), pageCount)

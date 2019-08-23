@@ -16,8 +16,13 @@ describe('Pagination', () => {
     expect(result).toStrictEqual([[1], [3, 4, 5, 6, 7], [10]])
   })
 
-  it('should produce 1 ranges when current=1, pages=1', () => {
+  it('should produce 1 range when current=1, pages=1', () => {
     const result = getPaginationRanges(1, 1, 1)
+    expect(result).toStrictEqual([[1]])
+  })
+
+  it('should produce 1 range when current=1, and totalResults=0', () => {
+    const result = getPaginationRanges(1, 1, 0)
     expect(result).toStrictEqual([[1]])
   })
 })
