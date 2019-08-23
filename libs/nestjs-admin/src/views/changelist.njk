@@ -1,5 +1,10 @@
 {% set useJquery = false %}
+
 {% extends 'base.njk'%}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/changelist.css">
+{% endblock %}
 
 {% block body %}
 
@@ -12,18 +17,22 @@
       <a href="{{ 'add' | adminUrl(section, metadata, entity) }}"><button>Add</button></a>
     </div>
     <div class="col-12">
-      <ul>
+      <table class="table table-bordered table-striped entity-table">
         {% for entity in entities %}
-          <li>
-            <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
-              {{ entity | displayName(metadata) }}
-            </a>
-            <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
-              <input type="submit" value="delete">
-            </form>
-          </li>
+          <tr>
+            <td>
+              <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
+                {{ entity | displayName(metadata) }}
+              </a>
+            </td>
+            <td class="action-cell">
+              <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
+                <input type="submit" value="delete">
+              </form>
+            </td>
+          </tr>
         {% endfor %}
-      </ul>
+      </table>
 
       {% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
       {% for pageRange in paginationRanges %}
