@@ -14,6 +14,8 @@ import {
 
 @Injectable()
 class DefaultAdminSite {
+  siteHeader = 'NestJS Administration'
+
   constructor(private readonly connection: Connection) {}
 
   sections: { [sectionName: string]: AdminSection } = {}

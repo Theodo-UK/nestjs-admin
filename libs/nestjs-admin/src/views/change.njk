@@ -1,5 +1,8 @@
-<html>
-<body>
+{% set useJquery = false %}
+{% extends 'base.njk'%}
+
+{% block body %}
+
   <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
   <h1>{{ metadata.name }}</h1>
   <h2>{{ entity | displayName(metadata) }}</h2>
@@ -24,5 +27,5 @@
   <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
     <input type="submit" value="delete">
   </form>
-</body>
-</html>
+
+{% endblock %}

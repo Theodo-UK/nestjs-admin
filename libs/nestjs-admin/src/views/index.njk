@@ -1,21 +1,23 @@
-<html>
-<body>
-  <h1>Administration</h1>
-  <ul>
-    {% for section in sections %}
-      <li>
-        <h2>{{ section.name }}</h2>
-        <ul>
-          {% for entityMD in section.getEntitiesMetadata() %}
-            <li>
-              <a href="{{ 'changelist' | adminUrl(section, entityMD) }}">
-                {{ entityMD.name }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </li>
-    {% endfor %}
-  </ul>
-</body>
-</html>
+{% set useJquery = false %}
+{% extends 'base.njk'%}
+
+{% block body %}
+
+<ul>
+  {% for section in sections %}
+    <li>
+      <h2>{{ section.name }}</h2>
+      <ul>
+        {% for entityMD in section.getEntitiesMetadata() %}
+          <li>
+            <a href="{{ 'changelist' | adminUrl(section, entityMD) }}">
+              {{ entityMD.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
