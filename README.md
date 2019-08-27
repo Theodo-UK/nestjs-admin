@@ -83,6 +83,8 @@ Any contribution is welcome. If you want to implement a feature, you need to kno
 This repo is actually an example of how to use nestjs-admin. You can start it with:
 
 ```bash
+yarn install
+cp .env.example .env
 docker-compose up
 yarn migration:run
 yarn start:debug
