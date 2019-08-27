@@ -16,7 +16,7 @@ import { Agency } from './agency.entity'
 export class UserModule {
   constructor(private readonly adminSite: AdminSite) {
     adminSite.register('User', User)
-    adminSite.register('User', Agency)
     adminSite.register('User', Group)
+    adminSite.register('Agency', Agency)
   }
 }
