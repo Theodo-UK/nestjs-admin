@@ -6,11 +6,9 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import * as sassMiddleware from 'node-sass-middleware'
 import { join } from 'path'
 import { AppModule } from './app.module'
-import { EntityNotFoundFilter } from './exception/entity-not-found.filter'
-import { QueryFailedFilter } from './exception/query-failed.filter'
 import { isDevEnvironment } from './utils/environment'
 
-const publicFolder = join(__dirname, '..', 'public')
+const publicFolder = join('libs', 'nestjs-admin', 'public')
 const assetPrefix = '/static'
 
 async function bootstrap() {
@@ -27,9 +25,6 @@ async function bootstrap() {
     }),
   )
   app.useStaticAssets(publicFolder, { prefix: assetPrefix })
-
-  app.useGlobalFilters(new EntityNotFoundFilter())
-  app.useGlobalFilters(new QueryFailedFilter())
 
   await app.listen(8000)
 }

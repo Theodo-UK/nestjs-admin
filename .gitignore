@@ -11,7 +11,7 @@ node_modules
 
 # compiled files
 /dist
-public/css
+libs/nestjs-admin/public/css
 
 # misc
 .DS_Store
