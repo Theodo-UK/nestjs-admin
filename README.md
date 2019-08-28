@@ -14,7 +14,7 @@
     <em>Proudly sponsored by</em>
   </div>
   <div align="center">
-    <a href="https://www.theodo.co.uk/experts/node-js-fullstack-javascript">
+    <a target="_blank" href="https://www.theodo.co.uk/experts/node-js-fullstack-javascript">
       <img src="./docs/assets/theodo.svg" width="120rem" />
     </a>
   </div>
