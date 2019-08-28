@@ -1,10 +1,28 @@
-<h1 align="center">
-  NestJS Admin
-</h1>
+<h1 align="center">NestJS Admin</h1>
+
 <h3 align="center">
   A generic administration interface for TypeORM entities
 </h3>
-<a href="https://www.npmjs.com/package/nestjs-admin"><img src="https://img.shields.io/npm/v/nestjs-admin.svg" alt="NPM Version" /></a>
+<p align="center">
+  <a href="https://www.npmjs.com/package/nestjs-admin">
+    <img src="https://img.shields.io/npm/v/nestjs-admin.svg" alt="NPM Version" />
+  </a>
+</p>
+
+<div>
+  <div align="center">
+    <em>Proudly sponsored by</em>
+  </div>
+  <div align="center">
+    <a href="https://www.theodo.co.uk/experts/node-js-fullstack-javascript">
+      <img src="./docs/assets/theodo.svg" width="120rem" />
+    </a>
+  </div>
+</div>
+
+<br />
+
+---
 
 ## Description
 
