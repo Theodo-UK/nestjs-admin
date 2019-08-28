@@ -20,6 +20,7 @@ class DefaultAdminSite {
    */
   siteHeader = 'NestJS Administration'
 
+  /* @debt architecture "We should use the EntityManager instead of the Connection and Repositories" */
   constructor(private readonly connection: Connection) {}
 
   sections: { [sectionName: string]: AdminSection } = {}
