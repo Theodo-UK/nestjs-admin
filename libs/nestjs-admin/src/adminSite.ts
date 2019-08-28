@@ -14,6 +14,10 @@ import {
 
 @Injectable()
 class DefaultAdminSite {
+  /**
+   * The title to put at the top of each admin page.
+   * By default, this is 'NestJS Administration'.
+   */
   siteHeader = 'NestJS Administration'
 
   constructor(private readonly connection: Connection) {}
