@@ -14,8 +14,13 @@ import {
 
 @Injectable()
 class DefaultAdminSite {
+  /**
+   * The title to put at the top of each admin page.
+   * By default, this is 'NestJS Administration'.
+   */
   siteHeader = 'NestJS Administration'
 
+  /* @debt architecture "We should use the EntityManager instead of the Connection and Repositories" */
   constructor(private readonly connection: Connection) {}
 
   sections: { [sectionName: string]: AdminSection } = {}
@@ -61,9 +66,7 @@ class DefaultAdminSite {
   }
 
   async cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
-    // @debt architecture "williamd: this should probably be moved to a Form class"
-    // Also, this whole function is a mess of state and special cases. We need to find
-    // a better way to organise this.
+    // @debt architecture "williamd: this should be broken down in `clean` methods of separate widget classes"
     const propertyNames = Object.keys(values)
     const cleanedValues: typeof values = {}
 

@@ -119,6 +119,7 @@ export class DefaultAdminController {
   ) {
     const { section, repository, metadata } = await this.getAdminModels(params)
 
+    // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     const cleanedValues = await this.adminSite.cleanValues(createEntityDto, metadata)
     const createdEntity = await repository.save(cleanedValues)
 
@@ -134,6 +135,7 @@ export class DefaultAdminController {
   @Post(':sectionName/:entityName/:primaryKey/delete')
   async delete(@Param() params: AdminModelsQuery, @Response() response: express.Response) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
+    // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     await repository.remove(entity)
     return response.redirect(urls.changeListUrl(section, metadata))
   }
@@ -142,6 +144,7 @@ export class DefaultAdminController {
   async update(@Body() updateEntityDto: object, @Param() params: AdminModelsQuery) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
 
+    // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     const updatedValues = await this.adminSite.cleanValues(updateEntityDto, metadata)
     await repository.save({ ...entity, ...updatedValues })
 
