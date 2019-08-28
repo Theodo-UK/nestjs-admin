@@ -18,18 +18,23 @@ commands:
       - attach_workspace:
           at: ~/nestjs-admin
       - restore_cache:
-          key: node-modules-cache-{{ checksum "yarn.lock" }}
+          key: v2-node-modules-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Install front dependencies
           command: yarn
+      - run:
+          name: Install lib dependencies
+          command: cd libs/nestjs-admin && yarn
       - save_cache:
-          key: node-modules-cache-{{ checksum "yarn.lock" }}
+          key: v2-node-modules-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
+            - libs/nestjs-admin/node_modules
       - persist_to_workspace:
           root: ~/nestjs-admin
           paths:
             - node_modules
+            - libs/nestjs-admin/node_modules
             - .env
 
   yarn-tests:
