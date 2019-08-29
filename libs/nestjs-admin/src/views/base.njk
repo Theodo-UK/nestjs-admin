@@ -27,6 +27,14 @@
   <a class="navbar-brand mb-0 h1" href="{{ 'index' | adminUrl() }}">{{ adminSite.siteHeader }}</a>
 </nav>
 
+{% if backLink %}
+  <nav class="navbar admin-subheader">
+    <a href="{{ backLink }}">
+      <button type="button" class="btn btn-outline-secondary btn-sm">&lsaquo; back</button>
+    </a>
+  </nav>
+{% endif %}
+
 {% block body %}
 {% endblock %}
 

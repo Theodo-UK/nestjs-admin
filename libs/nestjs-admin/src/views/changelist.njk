@@ -1,4 +1,5 @@
 {% set useJquery = false %}
+{% set backLink = 'index' | adminUrl  %}
 
 {% extends 'base.njk'%}
 
@@ -11,7 +12,6 @@
 <div class="container-fluid admin-content">
   <div class="row">
     <div class="col-12">
-      <a href="{{ 'index' | adminUrl }}">Back</a>
       <h2>{{ metadata.name }}</h2>
       <h4>{{ count }} results</h4>
       <a href="{{ 'add' | adminUrl(section, metadata, entity) }}"><button>Add</button></a>
