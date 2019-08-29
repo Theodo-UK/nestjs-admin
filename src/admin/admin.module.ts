@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { DefaultAdminModule } from '@app/nestjs-admin'
+import { AdminUserEntity, DefaultAdminModule } from '@app/nestjs-admin'
 import { AdminSite } from './admin'
 import { AdminController } from './admin.controller'
 
@@ -9,4 +9,8 @@ import { AdminController } from './admin.controller'
   exports: [AdminSite],
   controllers: [AdminController],
 })
-export class AdminModule {}
+export class AdminModule {
+  constructor(private readonly adminSite: AdminSite) {
+    adminSite.register('AdminUser', AdminUserEntity)
+  }
+}
