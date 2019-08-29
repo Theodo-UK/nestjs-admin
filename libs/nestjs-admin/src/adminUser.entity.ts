@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm'
-import { hashSync as bcryptHashSync } from 'bcryptjs'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('adminUser')
 class AdminUser {
@@ -17,12 +16,6 @@ class AdminUser {
       return `${this.id} - ${this.email}`
     }
     return this.id
-  }
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  hashPassword() {
-    this.password = bcryptHashSync(this.password)
   }
 }
 
