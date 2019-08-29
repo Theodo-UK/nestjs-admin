@@ -12,6 +12,6 @@ import { AdminUserSubscriber } from '@app/nestjs-admin/adminUser.service'
 })
 export class AdminModule {
   constructor(private readonly adminSite: AdminSite) {
-    adminSite.register('AdminUser', AdminUserEntity)
+    adminSite.register('Administration', AdminUserEntity)
   }
 }
