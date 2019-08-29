@@ -5,6 +5,7 @@ import DefaultAdminSite from './adminSite'
 import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
+import { isClass } from './utils/typechecks'
 
 const resultsPerPage = 25
 
@@ -120,8 +121,12 @@ export class DefaultAdminController {
     const { section, repository, metadata } = await this.getAdminModels(params)
 
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
-    const cleanedValues = await this.adminSite.cleanValues(createEntityDto, metadata)
-    const createdEntity = await repository.save(cleanedValues)
+    let entityToBePersisted = await this.adminSite.cleanValues(createEntityDto, metadata)
+    if (isClass(metadata.target)) {
+      entityToBePersisted = Object.assign(new metadata.target(), entityToBePersisted)
+    }
+
+    const createdEntity = await repository.save(entityToBePersisted)
 
     return response.redirect(urls.changeUrl(section, metadata, createdEntity))
   }
@@ -146,7 +151,8 @@ export class DefaultAdminController {
 
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     const updatedValues = await this.adminSite.cleanValues(updateEntityDto, metadata)
-    await repository.save({ ...entity, ...updatedValues })
+    const entityToBePersisted = Object.assign(entity, updatedValues)
+    await repository.save(entityToBePersisted)
 
     const updatedEntity = await this.getEntityWithRelations(repository, params.primaryKey)
     return await this.render('change.njk', { section, metadata, entity: updatedEntity })
