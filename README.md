@@ -48,10 +48,10 @@ Add the AdminModule to your app modules:
 ```ts
 // app.module.ts
 // ...
-import { AdminModule } from '@app/nestjs-admin'
+import { DefaultAdminModule } from 'nestjs-admin'
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), AdminModule /* ... */],
+  imports: [TypeOrmModule.forRoot(), DefaultAdminModule /* ... */],
   controllers: [
     /* ... */
   ],
@@ -70,7 +70,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 
 import { User } from './user.entity'
-import { AdminModule, AdminSite } from '@app/nestjs-admin'
+import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin'
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), AdminModule],
@@ -79,7 +79,7 @@ import { AdminModule, AdminSite } from '@app/nestjs-admin'
   exports: [TypeOrmModule],
 })
 export class UserModule {
-  constructor(private readonly adminSite: AdminSite) {
+  constructor(private readonly adminSite: DefaultAdminSite) {
     // Register the User entity under the "User" section
     adminSite.register('User', User)
   }
