@@ -1,8 +1,8 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common'
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common'
 import LoginException from './login.exception'
 
 @Catch(LoginException)
-export class RedirectFilter implements ExceptionFilter {
+export class AdminFilter implements ExceptionFilter {
   public catch(exception: any, host: ArgumentsHost) {
     const res = host.switchToHttp().getResponse()
     try {

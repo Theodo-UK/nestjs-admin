@@ -18,7 +18,7 @@ import * as urls from './utils/urls'
 import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
 import { Public } from './views/public.decorator'
-import { RedirectFilter } from './redirect.filter'
+import { AdminFilter } from './admin.filter'
 
 const resultsPerPage = 25
 
@@ -45,7 +45,7 @@ type AdminModelsResult = {
 
 @Controller('admin')
 @UseGuards(AdminGuard)
-@UseFilters(new RedirectFilter())
+@UseFilters(new AdminFilter())
 export class DefaultAdminController {
   constructor(
     private defaultAdminSite: DefaultAdminSite,
