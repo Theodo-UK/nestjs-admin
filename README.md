@@ -30,7 +30,7 @@ Ready-to-use user interface for administrative activities. Allows to list, edit,
 
 This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-django-admin/), from the concept to the API.
 
-> This is still very much a work in progress. Most of the functionalities aren't there, and in particular there is no authentication for the admin interface yet.
+> This is still very much a work in progress. Most of the functionalities aren't there, and in particular there is no authentication for the admin interface yet **though we are working on it currently**.
 >
 > Your help is more than welcome!
 
