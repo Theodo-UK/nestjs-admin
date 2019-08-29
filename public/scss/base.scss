@@ -1,5 +1,7 @@
+@import './theme.scss';
+
 body {
-  background: #fdfdfd;
+  background: $background-gray;
 }
 
 .admin-content {
