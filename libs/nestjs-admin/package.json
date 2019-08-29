@@ -11,8 +11,7 @@
     "@nestjs/core": "^6.0.0"
   },
   "dependencies": {
-    "nunjucks": "^3.2.0",
-    "nunjucks-date-filter": "^0.1.1"
+    "nunjucks": "^3.2.0"
   },
   "devDependencies": {
     "@types/nunjucks": "^3.1.1"
