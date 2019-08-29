@@ -13,6 +13,7 @@
     "dist/**/*"
   ],
   "scripts": {
+    "postinstall": "cd libs/nestjs-admin && yarn install",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "postbuild": "cp -r libs/nestjs-admin/src/views dist/libs/nestjs-admin/src/views",
     "format": "prettier --write \"src/**/*.ts\"",
