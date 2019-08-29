@@ -11,9 +11,11 @@
     "@nestjs/core": "^6.0.0"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "nunjucks": "^3.2.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/nunjucks": "^3.1.1"
   }
 }
