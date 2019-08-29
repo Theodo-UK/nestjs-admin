@@ -122,6 +122,9 @@ export class DefaultAdminController {
 
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     let entityToBePersisted = await this.adminSite.cleanValues(createEntityDto, metadata)
+
+    // metadata.target is the entity class
+    // entity class needs to be saved so that listeners and subscribers are triggered
     if (isClass(metadata.target)) {
       entityToBePersisted = Object.assign(new metadata.target(), entityToBePersisted)
     }
@@ -151,6 +154,8 @@ export class DefaultAdminController {
 
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     const updatedValues = await this.adminSite.cleanValues(updateEntityDto, metadata)
+
+    // entity class needs to be saved so that listeners and subscribers are triggered
     const entityToBePersisted = Object.assign(entity, updatedValues)
     await repository.save(entityToBePersisted)
 
