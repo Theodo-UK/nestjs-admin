@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 import { User } from './user.entity'
 
 @Entity('agencies')
-export class Agency {
+export class Agency extends Object {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -16,6 +16,6 @@ export class Agency {
     if (this.name) {
       return `${this.id} - ${this.name}`
     }
-    return this.id
+    return this.id.toString()
   }
 }
