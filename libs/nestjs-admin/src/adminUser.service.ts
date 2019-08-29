@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectConnection } from '@nestjs/typeorm'
 import { hashSync as bcryptHashSync, compareSync } from 'bcryptjs'
 import { Connection, EntitySubscriberInterface, InsertEvent, UpdateEvent } from 'typeorm'
-import AdminUser from './adminUser.entity'
+import { AdminUser } from './adminUser.entity'
 
 @Injectable()
 export class AdminUserSubscriber implements EntitySubscriberInterface<AdminUser> {
