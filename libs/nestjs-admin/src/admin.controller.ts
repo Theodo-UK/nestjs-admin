@@ -1,4 +1,4 @@
-import { Get, Post, Controller, Param, Query, Body, Response } from '@nestjs/common'
+import { Get, Post, Controller, Param, Query, Body, Response, UseGuards } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
 import * as express from 'express'
 import DefaultAdminSite from './adminSite'
@@ -6,6 +6,8 @@ import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
 import { isClass } from './utils/typechecks'
+import { AdminGuard } from './admin.guard'
+import { Public } from './views/public.decorator'
 
 const resultsPerPage = 25
 
@@ -31,6 +33,7 @@ type AdminModelsResult = {
 }
 
 @Controller('admin')
+@UseGuards(AdminGuard)
 export class DefaultAdminController {
   constructor(
     private defaultAdminSite: DefaultAdminSite,
@@ -90,6 +93,7 @@ export class DefaultAdminController {
     return await this.render('index.njk', { sections })
   }
 
+  @Public()
   @Get('login')
   async login() {
     return await this.render('login.njk')
