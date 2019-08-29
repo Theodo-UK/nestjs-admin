@@ -1,12 +1,18 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Observable } from 'rxjs'
+import LoginException from './login.exception'
 
 @Injectable()
 export class AdminGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    return this.reflector.get<boolean>('public', context.getHandler())
+    const isPublic = this.reflector.get<boolean>('public', context.getHandler())
+    if (isPublic) {
+      return true
+    } else {
+      throw new LoginException()
+    }
   }
 }

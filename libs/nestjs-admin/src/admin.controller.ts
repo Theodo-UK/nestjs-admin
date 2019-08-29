@@ -1,4 +1,14 @@
-import { Get, Post, Controller, Param, Query, Body, Response, UseGuards } from '@nestjs/common'
+import {
+  Get,
+  Post,
+  Controller,
+  Param,
+  Query,
+  Body,
+  Response,
+  UseGuards,
+  UseFilters,
+} from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
 import * as express from 'express'
 import DefaultAdminSite from './adminSite'
@@ -8,6 +18,7 @@ import * as urls from './utils/urls'
 import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
 import { Public } from './views/public.decorator'
+import { RedirectFilter } from './redirect.filter'
 
 const resultsPerPage = 25
 
@@ -34,6 +45,7 @@ type AdminModelsResult = {
 
 @Controller('admin')
 @UseGuards(AdminGuard)
+@UseFilters(new RedirectFilter())
 export class DefaultAdminController {
   constructor(
     private defaultAdminSite: DefaultAdminSite,
