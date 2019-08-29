@@ -1,5 +1,7 @@
+@import './theme';
+
 body {
-  background: #fdfdfd;
+  background: $white;
 }
 
 .admin-content {
