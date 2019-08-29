@@ -89,6 +89,11 @@ export class DefaultAdminController {
     return await this.render('index.njk', { sections })
   }
 
+  @Get('login')
+  async login() {
+    return await this.render('login.njk')
+  }
+
   @Get(':sectionName/:entityName')
   async changeList(@Param() params: AdminModelsQuery, @Query('page') pageParam: string = '1') {
     const { section, repository, metadata } = await this.getAdminModels(params)
