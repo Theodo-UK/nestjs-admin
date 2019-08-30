@@ -3,9 +3,10 @@ import { AdminUserEntity, DefaultAdminModule } from '@app/nestjs-admin'
 import { AdminSite } from './admin'
 import { AdminController } from './admin.controller'
 import { AdminUserService } from '@app/nestjs-admin'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
 @Module({
-  imports: [DefaultAdminModule],
+  imports: [TypeOrmModule.forFeature([AdminUserEntity]), DefaultAdminModule],
   providers: [AdminSite, AdminUserService],
   exports: [AdminSite],
   controllers: [AdminController],
