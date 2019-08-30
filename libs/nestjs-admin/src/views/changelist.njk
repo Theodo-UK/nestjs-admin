@@ -34,13 +34,27 @@
         {% endfor %}
       </table>
 
+      <ul class="pagination">
       {% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
       {% for pageRange in paginationRanges %}
         {% for pageNumber in pageRange %}
-          <a href="{{ generatePaginatedUrl(request, pageNumber) }}">{{ pageNumber }}</a>
+          {% set disabled = page == pageNumber %}
+          <li class="page-item">
+            <a
+              class="page-link {{ "disabled" if disabled }}"
+              {% if not disabled %}
+                href="{{ generatePaginatedUrl(request, pageNumber) }}"
+              {% endif %}
+            >
+              {{ pageNumber }}
+            </a>
+          </li>
         {% endfor %}
-        {{ "..." if not loop.last }}
+        {% if not loop.last %}
+          <li class="page-item"><a class="page-link disabled">…</a></li>
+        {% endif %}
       {% endfor %}
+      </ul>
     </div>
   </div>
 </div>
