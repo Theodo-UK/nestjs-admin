@@ -1,5 +1,9 @@
 {% extends 'widgets/base-widget.njk' %}
 
+{% block label %}
+<label class="col-12 col-md-3 col-xl-2 col-form-label" for="{{ relation.propertyName }}">{{ relation.propertyName }}</label>
+{% endblock %}
+
 {% block input %}
   {% macro maybeSelected(relation, value) %}
     {% if isEntityInList(value, relation.getEntityValue(entity), relation.inverseEntityMetadata) %}selected{% endif %}
