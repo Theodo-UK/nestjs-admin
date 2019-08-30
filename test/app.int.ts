@@ -6,7 +6,6 @@ import { AppModule } from '../src/app.module'
 import { Repository } from 'typeorm'
 import { User } from '../src/user/user.entity'
 import { createTestUser } from './utils'
-import { async } from 'rxjs/internal/scheduler/async'
 
 describe('AppController', () => {
   let app: INestApplication
@@ -45,11 +44,16 @@ describe('AppController', () => {
     expect(await userRepository.findOne(user.id)).toBeUndefined()
   })
 
-  it('redirects to login when unauthenticated', async () => {
-    // delete the user via the api call
+  it('redirects to login when unauthenticated using GET', async () => {
     const server = app.getHttpServer()
     const req = await request(server).get(`/admin/user/user`)
     expect(req.status).toBe(302)
     expect(req.header.location).toBe(`/admin/login`)
+  })
+
+  it('returns 403 when unauthenticated using POST', async () => {
+    const server = app.getHttpServer()
+    const req = await request(server).post(`/admin/user/user/add`)
+    expect(req.status).toBe(401)
   })
 })
