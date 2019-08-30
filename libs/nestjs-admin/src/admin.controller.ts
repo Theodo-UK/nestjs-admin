@@ -17,7 +17,7 @@ import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
 import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
-import { Public } from './views/public.decorator'
+import { Public } from './decorators/public.decorator'
 import { AdminFilter } from './admin.filter'
 
 const resultsPerPage = 25
