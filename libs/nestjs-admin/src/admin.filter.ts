@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common'
-import UnauthenticatedException from './unauthenticated.exception'
+import UnauthenticatedException from './exceptions/unauthenticated.exception'
 import { adminUrl } from './admin.filters'
 
 @Catch(UnauthenticatedException)
