@@ -1,7 +1,8 @@
-<label for={{ column.propertyName }}>{{ column.propertyName }}</label>
-<div>
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
   <textarea
     id="{{ column.propertyName }}"
     name="{{ column.propertyName }}"
   >{{ column.getEntityValue(entity) }}</textarea>
-</div>
+{% endblock %}

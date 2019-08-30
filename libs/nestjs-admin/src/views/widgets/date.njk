@@ -1,8 +1,9 @@
-{% set isDisabled=(column.isCreateDate or column.isUpdateDate) %}
+{% extends 'widgets/base-widget.njk' %}
 
-{% if not isDisabled %}
-  <label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
-  <div>
+{% block input %}
+  {% set isDisabled=(column.isCreateDate or column.isUpdateDate) %}
+
+  {% if not isDisabled %}
     <input
       type="date"
       id="{{ column.propertyName }}"
@@ -10,7 +11,7 @@
       {% if value %}value="{{ value | date }}"{% endif %}
       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
     />
-  </div>
-{% else %}
-  {% include 'widgets/plaintext.njk' %}
-{% endif %}
+  {% else %}
+    {% include 'widgets/plaintext.njk' %}
+  {% endif %}
+{% endblock %}

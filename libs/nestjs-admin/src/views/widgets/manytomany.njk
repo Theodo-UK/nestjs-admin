@@ -1,11 +1,12 @@
-{% macro maybeSelected(relation, value) %}
-  {% if isEntityInList(value, relation.getEntityValue(entity), relation.inverseEntityMetadata) %}selected{% endif %}
-{% endmacro %}
+{% extends 'widgets/base-widget.njk' %}
 
-{% setAsync 'options', getRelationOptions, [adminSite, relation] %}
+{% block input %}
+  {% macro maybeSelected(relation, value) %}
+    {% if isEntityInList(value, relation.getEntityValue(entity), relation.inverseEntityMetadata) %}selected{% endif %}
+  {% endmacro %}
 
-<label for="{{ relation.propertyName }}">{{ relation.propertyName }}</label>
-<div>
+  {% setAsync 'options', getRelationOptions, [adminSite, relation] %}
+
   <select id="{{ relation.propertyName }}" name="{{ relation.propertyName }}" multiple>
     {% for option in options %}
       <option value="{{ option.id }}" {{ maybeSelected(relation, option) }}>
@@ -13,4 +14,4 @@
       </option>
     {% endfor %}
   </select>
-</div>
+{% endblock %}

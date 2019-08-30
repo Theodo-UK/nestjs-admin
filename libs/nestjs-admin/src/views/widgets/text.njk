@@ -1,8 +1,9 @@
-<label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
-<div>
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
   <input
     id="{{ column.propertyName }}"
     name="{{ column.propertyName }}"
     value="{{ column.getEntityValue(entity) }}"
   />
-</div>
+{% endblock %}

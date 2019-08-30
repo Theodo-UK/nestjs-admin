@@ -1,4 +1,5 @@
-<label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
-<div>
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
   {{ value }}
-</div>
+{% endblock %}
