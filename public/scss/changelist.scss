@@ -1,5 +1,23 @@
-.entity-table {
-  .action-cell {
-    width: 1rem;
+@import './theme';
+
+.admin-changelist {
+  .entity-table {
+    .action-cell {
+      width: 1rem;
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    h3 {
+      display: inline;
+    }
+  }
+
+  &__count {
+    color: $gray-600;
   }
 }

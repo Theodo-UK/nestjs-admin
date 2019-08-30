@@ -1,7 +1,13 @@
+@import './theme';
+
 body {
-  background: #fdfdfd;
+  background: $white;
 }
 
 .admin-content {
-  padding: 2rem;
+  padding: 1rem 2rem;
+}
+
+.admin-subheader {
+  background-color: theme-color('light');
 }

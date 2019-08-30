@@ -1,4 +1,6 @@
 {% set useJquery = false %}
+{% set backLink = 'index' | adminUrl  %}
+{% set pageId = 'admin-changelist' %}
 
 {% extends 'base.njk'%}
 
@@ -8,13 +10,16 @@
 
 {% block body %}
 
-<div class="container-fluid admin-content">
+<div class="admin-content">
   <div class="row">
     <div class="col-12">
-      <a href="{{ 'index' | adminUrl }}">Back</a>
-      <h2>{{ metadata.name }}</h2>
-      <h4>{{ count }} results</h4>
-      <a href="{{ 'add' | adminUrl(section, metadata, entity) }}"><button>Add</button></a>
+      <div class="admin-changelist__header">
+        <div><h3>{{ metadata.name }}</h3> <span class="admin-changelist__count">({{ count }} results)</span></div>
+        <a href="{{ 'add' | adminUrl(section, metadata, entity) }}">
+          <button class="btn btn-primary">Add {{ metadata.name | lower }}</button>
+        </a>
+      </div>
+
     </div>
     <div class="col-12">
       <table class="table table-bordered table-striped entity-table">
