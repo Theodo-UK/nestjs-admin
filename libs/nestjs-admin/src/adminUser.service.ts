@@ -5,7 +5,7 @@ import { Connection, EntitySubscriberInterface, InsertEvent, UpdateEvent } from 
 import AdminUser from './adminUser.entity'
 
 @Injectable()
-export class AdminUserSubscriber implements EntitySubscriberInterface<AdminUser> {
+export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
   constructor(@InjectConnection() readonly connection: Connection) {
     connection.subscribers.push(this)
   }
@@ -14,18 +14,18 @@ export class AdminUserSubscriber implements EntitySubscriberInterface<AdminUser>
     return AdminUser
   }
 
-  hashString(password: string) {
+  hashPassword(password: string) {
     return bcryptHashSync(password, 12)
   }
 
   beforeInsert(event: InsertEvent<AdminUser>) {
-    event.entity.password = this.hashString(event.entity.password)
+    event.entity.password = this.hashPassword(event.entity.password)
   }
   beforeUpdate(event: UpdateEvent<AdminUser>) {
     const isPasswordUpdated = !compareSync(event.entity.password, event.databaseEntity.password)
 
     if (isPasswordUpdated) {
-      event.entity.password = this.hashString(event.entity.password)
+      event.entity.password = this.hashPassword(event.entity.password)
     } else {
       event.entity.password = event.databaseEntity.password
     }
