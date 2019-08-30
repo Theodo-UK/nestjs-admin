@@ -7,7 +7,7 @@ import UnauthenticatedException from './unauthenticated.exception'
 export class AdminGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(context: ExecutionContext) {
     const isPublic = this.reflector.get<boolean>('public', context.getHandler())
     const request = context.switchToHttp().getRequest()
 
