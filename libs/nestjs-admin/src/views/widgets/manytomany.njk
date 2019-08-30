@@ -1,0 +1,17 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  {% macro maybeSelected(relation, value) %}
+    {% if isEntityInList(value, relation.getEntityValue(entity), relation.inverseEntityMetadata) %}selected{% endif %}
+  {% endmacro %}
+
+  {% setAsync 'options', getRelationOptions, [adminSite, relation] %}
+
+  <select id="{{ relation.propertyName }}" name="{{ relation.propertyName }}" multiple>
+    {% for option in options %}
+      <option value="{{ option.id }}" {{ maybeSelected(relation, option) }}>
+        {{ option | displayName(relation.inverseEntityMetadata) }}
+      </option>
+    {% endfor %}
+  </select>
+{% endblock %}

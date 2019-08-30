@@ -1,10 +1,12 @@
-<label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
-<div>
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
   <input
+    class="form-control"
     type="time"
     id="{{ column.propertyName }}"
     name="{{ column.propertyName }}"
     {% if value %}value="{{ value }}"{% endif %}
     pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
   />
-</div>
+{% endblock %}
