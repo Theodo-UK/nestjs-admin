@@ -27,7 +27,8 @@ describe('AppController', () => {
     expect(app).toBeDefined()
   })
 
-  it('can delete a user', async () => {
+  // @debt TODO "samb: this should be re-enabled with authentication once we have it"
+  it.skip('can delete a user', async () => {
     // add the user to the database
     const userData = createTestUser({ firstName: 'Max' })
     const userRepository: Repository<User> = app.get(getRepositoryToken(User))
@@ -41,5 +42,18 @@ describe('AppController', () => {
     expect(req.header.location).toBe(`/admin/user/user`)
 
     expect(await userRepository.findOne(user.id)).toBeUndefined()
+  })
+
+  it('redirects to login when unauthenticated using GET', async () => {
+    const server = app.getHttpServer()
+    const req = await request(server).get(`/admin/user/user`)
+    expect(req.status).toBe(302)
+    expect(req.header.location).toBe(`/admin/login`)
+  })
+
+  it('returns 401 when unauthenticated using POST', async () => {
+    const server = app.getHttpServer()
+    const req = await request(server).post(`/admin/user/user/add`)
+    expect(req.status).toBe(401)
   })
 })
