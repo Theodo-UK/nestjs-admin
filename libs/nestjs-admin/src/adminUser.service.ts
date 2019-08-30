@@ -29,11 +29,18 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
     return bcryptHashSync(password, 12)
   }
 
+  /**
+   * Returns true if `password` is the `adminUser`'s password, false otherwise
+   */
+  comparePassword(adminUser: AdminUser, password: string) {
+    return compareSync(password, adminUser.password)
+  }
+
   beforeInsert(event: InsertEvent<AdminUser>) {
     event.entity.password = this.hashPassword(event.entity.password)
   }
   beforeUpdate(event: UpdateEvent<AdminUser>) {
-    const isPasswordUpdated = !compareSync(event.entity.password, event.databaseEntity.password)
+    const isPasswordUpdated = !this.comparePassword(event.entity, event.databaseEntity.password)
 
     if (isPasswordUpdated) {
       event.entity.password = this.hashPassword(event.entity.password)
@@ -47,7 +54,7 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
     admin.email = email
     admin.password = password
 
-    this.adminUserRepository.save(admin)
+    await this.adminUserRepository.save(admin)
   }
 
   async promptAndCreate() {
