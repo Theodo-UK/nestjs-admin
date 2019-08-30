@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common'
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Observable } from 'rxjs'
 import UnauthenticatedException from './unauthenticated.exception'
@@ -20,11 +14,10 @@ export class AdminGuard implements CanActivate {
     if (isPublic) {
       return true
     } else {
-      switch (request.method) {
-        case 'GET':
-          throw new UnauthenticatedException()
-        case 'POST':
-          throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED)
+      if (request.method === 'GET') {
+        throw new UnauthenticatedException()
+      } else {
+        throw new UnauthorizedException()
       }
     }
   }
