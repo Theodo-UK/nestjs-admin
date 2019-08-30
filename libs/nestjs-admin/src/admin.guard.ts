@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Observable } from 'rxjs'
-import LoginException from './login.exception'
+import UnauthenticatedException from './unauthenticated.exception'
 
 @Injectable()
 export class AdminGuard implements CanActivate {
@@ -12,7 +12,7 @@ export class AdminGuard implements CanActivate {
     if (isPublic) {
       return true
     } else {
-      throw new LoginException()
+      throw new UnauthenticatedException()
     }
   }
 }

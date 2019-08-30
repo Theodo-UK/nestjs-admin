@@ -45,7 +45,7 @@ type AdminModelsResult = {
 
 @Controller('admin')
 @UseGuards(AdminGuard)
-@UseFilters(new AdminFilter())
+@UseFilters(AdminFilter)
 export class DefaultAdminController {
   constructor(
     private defaultAdminSite: DefaultAdminSite,
