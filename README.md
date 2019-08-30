@@ -36,57 +36,16 @@ This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-
 
 ## Installation
 
-Add nestjs-admin to your dependencies:
+1. Add nestjs-admin to your dependencies:
 
 ```bash
 yarn add nestjs-admin # With yarn
 npm install nestjs-admin # With NPM
 ```
 
-Add the AdminModule to your app modules:
+2. Then [instantiate your own admin module](./docs/admin-module.md).
 
-```ts
-// app.module.ts
-// ...
-import { AdminModule } from '@app/nestjs-admin'
-
-@Module({
-  imports: [TypeOrmModule.forRoot(), AdminModule /* ... */],
-  controllers: [
-    /* ... */
-  ],
-  providers: [
-    /* ... */
-  ],
-})
-export class AppModule {}
-```
-
-Register the entities you want to administrate in the admin site:
-
-```ts
-// user.module.ts
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { Module } from '@nestjs/common'
-
-import { User } from './user.entity'
-import { AdminModule, AdminSite } from '@app/nestjs-admin'
-
-@Module({
-  imports: [TypeOrmModule.forFeature([User]), AdminModule],
-  controllers: [],
-  providers: [],
-  exports: [TypeOrmModule],
-})
-export class UserModule {
-  constructor(private readonly adminSite: AdminSite) {
-    // Register the User entity under the "User" section
-    adminSite.register('User', User)
-  }
-}
-```
-
-You can now access the admin interface at `/admin`!
+3. You can now access the admin interface at `/admin`!
 
 ## Contributing
 
