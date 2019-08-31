@@ -4,34 +4,29 @@ All the pages of the admin interface are expecting an authenticated user. NestJS
 
 > If you want more details, there is an [ADR about authentication](./adr/01-admin-authentication.md)
 
-## Using the provided AdminUserModule
+## Using the provided DefaultAdminAuthModule
 
-`nestjs-admin` exposes an `AdminUserModule`. By importing this module, you import these functionalities:
+`nestjs-admin` exposes a `DefaultAdminAuthModule`. By importing this module, you import these functionalities:
 
 - An AdminUser entity (with an `email` and `password`)
 - A login page checking AdminUser credentials and logging you in, allowing access to the admin interface
 
-### Import the AdminUserModule
+### Import the DefaultAdminAuthModule
 
-We assume here that you've [instantiated your own AdminModule](./admin-module.md). **This is necessary to use `nestjs-admin`.**
-
-You just need to import the `AdminUserModule` in your own `AdminModule` now:
+You just need to import the `DefaultAdminAuthModule` in your application:
 
 ```ts
-// src/admin/admin
+// src/app.module.ts
 import { Module } from '@nestjs/common'
-import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin'
-import { AdminUserModule, AdminUser } from 'nestjs-admin/adminUser'
+import { DefaultAdminModule, DefaultAdminAuthModule } from 'nestjs-admin'
 
 @Module({
-  imports: [DefaultAdminModule, AdminUserModule],
-  exports: [DefaultAdminModule],
+  imports: [/* ... */, DefaultAdminModule, DefaultAdminAuthModule],
+  /* ... */,
 })
-export class AdminModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
-    // This is optional, to allow you manage AdminUsers from the admin
-    adminSite.register('Administration', AdminUser)
-  }
+export class AppModule {
+  // This is optional, to allow you manage AdminUsers from the admin
+  adminSite.register('Administration', AdminUser)
 }
 ```
 
@@ -41,7 +36,9 @@ Navigating to `/admin`, you should be redirected to `/admin/login` and see a log
 
 We'll want to be able to create an AdminUser manually through the command-line. This allows securely creating admins on your production servers. Only you have access to your application context, so it needs just a bit of setup on your part:
 
-First, create a `scripts/createAdmin.ts` (you can put this `createAdmin.ts` wherever you want) with a content similar to this:
+1. Create a `scripts/createAdmin.ts` with a content similar to this:
+
+> you can put this `createAdmin.ts` wherever you want, not necessarily in a `script/` folder
 
 ```ts
 import { NestFactory } from '@nestjs/core'
@@ -68,7 +65,7 @@ async function bootstrap() {
 bootstrap()
 ```
 
-Now, you can create an entry in your `package.json` to call this script easily:
+2. (optional, recommended) You can create an entry in your `package.json` to call this script easily:
 
 ```js
 "scripts": {

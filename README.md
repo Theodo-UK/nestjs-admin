@@ -43,9 +43,53 @@ yarn add nestjs-admin # With yarn
 npm install nestjs-admin # With NPM
 ```
 
-2. Then [instantiate your own admin module](./docs/admin-module.md).
+2. Then add the provided `DefaultAdminModule` and `DefaultAdminAuthModule` to your app modules:
 
-3. You can now access the admin interface at `/admin`!
+Note that the DefaultAdminAuthModule will add an AdminUser entity.
+If you want to be able to use your own User entity to authenticate to the admin interface,
+you'll have to write your own module instead.
+
+```ts
+// src/app.module.ts
+import { Module } from '@nestjs/common'
+import { DefaultAdminModule, DefaultAdminAuthModule } from 'nestjs-admin'
+
+@Module({
+  imports: [/* ... */, DefaultAdminModule, DefaultAdminAuthModule],
+  /* ... */,
+})
+export class AppModule {
+  // This is optional, to allow you manage AdminUsers from the admin
+  adminSite.register('Administration', AdminUser)
+}
+```
+
+> Need customization? You can use the AdminModuleFactory to create [your own admin module instead](./docs/admin-module.md).
+
+3. [Create a first AdminUser to log in with](./docs/authentication.md#create-an-adminuser-manually)
+
+4. Register entities in the admin site
+
+```ts
+// user.module.ts
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Module } from '@nestjs/common'
+import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin'
+import { User } from './user.entity'
+
+@Module({
+  imports: [TypeOrmModule.forFeature([User]), AdminModule],
+  exports: [TypeOrmModule],
+})
+export class UserModule {
+  constructor(private readonly adminSite: DefaultAdminSite) {
+    // Register the User entity under the "User" section
+    adminSite.register('User', User)
+  }
+}
+```
+
+5. You can now access the admin interface at `/admin`!
 
 ## Contributing
 
