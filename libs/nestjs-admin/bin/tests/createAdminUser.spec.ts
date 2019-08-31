@@ -3,16 +3,17 @@ import { INestApplication } from '@nestjs/common'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import * as inquirer from 'inquirer'
-import { AppModule } from '@/app.module'
-import { AdminUserService } from '../adminUser.service'
-import AdminUser from '../adminUser.entity'
+import AdminUser from '../../src/adminUser.entity'
+import { AdminUserService } from '../../src/adminUser.service'
+import { CliAdminModule } from '../cliAdmin.module'
+import { createAdminUser } from '../createAdminUser'
 
-describe('AdminUserService', () => {
+describe('createAdminUser', () => {
   let app: INestApplication
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [CliAdminModule],
     }).compile()
 
     app = module.createNestApplication()
@@ -33,7 +34,7 @@ describe('AdminUserService', () => {
 
     const adminUserRepository: Repository<AdminUser> = app.get(getRepositoryToken(AdminUser))
     const adminUserService = app.get(AdminUserService)
-    await adminUserService.promptAndCreate()
+    await createAdminUser(app)
 
     expect(inquirer.prompt).toBeCalledWith(
       expect.arrayContaining([
@@ -47,7 +48,7 @@ describe('AdminUserService', () => {
     expect(adminUserService.comparePassword(adminUser, answers.password)).toBe(true)
 
     // Restore initial state
-    adminUserRepository.remove(adminUser)
+    await adminUserRepository.remove(adminUser)
     // @ts-ignore
     inquirer.prompt = promptBackup
   })

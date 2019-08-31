@@ -12,6 +12,7 @@
   "files": [
     "dist/**/*"
   ],
+  "bin": "./libs/nestjs-admin/bin/cli",
   "scripts": {
     "postinstall": "cd libs/nestjs-admin && yarn install",
     "postbuild": "cp -r libs/nestjs-admin/src/views dist/libs/nestjs-admin/src/views",
@@ -29,7 +30,7 @@
     "start:debug": "nodemon --config nodemon-debug.json",
     "prestart:prod": "rimraf dist && npm run build",
     "start:prod": "node dist/main.js",
-    "admin:createAdmin": "ts-node -r dotenv-safe/config -r tsconfig-paths/register libs/nestjs-admin/cli/createAdmin",
+    "nestjs-admin": "node -r dotenv-safe/config -r tsconfig-paths/register -r ts-node/register libs/nestjs-admin/bin/cli",
     "test:unit": "ts-node -r dotenv-safe/config node_modules/.bin/jest * dotenv_config_path=.env.test --maxWorkers=4",
     "test:lint": "tslint -p tsconfig.json -c tslint.json",
     "test:type": "tsc --noEmit",

@@ -70,22 +70,9 @@ export class AppModule {
 
 3. Create a first AdminUser to log in with
 
-```js
-// package.json
-
-"scripts": {
-  // ...
-  // with ts-node
-  "admin:createAdmin": "ts-node ./node_modules/nestjs-admin/bin/createAdmin",
-  // maybe you want to use node or tsconfig-path
-  "admin:createAdmin": "node -r tsconfig-path/register -r ts-node/register ./node_modules/nestjs-admin/bin/createAdmin,
-  // ...
-},
-```
-
 ```bash
-yarn admin:createAdmin # with yarn
-npm run admin:createAdmin # with npm
+yarn nestjs-admin createAdminUser # with yarn
+npm run nestjs-admin createAdminUser # with npm
 ```
 
 > If you did `adminSite.register(AdminUser)`, you can create more AdminUsers directly from the administration interface!
