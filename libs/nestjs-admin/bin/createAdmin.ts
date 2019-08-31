@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from '@/app.module'
-import { AdminUserService } from '@app/nestjs-admin'
+import { CliAdminModule } from './cliAdmin.module'
+import { AdminUserService } from '../src/adminUser.service'
 
 async function bootstrap() {
-  const app = await NestFactory.createApplicationContext(AppModule)
+  const app = await NestFactory.createApplicationContext(CliAdminModule)
   const adminUserService = app.get(AdminUserService)
   await adminUserService.promptAndCreate()
 }

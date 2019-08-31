@@ -29,7 +29,7 @@
     "start:debug": "nodemon --config nodemon-debug.json",
     "prestart:prod": "rimraf dist && npm run build",
     "start:prod": "node dist/main.js",
-    "admin:createAdmin": "ts-node -r dotenv-safe/config -r tsconfig-paths/register scripts/createAdmin",
+    "admin:createAdmin": "ts-node -r dotenv-safe/config -r tsconfig-paths/register libs/nestjs-admin/cli/createAdmin",
     "test:unit": "ts-node -r dotenv-safe/config node_modules/.bin/jest * dotenv_config_path=.env.test --maxWorkers=4",
     "test:lint": "tslint -p tsconfig.json -c tslint.json",
     "test:type": "tsc --noEmit",

@@ -36,6 +36,8 @@ This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-
 
 ## Installation
 
+Let's get you started with a minimal setup.
+
 1. Add nestjs-admin to your dependencies:
 
 ```bash
@@ -45,7 +47,7 @@ npm install nestjs-admin # With NPM
 
 2. Then add the provided `DefaultAdminModule` and `DefaultAdminAuthModule` to your app modules:
 
-Note that the DefaultAdminAuthModule will add an AdminUser entity.
+Note that the DefaultAdminAuthModule will introduce an AdminUser entity.
 If you want to be able to use your own User entity to authenticate to the admin interface,
 you'll have to write your own module instead.
 
@@ -66,7 +68,29 @@ export class AppModule {
 
 > Need customization? You can use the AdminModuleFactory to create [your own admin module instead](./docs/admin-module.md).
 
-3. [Create a first AdminUser to log in with](./docs/authentication.md#create-an-adminuser-manually)
+3. Create a first AdminUser to log in with
+
+```js
+// package.json
+
+"scripts": {
+  // ...
+  // with ts-node
+  "admin:createAdmin": "ts-node ./node_modules/nestjs-admin/bin/createAdmin",
+  // maybe you want to use node or tsconfig-path
+  "admin:createAdmin": "node -r tsconfig-path/register -r ts-node/register ./node_modules/nestjs-admin/bin/createAdmin,
+  // ...
+},
+```
+
+```bash
+yarn admin:createAdmin # with yarn
+npm run admin:createAdmin # with npm
+```
+
+> If you did `adminSite.register(AdminUser)`, you can create more AdminUsers directly from the administration interface!
+
+> If you don't use the DefaultAdminAuthModule, it is up to you to define how to create admins (or maybe "creating admins" is not even a concept that applies in your application).
 
 4. Register entities in the admin site
 
@@ -90,6 +114,8 @@ export class UserModule {
 ```
 
 5. You can now access the admin interface at `/admin`!
+
+Check the [rest of the docs](./docs) for more details.
 
 ## Contributing
 
