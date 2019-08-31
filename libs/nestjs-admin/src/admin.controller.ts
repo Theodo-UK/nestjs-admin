@@ -1,10 +1,11 @@
-import { Get, Post, Controller, Param, Query, Body, Response } from '@nestjs/common'
+import { Get, Post, Controller, Param, Query, Body, Response, Inject } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
 import * as express from 'express'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
+import { injectionTokens } from './tokens'
 
 const resultsPerPage = 25
 
@@ -32,17 +33,11 @@ type AdminModelsResult = {
 @Controller('admin')
 export class DefaultAdminController {
   constructor(
-    private defaultAdminSite: DefaultAdminSite,
-    private defaultEnv: DefaultAdminNunjucksEnvironment,
+    @Inject(injectionTokens.ADMIN_SITE)
+    private adminSite: DefaultAdminSite,
+    @Inject(injectionTokens.ADMIN_ENVIRONMENT)
+    private env: DefaultAdminNunjucksEnvironment,
   ) {}
-
-  get adminSite() {
-    return this.defaultAdminSite
-  }
-
-  get env() {
-    return this.defaultEnv
-  }
 
   async getEntityWithRelations(repository: Repository<unknown>, primaryKey: any) {
     const metadata = repository.metadata

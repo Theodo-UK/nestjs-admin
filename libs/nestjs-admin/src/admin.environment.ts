@@ -4,11 +4,12 @@ import { join } from 'path'
 import { Injectable, Inject, Scope } from '@nestjs/common'
 import { REQUEST } from '@nestjs/core'
 import * as filters from './admin.filters'
-import AdminSite from './adminSite'
+import DefaultAdminSite from './adminSite'
 import { getWidgetTemplate, getRelationOptions } from './utils/widget'
 import { isEntityInList } from './utils/entity'
 import { getPaginationRanges, generatePaginatedUrl } from './utils/pagination'
 import { SetAsyncExtension } from './extensions/setAsync'
+import { injectionTokens } from './tokens'
 
 @Injectable({
   scope: Scope.REQUEST,
@@ -16,7 +17,11 @@ import { SetAsyncExtension } from './extensions/setAsync'
 class DefaultAdminNunjucksEnvironment {
   env: nunjucks.Environment
 
-  constructor(adminSite: AdminSite, @Inject(REQUEST) public request: any) {
+  constructor(
+    @Inject(injectionTokens.ADMIN_SITE)
+    private adminSite: DefaultAdminSite,
+    @Inject(REQUEST) public request: any,
+  ) {
     // Configure nunjucks for the admin
     this.env = nunjucks.configure(join(__dirname, 'views'), {
       noCache: true,

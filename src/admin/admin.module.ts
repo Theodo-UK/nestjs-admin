@@ -1,12 +1,8 @@
-import { Module } from '@nestjs/common'
-import { DefaultAdminModule } from '@app/nestjs-admin'
+import { AdminModuleFactory } from '@app/nestjs-admin'
 import { AdminSite } from './admin'
 import { AdminController } from './admin.controller'
 
-@Module({
-  imports: [DefaultAdminModule],
-  providers: [AdminSite],
-  exports: [AdminSite],
-  controllers: [AdminController],
+export const AdminModule = AdminModuleFactory.createAdminModule({
+  adminSite: AdminSite,
+  adminController: AdminController,
 })
-export class AdminModule {}
