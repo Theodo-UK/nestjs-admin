@@ -1,61 +1,74 @@
 # Instantiating the AdminModule
 
-The AdminModule is an instance of an administration interface. `nestjs-admin` exposes a `DefaultAdminModule` providing generic functionality, but you will need to instantiate your own, at the very least to be able to add [authentication](./authentication.md) to your administration interface. You will also be able to extend the AdminController (to add your own custom routes) or the AdminSite (to customize behaviors of the administration interface).
+The AdminModule is an instance of an administration interface. `nestjs-admin` exposes a `DefaultAdminModule`, but you can create your own if you need customizability thanks to the `AdminModuleFactory`.
 
-## Instantiate your own AdminModule
+## Create your own AdminModule
 
-Here's the minimum setup to make your own AdminModule:
+Here's how to make your own AdminModule:
 
 ```ts
 // src/admin/admin.module.ts
 import { Module } from '@nestjs/common'
-import { DefaultAdminModule } from 'nestjs-admin'
+import { AdminModuleFactory } from 'nestjs-admin'
+
+export const AdminModule = AdminModuleFactory({
+  adminSite: ..., // your own service for custom behavior
+  adminController: ..., // your own controller to plug in the routes or add your own
+  adminEnvironment: ..., // your own Nunjucks environment, if you need to configure the templating layer
+})
+```
+
+Need to inject your own providers into your custom site, controller or environment? You can:
+
+```ts
+// src/admin/admin.module.ts
+import { Module } from '@nestjs/common'
+import { AdminModuleFactory } from 'nestjs-admin'
+
+const AdminModuleInstance = AdminModuleFactory({
+  /* ... */
+})
 
 @Module({
-  imports: [DefaultAdminModule],
-  exports: [DefaultAdminModule],
+  imports: [AdminModuleInstance /* you can import whatever here */],
+  providers: [
+    /* your own providers */
+  ],
+  controller: [
+    /* your own controllers */
+  ],
+  exports: [AdminModuleInstance /* you can export whatever here */],
 })
 export class AdminModule {}
 ```
 
-```ts
-// src/app.module.ts
-import { Module } from '@nestjs/common'
-import { AdminModule } from './admin/admin.module'
+## Custom AdminSite
 
-@Module({
-  imports: [/* ... */, AdminModule],
-  /* ... */,
-})
-export class AppModule {}
-```
-
-With this in place, you can start registering entities to manage them in the administration interface.
-
-## Set up authentication
-
-The admin interface is not accessible until you've configure how to authenticate to it, [see here](./authentication)
-
-## Register entities in the admin site
+The admin site is responsible for most of the work, like fetching/creating/deleting entities. To add custom behavior, you'll want to declare your own:
 
 ```ts
-// user.module.ts
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { Module } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { DefaultAdminSite } from 'nestjs-admin'
-import { AdminModule } from 'src/admin' // your admin module
-import { User } from './user.entity'
 
-@Module({
-  imports: [TypeOrmModule.forFeature([User]), AdminModule],
-  exports: [TypeOrmModule],
-})
-export class UserModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
-    // Register the User entity under the "User" section
-    adminSite.register('User', User)
-  }
+@Injectable()
+export class AdminSite extends DefaultAdminSite {
+  // Overwrite or add methods here
 }
 ```
 
-You can now manage these entities at `/admin`!
+Then give this `AdminSite` to the `AdminModuleFactory.createAdminModule`.
+
+## Custom AdminController
+
+The admin controller handles the HTTP layer, before delegating the actual work to the admin site. To hook in routes, change requests/responses, add routes and pages, you'll want to declare your own:
+
+```ts
+import { Inject } from '@nestjs/common'
+import { DefaultAdminController } from 'nestjs-admin'
+
+export class AdminController extends DefaultAdminController {
+  // Overwrite or add methods here
+}
+```
+
+Then give this `AdminController` to the `AdminModuleFactory.createAdminModule`.

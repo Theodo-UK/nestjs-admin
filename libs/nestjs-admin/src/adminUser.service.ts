@@ -8,7 +8,6 @@ import {
   UpdateEvent,
   Repository,
 } from 'typeorm'
-import { prompt } from 'inquirer'
 import AdminUser from './adminUser.entity'
 import { DuplicateEmailException } from './exceptions/userAdmin.exception'
 
@@ -60,27 +59,5 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
     admin.password = password
 
     await this.adminUserRepository.save(admin)
-  }
-
-  async promptAndCreate() {
-    type Answers = {
-      email: string
-      password: string
-    }
-
-    const { email, password }: Answers = await prompt([
-      {
-        type: 'input',
-        name: 'email',
-        message: 'Email:',
-      },
-      {
-        type: 'password',
-        name: 'password',
-        message: 'Password:',
-      },
-    ])
-
-    await this.create(email, password)
   }
 }
