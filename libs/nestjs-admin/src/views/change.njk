@@ -4,15 +4,16 @@
 {% extends 'base.njk'%}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="/static/css/change.css">
+<link rel="stylesheet" href="/static/css/form.css">
 {% endblock %}
 
 {% block body %}
 
+<h1 class="admin-title">{{ entity | displayName(metadata) }}</h1>
 <div class="container-fluid admin-content">
   <div class="row">
     <div class="col-12 col-xl-8">
-      <h1>{{ entity | displayName(metadata) }}</h1>
+      <div class="admin-form change-form">
       <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
         {% asyncEach column in metadata.columns %}
           {% set value=column.getEntityValue(entity) %}
@@ -34,6 +35,7 @@
       <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
         <input type="submit" value="Delete" class="btn btn-danger float-left">
       </form>
+      </div>
     </div>
   </div>
 </div>

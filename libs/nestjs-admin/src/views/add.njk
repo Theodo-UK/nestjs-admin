@@ -4,15 +4,16 @@
 {% extends 'base.njk'%}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="/static/css/add.css">
+<link rel="stylesheet" href="/static/css/form.css">
 {% endblock %}
 
 {% block body %}
 
-  <div class="container-fluid admin-content">
-    <div class="row">
-      <div class="col-12 col-xl-8">
-        <h1>Add new {{ metadata.name }}</h1>
+<h1 class="admin-title">Add new {{ metadata.name }}</h1>
+<div class="container-fluid admin-content">
+  <div class="row">
+    <div class="col-12 col-xl-8">
+      <div class="admin-form">
         <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
           {% asyncEach column in metadata.columns %}
             {% if not column.isGenerated %}
@@ -26,5 +27,6 @@
       </div>
     </div>
   </div>
+</div>
 
 {% endblock %}
