@@ -11,11 +11,11 @@
 
 <div>
   <div align="center">
-    <em>Proudly sponsored by</em>
+    <em>Proudly sponsored by <a href="https://www.theodo.co.uk/experts/node-js-fullstack-javascript">Theodo</a></em>
   </div>
   <div align="center">
     <a href="https://www.theodo.co.uk/experts/node-js-fullstack-javascript">
-      <img src="./docs/assets/theodo.svg" width="120rem" />
+      <img src="./docs/assets/theodo.svg" width="120rem" alt="Theodo logo" />
     </a>
   </div>
 </div>
