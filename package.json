@@ -67,7 +67,7 @@
     "rimraf": "^2.6.2",
     "rxjs": "^6.2.2",
     "typeorm": "^0.2.18",
-    "typescript": "^3.5.1"
+    "typescript": "3.5.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.6.0",
