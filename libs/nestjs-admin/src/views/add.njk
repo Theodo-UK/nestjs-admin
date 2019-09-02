@@ -1,6 +1,11 @@
 {% set useJquery = false %}
 {% set backLink = 'changelist' | adminUrl(section, metadata)  %}
+{% set pageId = "admin-add" %}
 {% extends 'base.njk'%}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/add.css">
+{% endblock %}
 
 {% block body %}
 
