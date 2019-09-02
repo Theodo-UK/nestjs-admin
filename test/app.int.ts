@@ -51,9 +51,9 @@ describe('AppController', () => {
     expect(req.header.location).toBe(`/admin/login`)
   })
 
-  it('returns 401 when unauthenticated using POST', async () => {
+  it('returns 302 when unauthenticated using POST', async () => {
     const server = app.getHttpServer()
     const req = await request(server).post(`/admin/user/user/add`)
-    expect(req.status).toBe(401)
+    expect(req.status).toBe(302)
   })
 })
