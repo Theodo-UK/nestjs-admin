@@ -1,17 +1,17 @@
-{% macro field(name, value = '') %}
-  <div>
-    <input
-      id="{{ name }}"
-      name="{{ name }}"
-      value="{{ value }}"
-    />
-    <button type="button">X</button>
-  </div>
-{% endmacro %}
+{% extends 'widgets/base-widget.njk' %}
 
+{% block input %}
+  {% macro field(name, value = '') %}
+    <div>
+      <input
+        id="{{ name }}"
+        name="{{ name }}"
+        value="{{ value }}"
+      />
+      <button type="button">X</button>
+    </div>
+  {% endmacro %}
 
-<label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
-<div>
   {% for value in column.getEntityValue(entity) %}
     {% set fieldName = column.propertyName + "["+ loop.index0+ "]" %}
     {{ field(fieldName, value) }}
@@ -19,4 +19,4 @@
 
   {% set fieldName = column.propertyName + "["+ "3" + "]" %}
   {# <button type="button" onclick="this.parentElement.append('{{field(fieldName)|forceescape}}')">+</button> #}
-</div>
+{% endblock %}

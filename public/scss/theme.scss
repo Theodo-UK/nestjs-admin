@@ -2,6 +2,11 @@
 @import '../../libs/nestjs-admin/node_modules/bootstrap/scss/variables';
 @import '../../libs/nestjs-admin/node_modules/bootstrap/scss/mixins';
 
+$background-gray-light: #fdfdfd;
+$background-gray: #f5f5f5;
+
+// Bootstrap overrides here
+
 @import '../../libs/nestjs-admin/node_modules/bootstrap/scss/root';
 @import '../../libs/nestjs-admin/node_modules/bootstrap/scss/reboot';
 @import '../../libs/nestjs-admin/node_modules/bootstrap/scss/type';
@@ -36,6 +41,3 @@
 // @import '../../libs/nestjs-admin/node_modules/bootstrap/scss/spinners';
 @import '../../libs/nestjs-admin/node_modules/bootstrap/scss/utilities';
 // @import '../../libs/nestjs-admin/node_modules/bootstrap/scss/print';
-
-$background-gray-light: #fdfdfd;
-$background-gray: #f5f5f5;

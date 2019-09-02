@@ -1,4 +1,5 @@
 import {
+  Inject,
   Get,
   Post,
   Controller,
@@ -19,6 +20,7 @@ import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
 import { Public } from './decorators/public.decorator'
 import { AdminFilter } from './admin.filter'
+import { injectionTokens } from './tokens'
 
 const resultsPerPage = 25
 
@@ -48,17 +50,11 @@ type AdminModelsResult = {
 @UseFilters(AdminFilter)
 export class DefaultAdminController {
   constructor(
-    private defaultAdminSite: DefaultAdminSite,
-    private defaultEnv: DefaultAdminNunjucksEnvironment,
+    @Inject(injectionTokens.ADMIN_SITE)
+    private adminSite: DefaultAdminSite,
+    @Inject(injectionTokens.ADMIN_ENVIRONMENT)
+    private env: DefaultAdminNunjucksEnvironment,
   ) {}
-
-  get adminSite() {
-    return this.defaultAdminSite
-  }
-
-  get env() {
-    return this.defaultEnv
-  }
 
   async getEntityWithRelations(repository: Repository<unknown>, primaryKey: any) {
     const metadata = repository.metadata

@@ -1,6 +1,8 @@
-<label for="{{ column.propertyName }}">{{ column.propertyName }}</label>
-<div>
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
   <select
+    class="form-control"
     id="{{ column.propertyName }}"
     name="{{ column.propertyName }}"
   >
@@ -20,4 +22,4 @@
       False
     </option>
   </select>
-</div>
+{% endblock %}

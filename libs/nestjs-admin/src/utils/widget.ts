@@ -11,7 +11,7 @@ import {
 export function getWidgetTemplate(column: ColumnMetadata) {
   if (!!column.relationMetadata) {
     // the column is a foreign key
-    return 'widget-foreign-key.njk'
+    return 'widgets/foreign-key.njk'
   }
 
   /* tslint:disable:ban-types */
@@ -147,15 +147,15 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'longtext':
     case 'ntext':
     case 'citext':
-      return 'widget-textarea.njk'
+      return 'widgets/textarea.njk'
     // @ts-ignore
     case String:
     case 'tinytext':
     case 'uuid':
-      return 'widget-text.njk'
+      return 'widgets/text.njk'
     case 'simple-array':
     case 'simple_array':
-      return 'widget-simple-array.njk'
+      return 'widgets/simple-array.njk'
     // @ts-ignore
     case Number:
     case 'number':
@@ -171,7 +171,7 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'int64':
     case 'unsigned big int':
     case 'long':
-      return 'widget-integer.njk'
+      return 'widgets/integer.njk'
     case 'numeric':
     case 'float':
     case 'dec':
@@ -180,23 +180,23 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'double':
     case 'double precision':
     case 'fixed':
-      return 'widget-decimal.njk'
+      return 'widgets/decimal.njk'
     case 'date':
-      return 'widget-date.njk'
+      return 'widgets/date.njk'
     // @ts-ignore
     case Date:
     case 'timestamp':
     case 'timestamp without time zone':
-      return 'widget-datetime.njk'
+      return 'widgets/datetime.njk'
     case 'boolean':
     case 'bool':
-      return column.isNullable ? 'widget-boolean-nullable.njk' : 'widget-boolean.njk'
+      return column.isNullable ? 'widgets/boolean-nullable.njk' : 'widgets/boolean.njk'
     case 'time':
     case 'time without time zone':
-      return 'widget-time.njk'
+      return 'widgets/time.njk'
     default:
       const guard: never = type
-      return 'widget-text.njk'
+      return 'widgets/text.njk'
   }
   /* tslint:enable:ban-types */
 }

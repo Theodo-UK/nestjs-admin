@@ -28,6 +28,9 @@ async function bootstrap() {
   )
   app.useStaticAssets(publicFolder, { prefix: assetPrefix })
 
+  // needs to be after the sassMiddleware
+  app.useStaticAssets(publicFolder, { prefix: assetPrefix })
+
   app.useGlobalFilters(new EntityNotFoundFilter())
   app.useGlobalFilters(new QueryFailedFilter())
 

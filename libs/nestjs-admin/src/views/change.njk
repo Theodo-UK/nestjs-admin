@@ -20,13 +20,13 @@
             {% if not column.isGenerated %}
               {% include getWidgetTemplate(column) %}
             {% else %}
-              {% include "widget-plaintext.njk" %}
+              {% include "widgets/plaintext.njk" %}
             {% endif %}
           </fieldset>
         {% endeach %}
         {% asyncEach relation in metadata.manyToManyRelations %}
           <fieldset>
-            {% include 'widget-manytomany.njk' %}
+            {% include 'widgets/manytomany.njk' %}
           </fieldset>
         {% endeach %}
         <button type="submit">Submit</button>
