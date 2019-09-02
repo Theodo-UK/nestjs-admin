@@ -7,6 +7,8 @@ type RouteArgs = string[]
 
 export function adminUrl(route: Route, ...args: RouteArgs) {
   switch (route) {
+    case 'login':
+      return urls.loginUrl()
     case 'index':
       return urls.indexUrl()
     case 'changelist':

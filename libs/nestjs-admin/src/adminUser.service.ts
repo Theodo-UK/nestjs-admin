@@ -60,4 +60,16 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
 
     await this.adminUserRepository.save(admin)
   }
+
+  async findOne(email: string): Promise<AdminUser | undefined> {
+    return await this.adminUserRepository.findOne({ where: { email } })
+  }
+
+  async validateAdminUser(email: string, password: string) {
+    const adminUser = await this.findOne(email)
+    if (adminUser && this.comparePassword(adminUser, password)) {
+      return { username: adminUser.email } // is this going to expose the password hash, does this matter?
+    }
+    return null
+  }
 }

@@ -18,7 +18,6 @@ import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
 import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
-import { Public } from './decorators/public.decorator'
 import { AdminFilter } from './admin.filter'
 import { injectionTokens } from './tokens'
 
@@ -99,12 +98,6 @@ export class DefaultAdminController {
   async index() {
     const sections = this.adminSite.getSectionList()
     return await this.render('index.njk', { sections })
-  }
-
-  @Public()
-  @Get('login')
-  async login() {
-    return await this.render('login.njk')
   }
 
   @Get(':sectionName/:entityName')
