@@ -24,10 +24,10 @@
             {% include 'widgets/manytomany.njk' %}
           </fieldset>
         {% endeach %}
-        <button type="submit">Submit</button>
+        <button type="submit" class="btn btn-primary float-right">Submit</button>
       </form>
       <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
-        <input type="submit" value="delete">
+        <input type="submit" value="Delete" class="btn btn-secondary float-left">
       </form>
     </div>
   </div>
