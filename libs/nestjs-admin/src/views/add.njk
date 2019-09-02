@@ -1,13 +1,14 @@
 {% set useJquery = false %}
+{% set backLink = 'changelist' | adminUrl(section, metadata)  %}
 {% extends 'base.njk'%}
 
 {% block body %}
 
   <div class="container-fluid admin-content">
+    <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
     <div class="row">
       <div class="col-12 col-xl-8">
-          <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
-          <h1>Add new {{ metadata.name }}</h1>
+        <h1>Add new {{ metadata.name }}</h1>
         <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
           {% asyncEach column in metadata.columns %}
             {% if not column.isGenerated %}
