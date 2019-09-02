@@ -1,4 +1,5 @@
 {% set useJquery = false %}
+{% set backLink = 'changelist' | adminUrl(section, metadata)  %}
 {% extends 'base.njk'%}
 
 {% block body %}
@@ -6,7 +7,6 @@
 <div class="container-fluid admin-content">
   <div class="row">
     <div class="col-12 col-xl-8">
-      <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
       <h1>{{ entity | displayName(metadata) }}</h1>
       <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
         {% asyncEach column in metadata.columns %}
