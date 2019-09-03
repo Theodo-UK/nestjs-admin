@@ -7,6 +7,8 @@ body {
 .admin-header {
   &__logout {
     color: $white;
+    background: none;
+    border: none;
 
     &:hover {
       color: $white;
