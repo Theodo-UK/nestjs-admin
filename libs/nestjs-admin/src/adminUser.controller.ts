@@ -1,5 +1,4 @@
 import { Controller, Get, HttpCode, Post, UseGuards, Res } from '@nestjs/common'
-import { Public } from './decorators/public.decorator'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import { AdminUserService } from './adminUser.service'
 import { LoginGuard } from './login.guard'
@@ -30,7 +29,6 @@ export class AdminUserController {
     return rendered
   }
 
-  @Public()
   @Get('/login')
   async login() {
     return await this.render('login.njk')

@@ -65,10 +65,12 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
     return await this.adminUserRepository.findOne({ where: { email } })
   }
 
-  async validateAdminUser(email: string, password: string) {
+  async validateCredentials(email: string, password: string) {
     const adminUser = await this.findOne(email)
     if (adminUser && this.comparePassword(adminUser, password)) {
-      return { username: adminUser.email } // is this going to expose the password hash, does this matter?
+      // @debt quality "miker: is this destructure necessary? was copied from blog post"
+      const { password, ...result } = adminUser
+      return result
     }
     return null
   }
