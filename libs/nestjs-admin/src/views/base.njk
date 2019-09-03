@@ -24,9 +24,7 @@
 </head>
 <body class="{{ pageId }}">
 
-<nav class="admin-header navbar navbar-dark bg-dark">
-  <a class="navbar-brand mb-0 h1" href="{{ 'index' | adminUrl() }}">{{ adminSite.siteHeader }}</a>
-</nav>
+{% include 'header.njk' %}
 
 {% if backLink %}
   <nav class="navbar admin-subheader">
