@@ -10,6 +10,12 @@ body {
 
 .admin-title {
   margin: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+
+  h3 {
+    display: inline;
+  }
 }
 
 .admin-subheader {
