@@ -18,7 +18,6 @@ import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
 import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
-import { Public } from './decorators/public.decorator'
 import { AdminFilter } from './admin.filter'
 import { injectionTokens } from './tokens'
 
@@ -80,31 +79,10 @@ export class DefaultAdminController {
     return result
   }
 
-  async render(name: string, context?: object) {
-    const prom = new Promise((resolve, reject) => {
-      this.env.env.render(name, context, function(err, res) {
-        if (err) {
-          reject(err)
-          return err
-        }
-        resolve(res)
-        return res
-      })
-    })
-    const rendered = await prom
-    return rendered
-  }
-
   @Get()
   async index() {
     const sections = this.adminSite.getSectionList()
-    return await this.render('index.njk', { sections })
-  }
-
-  @Public()
-  @Get('login')
-  async login() {
-    return await this.render('login.njk')
+    return await this.env.render('index.njk', { sections })
   }
 
   @Get(':sectionName/:entityName')
@@ -113,7 +91,7 @@ export class DefaultAdminController {
     const page = parseInt(pageParam, 10)
     const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
 
-    return await this.render('changelist.njk', {
+    return await this.env.render('changelist.njk', {
       section,
       entities,
       count,
@@ -126,7 +104,7 @@ export class DefaultAdminController {
   @Get(':sectionName/:entityName/add')
   async add(@Param() params: AdminModelsQuery) {
     const { section, metadata } = await this.getAdminModels(params)
-    return await this.render('add.njk', { section, metadata })
+    return await this.env.render('add.njk', { section, metadata })
   }
 
   @Post(':sectionName/:entityName/add')
@@ -154,7 +132,7 @@ export class DefaultAdminController {
   @Get(':sectionName/:entityName/:primaryKey/change')
   async change(@Param() params: AdminModelsQuery) {
     const { section, metadata, entity } = await this.getAdminModels(params)
-    return await this.render('change.njk', { section, metadata, entity })
+    return await this.env.render('change.njk', { section, metadata, entity })
   }
 
   @Post(':sectionName/:entityName/:primaryKey/delete')
@@ -177,6 +155,6 @@ export class DefaultAdminController {
     await repository.save(entityToBePersisted)
 
     const updatedEntity = await this.getEntityWithRelations(repository, params.primaryKey)
-    return await this.render('change.njk', { section, metadata, entity: updatedEntity })
+    return await this.env.render('change.njk', { section, metadata, entity: updatedEntity })
   }
 }

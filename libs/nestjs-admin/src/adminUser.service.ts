@@ -60,4 +60,19 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
 
     await this.adminUserRepository.save(admin)
   }
+
+  async findOne(email: string): Promise<AdminUser | undefined> {
+    return await this.adminUserRepository.findOne({ where: { email } })
+  }
+
+  async validateCredentials(email: string, pass: string) {
+    const adminUser = await this.findOne(email)
+    if (adminUser && this.comparePassword(adminUser, pass)) {
+      // @debt quality "miker: 1/ is this destructure necessary? was copied from blog post
+      // @debt quality "miker: 2/ https://dev.to/nestjs/authentication-and-sessions-for-mvc-apps-with-nestjs-55a4"
+      const { password, ...result } = adminUser
+      return result
+    }
+    return null
+  }
 }
