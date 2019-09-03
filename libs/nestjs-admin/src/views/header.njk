@@ -1,3 +1,6 @@
 <nav class="admin-header navbar navbar-dark bg-dark">
   <a class="navbar-brand mb-0 h1" href="{{ 'index' | adminUrl() }}">{{ adminSite.siteHeader }}</a>
+  {% if request.user %}
+    <a class="admin-header__logout" href="">Logout</a>
+  {% endif %}
 </nav>
