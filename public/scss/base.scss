@@ -4,6 +4,20 @@ body {
   background: $white;
 }
 
+.admin-header {
+  &__logout {
+    color: $white;
+
+    &:hover {
+      color: $white;
+    }
+
+    &:active {
+      color: $gray-600;
+    }
+  }
+}
+
 .admin-content {
   padding: 1rem 2rem;
 }
