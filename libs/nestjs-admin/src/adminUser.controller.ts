@@ -1,18 +1,14 @@
-import { Controller, Get, HttpCode, Post, UseGuards, Res } from '@nestjs/common'
+import { Controller, Get, HttpCode, Post, UseGuards, Res, Inject } from '@nestjs/common'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
-import { AdminUserService } from './adminUser.service'
 import { LoginGuard } from './login.guard'
+import { injectionTokens } from './tokens'
 
 @Controller('admin')
 export class AdminUserController {
   constructor(
-    private defaultEnv: DefaultAdminNunjucksEnvironment,
-    private readonly adminUserService: AdminUserService,
+    @Inject(injectionTokens.ADMIN_ENVIRONMENT)
+    private env: DefaultAdminNunjucksEnvironment,
   ) {}
-
-  get env() {
-    return this.defaultEnv
-  }
 
   @Get('/login')
   async login() {
