@@ -1,6 +1,8 @@
 <div class="form-group row">
   {% block label %}
-  <label class="col-12 col-md-3 col-form-label" for="{{ column.propertyName }}">{{ column.propertyName }}</label>
+  <label class="col-12 col-md-3 col-form-label" for="{{ column.propertyName }}">
+    {{ column.propertyName }}
+  </label>
   {% endblock %}
   <div class="col-12 col-md-9">
   {% block input %}

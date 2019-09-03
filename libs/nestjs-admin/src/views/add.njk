@@ -1,5 +1,5 @@
 {% set useJquery = false %}
-{% set backLink = 'changelist' | adminUrl(section, metadata)  %}
+{% set backLink = "changelist" | adminUrl(section, metadata)  %}
 {% set pageId = "admin-add" %}
 {% extends 'base.njk'%}
 
@@ -10,10 +10,10 @@
 {% block body %}
 
 <h1 class="admin-title">Add new {{ metadata.name }}</h1>
-<div class="container-fluid admin-content">
+<div class="admin-content">
   <div class="row">
     <div class="col-12 col-xl-8">
-      <div class="admin-form">
+      <div class="admin-form admin-form--add">
         <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
           {% asyncEach column in metadata.columns %}
             {% if not column.isGenerated %}

@@ -1,5 +1,5 @@
 {% set useJquery = false %}
-{% set backLink = 'changelist' | adminUrl(section, metadata)  %}
+{% set backLink = "changelist" | adminUrl(section, metadata)  %}
 {% set pageId = "admin-change" %}
 {% extends 'base.njk'%}
 
@@ -10,10 +10,10 @@
 {% block body %}
 
 <h1 class="admin-title">{{ entity | displayName(metadata) }}</h1>
-<div class="container-fluid admin-content">
+<div class="admin-content">
   <div class="row">
     <div class="col-12 col-xl-8">
-      <div class="admin-form change-form">
+      <div class="admin-form admin-form--change">
       <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
         {% asyncEach column in metadata.columns %}
           {% set value=column.getEntityValue(entity) %}
