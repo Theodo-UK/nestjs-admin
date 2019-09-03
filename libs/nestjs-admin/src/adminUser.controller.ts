@@ -14,24 +14,9 @@ export class AdminUserController {
     return this.defaultEnv
   }
 
-  async render(name: string, context?: object) {
-    const prom = new Promise((resolve, reject) => {
-      this.env.env.render(name, context, function(err, res) {
-        if (err) {
-          reject(err)
-          return err
-        }
-        resolve(res)
-        return res
-      })
-    })
-    const rendered = await prom
-    return rendered
-  }
-
   @Get('/login')
   async login() {
-    return await this.render('login.njk')
+    return await this.env.render('login.njk')
   }
 
   @HttpCode(200)
