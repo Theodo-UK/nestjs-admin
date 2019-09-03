@@ -11,6 +11,10 @@ export function loginUrl() {
   return `/admin/login`
 }
 
+export function logoutUrl() {
+  return `/admin/logout`
+}
+
 export function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}`
 }

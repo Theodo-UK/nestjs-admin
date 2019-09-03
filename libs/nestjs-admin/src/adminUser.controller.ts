@@ -1,7 +1,8 @@
-import { Controller, Get, HttpCode, Post, UseGuards, Res, Inject } from '@nestjs/common'
+import { Controller, Get, HttpCode, Post, UseGuards, Res, Inject, Req } from '@nestjs/common'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import { LoginGuard } from './login.guard'
 import { injectionTokens } from './tokens'
+import { adminUrl } from './admin.filters'
 
 @Controller('admin')
 export class AdminUserController {
@@ -20,5 +21,11 @@ export class AdminUserController {
   @Post('/login')
   async adminLogin(@Res() res: any) {
     res.redirect('/admin')
+  }
+
+  @Post('/logout')
+  async logout(@Req() req: any, @Res() res: any) {
+    req.logout()
+    res.redirect(adminUrl('login'))
   }
 }
