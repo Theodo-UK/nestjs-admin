@@ -1,14 +1,19 @@
 {% set useJquery = false %}
+{% set backLink = "changelist" | adminUrl(section, metadata)  %}
+{% set pageId = "admin-add" %}
 {% extends 'base.njk'%}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/form.css">
+{% endblock %}
 
 {% block body %}
 
-  <div class="container-fluid admin-content">
-    <div class="row">
-      <div class="col-12">
-        <a href="{{ 'changelist' | adminUrl(section, metadata) }}">Back</a>
-        <h1>{{ metadata.name }}</h1>
-        <h2>Add new {{ metadata.name }}</h2>
+<div class="admin-title"><h3>Add new {{ metadata.name }}</h3></div>
+<div class="admin-content">
+  <div class="row">
+    <div class="col-12 col-xl-8">
+      <div class="admin-form admin-form--add">
         <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
           {% asyncEach column in metadata.columns %}
             {% if not column.isGenerated %}
@@ -17,10 +22,11 @@
               </fieldset>
             {% endif %}
           {% endeach %}
-          <button type="submit">Submit</button>
+          <button type="submit" class="btn btn-primary float-right">Submit</button>
         </form>
       </div>
     </div>
   </div>
+</div>
 
 {% endblock %}

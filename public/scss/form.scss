@@ -1,0 +1,14 @@
+@import './theme';
+
+.admin-form {
+  width: 100%;
+  background: $background-gray;
+  padding: 1rem;
+  border: 1px solid $border-color;
+
+  &--change {
+    // The placement of the delete button pushes both buttons off the bottom of the form
+    // This extends the form so that they are contained again
+    padding-bottom: 3.5rem;
+  }
+}

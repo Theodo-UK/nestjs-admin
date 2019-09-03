@@ -7,16 +7,6 @@
     }
   }
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-
-    h3 {
-      display: inline;
-    }
-  }
-
   &__count {
     color: $gray-600;
   }
