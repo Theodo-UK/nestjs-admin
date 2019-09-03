@@ -100,4 +100,21 @@ export class User {
 
   @UpdateDateColumn()
   updatedDate: Date
+
+  get fullName() {
+    if (this.firstName) {
+      if (this.lastName) {
+        return `${this.firstName} ${this.lastName}`
+      }
+      return this.firstName
+    }
+    return this.lastName
+  }
+
+  toString() {
+    if (this.fullName) {
+      return `${this.id} - ${this.fullName}`
+    }
+    return `${this.id}`
+  }
 }

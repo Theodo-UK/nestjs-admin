@@ -7,5 +7,5 @@ export function createTestUser(attrs?: Partial<User>): User {
     lastName: 'Potter',
     isCool: true,
   }
-  return { ...user, ...defaultAttrs, ...attrs }
+  return Object.assign(user, { ...defaultAttrs, ...attrs })
 }
