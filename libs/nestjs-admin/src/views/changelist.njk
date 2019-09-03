@@ -27,11 +27,6 @@
                 {{ entity | displayName(metadata) }}
               </a>
             </td>
-            <td class="action-cell">
-              <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
-                <input type="submit" value="delete">
-              </form>
-            </td>
           </tr>
         {% endfor %}
       </table>
