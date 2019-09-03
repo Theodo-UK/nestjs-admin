@@ -33,7 +33,12 @@
         <button type="submit" class="btn btn-primary float-right">Submit</button>
       </form>
       <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
-        <input type="submit" value="Delete" class="btn btn-danger float-left">
+        <input
+          type="submit"
+          value="Delete"
+          class="btn btn-danger float-left"
+          onclick="return confirm('Are you sure you want to delete {{ entity | displayName(metadata) }}?')"
+        >
       </form>
       </div>
     </div>
