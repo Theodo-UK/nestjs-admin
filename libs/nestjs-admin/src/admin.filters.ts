@@ -1,12 +1,14 @@
 import { EntityMetadata } from 'typeorm'
 import * as urls from './utils/urls'
 
-type Route = 'index' | 'changelist' | 'change' | 'add' | 'delete'
+type Route = 'index' | 'changelist' | 'change' | 'add' | 'delete' | 'login'
 
 type RouteArgs = string[]
 
 export function adminUrl(route: Route, ...args: RouteArgs) {
   switch (route) {
+    case 'login':
+      return urls.loginUrl()
     case 'index':
       return urls.indexUrl()
     case 'changelist':
@@ -17,6 +19,8 @@ export function adminUrl(route: Route, ...args: RouteArgs) {
       return urls.addUrl(...(args as [any, any]))
     case 'delete':
       return urls.deleteUrl(...(args as [any, any, any]))
+    case 'login':
+      return urls.loginUrl()
     default:
       const guard: never = route
       throw new Error(`Route "${route}" doesn't exist`)

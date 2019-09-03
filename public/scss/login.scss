@@ -1,0 +1,28 @@
+@import './theme.scss';
+
+.admin-login {
+  background-color: $background-gray;
+
+  &__container {
+    margin: 10rem auto;
+    max-width: 30rem;
+    border: 1px solid $border-color;
+  }
+
+  &__header {
+    padding: 1rem;
+    background-color: theme-color('dark');
+    color: $white;
+    font-weight: bold;
+  }
+
+  &__content {
+    padding: 1rem;
+    background-color: $background-gray-light;
+
+    &__submit {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

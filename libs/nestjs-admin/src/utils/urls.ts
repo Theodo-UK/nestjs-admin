@@ -7,6 +7,10 @@ export function indexUrl() {
   return `/admin`
 }
 
+export function loginUrl() {
+  return `/admin/login`
+}
+
 export function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}`
 }

@@ -42,6 +42,21 @@ class DefaultAdminNunjucksEnvironment {
     this.env.addGlobal('getPaginationRanges', getPaginationRanges)
     this.env.addGlobal('generatePaginatedUrl', generatePaginatedUrl)
   }
+
+  async render(name: string, context?: object) {
+    const prom = new Promise((resolve, reject) => {
+      this.env.render(name, context, function(err, res) {
+        if (err) {
+          reject(err)
+          return err
+        }
+        resolve(res)
+        return res
+      })
+    })
+    const rendered = await prom
+    return rendered
+  }
 }
 
 export default DefaultAdminNunjucksEnvironment
