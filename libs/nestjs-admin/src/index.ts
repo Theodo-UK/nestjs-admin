@@ -1,4 +1,4 @@
-export * from './coreAdmin.module'
+export * from './adminCore.module'
 export * from './adminAuth.module'
 export * from './admin.controller'
 export { default as DefaultAdminSite } from './adminSite'

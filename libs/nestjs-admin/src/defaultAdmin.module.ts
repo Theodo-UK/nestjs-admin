@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common'
-import { AdminCoreModule } from './coreAdmin.module'
-import { AdminAuthModule } from './adminAuth.module'
+import { AdminCoreModuleFactory } from './adminCore.module'
+import { AdminAuthModuleFactory } from './adminAuth.module'
 import DefaultAdminSite from './adminSite'
 import AdminUserEntity from './adminUser.entity'
+
+const AdminAuthModule = AdminAuthModuleFactory.createAdminModule({})
+const AdminCoreModule = AdminCoreModuleFactory.createAdminModule({})
 
 @Module({
   imports: [AdminCoreModule, AdminAuthModule],

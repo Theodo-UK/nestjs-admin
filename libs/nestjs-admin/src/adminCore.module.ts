@@ -31,5 +31,3 @@ export class AdminCoreModuleFactory {
     }
   }
 }
-
-export const AdminCoreModule = AdminCoreModuleFactory.createAdminModule({})

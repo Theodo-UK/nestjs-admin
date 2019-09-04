@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AdminCoreModule, AdminCoreModuleFactory } from '../coreAdmin.module'
+import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
 import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
