@@ -75,7 +75,7 @@ npm run nestjs-admin createAdminUser # with npm
 
 > By using the `DefaultAdminModule` you can create more AdminUsers directly from the administration interface!
 
-> If you don't use the `DefaultAdminModule`, it is up to you to define how to create admins (or maybe "creating admins" is not even a concept that applies in your application).
+> For now, the `DefaultAdminModule` is the only documented way to use nestjs-admin. If you need customisability, you'll have to dive into the source code.
 
 4. Register entities in the admin site
 
