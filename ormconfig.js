@@ -1,4 +1,3 @@
-// import { AdminUser } from 'nestjs-admin'
 const AdminUser = require('nestjs-admin').AdminUserEntity
 
 module.exports = {
@@ -8,7 +7,7 @@ module.exports = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  entities: [__dirname + '/**/*.entity.{js,ts}', AdminUser],
+  entities: [__dirname + '/src/**/*.entity.{js,ts}', AdminUser],
   migrations: ['migration/*.ts'],
   synchronize: false,
 }
