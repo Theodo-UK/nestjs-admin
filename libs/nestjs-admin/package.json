@@ -14,7 +14,9 @@
   },
   "peerDependencies": {
     "@nestjs/common": "^6.0.0",
-    "@nestjs/core": "^6.0.0"
+    "@nestjs/core": "^6.0.0",
+    "@nestjs/typeorm": "^6.0.0",
+    "typeorm": "^0.2.0"
   },
   "dependencies": {
     "@nestjs/passport": "^6.1.0",
@@ -28,6 +30,9 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "@nestjs/common": "^6.0.0",
+    "@nestjs/core": "^6.0.0",
+    "@nestjs/typeorm": "^6.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "4.16.1",
     "@types/inquirer": "^6.5.0",
@@ -35,8 +40,12 @@
     "@types/nunjucks": "^3.1.1",
     "@types/passport": "^1.0.1",
     "@types/passport-local": "^1.0.33",
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^3.0.0",
+    "rxjs": "^6.0.0",
     "ts-node": "8.1.0",
     "tsc-watch": "2.2.1",
+    "typeorm": "^0.2.18",
     "typescript": "3.5.1"
   }
 }

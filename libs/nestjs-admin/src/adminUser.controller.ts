@@ -1,4 +1,5 @@
 import { Controller, Get, HttpCode, Post, UseGuards, Res, Inject, Req } from '@nestjs/common'
+import { Request } from 'express'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import { LoginGuard } from './login.guard'
 import { injectionTokens } from './tokens'
@@ -12,8 +13,8 @@ export class AdminUserController {
   ) {}
 
   @Get('/login')
-  async login() {
-    return await this.env.render('login.njk')
+  async login(@Req() request: Request) {
+    return await this.env.render('login.njk', { request })
   }
 
   @HttpCode(200)
