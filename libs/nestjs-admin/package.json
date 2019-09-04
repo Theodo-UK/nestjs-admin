@@ -8,7 +8,9 @@
   },
   "main": "dist/index",
   "scripts": {
-    "start:dev": "tsc-watch --onSuccess \"ln -sfn ../src/public dist/public\" --onFailure \"echo 'There was a problem compiling'\""
+    "start:dev": "tsc-watch --onSuccess \"ln -sfn ../src/public dist/public\" --onFailure \"echo 'There was a problem compiling'\"",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "postbuild": "cp -r src/public dist/public"
   },
   "peerDependencies": {
     "@nestjs/common": "^6.0.0",
