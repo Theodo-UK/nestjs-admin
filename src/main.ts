@@ -10,6 +10,7 @@ import { EntityNotFoundFilter } from './exception/entity-not-found.filter'
 import { QueryFailedFilter } from './exception/query-failed.filter'
 import { isDevEnvironment } from './utils/environment'
 
+import * as pgConnect from 'connect-pg-simple'
 import * as session from 'express-session'
 import * as passport from 'passport'
 
@@ -30,8 +31,14 @@ async function bootstrap() {
     }),
   )
 
+  const PgSession = pgConnect(session)
   app.use(
     session({
+      /* @debt TODO "make `store` a configuration of the AdminModule, default on MemoryStore" */
+      store:
+        process.env.SESSION_DB_URL !== 'false' // TODO make this env var actually optional
+          ? new PgSession({ conString: process.env.SESSION_DB_URL })
+          : undefined,
       secret: 'secret',
       resave: false,
       saveUninitialized: false,
