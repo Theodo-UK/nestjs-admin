@@ -20,11 +20,14 @@ commands:
       - restore_cache:
           key: v2-node-modules-cache-{{ checksum "yarn.lock" }}
       - run:
-          name: Install front dependencies
-          command: yarn
-      - run:
           name: Install lib dependencies
           command: cd libs/nestjs-admin && yarn
+      - run:
+          name: Build lib
+          command: cd libs/nestjs-admin && yarn build
+      - run:
+          name: Install front dependencies
+          command: yarn
       - save_cache:
           key: v2-node-modules-cache-{{ checksum "yarn.lock" }}
           paths:
