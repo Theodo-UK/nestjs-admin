@@ -2,19 +2,19 @@
 
 {% block input %}
   {% macro field(name, value = '') %}
-    <input
-      id="{{ name }}"
-      name="{{ name }}"
-      value="{{ value }}"
-    />
-    <button type="button" onclick="removeInput(this)">X</button>
+    <div class="input-{{ name }}">
+      <input
+        id="{{ name }}"
+        name="{{ name }}"
+        value="{{ value }}"
+      />
+      <button type="button" onclick="removeInput(this)">X</button>
+    </div>
   {% endmacro %}
 
   <div id="values-{{ column.propertyName }}">
     {% for value in column.getEntityValue(entity) %}
-    <div class="input-{{ column.propertyName }}">
       {{ field(column.propertyName, value) }}
-    </div>
     {% endfor %}
   </div>
   <button type="button" onclick="addInput()">+</button>
@@ -25,9 +25,7 @@
     function addInput() {
       const inputContainer = document.getElementById("values-{{ column.propertyName }}");
       const newInput = "{{ field(column.propertyName) | replace("\n", "") | replace("\"", "\\\"") }}";
-      const node = document.createElement("div");
-      node.innerHTML = newInput;
-      inputContainer.appendChild(node)
+      inputContainer.appendChild($(newInput)[0])
     }
     function removeInput(self) {
       self.closest('.input-{{ column.propertyName }}').remove()
