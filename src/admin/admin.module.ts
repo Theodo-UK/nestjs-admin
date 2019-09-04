@@ -1,20 +1,8 @@
 import { Module } from '@nestjs/common'
-import { AdminUserEntity, CoreAdminModuleFactory } from '@app/nestjs-admin'
-import { AdminSite } from './admin'
-import { AdminController } from './admin.controller'
-import { DefaultAdminUserModule } from '@app/nestjs-admin/adminUser.module'
-
-export const AdminModuleInstance = CoreAdminModuleFactory.createAdminModule({
-  adminSite: AdminSite,
-  adminController: AdminController,
-})
+import { DefaultAdminModule } from '@app/nestjs-admin'
 
 @Module({
-  imports: [AdminModuleInstance, DefaultAdminUserModule],
-  exports: [AdminModuleInstance],
+  imports: [DefaultAdminModule],
+  exports: [DefaultAdminModule],
 })
-export class AdminModule {
-  constructor(private readonly adminSite: AdminSite) {
-    adminSite.register('Administration', AdminUserEntity)
-  }
-}
+export class AdminModule {}
