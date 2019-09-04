@@ -10,6 +10,7 @@ import { AdminCoreModuleFactory } from './adminCore.module'
   imports: [TypeOrmModule.forFeature([AdminUserEntity])],
   providers: [AdminUserService, LocalStrategy],
   controllers: [AdminUserController],
+  exports: [AdminUserService],
 })
 export class AdminAuthModuleFactory {
   static createAdminAuthModule({ adminModule = AdminCoreModuleFactory.createAdminCoreModule({}) }) {
