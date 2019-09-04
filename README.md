@@ -30,8 +30,7 @@ Ready-to-use user interface for administrative activities. Allows to list, edit,
 
 This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-django-admin/), from the concept to the API.
 
-> This is still very much a work in progress. Most of the functionalities aren't there, and in particular there is no authentication for the admin interface yet **though we are working on it currently**.
->
+> This is still very much a work in progress.
 > Your help is more than welcome!
 
 ## Installation
@@ -45,24 +44,23 @@ yarn add nestjs-admin # With yarn
 npm install nestjs-admin # With NPM
 ```
 
-2. Then add the provided `AdminCoreModule` and `DefaultAdminAuthModule` to your app modules:
+2. Then add the provided `DefaultAdminModule` to your app modules:
 
-Note that the DefaultAdminAuthModule will introduce an AdminUser entity.
-If you want to be able to use your own User entity to authenticate to the admin interface,
-you'll have to write your own module instead.
+> Note that the DefaultAdminModule will introduce an AdminUser entity.
+> If you want to be able to use your own User entity to authenticate to the admin interface,
+> you'll have to write your own module instead.
 
 ```ts
 // src/app.module.ts
 import { Module } from '@nestjs/common'
-import { AdminCoreModule, DefaultAdminAuthModule } from 'nestjs-admin'
+import { DefaultAdminModule } from 'nestjs-admin'
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), /* ... */, AdminCoreModule, DefaultAdminAuthModule],
+  imports: [TypeOrmModule.forRoot(), /* ... */, DefaultAdminModule],
   /* ... */,
 })
 export class AppModule {
-  // This is optional, to allow you manage AdminUsers from the admin
-  adminSite.register('Administration', AdminUser)
+  /* ... */
 }
 ```
 
@@ -75,9 +73,9 @@ yarn nestjs-admin createAdminUser # with yarn
 npm run nestjs-admin createAdminUser # with npm
 ```
 
-> If you did `adminSite.register(AdminUser)`, you can create more AdminUsers directly from the administration interface!
+> By using the `DefaultAdminModule` you can create more AdminUsers directly from the administration interface!
 
-> If you don't use the DefaultAdminAuthModule, it is up to you to define how to create admins (or maybe "creating admins" is not even a concept that applies in your application).
+> For now, the `DefaultAdminModule` is the only documented way to use nestjs-admin. If you need customisability, you'll have to dive into the source code.
 
 4. Register entities in the admin site
 
@@ -85,11 +83,11 @@ npm run nestjs-admin createAdminUser # with npm
 // user.module.ts
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
-import { AdminCoreModule, DefaultAdminSite } from 'nestjs-admin'
+import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin'
 import { User } from './user.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), AdminModule],
+  imports: [TypeOrmModule.forFeature([User]), DefaultAdminModule],
   exports: [TypeOrmModule],
 })
 export class UserModule {
@@ -100,7 +98,7 @@ export class UserModule {
 }
 ```
 
-5. You can now access the admin interface at `/admin`!
+5. You can now login to access the admin interface at `/admin/login`!
 
 Check the [rest of the docs](./docs) for more details.
 
