@@ -21,16 +21,18 @@
     "commander": "^3.0.1",
     "inquirer": "^7.0.0",
     "nunjucks": "^3.2.0",
+    "nunjucks-date-filter": "^0.1.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
-    "@types/inquirer": "^6.5.0",
-    "@types/nunjucks": "^3.1.1",
-    "@types/passport-local": "^1.0.33",
     "@types/express": "4.16.1",
+    "@types/inquirer": "^6.5.0",
     "@types/node": "11.13.4",
+    "@types/nunjucks": "^3.1.1",
+    "@types/passport": "^1.0.1",
+    "@types/passport-local": "^1.0.33",
     "ts-node": "8.1.0",
     "tsc-watch": "2.2.1",
     "typescript": "3.5.1"
