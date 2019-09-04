@@ -7,9 +7,17 @@ import { AdminUserController } from './adminUser.controller'
 import { CoreAdminModule } from './admin.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AdminUserEntity]), CoreAdminModule],
+  imports: [TypeOrmModule.forFeature([AdminUserEntity])],
   providers: [AdminUserService, LocalStrategy],
   controllers: [AdminUserController],
-  exports: [],
 })
-export class AuthAdminModule {}
+export class AuthAdminModuleFactory {
+  static createAdminModule({ adminModule = CoreAdminModule }) {
+    return {
+      module: AuthAdminModuleFactory,
+      imports: [adminModule],
+    }
+  }
+}
+
+export const AuthAdminModule = AuthAdminModuleFactory.createAdminModule({})
