@@ -4,20 +4,20 @@ import AdminUserEntity from './adminUser.entity'
 import { AdminUserService } from './adminUser.service'
 import { LocalStrategy } from './local.strategy'
 import { AdminUserController } from './adminUser.controller'
-import { CoreAdminModule } from './coreAdmin.module'
+import { AdminCoreModule } from './coreAdmin.module'
 
 @Module({
   imports: [TypeOrmModule.forFeature([AdminUserEntity])],
   providers: [AdminUserService, LocalStrategy],
   controllers: [AdminUserController],
 })
-export class AuthAdminModuleFactory {
-  static createAdminModule({ adminModule = CoreAdminModule }) {
+export class AdminAuthModuleFactory {
+  static createAdminModule({ adminModule = AdminCoreModule }) {
     return {
-      module: AuthAdminModuleFactory,
+      module: AdminAuthModuleFactory,
       imports: [adminModule],
     }
   }
 }
 
-export const AuthAdminModule = AuthAdminModuleFactory.createAdminModule({})
+export const AdminAuthModule = AdminAuthModuleFactory.createAdminModule({})

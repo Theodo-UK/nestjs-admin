@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { CoreAdminModule, CoreAdminModuleFactory } from '../coreAdmin.module'
+import { AdminCoreModule, AdminCoreModuleFactory } from '../coreAdmin.module'
 import DefaultAdminSite from '../adminSite'
 import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
@@ -16,7 +16,7 @@ describe('AppController', () => {
 
   it('should expose a default admin module ready to be used', async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), CoreAdminModule],
+      imports: [TypeOrmModule.forRoot(), AdminCoreModule],
     }).compile()
 
     app = module.createNestApplication()
@@ -35,7 +35,7 @@ describe('AppController', () => {
   })
 
   it('should allow to create your own admin module with defaults', async () => {
-    const CustomAdminModule = CoreAdminModuleFactory.createAdminModule({})
+    const CustomAdminModule = AdminCoreModuleFactory.createAdminModule({})
     const module: TestingModule = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(), CustomAdminModule],
     }).compile()
@@ -43,7 +43,7 @@ describe('AppController', () => {
     app = module.createNestApplication()
     await app.init()
 
-    expect(CustomAdminModule).toEqual(CoreAdminModule)
+    expect(CustomAdminModule).toEqual(AdminCoreModule)
   })
 
   it('should allow to configure the admin site and controller', async () => {
@@ -51,7 +51,7 @@ describe('AppController', () => {
     class CustomAdminController extends DefaultAdminController {}
     class CustomAdminEnvironment extends DefaultAdminNunjucksEnvironment {}
 
-    const CustomAdminModule = CoreAdminModuleFactory.createAdminModule({
+    const CustomAdminModule = AdminCoreModuleFactory.createAdminModule({
       adminSite: CustomAdminSite,
       adminController: CustomAdminController,
       adminEnvironment: CustomAdminEnvironment,
