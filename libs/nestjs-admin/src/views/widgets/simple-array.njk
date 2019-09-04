@@ -2,21 +2,31 @@
 
 {% block input %}
   {% macro field(name, value = '') %}
-    <div>
       <input
         id="{{ name }}"
         name="{{ name }}"
         value="{{ value }}"
       />
       <button type="button">X</button>
-    </div>
   {% endmacro %}
 
-  {% for value in column.getEntityValue(entity) %}
-    {% set fieldName = column.propertyName + "["+ loop.index0+ "]" %}
-    {{ field(fieldName, value) }}
-  {% endfor %}
+  <div id="values-{{ column.propertyName }}">
+    {% for value in column.getEntityValue(entity) %}
+    <div>
+      {{ field(column.propertyName, value) }}
+    </div>
+    {% endfor %}
+  </div>
+  <button type="button" onclick="addInput()">+</button>
+{% endblock %}
 
-  {% set fieldName = column.propertyName + "["+ "3" + "]" %}
-  {# <button type="button" onclick="this.parentElement.append('{{field(fieldName)|forceescape}}')">+</button> #}
+{% block script %}
+  <script>
+    function addInput() {
+      const newInput = "{{ field(column.propertyName, "") | replace("\n", "") | replace("\"", "\\\"") }}";
+      const node = document.createElement("div");
+      node.innerHTML = newInput;
+      document.getElementById("values-{{ column.propertyName }}").appendChild(node)
+    }
+  </script>
 {% endblock %}
