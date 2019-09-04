@@ -5,7 +5,7 @@ import DefaultAdminNunjucksEnvironment from './admin.environment'
 import { injectionTokens } from './tokens'
 
 @Module({})
-export class AdminModuleFactory {
+export class CoreAdminModuleFactory {
   static createAdminModule({
     adminSite = DefaultAdminSite,
     adminController = DefaultAdminController,
@@ -21,7 +21,7 @@ export class AdminModuleFactory {
     }
 
     return {
-      module: AdminModuleFactory,
+      module: CoreAdminModuleFactory,
       controllers: [adminController],
       // We export the adminSiteProvider, so that the admin site can be injected by the ADMIN_SITE token,
       // but also the adminSite itself so that the developer can use automatic DI by class.
@@ -32,4 +32,4 @@ export class AdminModuleFactory {
   }
 }
 
-export const DefaultAdminModule = AdminModuleFactory.createAdminModule({})
+export const CoreAdminModule = CoreAdminModuleFactory.createAdminModule({})

@@ -1,6 +1,6 @@
 # Instantiating the AdminModule
 
-The AdminModule is an instance of an administration interface. `nestjs-admin` exposes a `DefaultAdminModule`, but you can create your own if you need customizability thanks to the `AdminModuleFactory`.
+The AdminModule is an instance of an administration interface. `nestjs-admin` exposes a `CoreAdminModule`, but you can create your own if you need customizability thanks to the `CoreAdminModuleFactory`.
 
 ## Create your own AdminModule
 
@@ -9,9 +9,9 @@ Here's how to make your own AdminModule:
 ```ts
 // src/admin/admin.module.ts
 import { Module } from '@nestjs/common'
-import { AdminModuleFactory } from 'nestjs-admin'
+import { CoreAdminModuleFactory } from 'nestjs-admin'
 
-export const AdminModule = AdminModuleFactory({
+export const AdminModule = CoreAdminModuleFactory({
   adminSite: ..., // your own service for custom behavior
   adminController: ..., // your own controller to plug in the routes or add your own
   adminEnvironment: ..., // your own Nunjucks environment, if you need to configure the templating layer
@@ -23,9 +23,9 @@ Need to inject your own providers into your custom site, controller or environme
 ```ts
 // src/admin/admin.module.ts
 import { Module } from '@nestjs/common'
-import { AdminModuleFactory } from 'nestjs-admin'
+import { CoreAdminModuleFactory } from 'nestjs-admin'
 
-const AdminModuleInstance = AdminModuleFactory({
+const AdminModuleInstance = CoreAdminModuleFactory({
   /* ... */
 })
 
@@ -56,7 +56,7 @@ export class AdminSite extends DefaultAdminSite {
 }
 ```
 
-Then give this `AdminSite` to the `AdminModuleFactory.createAdminModule`.
+Then give this `AdminSite` to the `CoreAdminModuleFactory.createAdminModule`.
 
 ## Custom AdminController
 
@@ -71,4 +71,4 @@ export class AdminController extends DefaultAdminController {
 }
 ```
 
-Then give this `AdminController` to the `AdminModuleFactory.createAdminModule`.
+Then give this `AdminController` to the `CoreAdminModuleFactory.createAdminModule`.
