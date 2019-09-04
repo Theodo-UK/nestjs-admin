@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common'
-import { AdminUserEntity, AdminUserService, AdminModuleFactory } from '@app/nestjs-admin'
+import { AdminUserEntity, AdminModuleFactory } from '@app/nestjs-admin'
 import { AdminSite } from './admin'
 import { AdminController } from './admin.controller'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { AdminUserController } from '@app/nestjs-admin/adminUser.controller'
-import { LocalStrategy } from '@app/nestjs-admin/local.strategy'
+import { DefaultAdminUserModule } from '@app/nestjs-admin/adminUser.module'
 
 export const AdminModuleInstance = AdminModuleFactory.createAdminModule({
   adminSite: AdminSite,
@@ -12,10 +10,8 @@ export const AdminModuleInstance = AdminModuleFactory.createAdminModule({
 })
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AdminUserEntity]), AdminModuleInstance],
-  providers: [AdminSite, AdminUserService, LocalStrategy],
+  imports: [AdminModuleInstance, DefaultAdminUserModule],
   exports: [AdminModuleInstance],
-  controllers: [AdminController, AdminUserController],
 })
 export class AdminModule {
   constructor(private readonly adminSite: AdminSite) {
