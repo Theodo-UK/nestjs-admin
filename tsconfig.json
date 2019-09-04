@@ -11,8 +11,6 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@app/nestjs-admin": ["libs/nestjs-admin/src"],
-      "@app/nestjs-admin/*": ["libs/nestjs-admin/src/*"],
       "@/*": ["src/*"],
       "*": ["src/@types/*"]
     }

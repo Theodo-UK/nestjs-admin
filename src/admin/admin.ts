@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { DefaultAdminSite } from '@app/nestjs-admin'
+import { DefaultAdminSite } from 'nestjs-admin'
 
 @Injectable()
 export class AdminSite extends DefaultAdminSite {}

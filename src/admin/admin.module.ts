@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common'
-import { AdminUserEntity, AdminUserService, AdminModuleFactory } from '@app/nestjs-admin'
+import {
+  AdminUserEntity,
+  AdminUserService,
+  AdminModuleFactory,
+  AdminUserController,
+  LocalStrategy,
+} from 'nestjs-admin'
 import { AdminSite } from './admin'
 import { AdminController } from './admin.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AdminUserController } from '@app/nestjs-admin/adminUser.controller'
-import { LocalStrategy } from '@app/nestjs-admin/local.strategy'
 
 export const AdminModuleInstance = AdminModuleFactory.createAdminModule({
   adminSite: AdminSite,

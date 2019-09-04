@@ -96,7 +96,6 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "moduleNameMapper": {
-      "^@app/nestjs-admin(.*)$": "<rootDir>/libs/nestjs-admin/src$1",
       "^@/(.*)$": "<rootDir>/src/$1"
     },
     "coverageDirectory": "../coverage",
