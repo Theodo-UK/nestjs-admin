@@ -23,7 +23,7 @@ class DefaultAdminNunjucksEnvironment {
     @Inject(REQUEST) public request: any,
   ) {
     // Configure nunjucks for the admin
-    this.env = nunjucks.configure(join(__dirname, 'views'), {
+    this.env = nunjucks.configure(join(__dirname, 'public', 'views'), {
       noCache: true,
     })
 
