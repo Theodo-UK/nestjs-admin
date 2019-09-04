@@ -12,4 +12,4 @@ import { CoreAdminModule } from './admin.module'
   controllers: [AdminUserController],
   exports: [],
 })
-export class DefaultAdminUserModule {}
+export class AuthAdminModule {}
