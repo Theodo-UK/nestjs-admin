@@ -6,7 +6,7 @@ import { injectionTokens } from './tokens'
 
 @Module({})
 export class AdminCoreModuleFactory {
-  static createAdminModule({
+  static createAdminCoreModule({
     adminSite = DefaultAdminSite,
     adminController = DefaultAdminController,
     adminEnvironment = DefaultAdminNunjucksEnvironment,

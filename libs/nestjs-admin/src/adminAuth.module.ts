@@ -12,7 +12,7 @@ import { AdminCoreModuleFactory } from './adminCore.module'
   controllers: [AdminUserController],
 })
 export class AdminAuthModuleFactory {
-  static createAdminModule({ adminModule = AdminCoreModuleFactory.createAdminModule({}) }) {
+  static createAdminAuthModule({ adminModule = AdminCoreModuleFactory.createAdminCoreModule({}) }) {
     return {
       module: AdminAuthModuleFactory,
       imports: [adminModule],

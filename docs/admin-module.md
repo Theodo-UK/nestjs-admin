@@ -56,7 +56,7 @@ export class AdminSite extends DefaultAdminSite {
 }
 ```
 
-Then give this `AdminSite` to the `AdminCoreModuleFactory.createAdminModule`.
+Then give this `AdminSite` to the `AdminCoreModuleFactory.createAdminCoreModule`.
 
 ## Custom AdminController
 
@@ -71,4 +71,4 @@ export class AdminController extends DefaultAdminController {
 }
 ```
 
-Then give this `AdminController` to the `AdminCoreModuleFactory.createAdminModule`.
+Then give this `AdminController` to the `AdminCoreModuleFactory.createAdminCoreModule`.

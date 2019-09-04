@@ -4,8 +4,8 @@ import { AdminAuthModuleFactory } from './adminAuth.module'
 import DefaultAdminSite from './adminSite'
 import AdminUserEntity from './adminUser.entity'
 
-const AdminAuthModule = AdminAuthModuleFactory.createAdminModule({})
-const AdminCoreModule = AdminCoreModuleFactory.createAdminModule({})
+const AdminAuthModule = AdminAuthModuleFactory.createAdminAuthModule({})
+const AdminCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 @Module({
   imports: [AdminCoreModule, AdminAuthModule],
