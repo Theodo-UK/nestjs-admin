@@ -37,6 +37,9 @@ export class User {
   @Column('simple-array', { nullable: true })
   roles: string[]
 
+  @Column('simple-array', { nullable: true })
+  moreRoles: string[]
+
   @Column('text', { nullable: true })
   description: string
 

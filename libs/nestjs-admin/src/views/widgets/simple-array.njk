@@ -8,7 +8,7 @@
         name="{{ name }}"
         value="{{ value }}"
       />
-      <button type="button" onclick="removeInput(this)">X</button>
+      <button type="button" onclick="{{ name }}RemoveInput(this)">X</button>
     </div>
   {% endmacro %}
 
@@ -17,17 +17,17 @@
       {{ field(column.propertyName, value) }}
     {% endfor %}
   </div>
-  <button type="button" onclick="addInput()">+</button>
+  <button type="button" onclick="{{ column.propertyName }}AddInput()">+</button>
 {% endblock %}
 
 {% block script %}
   <script>
-    function addInput() {
+    function {{ column.propertyName }}AddInput() {
       const inputContainer = document.getElementById("values-{{ column.propertyName }}");
       const newInput = "{{ field(column.propertyName) | replace("\n", "") | replace("\"", "\\\"") }}";
       inputContainer.appendChild($(newInput)[0])
     }
-    function removeInput(self) {
+    function {{ column.propertyName }}RemoveInput(self) {
       self.closest('.input-{{ column.propertyName }}').remove()
     }
   </script>
