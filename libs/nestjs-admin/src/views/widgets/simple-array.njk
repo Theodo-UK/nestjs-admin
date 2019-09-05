@@ -5,12 +5,14 @@
     <div class="input-{{ name }}">
       <input
         id="{{ name }}"
-        name="{{ name }}"
+        name="{{ name }}[]"
         value="{{ value }}"
       />
       <button type="button" onclick="{{ name }}RemoveInput(this)">X</button>
     </div>
   {% endmacro %}
+
+  <input type="hidden" id="{{ column.propertyName }}-default" name="{{ column.propertyName }}" value="" disabled>
 
   <div id="values-{{ column.propertyName }}">
     {% for value in column.getEntityValue(entity) %}
@@ -25,10 +27,14 @@
     function {{ column.propertyName }}AddInput() {
       const inputContainer = document.getElementById("values-{{ column.propertyName }}");
       const newInput = "{{ field(column.propertyName) | replace("\n", "") | replace("\"", "\\\"") }}";
-      inputContainer.appendChild($(newInput)[0])
+      inputContainer.appendChild($(newInput)[0]);
+      document.getElementById("{{ column.propertyName }}-default").setAttribute('disabled', true);
     }
     function {{ column.propertyName }}RemoveInput(self) {
-      self.closest('.input-{{ column.propertyName }}').remove()
+      self.closest('.input-{{ column.propertyName }}').remove();
+      if(document.getElementsByClassName('input-{{ column.propertyName }}').length === 0) {
+        document.getElementById("{{ column.propertyName }}-default").removeAttribute('disabled');
+      }
     }
   </script>
 {% endblock %}
