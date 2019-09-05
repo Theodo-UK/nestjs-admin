@@ -12,7 +12,7 @@
     </div>
   {% endmacro %}
 
-  <input type="hidden" id="{{ column.propertyName }}-default" name="{{ column.propertyName }}" value="" disabled>
+  <input type="hidden" id="{{ column.propertyName }}-empty" name="{{ column.propertyName }}" value="" disabled>
 
   <div id="values-{{ column.propertyName }}">
     {% for value in column.getEntityValue(entity) %}
@@ -28,12 +28,12 @@
       const inputContainer = document.getElementById("values-{{ column.propertyName }}");
       const newInput = "{{ field(column.propertyName) | replace("\n", "") | replace("\"", "\\\"") }}";
       inputContainer.appendChild($(newInput)[0]);
-      document.getElementById("{{ column.propertyName }}-default").setAttribute('disabled', true);
+      document.getElementById("{{ column.propertyName }}-empty").setAttribute('disabled', true);
     }
     function {{ column.propertyName }}RemoveInput(self) {
       self.closest('.input-{{ column.propertyName }}').remove();
       if(document.getElementsByClassName('input-{{ column.propertyName }}').length === 0) {
-        document.getElementById("{{ column.propertyName }}-default").removeAttribute('disabled');
+        document.getElementById("{{ column.propertyName }}-empty").removeAttribute('disabled');
       }
     }
   </script>
