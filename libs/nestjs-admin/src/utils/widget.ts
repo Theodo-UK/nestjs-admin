@@ -139,7 +139,14 @@ export function getWidgetTemplate(column: ColumnMetadata) {
       >
     | 'simple_array'
 
-  const type: ImplementedTypes = column.type as any
+  const type: ImplementedTypes = column.type as ImplementedTypes
+  const name: string = column.propertyName
+
+  switch (name) {
+    case 'password':
+    case 'pw':
+      return 'widgets/password.njk'
+  }
 
   switch (type) {
     case 'text':
