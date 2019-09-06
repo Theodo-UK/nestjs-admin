@@ -2,13 +2,14 @@
 
 {% block input %}
   {% macro field(name, value = '') %}
-    <div class="input-{{ name }}">
+    <div class="array-value input-{{ name }}">
       <input
         id="{{ name }}"
         name="{{ name }}[]"
         value="{{ value }}"
+        class="form-control array-value__input"
       />
-      <button type="button" onclick="{{ name }}RemoveInput(this)">X</button>
+      <button type="button" class="array-remove" onclick="{{ name }}RemoveInput(this)">－</button>
     </div>
   {% endmacro %}
 
@@ -19,7 +20,7 @@
       {{ field(column.propertyName, value) }}
     {% endfor %}
   </div>
-  <button type="button" onclick="{{ column.propertyName }}AddInput()">+</button>
+  <button type="button" class="btn btn-primary" onclick="{{ column.propertyName }}AddInput()">Add another</button>
 {% endblock %}
 
 {% block script %}
