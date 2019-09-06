@@ -11,7 +11,7 @@
     {% if not column.isNullable %}disabled{% endif %}
   {% endmacro %}
 
-  <select id="{{ column.propertyName }}" name="{{ column.propertyName }}">
+  <select class="form-control" id="{{ column.propertyName }}" name="{{ column.propertyName }}">
     <option
       value
       {{ maybeSelected(column, null) }}
