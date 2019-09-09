@@ -1,20 +1,21 @@
 {
   "name": "nestjs-admin",
-  "version": "0.0.0-test5",
+  "version": "0.0.2-rc2",
   "description": "description",
   "author": "William Duclot",
   "main": "libs/nestjs-admin/dist/index.js",
   "types": "libs/nestjs-admin/dist/index.d.ts",
   "directories": {
-    "lib": "libs/nestjs-admin"
+    "lib": "libs/nestjs-admin/"
   },
   "license": "MIT",
   "files": [
-    "libs/nestjs-admin/dist/**/*"
+    "libs/nestjs-admin/**/*"
   ],
   "bin": "./libs/nestjs-admin/bin/cli",
   "scripts": {
     "build": "cd libs/nestjs-admin dist && yarn build",
+    "prepublishOnly": "echo 'Go to libs/nestjs-admin to publish' && exit 1",
     "format": "prettier --write \"src/**/*.ts\"",
     "migration:generate": "ts-node node_modules/.bin/typeorm migration:generate",
     "migration:revert": "ts-node node_modules/.bin/typeorm migration:revert",

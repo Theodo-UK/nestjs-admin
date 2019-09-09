@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "widget.css",
+	"sources": [
+		"../scss/widget.scss"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,SAAS,CAAC;EACR,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,IAAI;EACZ,UAAU,EAAE,OAAO;CACpB"
+}

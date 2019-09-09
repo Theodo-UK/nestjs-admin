@@ -9,7 +9,7 @@ yarn nest new test-project \
   --skip-git
 
 cd test-project
-yarn add pg typeorm @nestjs/cli @nestjs/typeorm "$LIB_PATH"
+yarn add pg typeorm @nestjs/cli @nestjs/typeorm @nestjs/platform-express "$LIB_PATH"
 
 yarn nest generate module user
 
