@@ -8,10 +8,10 @@
     "target": "es6",
     "sourceMap": false,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "baseUrl": "./",
     "noLib": false
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "test", "**/*spec.ts"]
+  "include": ["src/**/*.ts", "bin/**/*.ts"],
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }

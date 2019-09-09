@@ -7,13 +7,13 @@
     "type": "git",
     "url": "https://github.com/williamdclt/nestjs-admin"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "bin": "bin/cli",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "bin": "dist/bin/cli",
   "scripts": {
-    "start:dev": "tsc-watch --onSuccess \"ln -sfn ../src/public dist/public\" --onFailure \"echo 'There was a problem compiling'\"",
+    "start:dev": "tsc-watch --onSuccess \"ln -sfn ../../src/public dist/src/public\" --onFailure \"echo 'There was a problem compiling'\"",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
-    "postbuild": "cp -r src/public dist/public"
+    "postbuild": "cp -r src/public dist/src/public"
   },
   "peerDependencies": {
     "@nestjs/common": "^6.0.0",
