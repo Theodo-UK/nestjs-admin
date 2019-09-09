@@ -1,12 +1,12 @@
 {
   "name": "nestjs-admin",
-  "version": "0.0.0-test4",
+  "version": "0.0.2-rc2",
   "description": "description",
   "author": "William Duclot",
   "main": "libs/nestjs-admin/dist/index.js",
   "types": "libs/nestjs-admin/dist/index.d.ts",
   "directories": {
-    "lib": "libs/nestjs-admin"
+    "lib": "libs/nestjs-admin/"
   },
   "license": "MIT",
   "files": [
