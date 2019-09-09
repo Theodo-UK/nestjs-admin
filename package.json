@@ -15,6 +15,7 @@
   "bin": "./libs/nestjs-admin/bin/cli",
   "scripts": {
     "build": "cd libs/nestjs-admin dist && yarn build",
+    "prepublishOnly": "echo 'Go to libs/nestjs-admin to publish' && exit 1",
     "format": "prettier --write \"src/**/*.ts\"",
     "migration:generate": "ts-node node_modules/.bin/typeorm migration:generate",
     "migration:revert": "ts-node node_modules/.bin/typeorm migration:revert",
