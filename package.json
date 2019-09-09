@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "files": [
-    "libs/nestjs-admin/dist/**/*"
+    "libs/nestjs-admin/**/*"
   ],
   "bin": "./libs/nestjs-admin/bin/cli",
   "scripts": {
