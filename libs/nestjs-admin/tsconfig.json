@@ -3,17 +3,15 @@
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
-    "noImplicitAny": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "./dist",
+    "rootDir": "./src",
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "*": ["src/@types/*"]
-    }
+    "noLib": false
   },
-  "exclude": ["node_modules", "./src/@types"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "test", "**/*spec.ts"]
 }

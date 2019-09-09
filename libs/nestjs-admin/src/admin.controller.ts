@@ -9,6 +9,7 @@ import {
   Response,
   UseGuards,
   UseFilters,
+  Req,
 } from '@nestjs/common'
 import { Repository, EntityMetadata } from 'typeorm'
 import * as express from 'express'
@@ -20,6 +21,7 @@ import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
 import { AdminFilter } from './admin.filter'
 import { injectionTokens } from './tokens'
+import { Request } from 'express'
 
 const resultsPerPage = 25
 
@@ -80,18 +82,23 @@ export class DefaultAdminController {
   }
 
   @Get()
-  async index() {
+  async index(@Req() request: Request) {
     const sections = this.adminSite.getSectionList()
-    return await this.env.render('index.njk', { sections })
+    return await this.env.render('index.njk', { sections, request })
   }
 
   @Get(':sectionName/:entityName')
-  async changeList(@Param() params: AdminModelsQuery, @Query('page') pageParam: string = '1') {
+  async changeList(
+    @Req() request: Request,
+    @Param() params: AdminModelsQuery,
+    @Query('page') pageParam: string = '1',
+  ) {
     const { section, repository, metadata } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
     const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
 
     return await this.env.render('changelist.njk', {
+      request,
       section,
       entities,
       count,
@@ -102,9 +109,9 @@ export class DefaultAdminController {
   }
 
   @Get(':sectionName/:entityName/add')
-  async add(@Param() params: AdminModelsQuery) {
+  async add(@Req() request: Request, @Param() params: AdminModelsQuery) {
     const { section, metadata } = await this.getAdminModels(params)
-    return await this.env.render('add.njk', { section, metadata })
+    return await this.env.render('add.njk', { request, section, metadata })
   }
 
   @Post(':sectionName/:entityName/add')
@@ -130,9 +137,9 @@ export class DefaultAdminController {
   }
 
   @Get(':sectionName/:entityName/:primaryKey/change')
-  async change(@Param() params: AdminModelsQuery) {
+  async change(@Req() request: Request, @Param() params: AdminModelsQuery) {
     const { section, metadata, entity } = await this.getAdminModels(params)
-    return await this.env.render('change.njk', { section, metadata, entity })
+    return await this.env.render('change.njk', { request, section, metadata, entity })
   }
 
   @Post(':sectionName/:entityName/:primaryKey/delete')
@@ -144,7 +151,11 @@ export class DefaultAdminController {
   }
 
   @Post(':sectionName/:entityName/:primaryKey/change')
-  async update(@Body() updateEntityDto: object, @Param() params: AdminModelsQuery) {
+  async update(
+    @Req() request: Request,
+    @Body() updateEntityDto: object,
+    @Param() params: AdminModelsQuery,
+  ) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
 
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
@@ -155,6 +166,11 @@ export class DefaultAdminController {
     await repository.save(entityToBePersisted)
 
     const updatedEntity = await this.getEntityWithRelations(repository, params.primaryKey)
-    return await this.env.render('change.njk', { section, metadata, entity: updatedEntity })
+    return await this.env.render('change.njk', {
+      request,
+      section,
+      metadata,
+      entity: updatedEntity,
+    })
   }
 }

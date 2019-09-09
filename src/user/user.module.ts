@@ -1,7 +1,7 @@
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 
-import { DefaultAdminSite, DefaultAdminModule } from '@app/nestjs-admin'
+import { DefaultAdminSite, DefaultAdminModule } from 'nestjs-admin'
 
 import { User } from './user.entity'
 import { Group } from './group.entity'
