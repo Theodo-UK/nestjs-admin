@@ -1,13 +1,11 @@
 import { NestExpressApplication } from '@nestjs/platform-express'
-import * as sassMiddleware from 'node-sass-middleware'
 import * as session from 'express-session'
 import * as passport from 'passport'
 import { join } from 'path'
 import { DeepPartial } from 'typeorm'
 import { merge as _merge } from 'lodash'
-import { isDevEnvironment } from './utils/environment'
 
-const publicFolder = join(__dirname, 'public')
+export const publicFolder = join(__dirname, 'public')
 
 interface AdminAppConfigurationOptions {
   session: session.SessionOptions
@@ -37,7 +35,7 @@ function deserializeAdminUser(payload: any, done: (err: Error, payload: string) 
 
 export function configureAdminApp(
   app: NestExpressApplication,
-  options: DeepPartial<AdminAppConfigurationOptions>,
+  options?: DeepPartial<AdminAppConfigurationOptions>,
 ): void
 
 export function configureAdminApp(
@@ -49,17 +47,6 @@ export function configureAdminApp(
     {},
     defaultAdminConfigurationOptions,
     _options,
-  )
-
-  app.use(
-    sassMiddleware({
-      src: publicFolder + '/scss',
-      dest: publicFolder + '/css',
-      prefix: options.assetPrefix + '/css',
-      outputStyle: isDevEnvironment() ? 'expanded' : 'compressed',
-      sourceMap: isDevEnvironment(),
-      debug: isDevEnvironment(),
-    }),
   )
 
   app.use(session(options.session))
