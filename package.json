@@ -1,6 +1,6 @@
 {
   "name": "nestjs-admin-app",
-  "version": "0.0.0-test3",
+  "version": "0.0.0-test5",
   "description": "description",
   "author": "William Duclot",
   "main": "libs/nestjs-admin/dist/index.js",
