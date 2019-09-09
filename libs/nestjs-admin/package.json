@@ -6,24 +6,46 @@
     "type": "git",
     "url": "https://github.com/williamdclt/nestjs-admin"
   },
+  "main": "dist/index",
+  "scripts": {
+    "start:dev": "tsc-watch --onSuccess \"ln -sfn ../src/public dist/public\" --onFailure \"echo 'There was a problem compiling'\"",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "postbuild": "cp -r src/public dist/public"
+  },
   "peerDependencies": {
     "@nestjs/common": "^6.0.0",
-    "@nestjs/core": "^6.0.0"
+    "@nestjs/core": "^6.0.0",
+    "@nestjs/typeorm": "^6.0.0",
+    "typeorm": "^0.2.0"
   },
   "dependencies": {
     "@nestjs/passport": "^6.1.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.3.1",
+    "commander": "^3.0.1",
     "inquirer": "^7.0.0",
     "nunjucks": "^3.2.0",
+    "nunjucks-date-filter": "^0.1.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "@nestjs/common": "^6.0.0",
+    "@nestjs/core": "^6.0.0",
+    "@nestjs/typeorm": "^6.0.0",
     "@types/bcryptjs": "^2.4.2",
+    "@types/express": "4.16.1",
     "@types/inquirer": "^6.5.0",
+    "@types/node": "11.13.4",
     "@types/nunjucks": "^3.1.1",
+    "@types/passport": "^1.0.1",
     "@types/passport-local": "^1.0.33",
-    "commander": "^3.0.1"
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^3.0.0",
+    "rxjs": "^6.0.0",
+    "ts-node": "8.1.0",
+    "tsc-watch": "2.2.1",
+    "typeorm": "^0.2.18",
+    "typescript": "3.5.1"
   }
 }
