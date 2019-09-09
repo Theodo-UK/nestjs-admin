@@ -40,33 +40,17 @@ commands:
             - libs/nestjs-admin/node_modules
             - .env
 
-  yarn-tests:
+  generate-example-project:
     steps:
-      - checkout
-      - attach_workspace:
-          at: ~/nestjs-admin
+      - restore_cache:
+          key: v2-example-project-cache-{{ checksum "test-project/yarn.lock" }}
       - run:
-          name: Run migrations
-          command: yarn test:migration:run
-      - run:
-          name: Unit test with coverage
-          command: yarn test:coverage
-      - store_artifacts:
-          path: coverage
-      - run:
-          name: Run Typescript checker
-          command: yarn test:type
-
-  yarn-linter:
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/nestjs-admin
-      - run:
-          name: Run linter
-          command: yarn test:lint
-      - store_artifacts:
-          path: coverage
+          name: Generate example project
+          command: ./.circleci/scripts/generate-project.sh
+      - save_cache:
+          key: v2-example-project-cache-{{ checksum "test-project/yarn.lock" }}
+          paths:
+            - test-project/node_modules
 
 jobs:
   yarn-install-back:
@@ -75,30 +59,44 @@ jobs:
     steps:
       - yarn-install
 
-  nest-tests:
+  test-unit:
     executor: defaults_typescript
     working_directory: ~/nestjs-admin
     environment:
       NODE_ENV: test
     steps:
-      - yarn-tests
+      - checkout
+      - attach_workspace:
+          at: ~/nestjs-admin
+      - run:
+          name: Run migrations
+          command: yarn test:migration:run
+      - run:
+          name: Run tests
+          command: yarn test
 
-  nest-linter:
+  test-library:
     executor: defaults_typescript
     working_directory: ~/nestjs-admin
     environment:
       NODE_ENV: prod
     steps:
-      - yarn-linter
+      - checkout
+      - attach_workspace:
+          at: ~/nestjs-admin
+      - generate-example-project
+      - run:
+          name: Start the example project
+          command: cd test-project && yarn start
 
 workflows:
   version: 2
   stack:
     jobs:
       - yarn-install-back
-      - nest-tests:
+      - test-unit:
           requires:
             - yarn-install-back
-      - nest-linter:
+      - test-library:
           requires:
             - yarn-install-back
