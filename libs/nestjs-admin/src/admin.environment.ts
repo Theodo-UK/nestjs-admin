@@ -47,7 +47,8 @@ class DefaultAdminNunjucksEnvironment {
   async render(name: string, parameters: TemplateParameters) {
     const templateParameters = {
       ...parameters,
-      messages: parameters.request.flash(),
+      messages: parameters.request.flash('messages'),
+      flash: parameters.request.flash(),
     }
 
     const prom = new Promise((resolve, reject) => {

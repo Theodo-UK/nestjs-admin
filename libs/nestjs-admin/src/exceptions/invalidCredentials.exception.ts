@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common'
 
 class InvalidCredentials extends HttpException {
-  constructor() {
+  constructor(public readonly username: string) {
     super('Invalid credentials', HttpStatus.UNAUTHORIZED)
   }
 }

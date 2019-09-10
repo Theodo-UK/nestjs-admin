@@ -13,7 +13,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(email: string, password: string) {
     const adminUser = await this.adminUserService.validateCredentials(email, password)
     if (!adminUser) {
-      throw new InvalidCredentials()
+      throw new InvalidCredentials(email)
     }
     return adminUser
   }

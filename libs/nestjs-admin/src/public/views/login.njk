@@ -16,9 +16,9 @@
           {{ adminSite.siteHeader }}
         </div>
         <div class="admin-login__content">
-          {% if messages.loginError %}
+          {% if flash.loginError %}
             <div class="alert alert-danger">
-              {{ messages.loginError }}
+              {{ flash.loginError }}
             </div>
           {% else %}
             <div class="alert alert-info">
@@ -35,6 +35,7 @@
                 placeholder="Enter your email"
                 required
                 class="form-control"
+                value="{{ flash.email }}"
               />
             </div>
             <div class="form-group">
