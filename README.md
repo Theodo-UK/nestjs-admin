@@ -113,17 +113,29 @@ Any contribution is welcome. If you want to implement a feature, you need to kno
 
 ### Start the example app
 
-This repo is actually an example of how to use nestjs-admin. You can start it with:
+This repo is actually an example of how to use nestjs-admin. Here's how to use it:
 
 ```bash
-yarn install
+# In a first terminal, run the database
 cp .env.example .env
 docker-compose up
+
+# In a second terminal, compile the library
+cd libs/nestjs-admin
+yarn install
+yarn link
+yarn start:dev
+
+# In a third terminal, run the example app
+yarn install
+yarn link nestjs-admin
 yarn migration:run
 yarn start:debug
 ```
 
-Then go to `localhost:8000/admin` to see an admin interface for a complex entity. The code for the actual library is in `libs/nestjs-admin`.
+You can now create an AdminUser (`yarn nestjs-admin createAdminUser`) to be able to login to `localhost:8000/admin`.
+
+The code for the actual library is in `libs/nestjs-admin`.
 
 ### Tooling
 
