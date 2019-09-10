@@ -16,9 +16,15 @@
           {{ adminSite.siteHeader }}
         </div>
         <div class="admin-login__content">
-          <div class="alert alert-info">
-            Please provide admin credentials to access the administration
-          </div>
+          {% if messages.loginError %}
+            <div class="alert alert-danger">
+              {{ messages.loginError }}
+            </div>
+          {% else %}
+            <div class="alert alert-info">
+              Please provide admin credentials to access the administration
+            </div>
+          {% endif %}
           <form method="POST" action="{{ "login" | adminUrl() }}">
             <div class="form-group">
               <label for="email">Email address</label>
