@@ -21,23 +21,23 @@ commands:
           key: v2-node-modules-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Install lib dependencies
-          command: cd libs/nestjs-admin && yarn
+          command: yarn install
       - run:
           name: Build lib
-          command: cd libs/nestjs-admin && yarn build
+          command: yarn build
       - run:
-          name: Install front dependencies
-          command: yarn
+          name: Install example app dependencies
+          command: cd exampleApp && yarn install
       - save_cache:
           key: v2-node-modules-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-            - libs/nestjs-admin/node_modules
+            - exampleApp/node_modules
       - persist_to_workspace:
           root: ~/nestjs-admin
           paths:
             - node_modules
-            - libs/nestjs-admin/node_modules
+            - exampleApp/node_modules
             - .env
 
   generate-example-project:
@@ -70,7 +70,7 @@ jobs:
           at: ~/nestjs-admin
       - run:
           name: Run migrations
-          command: yarn test:migration:run
+          command: cd exampleApp && yarn test:migration:run
       - run:
           name: Run tests
           command: yarn test
@@ -87,7 +87,7 @@ jobs:
       - generate-example-project
       - run:
           name: Start the example project
-          command: cd test-project && yarn start
+          command: cd exampleApp/test-project && yarn start
 
 workflows:
   version: 2

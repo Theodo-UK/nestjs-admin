@@ -1,18 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken } from '@nestjs/typeorm'
-import * as request from 'supertest'
-import { AppModule } from '../src/app.module'
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import * as request from 'supertest'
+import { DefaultAdminModule } from 'nestjs-admin'
 import { User } from '../src/user/user.entity'
 import { createTestUser } from './utils'
+import { UserModule } from '../src/user/user.module'
 
 describe('AppController', () => {
   let app: INestApplication
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [TypeOrmModule.forRoot(), UserModule, DefaultAdminModule],
     }).compile()
 
     app = module.createNestApplication()

@@ -1,4 +1,4 @@
-import { User } from '@/user/user.entity'
+import { User } from '../src/user/user.entity'
 
 export function createTestUser(attrs?: Partial<User>): User {
   const user = new User()
