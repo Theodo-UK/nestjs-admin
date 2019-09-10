@@ -1,11 +1,23 @@
-import { Controller, Get, HttpCode, Post, UseGuards, Res, Inject, Req } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  UseGuards,
+  Res,
+  Inject,
+  Req,
+  UseFilters,
+} from '@nestjs/common'
 import { Request } from 'express'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import { LoginGuard } from './login.guard'
 import { injectionTokens } from './tokens'
 import { adminUrl } from './admin.filters'
+import { AdminFilter } from './admin.filter'
 
 @Controller('admin')
+@UseFilters(AdminFilter)
 export class AdminUserController {
   constructor(
     @Inject(injectionTokens.ADMIN_ENVIRONMENT)
