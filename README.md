@@ -46,10 +46,6 @@ npm install nestjs-admin # With NPM
 
 2. Then add the provided `DefaultAdminModule` to your app modules:
 
-> Note that the DefaultAdminModule will introduce an AdminUser entity.
-> If you want to be able to use your own User entity to authenticate to the admin interface,
-> you'll have to write your own module instead.
-
 ```ts
 // src/app.module.ts
 import { Module } from '@nestjs/common'
@@ -64,18 +60,25 @@ export class AppModule {
 }
 ```
 
-> Need customization? You can use the AdminCoreModuleFactory to create [your own admin module instead](./docs/admin-module.md).
-
 3. Create a first AdminUser to log in with
 
+The DefaultAdminModule exposes an AdminUser entity, which has credentials that allow you to login to the admin interface.
+
+> There's no easy option to use your own user entity for now. If you have this requirement, open an issue so that we can help you.
+
 ```bash
+# create the AdminUser schema in database
+yarn ts-node node_modules/.bin/typeorm migration:generate -n "create-admin-user"
+yarn ts-node node_modules/.bin/typeorm migration:run
+
+# Create an AdminUser through the CLI
 yarn nestjs-admin createAdminUser # with yarn
 npm run nestjs-admin createAdminUser # with npm
 ```
 
-> By using the `DefaultAdminModule` you can create more AdminUsers directly from the administration interface!
+> You can create AdminUsers from the `nestjs-admin createAdminUser` CLI, or directly from the administration interface!
 
-> For now, the `DefaultAdminModule` is the only documented way to use nestjs-admin. If you need customisability, you'll have to dive into the source code.
+You can now login to access the admin interface at `/admin/login`!
 
 4. Register entities in the admin site
 
@@ -97,8 +100,6 @@ export class UserModule {
   }
 }
 ```
-
-5. You can now login to access the admin interface at `/admin/login`!
 
 Check the [rest of the docs](./docs) for more details.
 
