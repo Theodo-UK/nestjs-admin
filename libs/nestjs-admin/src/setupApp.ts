@@ -4,6 +4,7 @@ import * as passport from 'passport'
 import { join } from 'path'
 import { DeepPartial } from 'typeorm'
 import { merge as _merge } from 'lodash'
+import flash = require('connect-flash')
 
 export const publicFolder = join(__dirname, 'public')
 
@@ -53,6 +54,7 @@ export function configureAdminApp(
 
   app.use(passport.initialize())
   app.use(passport.session())
+  app.use(flash())
 
   passport.serializeUser(options.serializeUser)
   passport.deserializeUser(options.deserializeUser)

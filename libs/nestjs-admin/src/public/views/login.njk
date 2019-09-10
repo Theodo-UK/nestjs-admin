@@ -16,9 +16,15 @@
           {{ adminSite.siteHeader }}
         </div>
         <div class="admin-login__content">
-          <div class="alert alert-info">
-            Please provide admin credentials to access the administration
-          </div>
+          {% if flash.loginError %}
+            <div class="alert alert-danger">
+              {{ flash.loginError }}
+            </div>
+          {% else %}
+            <div class="alert alert-info">
+              Please provide admin credentials to access the administration
+            </div>
+          {% endif %}
           <form method="POST" action="{{ "login" | adminUrl() }}">
             <div class="form-group">
               <label for="email">Email address</label>
@@ -29,6 +35,7 @@
                 placeholder="Enter your email"
                 required
                 class="form-control"
+                value="{{ flash.email }}"
               />
             </div>
             <div class="form-group">
