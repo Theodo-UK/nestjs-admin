@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
 import { INestApplicationContext } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'

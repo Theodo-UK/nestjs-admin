@@ -1,6 +1,6 @@
 {
   "name": "nestjs-admin",
-  "version": "0.0.2-rc5",
+  "version": "0.0.2-rc6",
   "license": "MIT",
   "author": "William Duclot",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
-  "bin": "dist/bin/cli",
+  "bin": "dist/bin/cli.js",
   "scripts": {
     "start:dev": "tsc-watch --onSuccess \"ln -sfn ../../src/public dist/src/public\" --onFailure \"echo 'There was a problem compiling'\"",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
