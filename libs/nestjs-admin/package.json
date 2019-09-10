@@ -12,6 +12,7 @@
   "bin": "dist/bin/cli.js",
   "scripts": {
     "start:dev": "tsc-watch --onSuccess \"ln -sfn ../../src/public dist/src/public\" --onFailure \"echo 'There was a problem compiling'\"",
+    "prepublishOnly": "yarn build",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "postbuild": "cp -r src/public dist/src/public"
   },
