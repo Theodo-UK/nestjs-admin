@@ -1,13 +1,12 @@
-const AdminUser = require('nestjs-admin').AdminUserEntity
+// This config is only used for testing
 
 module.exports = {
   type: 'postgres',
   host: 'localhost',
-  port: process.env.DB_PORT,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  entities: [__dirname + '/src/**/*.entity.{js,ts}', AdminUser],
-  migrations: ['migration/*.ts'],
+  port: 5434,
+  username: 'seed',
+  password: 'Ge0rgesMoustaki',
+  database: 'seed',
+  entities: [__dirname + '/src/**/*.entity.{js,ts}'],
   synchronize: false,
 }

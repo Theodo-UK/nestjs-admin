@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 import DefaultAdminSite from '../adminSite'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { DefaultAdminModule } from '..'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
 describe('DefaultAdminModule', () => {
   let app: INestApplication
@@ -25,8 +25,6 @@ describe('DefaultAdminModule', () => {
     expect(adminSite).toBeInstanceOf(DefaultAdminSite)
 
     const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
-    // @debt test "miker: had to remove nunjucks test, think it's related to an nestjs version update"
-    expect(app.get(injectionTokens.ADMIN_ENVIRONMENT)).toBe(adminEnv)
-    expect(() => app.get(DefaultAdminNunjucksEnvironment)).toThrow()
+    expect(adminEnv).toBeInstanceOf(DefaultAdminNunjucksEnvironment)
   })
 })

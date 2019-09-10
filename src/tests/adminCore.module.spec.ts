@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
 import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
 describe('AdminCoreModuleFactory', () => {
   let app: INestApplication
@@ -27,9 +27,7 @@ describe('AdminCoreModuleFactory', () => {
     expect(adminSite).toBeInstanceOf(DefaultAdminSite)
 
     const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
-    // @debt test "miker: had to remove nunjucks test, think it's related to an nestjs version update"
-    expect(app.get(injectionTokens.ADMIN_ENVIRONMENT)).toBe(adminEnv)
-    expect(() => app.get(DefaultAdminNunjucksEnvironment)).toThrow()
+    expect(adminEnv).toBeInstanceOf(DefaultAdminNunjucksEnvironment)
   })
 
   it('should allow to configure the admin core site and controller', async () => {

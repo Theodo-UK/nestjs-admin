@@ -9,28 +9,22 @@ import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 
 describe('AdminAuthModuleFactory', () => {
-  let app: INestApplication
-
-  afterEach(async () => {
-    await app.close()
-  })
-
   it('should return the default admin site and environment when passed no params', async () => {
     const DefaultAdminAuthModule = AdminAuthModuleFactory.createAdminAuthModule({})
     const module: TestingModule = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(), DefaultAdminAuthModule],
     }).compile()
 
-    app = module.createNestApplication()
+    const app = module.createNestApplication()
     await app.init()
 
     const adminSite = app.get(injectionTokens.ADMIN_SITE)
     expect(adminSite).toBeInstanceOf(DefaultAdminSite)
 
     const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
-    // @debt test "miker: had to remove nunjucks test, think it's related to an nestjs version update"
-    expect(app.get(injectionTokens.ADMIN_ENVIRONMENT)).toBe(adminEnv)
-    expect(() => app.get(DefaultAdminNunjucksEnvironment)).toThrow()
+    expect(adminEnv).toBeInstanceOf(DefaultAdminNunjucksEnvironment)
+
+    await app.close()
   })
 
   it('should allow to configure the admin auth module with a custom admin core module', async () => {
@@ -47,11 +41,12 @@ describe('AdminAuthModuleFactory', () => {
     const CustomAdminModule = AdminAuthModuleFactory.createAdminAuthModule({
       adminModule: CustomAdminCoreModule,
     })
+
     const module: TestingModule = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(), CustomAdminModule],
     }).compile()
 
-    app = module.createNestApplication()
+    const app = module.createNestApplication()
     await app.init()
 
     expect(app.get(CustomAdminController)).toBeInstanceOf(CustomAdminController)
@@ -62,9 +57,8 @@ describe('AdminAuthModuleFactory', () => {
     expect(app.get(CustomAdminSite)).toBe(adminSite)
     expect(() => app.get(DefaultAdminSite)).toThrow()
 
-    const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
-    // @debt test "miker: had to remove nunjucks test, think it's related to an nestjs version update"
-    expect(app.get(injectionTokens.ADMIN_ENVIRONMENT)).toBe(adminEnv)
     expect(() => app.get(DefaultAdminNunjucksEnvironment)).toThrow()
+
+    await app.close()
   })
 })
