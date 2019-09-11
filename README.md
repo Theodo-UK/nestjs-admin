@@ -121,12 +121,12 @@ cp .env.example .env
 docker-compose up
 
 # In a second terminal, compile the library
-cd libs/nestjs-admin
 yarn install
 yarn link
 yarn start:dev
 
 # In a third terminal, run the example app
+cd exampleApp/
 yarn install
 yarn link nestjs-admin
 yarn migration:run
