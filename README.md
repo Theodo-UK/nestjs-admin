@@ -37,14 +37,14 @@ This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-
 
 Let's get you started with a minimal setup.
 
-1. Add nestjs-admin to your dependencies:
+1. **Add nestjs-admin to your dependencies:**
 
 ```bash
 yarn add nestjs-admin # With yarn
 npm install nestjs-admin # With NPM
 ```
 
-2. Then add the provided `DefaultAdminModule` to your app modules:
+2. **Then add the provided `DefaultAdminModule` to your app modules:**
 
 ```ts
 // src/app.module.ts
@@ -60,7 +60,7 @@ export class AppModule {
 }
 ```
 
-3. Create a first AdminUser to log in with
+3. **Create a first AdminUser to log in with**
 
 The DefaultAdminModule exposes an AdminUser entity, which has credentials that allow you to login to the admin interface.
 
@@ -80,7 +80,7 @@ npm run nestjs-admin createAdminUser # with npm
 
 You can now login to access the admin interface at `/admin/login`!
 
-4. Register entities in the admin site
+4. **Register entities in the admin site**
 
 ```ts
 // user.module.ts
