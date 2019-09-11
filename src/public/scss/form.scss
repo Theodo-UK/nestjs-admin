@@ -6,11 +6,8 @@
   padding: 1rem;
   border: 1px solid $border-color;
 
-  &--change {
-    // The placement of the delete button pushes both buttons off the bottom of the form
-    // This extends the form so that they are contained again
-    padding-bottom: 3.5rem;
-  }
+  // As the buttons are floating, we have to allow extra margin at the bottom
+  padding-bottom: 3.5rem;
 }
 
 .array-value {

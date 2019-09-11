@@ -1,6 +1,7 @@
 {% set useJquery = true %}
 {% set backLink = "changelist" | adminUrl(section, metadata)  %}
 {% set pageId = "admin-add" %}
+
 {% extends 'base.njk'%}
 
 {% block stylesheets %}
@@ -21,6 +22,11 @@
                 {% include getWidgetTemplate(column) %}
               </fieldset>
             {% endif %}
+          {% endeach %}
+          {% asyncEach relation in metadata.manyToManyRelations %}
+            <fieldset>
+              {% include 'widgets/manytomany.njk' %}
+            </fieldset>
           {% endeach %}
           <button type="submit" class="btn btn-primary float-right">Submit</button>
         </form>

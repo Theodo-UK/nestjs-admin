@@ -1,6 +1,7 @@
 {% set useJquery = true %}
 {% set backLink = "changelist" | adminUrl(section, metadata)  %}
 {% set pageId = "admin-change" %}
+
 {% extends 'base.njk'%}
 
 {% block stylesheets %}
@@ -9,37 +10,37 @@
 
 {% block body %}
 
-<h3 class="admin-title">{{ entity | displayName(metadata) }}</h3>
+<div class="admin-title"><h3>{{ entity | displayName(metadata) }}</h3></div>
 <div class="admin-content">
   <div class="row">
     <div class="col-12 col-xl-8">
       <div class="admin-form admin-form--change">
-      <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
-        {% asyncEach column in metadata.columns %}
-          {% set value=column.getEntityValue(entity) %}
-          <fieldset class="entity-form__field {{ column.propertyName }}">
-            {% if not column.isGenerated %}
-              {% include getWidgetTemplate(column) %}
-            {% else %}
-              {% include "widgets/plaintext.njk" %}
-            {% endif %}
-          </fieldset>
-        {% endeach %}
-        {% asyncEach relation in metadata.manyToManyRelations %}
-          <fieldset>
-            {% include 'widgets/manytomany.njk' %}
-          </fieldset>
-        {% endeach %}
-        <button type="submit" class="btn btn-primary float-right">Submit</button>
-      </form>
-      <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
-        <input
-          type="submit"
-          value="Delete"
-          class="btn btn-danger float-left"
-          onclick="return confirm('Are you sure you want to delete {{ entity | displayName(metadata) }}?')"
-        >
-      </form>
+        <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
+          {% asyncEach column in metadata.columns %}
+            {% set value=column.getEntityValue(entity) %}
+            <fieldset class="entity-form__field {{ column.propertyName }}">
+              {% if not column.isGenerated %}
+                {% include getWidgetTemplate(column) %}
+              {% else %}
+                {% include "widgets/plaintext.njk" %}
+              {% endif %}
+            </fieldset>
+          {% endeach %}
+          {% asyncEach relation in metadata.manyToManyRelations %}
+            <fieldset>
+              {% include 'widgets/manytomany.njk' %}
+            </fieldset>
+          {% endeach %}
+          <button type="submit" class="btn btn-primary float-right">Submit</button>
+        </form>
+        <form method="POST" action="{{ 'delete' | adminUrl(section, metadata, entity) }}">
+          <input
+            type="submit"
+            value="Delete"
+            class="btn btn-danger float-left"
+            onclick="return confirm('Are you sure you want to delete {{ entity | displayName(metadata) }}?')"
+          >
+        </form>
       </div>
     </div>
   </div>
