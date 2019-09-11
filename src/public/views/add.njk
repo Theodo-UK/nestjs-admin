@@ -23,6 +23,11 @@
               </fieldset>
             {% endif %}
           {% endeach %}
+          {% asyncEach relation in metadata.manyToManyRelations %}
+            <fieldset>
+              {% include 'widgets/manytomany.njk' %}
+            </fieldset>
+          {% endeach %}
           <button type="submit" class="btn btn-primary float-right">Submit</button>
         </form>
       </div>
