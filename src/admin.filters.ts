@@ -19,8 +19,6 @@ export function adminUrl(route: Route, ...args: RouteArgs) {
       return urls.addUrl(...(args as [any, any]))
     case 'delete':
       return urls.deleteUrl(...(args as [any, any, any]))
-    case 'login':
-      return urls.loginUrl()
     case 'logout':
       return urls.logoutUrl()
     default:
