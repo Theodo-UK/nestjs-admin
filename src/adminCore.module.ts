@@ -1,16 +1,16 @@
-import { Module, Inject } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { DefaultAdminController } from './admin.controller'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import { injectionTokens } from './tokens'
-import { HttpAdapterHost } from '@nestjs/core'
-import { configureAdminApp, AdminAppConfigurationOptions } from './setupApp'
+import DefaultAdminAppConfigurator, { AdminAppConfigurationOptions } from './admin.configurator'
 import { DeepPartial } from 'typeorm'
 
 export interface AdminCoreModuleConfig {
   adminSite?: typeof DefaultAdminSite
   adminController?: typeof DefaultAdminController
   adminEnvironment?: typeof DefaultAdminNunjucksEnvironment
+  adminAppConfigurator?: typeof DefaultAdminAppConfigurator
   appConfig?: DeepPartial<AdminAppConfigurationOptions>
 }
 
@@ -20,6 +20,7 @@ export class AdminCoreModuleFactory {
     adminSite = DefaultAdminSite,
     adminController = DefaultAdminController,
     adminEnvironment = DefaultAdminNunjucksEnvironment,
+    adminAppConfigurator = DefaultAdminAppConfigurator,
     appConfig = {},
   }: AdminCoreModuleConfig) {
     const adminSiteProvider = {
@@ -29,6 +30,10 @@ export class AdminCoreModuleFactory {
     const adminEnvironmentProvider = {
       provide: injectionTokens.ADMIN_ENVIRONMENT,
       useExisting: adminEnvironment,
+    }
+    const adminAppConfiguratorProvider = {
+      provide: injectionTokens.ADMIN_APP_CONFIGURATOR,
+      useExisting: adminAppConfigurator,
     }
     const appConfigProvider = {
       provide: injectionTokens.APP_CONFIG,
@@ -43,6 +48,8 @@ export class AdminCoreModuleFactory {
       adminEnvironmentProvider,
       adminSite,
       adminSiteProvider,
+      adminAppConfigurator,
+      adminAppConfiguratorProvider,
       appConfigProvider,
     ]
 
@@ -51,16 +58,6 @@ export class AdminCoreModuleFactory {
       controllers: [adminController],
       providers: exportedProviders,
       exports: exportedProviders,
-    }
-  }
-
-  constructor(
-    private readonly adapterHost: HttpAdapterHost,
-    @Inject(injectionTokens.APP_CONFIG)
-    private readonly appConfig: DeepPartial<AdminAppConfigurationOptions>,
-  ) {
-    if (adapterHost.httpAdapter) {
-      configureAdminApp(adapterHost.httpAdapter, appConfig)
     }
   }
 }
