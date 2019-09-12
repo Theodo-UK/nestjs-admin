@@ -3,7 +3,10 @@ import { DefaultAdminController } from './admin.controller'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import { injectionTokens } from './tokens'
-import DefaultAdminAppConfigurator, { AdminAppConfigurationOptions } from './admin.configurator'
+import DefaultAdminAppConfigurator, {
+  AdminAppConfigurationOptions,
+  createAppConfiguration,
+} from './admin.configurator'
 import { DeepPartial } from 'typeorm'
 
 export interface AdminCoreModuleConfig {
@@ -37,7 +40,7 @@ export class AdminCoreModuleFactory {
     }
     const appConfigProvider = {
       provide: injectionTokens.APP_CONFIG,
-      useValue: appConfig,
+      useValue: createAppConfiguration(appConfig),
     }
 
     // We export the adminSiteProvider, so that the admin site can be injected by the ADMIN_SITE token,

@@ -36,33 +36,39 @@ export const defaultAdminConfigurationOptions: AdminAppConfigurationOptions = {
   deserializeUser: deserializeAdminUser,
 }
 
+export function createAppConfiguration(
+  userConfig: DeepPartial<AdminAppConfigurationOptions>,
+): AdminAppConfigurationOptions {
+  const config: AdminAppConfigurationOptions = _merge(
+    {},
+    defaultAdminConfigurationOptions,
+    userConfig,
+  )
+  return config
+}
+
 @Injectable()
 class AdminAppConfigurator implements OnModuleInit {
   constructor(
     private readonly adapterHost: HttpAdapterHost,
     @Inject(injectionTokens.APP_CONFIG)
-    private readonly appConfig: DeepPartial<AdminAppConfigurationOptions>,
+    private readonly appConfig: AdminAppConfigurationOptions,
   ) {}
 
   onModuleInit() {
-    const config: AdminAppConfigurationOptions = _merge(
-      {},
-      defaultAdminConfigurationOptions,
-      this.appConfig,
-    )
     const httpAdapter = this.adapterHost.httpAdapter
 
-    httpAdapter.use('/admin', session(config.session))
+    httpAdapter.use('/admin', session(this.appConfig.session))
 
     httpAdapter.use('/admin', passport.initialize())
     httpAdapter.use('/admin', passport.session())
     httpAdapter.use('/admin', flash())
 
-    passport.serializeUser(config.serializeUser)
-    passport.deserializeUser(config.deserializeUser)
+    passport.serializeUser(this.appConfig.serializeUser)
+    passport.deserializeUser(this.appConfig.deserializeUser)
 
     // needs to be after the sassMiddleware
-    httpAdapter.useStaticAssets(publicFolder, { prefix: config.assetPrefix })
+    httpAdapter.useStaticAssets(publicFolder, { prefix: this.appConfig.assetPrefix })
   }
 }
 

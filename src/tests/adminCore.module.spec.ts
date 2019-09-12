@@ -4,12 +4,14 @@ import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
 import DefaultAdminAppConfigurator, {
   defaultAdminConfigurationOptions,
+  AdminAppConfigurationOptions,
 } from '../admin.configurator'
 import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { MemoryStore } from 'express-session'
+import { DeepPartial } from 'typeorm'
 
 describe('AdminCoreModuleFactory', () => {
   let app: INestApplication
@@ -43,7 +45,7 @@ describe('AdminCoreModuleFactory', () => {
     class CustomAdminEnvironment extends DefaultAdminNunjucksEnvironment {}
     class CustomAdminAppConfigurator extends DefaultAdminAppConfigurator {}
     const memoryStore = new MemoryStore()
-    const appConfig = {
+    const appConfig: DeepPartial<AdminAppConfigurationOptions> = {
       session: {
         store: memoryStore,
       },
@@ -82,6 +84,6 @@ describe('AdminCoreModuleFactory', () => {
     expect(() => app.get(DefaultAdminAppConfigurator)).toThrow()
 
     const appConfiguration = app.get(injectionTokens.APP_CONFIG)
-    expect(appConfiguration).toEqual({ ...defaultAdminConfigurationOptions, ...appConfig })
+    expect(appConfiguration).toMatchObject({ ...defaultAdminConfigurationOptions, ...appConfig })
   })
 })
