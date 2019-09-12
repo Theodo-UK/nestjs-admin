@@ -56,8 +56,8 @@ describe('AdminCoreModuleFactory', () => {
     expect(() => app.get(DefaultAdminSite)).toThrow()
 
     const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
-    // @debt test "miker: had to remove nunjucks test, think it's related to an nestjs version update"
-    expect(app.get(injectionTokens.ADMIN_ENVIRONMENT)).toBe(adminEnv)
+    expect(adminEnv).toBeInstanceOf(CustomAdminEnvironment)
+    expect(app.get(CustomAdminEnvironment)).toBe(adminEnv)
     expect(() => app.get(DefaultAdminNunjucksEnvironment)).toThrow()
   })
 })
