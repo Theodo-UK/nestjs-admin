@@ -1,14 +1,15 @@
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 
-import { DefaultAdminSite, DefaultAdminModule } from 'nestjs-admin'
+import { DefaultAdminSite } from 'nestjs-admin'
+import { BackofficeModule } from '@/backoffice/backoffice.module'
 
 import { User } from './user.entity'
 import { Group } from './group.entity'
 import { Agency } from './agency.entity'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), DefaultAdminModule],
+  imports: [TypeOrmModule.forFeature([User]), BackofficeModule],
   controllers: [],
   providers: [],
   exports: [TypeOrmModule],
