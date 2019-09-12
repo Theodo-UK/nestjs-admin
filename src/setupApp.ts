@@ -1,14 +1,14 @@
-import { NestExpressApplication } from '@nestjs/platform-express'
 import * as session from 'express-session'
 import * as passport from 'passport'
 import { join } from 'path'
 import { DeepPartial } from 'typeorm'
 import { merge as _merge } from 'lodash'
 import flash = require('connect-flash')
+import { AbstractHttpAdapter } from '@nestjs/core'
 
 export const publicFolder = join(__dirname, 'public')
 
-interface AdminAppConfigurationOptions {
+export interface AdminAppConfigurationOptions {
   session: session.SessionOptions
   assetPrefix: string
   serializeUser: (user: any, done: (err: any, id?: any) => void) => void
@@ -35,13 +35,13 @@ function deserializeAdminUser(payload: any, done: (err: Error, payload: string) 
 }
 
 export function configureAdminApp(
-  app: NestExpressApplication,
+  app: AbstractHttpAdapter,
   options?: DeepPartial<AdminAppConfigurationOptions>,
 ): void
 
 export function configureAdminApp(
-  app: NestExpressApplication,
-  // tslint:disable-next-line
+  app: AbstractHttpAdapter,
+  // tslint:disable-next-line:variable-name
   _options: DeepPartial<AdminAppConfigurationOptions> = {},
 ) {
   const options: AdminAppConfigurationOptions = _merge(
@@ -50,11 +50,11 @@ export function configureAdminApp(
     _options,
   )
 
-  app.use(session(options.session))
+  app.use('/admin', session(options.session))
 
-  app.use(passport.initialize())
-  app.use(passport.session())
-  app.use(flash())
+  app.use('/admin', passport.initialize())
+  app.use('/admin', passport.session())
+  app.use('/admin', flash())
 
   passport.serializeUser(options.serializeUser)
   passport.deserializeUser(options.deserializeUser)
