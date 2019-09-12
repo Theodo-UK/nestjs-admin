@@ -59,6 +59,8 @@ export class AdminCoreModuleFactory {
     @Inject(injectionTokens.APP_CONFIG)
     private readonly appConfig: DeepPartial<AdminAppConfigurationOptions>,
   ) {
-    configureAdminApp(adapterHost.httpAdapter, appConfig)
+    if (adapterHost.httpAdapter) {
+      configureAdminApp(adapterHost.httpAdapter, appConfig)
+    }
   }
 }
