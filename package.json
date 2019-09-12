@@ -1,6 +1,6 @@
 {
   "name": "nestjs-admin",
-  "version": "0.0.2-rc13",
+  "version": "0.0.2-rc14",
   "license": "MIT",
   "author": "William Duclot",
   "repository": {
@@ -54,6 +54,7 @@
     "@types/express-session": "^1.15.14",
     "@types/inquirer": "^6.5.0",
     "@types/jest": "^24.0.18",
+    "@types/jsdom": "^12.2.4",
     "@types/node": "11.13.4",
     "@types/nunjucks": "^3.1.1",
     "@types/passport": "^1.0.1",
@@ -62,6 +63,7 @@
     "dotenv-safe": "^8.1.0",
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
+    "jsdom": "^15.1.1",
     "pg": "^7.12.1",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^3.0.0",

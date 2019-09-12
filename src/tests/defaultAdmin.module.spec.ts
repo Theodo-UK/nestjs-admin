@@ -9,7 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 describe('DefaultAdminModule', () => {
   let app: INestApplication
 
-  afterEach(async () => {
+  afterAll(async () => {
     await app.close()
   })
 
