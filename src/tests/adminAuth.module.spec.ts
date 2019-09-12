@@ -39,7 +39,7 @@ describe('AdminAuthModuleFactory', () => {
     })
 
     const CustomAdminModule = AdminAuthModuleFactory.createAdminAuthModule({
-      adminModule: CustomAdminCoreModule,
+      adminCoreModule: CustomAdminCoreModule,
     })
 
     const module: TestingModule = await Test.createTestingModule({
