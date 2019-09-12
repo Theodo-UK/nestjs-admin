@@ -3,7 +3,7 @@ dotenv.config()
 
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
-import { publicFolder } from 'nestjs-admin'
+import { publicFolder } from 'nestjs-admin/dist/src/adminCore.module'
 import * as sassMiddleware from 'node-sass-middleware'
 import { AppModule } from './app.module'
 import { EntityNotFoundFilter } from './exception/entity-not-found.filter'

@@ -5039,7 +5039,7 @@ neo-async@^2.6.0:
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
 "nestjs-admin@file:..":
-  version "0.0.2-rc12"
+  version "0.0.2-rc13"
   dependencies:
     "@nestjs/passport" "^6.1.0"
     bcryptjs "^2.4.3"

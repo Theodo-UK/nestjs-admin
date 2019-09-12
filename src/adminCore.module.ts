@@ -1,29 +1,32 @@
-import { Module } from '@nestjs/common'
+import { HttpAdapterHost } from '@nestjs/core'
+import { Module, MiddlewareConsumer, NestModule, Inject } from '@nestjs/common'
+import { DeepPartial } from 'typeorm'
+import flash = require('connect-flash')
+import * as session from 'express-session'
+import * as passport from 'passport'
+import { join } from 'path'
+
 import { DefaultAdminController } from './admin.controller'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import { injectionTokens } from './tokens'
-import DefaultAdminAppConfigurator, {
-  AdminAppConfigurationOptions,
-  createAppConfiguration,
-} from './admin.configurator'
-import { DeepPartial } from 'typeorm'
+import { AdminAppConfigurationOptions, createAppConfiguration } from './admin.configuration'
 
 export interface AdminCoreModuleConfig {
   adminSite?: typeof DefaultAdminSite
   adminController?: typeof DefaultAdminController
   adminEnvironment?: typeof DefaultAdminNunjucksEnvironment
-  adminAppConfigurator?: typeof DefaultAdminAppConfigurator
   appConfig?: DeepPartial<AdminAppConfigurationOptions>
 }
 
+export const publicFolder = join(__dirname, 'public')
+
 @Module({})
-export class AdminCoreModuleFactory {
+export class AdminCoreModuleFactory implements NestModule {
   static createAdminCoreModule({
     adminSite = DefaultAdminSite,
     adminController = DefaultAdminController,
     adminEnvironment = DefaultAdminNunjucksEnvironment,
-    adminAppConfigurator = DefaultAdminAppConfigurator,
     appConfig = {},
   }: AdminCoreModuleConfig) {
     const adminSiteProvider = {
@@ -33,10 +36,6 @@ export class AdminCoreModuleFactory {
     const adminEnvironmentProvider = {
       provide: injectionTokens.ADMIN_ENVIRONMENT,
       useExisting: adminEnvironment,
-    }
-    const adminAppConfiguratorProvider = {
-      provide: injectionTokens.ADMIN_APP_CONFIGURATOR,
-      useExisting: adminAppConfigurator,
     }
     const appConfigProvider = {
       provide: injectionTokens.APP_CONFIG,
@@ -51,8 +50,6 @@ export class AdminCoreModuleFactory {
       adminEnvironmentProvider,
       adminSite,
       adminSiteProvider,
-      adminAppConfigurator,
-      adminAppConfiguratorProvider,
       appConfigProvider,
     ]
 
@@ -62,5 +59,23 @@ export class AdminCoreModuleFactory {
       providers: exportedProviders,
       exports: exportedProviders,
     }
+  }
+
+  constructor(
+    private readonly adapterHost: HttpAdapterHost,
+    @Inject(injectionTokens.APP_CONFIG) private readonly appConfig: AdminAppConfigurationOptions,
+  ) {}
+
+  configure(consumer: MiddlewareConsumer) {
+    // @debt TODO "use our own Passport instance when https://github.com/nestjs/passport/issues/26 is fixed"
+    passport.serializeUser(this.appConfig.serializeUser)
+    passport.deserializeUser(this.appConfig.deserializeUser)
+    this.adapterHost.httpAdapter.useStaticAssets(publicFolder, {
+      prefix: this.appConfig.assetPrefix,
+    })
+
+    consumer
+      .apply(session(this.appConfig.session), passport.initialize(), passport.session(), flash())
+      .forRoutes('/admin/?')
   }
 }

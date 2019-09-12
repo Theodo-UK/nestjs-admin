@@ -1,12 +1,7 @@
 import * as session from 'express-session'
-import * as passport from 'passport'
 import { join } from 'path'
 import { DeepPartial } from 'typeorm'
 import { merge as _merge } from 'lodash'
-import flash = require('connect-flash')
-import { AbstractHttpAdapter, HttpAdapterHost } from '@nestjs/core'
-import { Injectable, Inject, OnModuleInit } from '@nestjs/common'
-import { injectionTokens } from './tokens'
 
 export const publicFolder = join(__dirname, 'public')
 
@@ -46,30 +41,3 @@ export function createAppConfiguration(
   )
   return config
 }
-
-@Injectable()
-class AdminAppConfigurator implements OnModuleInit {
-  constructor(
-    private readonly adapterHost: HttpAdapterHost,
-    @Inject(injectionTokens.APP_CONFIG)
-    private readonly appConfig: AdminAppConfigurationOptions,
-  ) {}
-
-  onModuleInit() {
-    const httpAdapter = this.adapterHost.httpAdapter
-
-    httpAdapter.use('/admin', session(this.appConfig.session))
-
-    httpAdapter.use('/admin', passport.initialize())
-    httpAdapter.use('/admin', passport.session())
-    httpAdapter.use('/admin', flash())
-
-    passport.serializeUser(this.appConfig.serializeUser)
-    passport.deserializeUser(this.appConfig.deserializeUser)
-
-    // needs to be after the sassMiddleware
-    httpAdapter.useStaticAssets(publicFolder, { prefix: this.appConfig.assetPrefix })
-  }
-}
-
-export default AdminAppConfigurator
