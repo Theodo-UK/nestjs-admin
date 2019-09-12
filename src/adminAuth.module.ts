@@ -6,6 +6,12 @@ import { LocalStrategy } from './local.strategy'
 import { AdminUserController } from './adminUser.controller'
 import { AdminCoreModuleFactory } from './adminCore.module'
 
+const defaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
+
+export interface AdminAuthModuleConfig {
+  adminCoreModule?: any
+}
+
 @Module({
   imports: [TypeOrmModule.forFeature([AdminUserEntity])],
   providers: [AdminUserService, LocalStrategy],
@@ -13,10 +19,10 @@ import { AdminCoreModuleFactory } from './adminCore.module'
   exports: [AdminUserService],
 })
 export class AdminAuthModuleFactory {
-  static createAdminAuthModule({ adminModule = AdminCoreModuleFactory.createAdminCoreModule({}) }) {
+  static createAdminAuthModule({ adminCoreModule = defaultCoreModule }: AdminAuthModuleConfig) {
     return {
       module: AdminAuthModuleFactory,
-      imports: [adminModule],
+      imports: [adminCoreModule],
     }
   }
 }

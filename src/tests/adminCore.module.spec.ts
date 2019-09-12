@@ -2,10 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
+import DefaultAdminAppConfigurator, {
+  defaultAdminConfigurationOptions,
+  AdminAppConfigurationOptions,
+} from '../admin.configurator'
 import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { MemoryStore } from 'express-session'
+import { DeepPartial } from 'typeorm'
 
 describe('AdminCoreModuleFactory', () => {
   let app: INestApplication
@@ -28,17 +34,29 @@ describe('AdminCoreModuleFactory', () => {
 
     const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
     expect(adminEnv).toBeInstanceOf(DefaultAdminNunjucksEnvironment)
+
+    const adminAppConfigurator = app.get(injectionTokens.ADMIN_APP_CONFIGURATOR)
+    expect(adminAppConfigurator).toBeInstanceOf(DefaultAdminAppConfigurator)
   })
 
   it('should allow to configure the admin core site and controller', async () => {
     class CustomAdminSite extends DefaultAdminSite {}
     class CustomAdminController extends DefaultAdminController {}
     class CustomAdminEnvironment extends DefaultAdminNunjucksEnvironment {}
+    class CustomAdminAppConfigurator extends DefaultAdminAppConfigurator {}
+    const memoryStore = new MemoryStore()
+    const appConfig: DeepPartial<AdminAppConfigurationOptions> = {
+      session: {
+        store: memoryStore,
+      },
+    }
 
     const CustomAdminCoreModule = AdminCoreModuleFactory.createAdminCoreModule({
       adminSite: CustomAdminSite,
       adminController: CustomAdminController,
       adminEnvironment: CustomAdminEnvironment,
+      adminAppConfigurator: CustomAdminAppConfigurator,
+      appConfig,
     })
     const module: TestingModule = await Test.createTestingModule({
       imports: [TypeOrmModule.forRoot(), CustomAdminCoreModule],
@@ -56,8 +74,16 @@ describe('AdminCoreModuleFactory', () => {
     expect(() => app.get(DefaultAdminSite)).toThrow()
 
     const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
-    // @debt test "miker: had to remove nunjucks test, think it's related to an nestjs version update"
-    expect(app.get(injectionTokens.ADMIN_ENVIRONMENT)).toBe(adminEnv)
+    expect(adminEnv).toBeInstanceOf(CustomAdminEnvironment)
+    expect(app.get(CustomAdminEnvironment)).toBe(adminEnv)
     expect(() => app.get(DefaultAdminNunjucksEnvironment)).toThrow()
+
+    const adminAppConfigurator = app.get(injectionTokens.ADMIN_APP_CONFIGURATOR)
+    expect(adminAppConfigurator).toBeInstanceOf(CustomAdminAppConfigurator)
+    expect(app.get(CustomAdminAppConfigurator)).toBe(adminAppConfigurator)
+    expect(() => app.get(DefaultAdminAppConfigurator)).toThrow()
+
+    const appConfiguration = app.get(injectionTokens.APP_CONFIG)
+    expect(appConfiguration).toMatchObject({ ...defaultAdminConfigurationOptions, ...appConfig })
   })
 })

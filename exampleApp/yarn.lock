@@ -1729,6 +1729,11 @@ configstore@^3.0.0:
     write-file-atomic "^2.0.0"
     xdg-basedir "^3.0.0"
 
+connect-flash@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/connect-flash/-/connect-flash-0.1.1.tgz#d8630f26d95a7f851f9956b1e8cc6732f3b6aa30"
+  integrity sha1-2GMPJtlaf4UfmVax6MxnMvO2qjA=
+
 connect-pg-simple@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/connect-pg-simple/-/connect-pg-simple-6.0.1.tgz#c0987baaae343601e40fe70cffb8a25a25d7b62d"
@@ -5033,15 +5038,14 @@ neo-async@^2.6.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
-nestjs-admin@latest:
+"nestjs-admin@file:..":
   version "0.0.2-rc12"
-  resolved "https://registry.yarnpkg.com/nestjs-admin/-/nestjs-admin-0.0.2-rc12.tgz#b93175ba9be6727bbd990746826ac1dd7f531793"
-  integrity sha512-B+glkaH3tu1ZBujP0uT2igbJRlGL+ju2lSmIdbo0ag5jrektIt6jfCeQtMHyWLBm3EYH+4T7ygl7E0k52MDkog==
   dependencies:
     "@nestjs/passport" "^6.1.0"
     bcryptjs "^2.4.3"
     bootstrap "^4.3.1"
     commander "^3.0.1"
+    connect-flash "^0.1.1"
     express-session "^1.16.2"
     inquirer "^7.0.0"
     lodash "^4.17.15"
