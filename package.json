@@ -10,6 +10,9 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "bin": "dist/bin/cli.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start:dev": "tsc-watch --onSuccess \"ln -sfn ../../src/public dist/src/public\" --onFailure \"echo 'There was a problem compiling'\"",
     "prepublishOnly": "yarn build",
