@@ -113,7 +113,7 @@ Any contribution is welcome. If you want to implement a feature, you need to kno
 
 ### Start the example app
 
-This repo is actually an example of how to use nestjs-admin. Here's how to use it:
+This repo contains an example of how to use nestjs-admin. Here's how to use it:
 
 ```bash
 # In a first terminal, run the database
