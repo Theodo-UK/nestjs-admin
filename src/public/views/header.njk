@@ -1,0 +1,8 @@
+<nav class="admin-header navbar navbar-dark bg-dark">
+  <a class="navbar-brand mb-0 h1" href="{{ 'index' | adminUrl() }}">{{ adminSite.siteHeader }}</a>
+  {% if request.user %}
+    <form action="{{ "logout" | adminUrl() }}" method="POST">
+      <button type="submit" class="admin-header__logout">Logout</button>
+    </form>
+  {% endif %}
+</nav>

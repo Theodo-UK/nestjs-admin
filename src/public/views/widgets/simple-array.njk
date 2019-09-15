@@ -1,0 +1,41 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  {% macro field(name, value = '') %}
+    <div class="array-value input-{{ name }}">
+      <input
+        id="{{ name }}"
+        name="{{ name }}[]"
+        value="{{ value }}"
+        class="form-control array-value__input"
+      />
+      <button type="button" class="array-remove" onclick="{{ name }}RemoveInput(this)">－</button>
+    </div>
+  {% endmacro %}
+
+  <input type="hidden" id="{{ column.propertyName }}-empty" name="{{ column.propertyName }}" value="" disabled>
+
+  <div id="values-{{ column.propertyName }}">
+    {% for value in column.getEntityValue(entity) %}
+      {{ field(column.propertyName, value) }}
+    {% endfor %}
+  </div>
+  <button type="button" class="btn btn-primary" onclick="{{ column.propertyName }}AddInput()">Add another</button>
+{% endblock %}
+
+{% block script %}
+  <script>
+    function {{ column.propertyName }}AddInput() {
+      const inputContainer = document.getElementById("values-{{ column.propertyName }}");
+      const newInput = "{{ field(column.propertyName) | replace("\n", "") | replace("\"", "\\\"") }}";
+      inputContainer.appendChild($(newInput)[0]);
+      document.getElementById("{{ column.propertyName }}-empty").setAttribute('disabled', true);
+    }
+    function {{ column.propertyName }}RemoveInput(self) {
+      self.closest('.input-{{ column.propertyName }}').remove();
+      if(document.getElementsByClassName('input-{{ column.propertyName }}').length === 0) {
+        document.getElementById("{{ column.propertyName }}-empty").removeAttribute('disabled');
+      }
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% set useJquery = false %}
+{% set backLink = 'index' | adminUrl  %}
+{% set pageId = 'admin-changelist' %}
+
+{% extends 'base.njk'%}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/admin-static/css/changelist.css">
+{% endblock %}
+
+{% block body %}
+
+<div class="admin-title">
+  <div><h3>{{ metadata.name }}</h3> <span class="admin-changelist__count">({{ count }} results)</span></div>
+  <a href="{{ 'add' | adminUrl(section, metadata, entity) }}">
+    <button class="btn btn-primary">Add {{ metadata.name | lower }}</button>
+  </a>
+</div>
+<div class="admin-content">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered table-striped entity-table">
+        {% for entity in entities %}
+          <tr>
+            <td>
+              <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
+                {{ entity | displayName(metadata) }}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+
+      <ul class="pagination">
+        {% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
+        {% for pageRange in paginationRanges %}
+          {% for pageNumber in pageRange %}
+            {% set active = page == pageNumber %}
+            <li class="page-item {{ "active" if active }}">
+              <a
+                class="page-link"
+                {% if not active %}
+                  href="{{ generatePaginatedUrl(request, pageNumber) }}"
+                {% endif %}
+              >
+                {{ pageNumber }}
+              </a>
+            </li>
+          {% endfor %}
+          {% if not loop.last %}
+            <li class="page-item"><a class="page-link disabled">…</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

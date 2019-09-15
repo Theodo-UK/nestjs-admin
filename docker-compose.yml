@@ -8,11 +8,10 @@ services:
       - POSTGRES_DB=api
       - POSTGRES_USER=nestjs
       # You should definitely change the password in production
-      - POSTGRES_PASSWORD=!ChangeMe!
+      - POSTGRES_PASSWORD=!DevPass!
     volumes:
       - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
+      - ./db-entrypoint:/docker-entrypoint-initdb.d:rw
     ports:
       - '5432:5432'
 

@@ -1,0 +1,13 @@
+@import './theme';
+
+.admin-changelist {
+  .entity-table {
+    .action-cell {
+      width: 1rem;
+    }
+  }
+
+  &__count {
+    color: $gray-600;
+  }
+}

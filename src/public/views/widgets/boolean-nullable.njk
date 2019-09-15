@@ -1,0 +1,25 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  <select
+    class="form-control"
+    id="{{ column.propertyName }}"
+    name="{{ column.propertyName }}"
+  >
+    <option value='null'
+      {% if value == null %}selected{% endif %}
+    >
+      Unknown
+    </option>
+    <option value='true'
+      {% if value == true %}selected{% endif %}
+    >
+      True
+    </option>
+    <option value='false'
+      {% if value == false %}selected{% endif %}
+    >
+      False
+    </option>
+  </select>
+{% endblock %}

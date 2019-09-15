@@ -1,0 +1,29 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  {% setAsync 'options', getRelationOptions, [adminSite, column.relationMetadata] %}
+
+  {% macro maybeSelected(column, value) %}
+    {% if value == column.getEntityValue(entity) %}selected{% endif %}
+  {% endmacro %}
+
+  {% macro maybeDisabled(column) %}
+    {% if not column.isNullable %}disabled{% endif %}
+  {% endmacro %}
+
+  <select class="form-control" id="{{ column.propertyName }}" name="{{ column.propertyName }}">
+    <option
+      value
+      {{ maybeSelected(column, null) }}
+      {{ maybeDisabled(column) }}
+    >
+      --
+    </option>
+
+    {% for option in options %}
+      <option value="{{ option.id }}" {{ maybeSelected(column, option.id) }}>
+        {{ option | displayName(column.relationMetadata.inverseEntityMetadata) }}
+      </option>
+    {% endfor %}
+  </select>
+{% endblock %}

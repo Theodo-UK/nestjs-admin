@@ -1,0 +1,12 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  <input
+    class="form-control"
+    type="number"
+    step="1"
+    id="{{ column.propertyName }}"
+    name="{{ column.propertyName }}"
+    {% if value %}value={{ value }}{% endif %}
+  />
+{% endblock %}

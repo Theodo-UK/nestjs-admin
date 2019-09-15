@@ -1,0 +1,10 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  <input
+    class="form-control"
+    id="{{ column.propertyName }}"
+    name="{{ column.propertyName }}"
+    value="{{ value }}"
+  />
+{% endblock %}

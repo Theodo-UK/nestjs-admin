@@ -1,0 +1,9 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  <textarea
+    class="form-control"
+    id="{{ column.propertyName }}"
+    name="{{ column.propertyName }}"
+  >{{ value }}</textarea>
+{% endblock %}

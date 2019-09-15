@@ -1,0 +1,27 @@
+@import './theme';
+
+.admin-form {
+  width: 100%;
+  background: $background-gray;
+  padding: 1rem;
+  border: 1px solid $border-color;
+
+  // As the buttons are floating, we have to allow extra margin at the bottom
+  padding-bottom: 3.5rem;
+}
+
+.array-value {
+  margin-bottom: 0.25rem;
+
+  &__input {
+    max-width: calc(100% - 2.5rem);
+    display: inline;
+  }
+}
+
+.array-remove {
+  border: none;
+  background: none;
+  color: $danger;
+  font-weight: bold;
+}
