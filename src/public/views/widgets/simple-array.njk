@@ -16,8 +16,8 @@
   <input type="hidden" id="{{ column.propertyName }}-empty" name="{{ column.propertyName }}" value="" disabled>
 
   <div id="values-{{ column.propertyName }}">
-    {% for value in column.getEntityValue(entity) %}
-      {{ field(column.propertyName, value) }}
+    {% for singleValue in value %}
+      {{ field(column.propertyName, singleValue) }}
     {% endfor %}
   </div>
   <button type="button" class="btn btn-primary" onclick="{{ column.propertyName }}AddInput()">Add another</button>

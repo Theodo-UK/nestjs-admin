@@ -46,9 +46,9 @@ class AdminEntity {
       .filter(field => !this.metadata.columns.map(column => column.propertyName).includes(field))
       .map(
         field =>
-          new class {
-            template = 'widget-manytomany.njk'
-          }(),
+          new (class {
+            template = 'widgets/manytomany.njk'
+          })(),
       )
 
     return [...widgets, ...manyToManyWidgets]

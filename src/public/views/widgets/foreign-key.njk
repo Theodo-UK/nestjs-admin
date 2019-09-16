@@ -3,8 +3,8 @@
 {% block input %}
   {% setAsync 'options', getRelationOptions, [adminSite, column.relationMetadata] %}
 
-  {% macro maybeSelected(column, value) %}
-    {% if value == column.getEntityValue(entity) %}selected{% endif %}
+  {% macro maybeSelected(column, currValue) %}
+    {% if currValue == value %}selected{% endif %}
   {% endmacro %}
 
   {% macro maybeDisabled(column) %}

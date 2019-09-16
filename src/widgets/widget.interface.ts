@@ -12,6 +12,10 @@ export class BaseWidget {
     public readonly entity?: object,
   ) {}
 
+  getLabel() {
+    return this.column.propertyName
+  }
+
   getValue() {
     if (!this.entity) {
       return null
