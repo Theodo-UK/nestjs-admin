@@ -4,7 +4,7 @@ import DefaultAdminSite from '../adminSite'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { DefaultAdminModule } from '..'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 
 describe('DefaultAdminModule', () => {
   let app: INestApplication
@@ -15,7 +15,7 @@ describe('DefaultAdminModule', () => {
 
   it('should return the default admin site and environment', async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), DefaultAdminModule],
+      imports: [TestTypeOrmModule.forRoot(), DefaultAdminModule],
     }).compile()
 
     app = module.createNestApplication()

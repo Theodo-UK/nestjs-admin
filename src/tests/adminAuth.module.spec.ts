@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { TypeOrmModule } from '@nestjs/typeorm'
 import { AdminAuthModuleFactory } from '../adminAuth.module'
 import DefaultAdminSite from '../adminSite'
 import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { AdminCoreModuleFactory } from '../adminCore.module'
+import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 
 describe('AdminAuthModuleFactory', () => {
   it('should return the default admin site and environment when passed no params', async () => {
     const DefaultAdminAuthModule = AdminAuthModuleFactory.createAdminAuthModule({})
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), DefaultAdminAuthModule],
+      imports: [TestTypeOrmModule.forRoot(), DefaultAdminAuthModule],
     }).compile()
 
     const app = module.createNestApplication()
@@ -42,7 +42,7 @@ describe('AdminAuthModuleFactory', () => {
     })
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), CustomAdminModule],
+      imports: [TestTypeOrmModule.forRoot(), CustomAdminModule],
     }).compile()
 
     const app = module.createNestApplication()

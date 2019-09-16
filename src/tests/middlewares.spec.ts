@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import * as request from 'supertest'
 import { AdminCoreModuleFactory } from '../adminCore.module'
+import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 
 const middlewareMock = (req, res, next) => next()
 
@@ -23,7 +24,7 @@ describe('Middlewares', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), AdminCoreModuleFactory.createAdminCoreModule({})],
+      imports: [TestTypeOrmModule.forRoot(), AdminCoreModuleFactory.createAdminCoreModule({})],
     }).compile()
 
     app = module.createNestApplication()

@@ -9,9 +9,9 @@ import {
 import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
-import { TypeOrmModule } from '@nestjs/typeorm'
 import { MemoryStore } from 'express-session'
 import { DeepPartial } from 'typeorm'
+import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 
 describe('AdminCoreModuleFactory', () => {
   let app: INestApplication
@@ -23,7 +23,7 @@ describe('AdminCoreModuleFactory', () => {
   it('should return the default admin site and environment when passed no params', async () => {
     const CustomAdminCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), CustomAdminCoreModule],
+      imports: [TestTypeOrmModule.forRoot(), CustomAdminCoreModule],
     }).compile()
 
     app = module.createNestApplication()
@@ -53,7 +53,7 @@ describe('AdminCoreModuleFactory', () => {
       appConfig,
     })
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), CustomAdminCoreModule],
+      imports: [TestTypeOrmModule.forRoot(), CustomAdminCoreModule],
     }).compile()
 
     app = module.createNestApplication()

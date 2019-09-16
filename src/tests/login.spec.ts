@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 import { EntityManager } from 'typeorm'
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
 import { DefaultAdminModule } from '..'
 import { createTestAdminUser } from './utils'
 import AdminUser from '../adminUser.entity'
+import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 
 describe('login', () => {
   let app: INestApplication
@@ -14,7 +14,7 @@ describe('login', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(), DefaultAdminModule],
+      imports: [TestTypeOrmModule.forRoot(), DefaultAdminModule],
     }).compile()
     app = module.createNestApplication()
     await app.init()
