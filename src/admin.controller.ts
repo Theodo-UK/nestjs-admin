@@ -22,6 +22,7 @@ import { AdminGuard } from './admin.guard'
 import { AdminFilter } from './admin.filter'
 import { injectionTokens } from './tokens'
 import { Request } from 'express'
+import { getPrimaryKeyValue } from './utils/entity'
 
 const resultsPerPage = 25
 
@@ -74,7 +75,8 @@ export class DefaultAdminController {
         result.repository = result.section.getRepository(query.entityName)
         result.metadata = result.repository.metadata
         if (query.primaryKey) {
-          result.entity = await this.getEntityWithRelations(result.repository, query.primaryKey)
+          const decodedPrimaryKey = JSON.parse(decodeURIComponent(query.primaryKey))
+          result.entity = await this.getEntityWithRelations(result.repository, decodedPrimaryKey)
         }
       }
     }
@@ -142,14 +144,6 @@ export class DefaultAdminController {
     return await this.env.render('change.njk', { request, section, metadata, entity })
   }
 
-  @Post(':sectionName/:entityName/:primaryKey/delete')
-  async delete(@Param() params: AdminModelsQuery, @Response() response: express.Response) {
-    const { section, repository, metadata, entity } = await this.getAdminModels(params)
-    // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
-    await repository.remove(entity)
-    return response.redirect(urls.changeListUrl(section, metadata))
-  }
-
   @Post(':sectionName/:entityName/:primaryKey/change')
   async update(
     @Req() request: Request,
@@ -162,15 +156,35 @@ export class DefaultAdminController {
     const updatedValues = await this.adminSite.cleanValues(updateEntityDto, metadata)
 
     // entity class needs to be saved so that listeners and subscribers are triggered
-    const entityToBePersisted = Object.assign(entity, updatedValues)
+    // @ts-ignore
+    const entityToBePersisted = Object.assign(new metadata.target(), entity, updatedValues)
+
+    // We first have to update the primary key, because `save()` would create a new entity.
+    // We don't update all fields with `update()`, because it doesn't cascade or handle relations.
+    await repository.update(
+      metadata.getEntityIdMap(entity),
+      metadata.getEntityIdMap(entityToBePersisted),
+    )
+    // Primary key updated, we can safely update all the other fields
     await repository.save(entityToBePersisted)
 
-    const updatedEntity = await this.getEntityWithRelations(repository, params.primaryKey)
+    const updatedEntity = await this.getEntityWithRelations(
+      repository,
+      getPrimaryKeyValue(metadata, entityToBePersisted),
+    )
     return await this.env.render('change.njk', {
       request,
       section,
       metadata,
       entity: updatedEntity,
     })
+  }
+
+  @Post(':sectionName/:entityName/:primaryKey/delete')
+  async delete(@Param() params: AdminModelsQuery, @Response() response: express.Response) {
+    const { section, repository, metadata, entity } = await this.getAdminModels(params)
+    // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
+    await repository.remove(entity)
+    return response.redirect(urls.changeListUrl(section, metadata))
   }
 }

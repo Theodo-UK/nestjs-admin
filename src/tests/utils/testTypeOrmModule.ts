@@ -1,9 +1,17 @@
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { Module } from '@nestjs/common'
+import { Module, Inject } from '@nestjs/common'
+import { EntitySchema } from 'typeorm'
+import { injectionTokens } from '../../../src/tokens'
+import DefaultAdminSite from '../../../src/adminSite'
+import { EntityType } from '../../../src/types'
+
+interface TestTypeOrmModuleConfig {
+  entities: EntityType[]
+}
 
 @Module({})
 export class TestTypeOrmModule {
-  static forRoot() {
+  static forRoot(config: TestTypeOrmModuleConfig = { entities: [] }) {
     const typeOrmModule = TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -11,8 +19,8 @@ export class TestTypeOrmModule {
       username: 'seed',
       password: 'Ge0rgesMoustaki',
       database: 'seed',
-      entities: [__dirname + '/../../**/*.entity.{js,ts}'],
-      synchronize: false,
+      entities: [__dirname + '/../../**/*.entity.{js,ts}', ...config.entities],
+      synchronize: true,
     })
     return {
       module: TestTypeOrmModule,

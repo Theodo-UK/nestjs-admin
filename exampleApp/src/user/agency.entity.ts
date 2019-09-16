@@ -1,10 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, PrimaryColumn } from 'typeorm'
 import { User } from './user.entity'
 
 @Entity('agencies')
 export class Agency extends Object {
   @PrimaryGeneratedColumn()
   id: number
+
+  @PrimaryColumn({ default: 'UK' })
+  country: string
 
   @Column({ length: 50 })
   name: string
