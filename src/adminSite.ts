@@ -61,8 +61,12 @@ class DefaultAdminSite {
     return section
   }
 
-  getRepository(entityName: EntityType) {
-    return this.connection.getRepository(entityName)
+  getRepository(entity: EntityType) {
+    return this.connection.getRepository(entity)
+  }
+
+  getEntityMetadata(entity: EntityType) {
+    return this.connection.getMetadata(entity)
   }
 
   async cleanValues(values: { [k: string]: any }, metadata: EntityMetadata) {
