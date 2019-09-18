@@ -106,6 +106,9 @@ class DefaultAdminSite {
         if (isDecimalType(column.type)) {
           cleanedValues[property] = parseFloat(value)
         }
+        if (isEnumType(column.type) && value === '') {
+          cleanedValues[property] = null
+        }
         if (isBooleanType(column.type)) {
           if (column.isNullable) {
             switch (value) {
