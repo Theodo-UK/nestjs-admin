@@ -60,27 +60,41 @@ export class AppModule {
 }
 ```
 
-3. **Create a first AdminUser to log in with**
+3. **Add the provided `AdminUser` to your orm config:**
 
 The DefaultAdminModule exposes an AdminUser entity, which has credentials that allow you to login to the admin interface.
 
 > There's no easy option to use your own user entity for now. If you have this requirement, open an issue so that we can help you.
 
-```bash
-# create the AdminUser schema in database
-yarn ts-node node_modules/.bin/typeorm migration:generate -n "create-admin-user"
-yarn ts-node node_modules/.bin/typeorm migration:run
+```ts
+// ormconfig.js
+const AdminUser = require('nestjs-admin').AdminUserEntity
 
-# Create an AdminUser through the CLI
-yarn nestjs-admin createAdminUser # with yarn
-npm run nestjs-admin createAdminUser # with npm
+module.exports = {
+  /* ... */,
+  entities: [/* ... */, AdminUser],
+  // Alternatively:
+  // entities: [/* ... */, 'node_modules/nestjs-admin/**/*.entity.js'],
+}
+
+```
+
+4. **Create a first AdminUser to log in with**
+
+```bash
+# Create the AdminUser schema in database
+npx ts-node node_modules/.bin/typeorm migration:generate -n "create-admin-user"
+npx ts-node node_modules/.bin/typeorm migration:run
+
+# Now you can create an AdminUser through the CLI
+npx nestjs-admin createAdminUser
 ```
 
 > You can create AdminUsers from the `nestjs-admin createAdminUser` CLI, or directly from the administration interface!
 
 You can now login to access the admin interface at `/admin/login`!
 
-4. **Register entities in the admin site**
+5. **Register entities in the admin site**
 
 ```ts
 // user.module.ts
