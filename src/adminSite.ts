@@ -34,23 +34,22 @@ class DefaultAdminSite {
     return this.sections[sectionName]
   }
 
-  register(sectionName: string, entity: EntityType): void
-  register(sectionName: string, adminEntity: typeof AdminEntity): void
+  register(sectionName: string, adminEntity: EntityType | typeof AdminEntity): void
   register(unsafeName: string, adminEntityOrEntity: EntityType | typeof AdminEntity) {
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
 
     if (adminEntityOrEntity.prototype instanceof AdminEntity) {
-      const adminEntityClass = adminEntityOrEntity as typeof AdminEntity
+      const AdminEntityClass = adminEntityOrEntity as typeof AdminEntity
       // @ts-ignore
-      const adminEntity = new adminEntityClass(this.connection)
+      const adminEntity = new AdminEntityClass(this.connection)
       section.register(adminEntity)
     } else if (this.connection.hasMetadata(adminEntityOrEntity)) {
       const entity = adminEntityOrEntity as EntityType
-      class adminEntityClass extends AdminEntity {
+      class AdminEntityClass extends AdminEntity {
         entity = entity
       }
-      const adminEntity = new adminEntityClass(this.connection)
+      const adminEntity = new AdminEntityClass(this.connection)
       section.register(adminEntity)
     } else {
       throw new InvalidAdminRegistration(adminEntityOrEntity)
