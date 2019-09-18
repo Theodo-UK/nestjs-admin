@@ -34,11 +34,11 @@
   </nav>
 {% endif %}
 
-  {% if messages.length > 0 %}
+  {% for item in messages %}
     <div class="alert alert-success">
-      {{ messages }}
+      {{ item }}
     </div>
-  {% endif %}
+  {% endfor %}
 
 {% block body %}
 {% endblock %}

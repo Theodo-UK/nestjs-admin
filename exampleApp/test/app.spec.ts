@@ -42,14 +42,13 @@ describe('AppController', () => {
     const user = await userRepository.save(userData)
     expect(await userRepository.findOneOrFail(user.id)).toBeDefined()
 
-    const expectedDisplayName = displayName(user, userRepository.metadata)
-
     // delete the user via the api call
     const server = app.getHttpServer()
     const req = await request(server).post(`/admin/user/user/${user.id}/delete`)
     expect(req.status).toBe(302)
     expect(req.header.location).toBe(`/admin/user/user`)
 
+    const expectedDisplayName = displayName(user, userRepository.metadata)
     const res = await request(server)
       .get(`/admin/user/user`)
       .set('Cookie', req.get('Set-Cookie')[0])
