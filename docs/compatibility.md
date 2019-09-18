@@ -1,3 +1,9 @@
 # Compatibility
 
-- TypeORM must be version `0.2.12` or higher, otherwise it can cause a `DuplicateKeyException` if foreign keys have the same name as the entity they reference.
+| Library                  | Version |
+| ------------------------ | ------- |
+| @nestjs/common           | ^6.0.0  |
+| @nestjs/core             | ^6.0.0  |
+| @nestjs/platform-express | ^6.0.0  |
+| @nestjs/typeorm          | ^6.0.0  |
+| typeorm                  | ^0.2.12 |
