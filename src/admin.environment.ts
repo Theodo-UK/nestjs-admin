@@ -5,7 +5,7 @@ import { join } from 'path'
 import { Request } from 'express'
 import * as filters from './admin.filters'
 import DefaultAdminSite from './adminSite'
-import { getWidgetTemplate, getRelationOptions } from './utils/widget'
+import { getRelationOptions } from './widgets/utils'
 import { isEntityInList } from './utils/entity'
 import { getPaginationRanges, generatePaginatedUrl } from './utils/pagination'
 import { SetAsyncExtension } from './extensions/setAsync'
@@ -37,7 +37,6 @@ class DefaultAdminNunjucksEnvironment {
     this.env.addFilter('displayName', filters.displayName)
 
     this.env.addGlobal('adminSite', adminSite)
-    this.env.addGlobal('getWidgetTemplate', getWidgetTemplate)
     this.env.addGlobal('getRelationOptions', getRelationOptions) // Meh name
     this.env.addGlobal('isEntityInList', isEntityInList)
     this.env.addGlobal('getPaginationRanges', getPaginationRanges)

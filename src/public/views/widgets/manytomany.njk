@@ -1,7 +1,7 @@
 {% extends 'widgets/base-widget.njk' %}
 
 {% block label %}
-<label class="col-12 col-md-3 col-form-label" for="{{ relation.propertyName }}">{{ relation.propertyName }}</label>
+<label class="col-12 col-md-3 col-form-label" for="{{ widget.relation.propertyName }}">{{ widget.getLabel() }}</label>
 {% endblock %}
 
 {% block input %}
@@ -9,12 +9,12 @@
     {% if isEntityInList(value, relation.getEntityValue(entity), relation.inverseEntityMetadata) %}selected{% endif %}
   {% endmacro %}
 
-  {% setAsync 'options', getRelationOptions, [adminSite, relation] %}
+  {% setAsync 'options', getRelationOptions, [adminSite, widget.relation] %}
 
-  <select class="form-control" id="{{ relation.propertyName }}" name="{{ relation.propertyName }}" multiple>
+  <select class="form-control" id="{{ widget.relation.propertyName }}" name="{{ widget.relation.propertyName }}" multiple>
     {% for option in options %}
-      <option value="{{ option.id }}" {{ maybeSelected(relation, option) }}>
-        {{ option | displayName(relation.inverseEntityMetadata) }}
+      <option value="{{ option.id }}" {{ maybeSelected(widget.relation, option) }}>
+        {{ option | displayName(widget.relation.inverseEntityMetadata) }}
       </option>
     {% endfor %}
   </select>

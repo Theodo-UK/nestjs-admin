@@ -27,7 +27,7 @@ class DefaultAdminSite {
 
   private getOrCreateSection(sectionName: string) {
     if (!this.sections[sectionName]) {
-      this.sections[sectionName] = new AdminSection(sectionName, this.connection)
+      this.sections[sectionName] = new AdminSection(sectionName, this, this.connection)
     }
     return this.sections[sectionName]
   }

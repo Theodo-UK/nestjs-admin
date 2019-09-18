@@ -16,16 +16,9 @@
     <div class="col-12 col-xl-8">
       <div class="admin-form admin-form--add">
         <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
-          {% asyncEach column in metadata.columns %}
-            {% if not column.isGenerated %}
-              <fieldset>
-                {% include getWidgetTemplate(column) %}
-              </fieldset>
-            {% endif %}
-          {% endeach %}
-          {% asyncEach relation in metadata.manyToManyRelations %}
-            <fieldset>
-              {% include 'widgets/manytomany.njk' %}
+          {% asyncEach widget in adminEntity.getWidgets("add") %}
+            <fieldset class="entity-form__field {{ field }}">
+                {% include widget.template %}
             </fieldset>
           {% endeach %}
           <button type="submit" class="btn btn-primary float-right">Submit</button>

@@ -17,6 +17,7 @@ import DefaultAdminSite from './adminSite'
 import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
+import AdminEntity from './adminEntity'
 import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
 import { AdminFilter } from './admin.filter'
@@ -43,6 +44,7 @@ type AdminModelsQuery = {
 
 type AdminModelsResult = {
   section: DefaultAdminSection
+  adminEntity: AdminEntity
   repository: Repository<unknown>
   metadata: EntityMetadata
   entity: object
@@ -73,8 +75,9 @@ export class DefaultAdminController {
     if (query.sectionName) {
       result.section = this.adminSite.getSection(query.sectionName)
       if (query.entityName) {
-        result.repository = result.section.getRepository(query.entityName)
-        result.metadata = result.repository.metadata
+        result.adminEntity = result.section.getAdminEntity(query.entityName)
+        result.repository = result.adminEntity.repository
+        result.metadata = result.adminEntity.metadata
         if (query.primaryKey) {
           const decodedPrimaryKey = JSON.parse(decodeURIComponent(query.primaryKey))
           result.entity = await this.getEntityWithRelations(result.repository, decodedPrimaryKey)
@@ -113,8 +116,8 @@ export class DefaultAdminController {
 
   @Get(':sectionName/:entityName/add')
   async add(@Req() request: Request, @Param() params: AdminModelsQuery) {
-    const { section, metadata } = await this.getAdminModels(params)
-    return await this.env.render('add.njk', { request, section, metadata })
+    const { section, metadata, adminEntity } = await this.getAdminModels(params)
+    return await this.env.render('add.njk', { request, section, metadata, adminEntity })
   }
 
   @Post(':sectionName/:entityName/add')
@@ -146,8 +149,8 @@ export class DefaultAdminController {
 
   @Get(':sectionName/:entityName/:primaryKey/change')
   async change(@Req() request: Request, @Param() params: AdminModelsQuery) {
-    const { section, metadata, entity } = await this.getAdminModels(params)
-    return await this.env.render('change.njk', { request, section, metadata, entity })
+    const { section, adminEntity, metadata, entity } = await this.getAdminModels(params)
+    return await this.env.render('change.njk', { request, section, adminEntity, metadata, entity })
   }
 
   @Post(':sectionName/:entityName/:primaryKey/change')
@@ -155,6 +158,7 @@ export class DefaultAdminController {
     @Req() request: Request,
     @Body() updateEntityDto: object,
     @Param() params: AdminModelsQuery,
+    @Response() response: express.Response,
   ) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
 
@@ -182,12 +186,7 @@ export class DefaultAdminController {
       'messages',
       `Successfully updated ${metadata.name}: ${displayName(entity, metadata)}`,
     )
-    return await this.env.render('change.njk', {
-      request,
-      section,
-      metadata,
-      entity: updatedEntity,
-    })
+    return response.redirect(urls.changeUrl(section, metadata, updatedEntity))
   }
 
   @Post(':sectionName/:entityName/:primaryKey/delete')

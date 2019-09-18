@@ -3,7 +3,7 @@
 {% block input %}
   <textarea
     class="form-control"
-    id="{{ column.propertyName }}"
-    name="{{ column.propertyName }}"
-  >{{ column.getEntityValue(entity) }}</textarea>
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+  >{{ widget.getValue() }}</textarea>
 {% endblock %}

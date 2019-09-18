@@ -5,16 +5,16 @@
   to pass the false value. If the box is checked, both values are sent and the true value is used #}
   <input
     type="hidden"
-    id="{{ column.propertyName }}"
-    name="{{ column.propertyName }}"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
     value=0
   />
   <input
     class="form-control checkbox"
     type="checkbox"
-    id="{{ column.propertyName }}"
-    name="{{ column.propertyName }}"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
     value=1
-    {% if column.getEntityValue(entity) %}checked{% endif %}
+    {% if widget.getValue() %}checked{% endif %}
   />
 {% endblock %}

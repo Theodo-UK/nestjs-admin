@@ -69,7 +69,8 @@ describe('AdminCoreModuleFactory', () => {
       .post(changeUrl(adminSite.getSection('test'), metadata, entity))
       .send(newData)
 
-    expect(res.status).toBe(201)
+    expect(res.status).toBe(302)
+
     const updatedEntity: EntityWithCompositePrimaryKey = (await repository.findOne({
       id: entity.id,
     })) as any

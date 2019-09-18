@@ -1,7 +1,7 @@
 {% extends 'widgets/base-widget.njk' %}
 
-{% macro maybeSelected(column, value) %}
-    {% if value == column.getEntityValue(entity) %}selected{% endif %}
+{% macro maybeSelected(widget, value) %}
+    {% if value == widget.getValue() %}selected{% endif %}
   {% endmacro %}
 
   {% macro maybeDisabled(column) %}
@@ -11,17 +11,17 @@
 {% block input %}
   <select
     class="form-control"
-    id="{{ column.propertyName }}"
-    name="{{ column.propertyName }}"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
   >
     <option
       value=''
-      {{ maybeSelected(column, null) }}
-      {{ maybeDisabled(column) }}
+      {{ maybeSelected(widget, null) }}
+      {{ maybeDisabled(widget.column) }}
     >
     </option>
-    {% for value in column.enum %}
-      <option value="{{ value }}" {{ maybeSelected(column, value) }}>
+    {% for value in widget.column.enum %}
+      <option value="{{ value }}" {{ maybeSelected(widget, value) }}>
         {{ value }}
       </option>
     {% endfor %}

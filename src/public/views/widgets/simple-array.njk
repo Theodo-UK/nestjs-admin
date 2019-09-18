@@ -13,28 +13,28 @@
     </div>
   {% endmacro %}
 
-  <input type="hidden" id="{{ column.propertyName }}-empty" name="{{ column.propertyName }}" value="" disabled>
+  <input type="hidden" id="{{ widget.column.propertyName }}-empty" name="{{ widget.column.propertyName }}" value="" disabled>
 
-  <div id="values-{{ column.propertyName }}">
-    {% for value in column.getEntityValue(entity) %}
-      {{ field(column.propertyName, value) }}
+  <div id="values-{{ widget.column.propertyName }}">
+    {% for singleValue in widget.getValue() %}
+      {{ field(widget.column.propertyName, singleValue) }}
     {% endfor %}
   </div>
-  <button type="button" class="btn btn-primary" onclick="{{ column.propertyName }}AddInput()">Add another</button>
+  <button type="button" class="btn btn-primary" onclick="{{ widget.column.propertyName }}AddInput()">Add another</button>
 {% endblock %}
 
 {% block script %}
   <script>
-    function {{ column.propertyName }}AddInput() {
-      const inputContainer = document.getElementById("values-{{ column.propertyName }}");
-      const newInput = "{{ field(column.propertyName) | replace("\n", "") | replace("\"", "\\\"") }}";
+    function {{ widget.column.propertyName }}AddInput() {
+      const inputContainer = document.getElementById("values-{{ widget.column.propertyName }}");
+      const newInput = "{{ field(widget.column.propertyName) | replace("\n", "") | replace("\"", "\\\"") }}";
       inputContainer.appendChild($(newInput)[0]);
-      document.getElementById("{{ column.propertyName }}-empty").setAttribute('disabled', true);
+      document.getElementById("{{ widget.column.propertyName }}-empty").setAttribute('disabled', true);
     }
-    function {{ column.propertyName }}RemoveInput(self) {
-      self.closest('.input-{{ column.propertyName }}').remove();
-      if(document.getElementsByClassName('input-{{ column.propertyName }}').length === 0) {
-        document.getElementById("{{ column.propertyName }}-empty").removeAttribute('disabled');
+    function {{ widget.column.propertyName }}RemoveInput(self) {
+      self.closest('.input-{{ widget.column.propertyName }}').remove();
+      if(document.getElementsByClassName('input-{{ widget.column.propertyName }}').length === 0) {
+        document.getElementById("{{ widget.column.propertyName }}-empty").removeAttribute('disabled');
       }
     }
   </script>
