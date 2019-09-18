@@ -42,9 +42,9 @@ describe('widgets', () => {
 
     document.documentElement.innerHTML = res.text
     expect(document.querySelector('select[name="gender"]')).toBeTruthy()
-    expect(document.querySelector('option[value=""]')).toBeTruthy()
-    expect(document.querySelector('option[value="male"]')).toBeTruthy()
-    expect(document.querySelector('option[value="female"]')).toBeTruthy()
-    expect(document.querySelector('option[value="other"]')).toBeTruthy()
+    expect(document.querySelector('select[name="gender"] option[value=""]')).toBeTruthy()
+    expect(document.querySelector('select[name="gender"] option[value="male"]')).toBeTruthy()
+    expect(document.querySelector('select[name="gender"] option[value="female"]')).toBeTruthy()
+    expect(document.querySelector('select[name="gender"] option[value="other"]')).toBeTruthy()
   })
 })
