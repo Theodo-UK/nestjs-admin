@@ -67,7 +67,7 @@ The DefaultAdminModule exposes an AdminUser entity, which has credentials that a
 > There's no easy option to use your own user entity for now. If you have this requirement, open an issue so that we can help you.
 
 ```ts
-// ormconfig.js
+// If you use an ormconfig.js
 const AdminUser = require('nestjs-admin').AdminUserEntity
 
 module.exports = {
@@ -76,7 +76,11 @@ module.exports = {
   // Alternatively:
   // entities: [/* ... */, 'node_modules/nestjs-admin/**/*.entity.js'],
 }
+```
 
+```bash
+# If you use environment variables
+TYPEORM_ENTITIES=your_existing_paths,node_modules/nestjs-admin/**/*.entity.js
 ```
 
 4. **Create a first AdminUser to log in with**
