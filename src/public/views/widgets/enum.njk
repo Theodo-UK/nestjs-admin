@@ -1,0 +1,29 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% macro maybeSelected(column, value) %}
+    {% if value == column.getEntityValue(entity) %}selected{% endif %}
+  {% endmacro %}
+
+  {% macro maybeDisabled(column) %}
+    {% if not column.isNullable %}disabled{% endif %}
+  {% endmacro %}
+
+{% block input %}
+  <select
+    class="form-control"
+    id="{{ column.propertyName }}"
+    name="{{ column.propertyName }}"
+  >
+    <option
+      value=''
+      {{ maybeSelected(column, null) }}
+      {{ maybeDisabled(column) }}
+    >
+    </option>
+    {% for value in column.enum %}
+      <option value="{{ value }}" {{ maybeSelected(column, value) }}>
+        {{ value }}
+      </option>
+    {% endfor %}
+  </select>
+{% endblock %}

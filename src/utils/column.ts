@@ -112,6 +112,7 @@ export function isBooleanType(type: ColumnType): type is BooleanType {
 export function isEnumType(type: ColumnType): type is EnumType {
   return [
     'enum',
+    'simple-enum',
     // @ts-ignore
   ].includes(type)
 }

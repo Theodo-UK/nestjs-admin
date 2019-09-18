@@ -99,6 +99,9 @@ class DefaultAdminSite {
         if (isBooleanType(column.type) && value !== false) {
           cleanedValues[property] = column.isNullable ? null : false
         }
+        if (isEnumType(column.type) && value === '') {
+          cleanedValues[property] = null
+        }
       } else {
         if (isIntegerType(column.type)) {
           cleanedValues[property] = parseInt(value, 10)
