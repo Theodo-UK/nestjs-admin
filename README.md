@@ -117,6 +117,10 @@ export class UserModule {
 
 Check the [rest of the docs](./docs) for more details.
 
+## Known issues
+
+- With versions of TypeORM older than version 0.2.12, foreign keys cannot have the same name as the entity they reference. If they do then this causes a DuplicateKeyException. If you have this issue please update TypeORM or rename your foreign keys.
+
 ## Contributing
 
 Any contribution is welcome. If you want to implement a feature, you need to know that we are following [django-admin's API](https://docs.djangoproject.com/en/2.2/ref/contrib/admin/) as closely as possible. Why?
