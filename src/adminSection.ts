@@ -12,8 +12,12 @@ class AdminSection {
     private readonly connection: Connection,
   ) {}
 
+<<<<<<< HEAD
   register(entity: EntityType) {
     const adminEntity = new AdminEntity(entity, this.adminSite, this.connection)
+=======
+  register(adminEntity: AdminEntity) {
+>>>>>>> register AdminEntity
     this.entities[parseName(adminEntity.name)] = adminEntity
   }
 

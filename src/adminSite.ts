@@ -11,6 +11,8 @@ import {
   isEnumType,
   isDecimalType,
 } from './utils/column'
+import AdminEntity from './adminEntity'
+import { InvalidAdminRegistration } from './exceptions/invalidAdminRegistration.exception'
 
 @Injectable()
 class DefaultAdminSite {
@@ -33,10 +35,26 @@ class DefaultAdminSite {
   }
 
   register(sectionName: string, entity: EntityType): void
-  register(unsafeName: string, entity: EntityType) {
+  register(sectionName: string, adminEntity: typeof AdminEntity): void
+  register(unsafeName: string, adminEntityOrEntity: EntityType | typeof AdminEntity) {
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
-    section.register(entity)
+
+    if (adminEntityOrEntity.prototype instanceof AdminEntity) {
+      const adminEntityClass = adminEntityOrEntity as typeof AdminEntity
+      // @ts-ignore
+      const adminEntity = new adminEntityClass(this.connection)
+      section.register(adminEntity)
+    } else if (this.connection.hasMetadata(adminEntityOrEntity)) {
+      const entity = adminEntityOrEntity as EntityType
+      class adminEntityClass extends AdminEntity {
+        entity = entity
+      }
+      const adminEntity = new adminEntityClass(this.connection)
+      section.register(adminEntity)
+    } else {
+      throw new InvalidAdminRegistration(adminEntityOrEntity)
+    }
   }
 
   getSectionList() {

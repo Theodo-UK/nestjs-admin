@@ -7,6 +7,7 @@ import { BackofficeModule } from '@/backoffice/backoffice.module'
 import { User } from './user.entity'
 import { Group } from './group.entity'
 import { Agency } from './agency.entity'
+import { UserAdmin } from './user.admin'
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), BackofficeModule],
@@ -16,7 +17,7 @@ import { Agency } from './agency.entity'
 })
 export class UserModule {
   constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('User', User)
+    adminSite.register('User', UserAdmin)
     adminSite.register('User', Group)
     adminSite.register('Agency', Agency)
   }
