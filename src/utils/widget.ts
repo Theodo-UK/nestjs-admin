@@ -57,6 +57,8 @@ export function getWidgetTemplate(column: ColumnMetadata) {
         | 'date'
         | 'boolean'
         | 'bool'
+        | 'enum'
+        | 'simple-enum'
         // | 'datetime'
         // | 'datetime2'
         // | 'datetimeoffset'
@@ -68,7 +70,6 @@ export function getWidgetTemplate(column: ColumnMetadata) {
         // | 'timestamp with time zone'
         // | 'timestamp with local time zone'
         // | 'simple-json'
-        // | 'simple-enum'
         // | 'bit'
         // | 'float4'
         // | 'float8'
@@ -115,7 +116,6 @@ export function getWidgetTemplate(column: ColumnMetadata) {
         // | 'tsrange'
         // | 'tstzrange'
         // | 'daterange'
-        // | 'enum'
         // | 'cidr'
         // | 'inet'
         // | 'macaddr'
@@ -201,6 +201,9 @@ export function getWidgetTemplate(column: ColumnMetadata) {
     case 'time':
     case 'time without time zone':
       return 'widgets/time.njk'
+    case 'enum':
+    case 'simple-enum':
+      return 'widgets/enum.njk'
     default:
       const guard: never = type
       return 'widgets/text.njk'

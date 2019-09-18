@@ -18,7 +18,7 @@ commands:
       - attach_workspace:
           at: ~/nestjs-admin
       - restore_cache:
-          key: v2-node-modules-cache-{{ checksum "yarn.lock" }}-{{ checksum "exampleApp/yarn.lock" }}
+          key: v6-node-modules-cache-{{ checksum "yarn.lock" }}
       - run:
           name: Install lib dependencies
           command: yarn install
@@ -29,10 +29,9 @@ commands:
           name: Install example app dependencies
           command: cd exampleApp && yarn install
       - save_cache:
-          key: v2-node-modules-cache-{{ checksum "yarn.lock" }}-{{ checksum "exampleApp/yarn.lock" }}
+          key: v6-node-modules-cache-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-            - exampleApp/node_modules
       - persist_to_workspace:
           root: ~/nestjs-admin
           paths:
