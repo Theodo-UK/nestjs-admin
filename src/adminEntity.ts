@@ -1,9 +1,8 @@
 import { Connection } from 'typeorm'
 import { EntityType } from './types'
-import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
-import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
+import ManyToManyWidget from './widgets/manyToManyWidget'
 
 class AdminEntity {
   constructor(
@@ -34,32 +33,24 @@ class AdminEntity {
     ]
   }
 
-  getWidgets(form: 'add' | 'change') {
+  getWidgets(form: 'add' | 'change', entity?: object) {
     const fields = this.getFields(form)
+
     const widgets = fields
       .filter(field => this.metadata.columns.map(column => column.propertyName).includes(field))
       .map(field => {
-        const column = this.getColumnOrRelation(field) as ColumnMetadata
-        return getDefaultWidget(column, this.adminSite)
+        const column = this.metadata.findColumnWithPropertyName(field)
+        return getDefaultWidget(column, this.adminSite, entity)
       })
+
     const manyToManyWidgets = fields
       .filter(field => !this.metadata.columns.map(column => column.propertyName).includes(field))
-      .map(
-        field =>
-          new (class {
-            template = 'widgets/manytomany.njk'
-          })(),
-      )
+      .map(field => {
+        const relation = this.metadata.findRelationWithPropertyPath(field)
+        return new ManyToManyWidget(relation, this.adminSite, entity)
+      })
 
     return [...widgets, ...manyToManyWidgets]
-  }
-
-  getColumnOrRelation(propertyName: string): ColumnMetadata | RelationMetadata {
-    const column = this.metadata.findColumnWithPropertyName(propertyName)
-    if (!column) {
-      return this.metadata.findRelationWithPropertyPath(propertyName)
-    }
-    return column
   }
 }
 

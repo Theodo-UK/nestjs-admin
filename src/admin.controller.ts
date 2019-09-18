@@ -18,7 +18,6 @@ import DefaultAdminSection from './adminSection'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
 import * as urls from './utils/urls'
 import AdminEntity from './adminEntity'
-import { REQUEST } from '@nestjs/core'
 import { isClass } from './utils/typechecks'
 import { AdminGuard } from './admin.guard'
 import { AdminFilter } from './admin.filter'
@@ -150,8 +149,8 @@ export class DefaultAdminController {
 
   @Get(':sectionName/:entityName/:primaryKey/change')
   async change(@Req() request: Request, @Param() params: AdminModelsQuery) {
-    const { section, metadata, entity } = await this.getAdminModels(params)
-    return await this.env.render('change.njk', { request, section, metadata, entity })
+    const { section, adminEntity, metadata, entity } = await this.getAdminModels(params)
+    return await this.env.render('change.njk', { request, section, adminEntity, metadata, entity })
   }
 
   @Post(':sectionName/:entityName/:primaryKey/change')
@@ -159,6 +158,7 @@ export class DefaultAdminController {
     @Req() request: Request,
     @Body() updateEntityDto: object,
     @Param() params: AdminModelsQuery,
+    @Response() response: express.Response,
   ) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
 
@@ -186,12 +186,7 @@ export class DefaultAdminController {
       'messages',
       `Successfully updated ${metadata.name}: ${displayName(entity, metadata)}`,
     )
-    return await this.env.render('change.njk', {
-      request,
-      section,
-      metadata,
-      entity: updatedEntity,
-    })
+    return response.redirect(urls.changeUrl(section, metadata, updatedEntity))
   }
 
   @Post(':sectionName/:entityName/:primaryKey/delete')

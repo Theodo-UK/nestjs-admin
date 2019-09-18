@@ -1,9 +1,9 @@
 {% extends 'widgets/base-widget.njk' %}
 
 {% block input %}
-  {% setAsync 'options', getRelationOptions, [adminSite, column.relationMetadata] %}
+  {% setAsync 'options', getRelationOptions, [adminSite, widget.column.relationMetadata] %}
 
-  {% macro maybeSelected(column, currValue) %}
+  {% macro maybeSelected(value, currValue) %}
     {% if currValue == value %}selected{% endif %}
   {% endmacro %}
 
@@ -11,18 +11,18 @@
     {% if not column.isNullable %}disabled{% endif %}
   {% endmacro %}
 
-  <select class="form-control" id="{{ column.propertyName }}" name="{{ column.propertyName }}">
+  <select class="form-control" id="{{ widget.column.propertyName }}" name="{{ widget.column.propertyName }}">
     <option
       value
-      {{ maybeSelected(column, null) }}
-      {{ maybeDisabled(column) }}
+      {{ maybeSelected(widget.getValue(), null) }}
+      {{ maybeDisabled(widget.column) }}
     >
       --
     </option>
 
     {% for option in options %}
-      <option value="{{ option.id }}" {{ maybeSelected(column, option.id) }}>
-        {{ option | displayName(column.relationMetadata.inverseEntityMetadata) }}
+      <option value="{{ option.id }}" {{ maybeSelected(widget.getValue(), option.id) }}>
+        {{ option | displayName(widget.column.relationMetadata.inverseEntityMetadata) }}
       </option>
     {% endfor %}
   </select>

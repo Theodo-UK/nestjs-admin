@@ -1,9 +1,12 @@
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
+import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
 import {
   SimpleColumnType,
   PrimaryGeneratedColumnType,
   WithPrecisionColumnType,
 } from 'typeorm/driver/types/ColumnTypes'
+import AdminSite from '../adminSite'
+import { Widget } from './widget.interface'
 import TextWidget from './textWidget'
 import IntegerWidget from './integerWidget'
 import { DefaultAdminSite } from '..'
@@ -13,12 +16,26 @@ import DecimalWidget from './decimalWidget'
 import DateWidget from './dateWidget'
 import BooleanWidget from './booleanWidget'
 import ForeignKeyWidget from './foreignKeyWidget'
-import { Widget } from './widget.interface'
+import TimeWidget from './timeWidget'
+import DatetimeWidget from './datetimeWidget'
+import PasswordWidget from './passwordWidget'
+import EnumWidget from './enumWidget'
+import { isClass } from '../utils/typechecks'
 
-export function getDefaultWidget(column: ColumnMetadata, adminSite: DefaultAdminSite): Widget {
+export function getDefaultWidget(
+  column: ColumnMetadata,
+  adminSite: DefaultAdminSite,
+  entity?: object,
+): Widget {
+  const widgetArgs: [ColumnMetadata, DefaultAdminSite, object?] = [column, adminSite, entity]
+
   if (!!column.relationMetadata) {
     // the column is a foreign key
-    return new ForeignKeyWidget(column, adminSite)
+    return new ForeignKeyWidget(...widgetArgs)
+  }
+
+  if (['password', 'pw'].includes(column.propertyName)) {
+    return new PasswordWidget(...widgetArgs)
   }
 
   /* tslint:disable:ban-types */
@@ -67,15 +84,18 @@ export function getDefaultWidget(column: ColumnMetadata, adminSite: DefaultAdmin
         // | 'datetime'
         // | 'datetime2'
         // | 'datetimeoffset'
-        // | 'time'
+        | 'time'
         // | 'time with time zone'
-        // | 'time without time zone'
+        | 'time without time zone'
         | 'timestamp'
         | 'timestamp without time zone'
         // | 'timestamp with time zone'
         // | 'timestamp with local time zone'
-        // | 'simple-json'
-        // | 'simple-enum'
+        | 'simple-json'
+        | 'simple-enum'
+        | 'enum'
+        | 'json'
+        | 'jsonb'
         // | 'bit'
         // | 'float4'
         // | 'float8'
@@ -122,7 +142,6 @@ export function getDefaultWidget(column: ColumnMetadata, adminSite: DefaultAdmin
         // | 'tsrange'
         // | 'tstzrange'
         // | 'daterange'
-        // | 'enum'
         // | 'cidr'
         // | 'inet'
         // | 'macaddr'
@@ -133,8 +152,6 @@ export function getDefaultWidget(column: ColumnMetadata, adminSite: DefaultAdmin
         // | 'tsquery'
         // | 'uuid'
         // | 'xml'
-        // | 'json'
-        // | 'jsonb'
         // | 'varbinary'
         // | 'hierarchyid'
         // | 'sql_variant'
@@ -154,15 +171,18 @@ export function getDefaultWidget(column: ColumnMetadata, adminSite: DefaultAdmin
     case 'longtext':
     case 'ntext':
     case 'citext':
-      return new TextareaWidget(column, adminSite)
+    case 'json':
+    case 'jsonb':
+    case 'simple-json':
+      return new TextareaWidget(...widgetArgs)
     // @ts-ignore
     case String:
     case 'tinytext':
     case 'uuid':
-      return new TextWidget(column, adminSite)
+      return new TextWidget(...widgetArgs)
     case 'simple-array':
     case 'simple_array':
-      return new ArrayWidget(column, adminSite)
+      return new ArrayWidget(...widgetArgs)
     // @ts-ignore
     case Number:
     case 'number':
@@ -178,7 +198,7 @@ export function getDefaultWidget(column: ColumnMetadata, adminSite: DefaultAdmin
     case 'int64':
     case 'unsigned big int':
     case 'long':
-      return new IntegerWidget(column, adminSite)
+      return new IntegerWidget(...widgetArgs)
     case 'numeric':
     case 'float':
     case 'dec':
@@ -187,20 +207,39 @@ export function getDefaultWidget(column: ColumnMetadata, adminSite: DefaultAdmin
     case 'double':
     case 'double precision':
     case 'fixed':
-      return new DecimalWidget(column, adminSite)
+      return new DecimalWidget(...widgetArgs)
+    case 'date':
+      return new DateWidget(...widgetArgs)
     // @ts-ignore
     case Date:
-    case 'date':
     case 'timestamp':
     case 'timestamp without time zone':
-      return new DateWidget(column, adminSite)
+      return new DatetimeWidget(...widgetArgs)
     case 'boolean':
     case 'bool':
-      return new BooleanWidget(column, adminSite)
-
+      return new BooleanWidget(...widgetArgs)
+    case 'time':
+    case 'time without time zone':
+      return new TimeWidget(...widgetArgs)
+    case 'enum':
+    case 'simple-enum':
+      return new EnumWidget(...widgetArgs)
     default:
       const guard: never = type
-      return new TextWidget(column, adminSite)
+      return new TextWidget(...widgetArgs)
   }
   /* tslint:enable:ban-types */
+}
+
+export async function getRelationOptions(
+  adminSite: AdminSite,
+  relation: RelationMetadata,
+  cb: any,
+) {
+  if (!isClass(relation.type)) {
+    throw new Error(`${relation.type} is not an entity, it cannot be used as relation`)
+  }
+  const repository = adminSite.getRepository(relation.type)
+  const options = await repository.find()
+  cb(null, options)
 }

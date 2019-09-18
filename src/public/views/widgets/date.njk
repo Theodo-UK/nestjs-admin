@@ -1,18 +1,20 @@
 {% extends 'widgets/base-widget.njk' %}
 
 {% block input %}
-  {% set isDisabled=(column.isCreateDate or column.isUpdateDate) %}
+  {% set isDisabled=(widget.column.isCreateDate or widget.column.isUpdateDate) %}
 
   {% if not isDisabled %}
     <input
       class="form-control"
       type="date"
-      id="{{ column.propertyName }}"
-      name="{{ column.propertyName }}"
-      {% if value %}value="{{ value | date }}"{% endif %}
+      id="{{ widget.column.propertyName }}"
+      name="{{ widget.column.propertyName }}"
+      {% if widget.getValue() %}value="{{ widget.getValue() | date }}"{% endif %}
       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
     />
   {% else %}
-    {% include 'widgets/plaintext.njk' %}
+    <div class="col-form-label">
+      {{ widget.getValue() | date }}
+    </div>
   {% endif %}
 {% endblock %}

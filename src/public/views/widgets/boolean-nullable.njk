@@ -1,10 +1,12 @@
 {% extends 'widgets/base-widget.njk' %}
 
+{% set value = widget.getValue() %}
+
 {% block input %}
   <select
     class="form-control"
-    id="{{ column.propertyName }}"
-    name="{{ column.propertyName }}"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
   >
     <option value='null'
       {% if value == null %}selected{% endif %}

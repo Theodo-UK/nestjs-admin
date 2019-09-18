@@ -5,8 +5,8 @@
     class="form-control"
     type="number"
     step="1"
-    id="{{ column.propertyName }}"
-    name="{{ column.propertyName }}"
-    {% if value %}value={{ value }}{% endif %}
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    {% if widget.getValue() %}value={{ widget.getValue() }}{% endif %}
   />
 {% endblock %}

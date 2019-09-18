@@ -3,8 +3,8 @@
 {% block input %}
   <input
     class="form-control"
-    id="{{ column.propertyName }}"
-    name="{{ column.propertyName }}"
-    value="{{ value }}"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    value="{{ widget.getValue() }}"
   />
 {% endblock %}
