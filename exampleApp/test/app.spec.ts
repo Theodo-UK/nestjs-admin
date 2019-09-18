@@ -8,6 +8,7 @@ import { User } from '../src/user/user.entity'
 import { createTestUser } from './utils'
 import { UserModule } from '../src/user/user.module'
 import { TestAuthModule } from './testAuth/testAuth.module'
+import { displayName } from 'nestjs-admin/src/admin.filters'
 
 describe('AppController', () => {
   let app: INestApplication
@@ -41,11 +42,18 @@ describe('AppController', () => {
     const user = await userRepository.save(userData)
     expect(await userRepository.findOneOrFail(user.id)).toBeDefined()
 
+    const expectedDisplayName = displayName(user, userRepository.metadata)
+
     // delete the user via the api call
     const server = app.getHttpServer()
     const req = await request(server).post(`/admin/user/user/${user.id}/delete`)
     expect(req.status).toBe(302)
     expect(req.header.location).toBe(`/admin/user/user`)
+
+    const res = await request(server)
+      .get(`/admin/user/user`)
+      .set('Cookie', req.get('Set-Cookie')[0])
+    expect(res.text).toContain(`Successfully deleted User: ${expectedDisplayName}`)
 
     expect(await userRepository.findOne(user.id)).toBeUndefined()
   })

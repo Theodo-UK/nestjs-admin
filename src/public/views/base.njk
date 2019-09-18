@@ -34,6 +34,12 @@
   </nav>
 {% endif %}
 
+  {% if messages.length > 0 %}
+    <div class="alert alert-success">
+      {{ messages }}
+    </div>
+  {% endif %}
+
 {% block body %}
 {% endblock %}
 
