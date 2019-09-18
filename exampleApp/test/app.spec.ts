@@ -8,7 +8,7 @@ import { User } from '../src/user/user.entity'
 import { createTestUser } from './utils'
 import { UserModule } from '../src/user/user.module'
 import { TestAuthModule } from './testAuth/testAuth.module'
-import { displayName } from 'nestjs-admin/src/admin.filters'
+import { displayName } from 'nestjs-admin/dist/src/admin.filters'
 
 describe('AppController', () => {
   let app: INestApplication
