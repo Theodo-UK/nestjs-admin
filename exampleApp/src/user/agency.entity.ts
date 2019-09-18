@@ -6,9 +6,6 @@ export class Agency extends Object {
   @PrimaryGeneratedColumn()
   id: number
 
-  @PrimaryColumn({ default: 'UK' })
-  country: string
-
   @Column({ length: 50 })
   name: string
 
