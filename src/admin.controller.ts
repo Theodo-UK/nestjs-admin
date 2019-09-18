@@ -23,6 +23,7 @@ import { AdminFilter } from './admin.filter'
 import { injectionTokens } from './tokens'
 import { Request } from 'express'
 import { getPrimaryKeyValue } from './utils/entity'
+import { displayName } from './admin.filters'
 
 const resultsPerPage = 25
 
@@ -118,6 +119,7 @@ export class DefaultAdminController {
 
   @Post(':sectionName/:entityName/add')
   async create(
+    @Req() request: Request,
     @Body() createEntityDto: object,
     @Param() params: AdminModelsQuery,
     @Response() response: express.Response,
@@ -135,6 +137,10 @@ export class DefaultAdminController {
 
     const createdEntity = await repository.save(entityToBePersisted)
 
+    request.flash(
+      'messages',
+      `Successfully created ${metadata.name}: ${displayName(createdEntity, metadata)}`,
+    )
     return response.redirect(urls.changeUrl(section, metadata, createdEntity))
   }
 
@@ -172,6 +178,10 @@ export class DefaultAdminController {
       repository,
       getPrimaryKeyValue(metadata, entityToBePersisted),
     )
+    request.flash(
+      'messages',
+      `Successfully updated ${metadata.name}: ${displayName(entity, metadata)}`,
+    )
     return await this.env.render('change.njk', {
       request,
       section,
@@ -181,10 +191,16 @@ export class DefaultAdminController {
   }
 
   @Post(':sectionName/:entityName/:primaryKey/delete')
-  async delete(@Param() params: AdminModelsQuery, @Response() response: express.Response) {
+  async delete(
+    @Req() request: Request,
+    @Param() params: AdminModelsQuery,
+    @Response() response: express.Response,
+  ) {
     const { section, repository, metadata, entity } = await this.getAdminModels(params)
+    const entityDisplayName = displayName(entity, metadata)
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     await repository.remove(entity)
+    request.flash('messages', `Successfully deleted ${metadata.name}: ${entityDisplayName}`)
     return response.redirect(urls.changeListUrl(section, metadata))
   }
 }
