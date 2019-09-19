@@ -34,21 +34,28 @@ class DefaultAdminSite {
     return this.sections[sectionName]
   }
 
+  /**
+   * Register an entity in the adminSite.
+   *
+   * adminEntity can be an entity class (with the @Entity TypeORM decorator) or a class
+   * extending AdminEntity for further configuration.
+   *
+   * @argument sectionName The section the entity will be displayed under
+   * @argument adminEntity The entity or AdminEntity to be registered in the admin site
+   */
   register(sectionName: string, adminEntity: EntityType | typeof AdminEntity): void
   register(unsafeName: string, adminEntityOrEntity: EntityType | typeof AdminEntity) {
-    /**
-     * Register either an entity, or an extension of AdminEntity, in a section.
-     */
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
 
     if (adminEntityOrEntity.prototype instanceof AdminEntity) {
+      // adminEntityOrEntity is a derived class of AdminEntity
       const AdminEntityClass = adminEntityOrEntity as typeof AdminEntity
       // @ts-ignore
       const adminEntity = new AdminEntityClass(this, this.connection)
       section.register(adminEntity)
     } else if (this.connection.hasMetadata(adminEntityOrEntity)) {
-      // if adminEntityOrEntity is an entity:
+      // adminEntityOrEntity is an entity. Let's create a default AdminEntity class for it
       const entity = adminEntityOrEntity as EntityType
       class AdminEntityClass extends AdminEntity {
         entity = entity
