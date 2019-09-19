@@ -5,10 +5,10 @@ class AdminUser {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({ length: 50, unique: true })
+  @Column({ length: 50, unique: true, nullable: false })
   email: string
 
-  @Column({ length: 128 })
+  @Column({ length: 128, nullable: false })
   password: string
 
   toString() {

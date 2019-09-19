@@ -10,6 +10,7 @@ import {
 } from 'typeorm'
 import AdminUser from './adminUser.entity'
 import { DuplicateEmailException } from './exceptions/userAdmin.exception'
+import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'
 
 @Injectable()
 export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
@@ -52,6 +53,10 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
   async create(email: string, password: string) {
     if (await this.adminUserRepository.findOne({ email })) {
       throw new DuplicateEmailException(email)
+    }
+
+    if (!email || !password) {
+      throw new AdminUserValidationException()
     }
 
     const admin = new AdminUser()
