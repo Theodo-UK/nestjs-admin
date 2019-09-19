@@ -1,4 +1,4 @@
-<h1 align="center">NestJS Admin</h1>
+![NestJS Admin](./docs/assets/nestjs-admin-logo.png)
 
 <h3 align="center">
   A generic administration interface for TypeORM entities
@@ -65,6 +65,7 @@ export class AppModule {
 The DefaultAdminModule exposes an AdminUser entity, which has credentials that allow you to login to the admin interface.
 
 > There's no easy option to use your own user entity for now. If you have this requirement, open an issue so that we can help you.
+
 ```ts
 // If you use an ormconfig.js
 const AdminUser = require('nestjs-admin').AdminUserEntity
