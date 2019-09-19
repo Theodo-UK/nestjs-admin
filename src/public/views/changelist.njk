@@ -21,14 +21,16 @@
     <div class="col-12">
       <table class="table table-bordered table-striped entity-table">
         <tr>
-          <th>
-            {{ metadata.name }}
-          </th>
-          {% for column in listDisplay %}
+          {% if listDisplay %}
             <th>
-              {{ column }}
+              {{ metadata.name }}
             </th>
-          {% endfor %}
+            {% for column in listDisplay %}
+              <th>
+                {{ column }}
+              </th>
+            {% endfor %}
+          {% endif %}
         </tr>
         {% for entity in entities %}
           <tr>
