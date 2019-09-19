@@ -38,6 +38,10 @@ class AdminEntity {
 
     const widgets = fields
       .filter(field => this.metadata.columns.map(column => column.propertyName).includes(field))
+      .filter(field => {
+        const column = this.metadata.findColumnWithPropertyName(field)
+        return !(form === 'add' && column.isGenerated)
+      })
       .map(field => {
         const column = this.metadata.findColumnWithPropertyName(field)
         return getDefaultWidget(column, this.adminSite, entity)

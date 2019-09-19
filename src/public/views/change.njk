@@ -16,7 +16,7 @@
     <div class="col-12 col-xl-8">
       <div class="admin-form admin-form--change">
         <form method="POST" action="{{ 'change' | adminUrl(section, metadata, entity) }}" class="entity-form entity-form--change">
-          {% asyncEach widget in adminEntity.getWidgets("add", entity) %}
+          {% asyncEach widget in adminEntity.getWidgets("change", entity) %}
             <fieldset class="entity-form__field {{ field }}">
                 {% include widget.template %}
             </fieldset>
