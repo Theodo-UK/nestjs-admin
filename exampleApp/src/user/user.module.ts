@@ -2,7 +2,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 
 import { DefaultAdminSite } from 'nestjs-admin'
-import { BackofficeModule } from '@/backoffice/backoffice.module'
+import { BackofficeModule } from '../backoffice/backoffice.module'
 
 import { User } from './user.entity'
 import { Group } from './group.entity'
