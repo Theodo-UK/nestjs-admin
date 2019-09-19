@@ -8,6 +8,7 @@
     id="{{ widget.column.propertyName }}"
     name="{{ widget.column.propertyName }}"
     value=0
+    {{ "required" if not widget.column.isNullable }}
   />
   <input
     class="form-control checkbox"
@@ -16,5 +17,6 @@
     name="{{ widget.column.propertyName }}"
     value=1
     {% if widget.getValue() %}checked{% endif %}
+    {{ "required" if not widget.column.isNullable }}
   />
 {% endblock %}
