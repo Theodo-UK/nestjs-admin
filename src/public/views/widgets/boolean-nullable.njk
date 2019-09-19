@@ -7,7 +7,6 @@
     class="form-control"
     id="{{ widget.column.propertyName }}"
     name="{{ widget.column.propertyName }}"
-    {{ "required" if not widget.column.isNullable }}
   >
     <option value='null'
       {% if value == null %}selected{% endif %}

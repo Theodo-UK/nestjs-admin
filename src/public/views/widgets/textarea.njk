@@ -5,6 +5,5 @@
     class="form-control"
     id="{{ widget.column.propertyName }}"
     name="{{ widget.column.propertyName }}"
-    {{ "required" if not widget.column.isNullable }}
   >{{ widget.getValue() }}</textarea>
 {% endblock %}
