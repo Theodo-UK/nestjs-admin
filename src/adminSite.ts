@@ -84,15 +84,16 @@ class DefaultAdminSite {
         const relation = metadata.findRelationWithPropertyPath(property)
         const repo = this.connection.getRepository(relation.type)
 
-        let values
-        // filter out empty string because that is sent as a default value to avoid not sending anything
+        // To make sure the form send a value for the property even if
+        // no option has been selected, a sentinel value is always present.
+        // We need to remove this first sentinel item here.
+        let selectedValues
         if (Array.isArray(value)) {
-          values = await repo.findByIds(value.filter(it => it != ''))
+          selectedValues = await repo.findByIds(value.slice(1))
         } else {
-          values = []
+          selectedValues = []
         }
-
-        cleanedValues[property] = values
+        cleanedValues[property] = selectedValues
         continue
       }
 
