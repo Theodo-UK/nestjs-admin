@@ -8,7 +8,6 @@
         name="{{ name }}[]"
         value="{{ value }}"
         class="form-control array-value__input"
-        {{ "required" if not widget.column.isNullable }}
       />
       <button type="button" class="array-remove" onclick="{{ name }}RemoveInput(this)">－</button>
     </div>
