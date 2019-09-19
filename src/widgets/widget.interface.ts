@@ -16,6 +16,10 @@ export class BaseWidget {
     return this.column.propertyName
   }
 
+  isRequired() {
+    return !this.column.isNullable
+  }
+
   getValue() {
     if (!this.entity) {
       return null

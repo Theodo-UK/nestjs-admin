@@ -15,6 +15,10 @@ export default class ManyToManyWidget implements Widget {
     return this.relation.propertyName
   }
 
+  isRequired() {
+    return !this.relation.isNullable
+  }
+
   getValue() {
     if (!this.entity) {
       return null
