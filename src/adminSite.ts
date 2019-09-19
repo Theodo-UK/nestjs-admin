@@ -11,6 +11,8 @@ import {
   isEnumType,
   isDecimalType,
 } from './utils/column'
+import AdminEntity from './adminEntity'
+import { InvalidAdminRegistration } from './exceptions/invalidAdminRegistration.exception'
 
 @Injectable()
 class DefaultAdminSite {
@@ -27,16 +29,42 @@ class DefaultAdminSite {
 
   private getOrCreateSection(sectionName: string) {
     if (!this.sections[sectionName]) {
-      this.sections[sectionName] = new AdminSection(sectionName, this, this.connection)
+      this.sections[sectionName] = new AdminSection(sectionName)
     }
     return this.sections[sectionName]
   }
 
-  register(sectionName: string, entity: EntityType): void
-  register(unsafeName: string, entity: EntityType) {
+  /**
+   * Register an entity in the adminSite.
+   *
+   * adminEntity can be an entity class (with the @Entity TypeORM decorator) or a class
+   * extending AdminEntity for further configuration.
+   *
+   * @argument sectionName The section the entity will be displayed under
+   * @argument adminEntity The entity or AdminEntity to be registered in the admin site
+   */
+  register(sectionName: string, adminEntity: EntityType | typeof AdminEntity): void
+  register(unsafeName: string, adminEntityOrEntity: EntityType | typeof AdminEntity) {
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
-    section.register(entity)
+
+    if (adminEntityOrEntity.prototype instanceof AdminEntity) {
+      // adminEntityOrEntity is a derived class of AdminEntity
+      const AdminEntityClass = adminEntityOrEntity as typeof AdminEntity
+      // @ts-ignore
+      const adminEntity = new AdminEntityClass(this, this.connection)
+      section.register(adminEntity)
+    } else if (this.connection.hasMetadata(adminEntityOrEntity)) {
+      // adminEntityOrEntity is an entity. Let's create a default AdminEntity class for it
+      const entity = adminEntityOrEntity as EntityType
+      class AdminEntityClass extends AdminEntity {
+        entity = entity
+      }
+      const adminEntity = new AdminEntityClass(this, this.connection)
+      section.register(adminEntity)
+    } else {
+      throw new InvalidAdminRegistration(adminEntityOrEntity)
+    }
   }
 
   getSectionList() {

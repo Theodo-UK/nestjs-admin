@@ -1,19 +1,11 @@
-import { Connection } from 'typeorm'
 import { parseName } from './utils/formatting'
-import { EntityType } from './types'
 import AdminEntity from './adminEntity'
-import DefaultAdminSite from './adminSite'
 
 class AdminSection {
   entities: { [key: string]: AdminEntity } = {}
-  constructor(
-    public readonly name: string,
-    private readonly adminSite: DefaultAdminSite,
-    private readonly connection: Connection,
-  ) {}
+  constructor(public readonly name: string) {}
 
-  register(entity: EntityType) {
-    const adminEntity = new AdminEntity(entity, this.adminSite, this.connection)
+  register(adminEntity: AdminEntity) {
     this.entities[parseName(adminEntity.name)] = adminEntity
   }
 

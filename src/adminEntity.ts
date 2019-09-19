@@ -4,9 +4,10 @@ import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
 
-class AdminEntity {
+abstract class AdminEntity {
+  abstract entity: EntityType
+
   constructor(
-    public readonly entity: EntityType,
     private readonly adminSite: DefaultAdminSite,
     private readonly connection: Connection,
   ) {}
