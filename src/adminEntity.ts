@@ -6,6 +6,7 @@ import ManyToManyWidget from './widgets/manyToManyWidget'
 
 abstract class AdminEntity {
   abstract entity: EntityType
+  listDisplay: string[] | null = null
 
   constructor(
     private readonly adminSite: DefaultAdminSite,

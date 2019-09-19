@@ -71,7 +71,7 @@ export class DefaultAdminController {
 
   async getAdminModels(query: AdminModelsQuery): Promise<AdminModelsResult> {
     // @ts-ignore
-    const result: AdminModelsResult = {}
+    const result: Partial<AdminModelsResult> = {}
     if (query.sectionName) {
       result.section = this.adminSite.getSection(query.sectionName)
       if (query.entityName) {
@@ -84,7 +84,7 @@ export class DefaultAdminController {
         }
       }
     }
-    return result
+    return result as AdminModelsResult
   }
 
   @Get()
@@ -99,7 +99,12 @@ export class DefaultAdminController {
     @Param() params: AdminModelsQuery,
     @Query('page') pageParam: string = '1',
   ) {
-    const { section, repository, metadata } = await this.getAdminModels(params)
+    const {
+      section,
+      repository,
+      metadata,
+      adminEntity: { listDisplay },
+    } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
     const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
 
@@ -111,6 +116,7 @@ export class DefaultAdminController {
       metadata,
       page,
       resultsPerPage,
+      listDisplay,
     })
   }
 
