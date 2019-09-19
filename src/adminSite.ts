@@ -80,9 +80,20 @@ class DefaultAdminSite {
 
       if (!column) {
         // Manytomany
+
         const relation = metadata.findRelationWithPropertyPath(property)
         const repo = this.connection.getRepository(relation.type)
-        cleanedValues[property] = await repo.findByIds(value)
+
+        // To make sure the form send a value for the property even if
+        // no option has been selected, a sentinel value is always present.
+        // We need to remove this first sentinel item here.
+        let selectedValues
+        if (Array.isArray(value)) {
+          selectedValues = await repo.findByIds(value.slice(1))
+        } else {
+          selectedValues = []
+        }
+        cleanedValues[property] = selectedValues
         continue
       }
 
