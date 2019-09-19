@@ -1,4 +1,4 @@
-export function getListDisplay(entity: any, listDisplay: string[]) {
+export function getListDisplay(entity: object, listDisplay: string[]) {
   if (!listDisplay) {
     return []
   }
