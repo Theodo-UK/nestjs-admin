@@ -7,7 +7,7 @@ import { CliAdminModule } from './cliAdmin.module'
 import { createAdminUser } from './createAdminUser'
 
 async function execCommand(command: (app: INestApplicationContext) => any) {
-  const app = await NestFactory.createApplicationContext(CliAdminModule)
+  const app = await NestFactory.createApplicationContext(CliAdminModule.create())
   await command(app)
 }
 
