@@ -11,7 +11,7 @@
     {% if not column.isNullable %}disabled{% endif %}
   {% endmacro %}
 
-  <select class="form-control" id="{{ widget.column.propertyName }}" name="{{ widget.column.propertyName }} {{ "required" if widget.isRequired() }}">
+  <select class="form-control" id="{{ widget.column.propertyName }}" name="{{ widget.column.propertyName }}" {{ "required" if widget.isRequired() }}>
     <option
       value
       {{ maybeSelected(widget.getValue(), null) }}
