@@ -12,7 +12,13 @@
   {% setAsync 'options', getRelationOptions, [adminSite, widget.relation] %}
 
   <input type="hidden" id="{{ widget.relation.propertyName }}" name="{{ widget.relation.propertyName }}"  value="" />
-  <select class="form-control" id="{{ widget.relation.propertyName }}" name="{{ widget.relation.propertyName }}" multiple>
+  <select
+    class="form-control"
+    id="{{ widget.relation.propertyName }}"
+    name="{{ widget.relation.propertyName }}"
+    multiple
+    {{ "required" if widget.isRequired() }}
+  >
     {% for option in options %}
       <option value="{{ option.id }}" {{ maybeSelected(widget.relation, option) }}>
         {{ option | displayName(widget.relation.inverseEntityMetadata) }}
