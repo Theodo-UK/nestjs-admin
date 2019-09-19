@@ -6,5 +6,6 @@
     id="{{ widget.column.propertyName }}"
     name="{{ widget.column.propertyName }}"
     value="{{ widget.getValue() }}"
+    {{ "required" if not widget.column.isNullable }}
   />
 {% endblock %}

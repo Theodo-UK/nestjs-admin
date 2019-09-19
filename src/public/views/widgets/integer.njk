@@ -8,5 +8,6 @@
     id="{{ widget.column.propertyName }}"
     name="{{ widget.column.propertyName }}"
     {% if widget.getValue() %}value={{ widget.getValue() }}{% endif %}
+    {{ "required" if not widget.column.isNullable }}
   />
 {% endblock %}
