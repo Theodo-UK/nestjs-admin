@@ -29,7 +29,7 @@ class DefaultAdminSite {
 
   private getOrCreateSection(sectionName: string) {
     if (!this.sections[sectionName]) {
-      this.sections[sectionName] = new AdminSection(sectionName, this, this.connection)
+      this.sections[sectionName] = new AdminSection(sectionName)
     }
     return this.sections[sectionName]
   }
@@ -45,7 +45,7 @@ class DefaultAdminSite {
     if (adminEntityOrEntity.prototype instanceof AdminEntity) {
       const AdminEntityClass = adminEntityOrEntity as typeof AdminEntity
       // @ts-ignore
-      const adminEntity = new AdminEntityClass(this.connection)
+      const adminEntity = new AdminEntityClass(this, this.connection)
       section.register(adminEntity)
     } else if (this.connection.hasMetadata(adminEntityOrEntity)) {
       // if adminEntityOrEntity is an entity:
@@ -53,7 +53,7 @@ class DefaultAdminSite {
       class AdminEntityClass extends AdminEntity {
         entity = entity
       }
-      const adminEntity = new AdminEntityClass(this.connection)
+      const adminEntity = new AdminEntityClass(this, this.connection)
       section.register(adminEntity)
     } else {
       throw new InvalidAdminRegistration(adminEntityOrEntity)
