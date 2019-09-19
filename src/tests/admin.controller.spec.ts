@@ -44,9 +44,10 @@ describe('AdminCoreModuleFactory', () => {
 
   it('can display a form for an entity with composite primary key', async () => {
     const metadata = adminSite.getEntityMetadata(EntityWithCompositePrimaryKey)
+    const entityManager = app.get(EntityManager)
     expect(metadata.hasMultiplePrimaryKeys).toBe(true)
 
-    const entity = await adminSite
+    const entity = await entityManager
       .getRepository(EntityWithCompositePrimaryKey)
       .save(new EntityWithCompositePrimaryKey())
 
@@ -58,10 +59,9 @@ describe('AdminCoreModuleFactory', () => {
 
   it('can save a change for an entity with composite primary key', async () => {
     const metadata = adminSite.getEntityMetadata(EntityWithCompositePrimaryKey)
-    const repository = adminSite.getRepository(EntityWithCompositePrimaryKey)
     expect(metadata.hasMultiplePrimaryKeys).toBe(true)
 
-    const entity = await repository.save(new EntityWithCompositePrimaryKey())
+    const entity = await adminSite.entityManager.save(new EntityWithCompositePrimaryKey())
 
     const server = app.getHttpServer()
     const newData = { ...entity, country: 'France' }
@@ -71,9 +71,12 @@ describe('AdminCoreModuleFactory', () => {
 
     expect(res.status).toBe(302)
 
-    const updatedEntity: EntityWithCompositePrimaryKey = (await repository.findOne({
-      id: entity.id,
-    })) as any
+    const updatedEntity: EntityWithCompositePrimaryKey = (await adminSite.entityManager.findOne(
+      EntityWithCompositePrimaryKey,
+      {
+        id: entity.id,
+      },
+    )) as any
     expect(updatedEntity.country).toEqual('France')
   })
 })

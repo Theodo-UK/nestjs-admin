@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Connection, EntityMetadata } from 'typeorm'
+import { Connection, EntityMetadata, EntityManager } from 'typeorm'
 import { parseName } from './utils/formatting'
 import AdminSection from './adminSection'
 import { EntityType } from './types'
@@ -30,7 +30,10 @@ class DefaultAdminSite {
   defaultDateFormat = 'YYYY-MM-DD hh:mm:ss'
 
   /* @debt architecture "We should use the EntityManager instead of the Connection and Repositories" */
-  constructor(private readonly connection: Connection) {}
+  constructor(
+    private readonly connection: Connection,
+    public readonly entityManager: EntityManager,
+  ) {}
 
   sections: { [sectionName: string]: AdminSection } = {}
 
@@ -100,7 +103,7 @@ class DefaultAdminSite {
   }
 
   getRepository(entity: EntityType) {
-    return this.connection.getRepository(entity)
+    return this.entityManager.getRepository(entity)
   }
 
   getEntityMetadata(entity: EntityType) {
@@ -120,7 +123,7 @@ class DefaultAdminSite {
         // Manytomany
 
         const relation = metadata.findRelationWithPropertyPath(property)
-        const repo = this.connection.getRepository(relation.type)
+        const repo = this.entityManager.getRepository(relation.type)
 
         // To make sure the form send a value for the property even if
         // no option has been selected, a sentinel value is always present.
