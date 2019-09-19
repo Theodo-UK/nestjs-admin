@@ -60,30 +60,7 @@ export class AppModule {
 }
 ```
 
-3. **Add the provided `AdminUser` to your orm config:**
-
-The DefaultAdminModule exposes an AdminUser entity, which has credentials that allow you to login to the admin interface.
-
-> There's no easy option to use your own user entity for now. If you have this requirement, open an issue so that we can help you.
-
-```ts
-// If you use an ormconfig.js
-const AdminUser = require('nestjs-admin').AdminUserEntity
-
-module.exports = {
-  /* ... */,
-  entities: [/* ... */, AdminUser],
-  // Alternatively:
-  // entities: [/* ... */, 'node_modules/nestjs-admin/**/*.entity.js'],
-}
-```
-
-```bash
-# If you use environment variables
-TYPEORM_ENTITIES=your_existing_paths,node_modules/nestjs-admin/**/*.entity.js
-```
-
-4. **Create a first AdminUser to log in with**
+3. **Create a first AdminUser to log in with**
 
 ```bash
 # Create the AdminUser schema in database
@@ -98,7 +75,7 @@ npx nestjs-admin createAdminUser
 
 You can now login to access the admin interface at `/admin/login`!
 
-5. **Register entities in the admin site**
+4. **Register entities in the admin site**
 
 ```ts
 // user.module.ts
