@@ -61,7 +61,6 @@ export class AppModule {
 ```
 
 3. **Add the provided `AdminUser` to your orm config:**
-3. **Create a first AdminUser to log in with**
 
 The DefaultAdminModule exposes an AdminUser entity, which has credentials that allow you to login to the admin interface.
 
@@ -83,6 +82,7 @@ TYPEORM_ENTITIES=your_existing_paths,node_modules/nestjs-admin/**/*.entity.js
 ```
 
 4. **Create a first AdminUser to log in with**
+
 ```bash
 # Create the AdminUser schema in database
 npx ts-node node_modules/.bin/typeorm migration:generate -n "create-admin-user"
