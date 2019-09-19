@@ -99,12 +99,7 @@ export class DefaultAdminController {
     @Param() params: AdminModelsQuery,
     @Query('page') pageParam: string = '1',
   ) {
-    const {
-      section,
-      repository,
-      metadata,
-      adminEntity: { listDisplay },
-    } = await this.getAdminModels(params)
+    const { section, repository, metadata, adminEntity } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
     const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
 
@@ -116,7 +111,7 @@ export class DefaultAdminController {
       metadata,
       page,
       resultsPerPage,
-      listDisplay,
+      adminEntity,
     })
   }
 

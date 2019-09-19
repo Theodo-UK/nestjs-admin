@@ -10,7 +10,6 @@ import { isEntityInList } from './utils/entity'
 import { getPaginationRanges, generatePaginatedUrl } from './utils/pagination'
 import { SetAsyncExtension } from './extensions/setAsync'
 import { injectionTokens } from './tokens'
-import { getListDisplay } from './utils/listDisplay'
 
 interface TemplateParameters {
   request: Request
@@ -42,7 +41,6 @@ class DefaultAdminNunjucksEnvironment {
     this.env.addGlobal('isEntityInList', isEntityInList)
     this.env.addGlobal('getPaginationRanges', getPaginationRanges)
     this.env.addGlobal('generatePaginatedUrl', generatePaginatedUrl)
-    this.env.addGlobal('getListDisplay', getListDisplay)
   }
 
   async render(name: string, parameters: TemplateParameters) {

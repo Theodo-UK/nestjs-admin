@@ -20,27 +20,27 @@
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered table-striped entity-table">
-        <tr>
-          {% if listDisplay %}
+        {% if adminEntity.listDisplay %}
+          <thead class='thead-dark'>
             <th>
               {{ metadata.name }}
             </th>
-            {% for column in listDisplay %}
+            {% for property in adminEntity.listDisplay %}
               <th>
-                {{ column }}
+                {{ property }}
               </th>
             {% endfor %}
-          {% endif %}
-        </tr>
+          </thead class='thead-dark'>
+        {% endif %}
         {% for entity in entities %}
           <tr>
             <td>
               <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
                 {{ entity | displayName(metadata) }}
               </a>
-            {% for column in getListDisplay(entity, listDisplay) %}
+            {% for property in adminEntity.listDisplay %}
               <td>
-                {{ column }}
+                {{ entity }}
               </td>
             {% endfor %}
             </td>
