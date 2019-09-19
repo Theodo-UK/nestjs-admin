@@ -41,6 +41,9 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
     event.entity.password = this.hashPassword(event.entity.password)
   }
   beforeUpdate(event: UpdateEvent<AdminUser>) {
+    // @debt TODO "To be tested"
+    if (!event.entity || !event.databaseEntity) return
+
     const isPasswordUpdated = !this.comparePassword(event.entity, event.databaseEntity.password)
 
     if (isPasswordUpdated) {
