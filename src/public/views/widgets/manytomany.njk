@@ -11,6 +11,7 @@
 
   {% setAsync 'options', getRelationOptions, [adminSite, widget.relation] %}
 
+  <input type="hidden" id="{{ widget.relation.propertyName }}" name="{{ widget.relation.propertyName }}"  value="" />
   <select class="form-control" id="{{ widget.relation.propertyName }}" name="{{ widget.relation.propertyName }}" multiple>
     {% for option in options %}
       <option value="{{ option.id }}" {{ maybeSelected(widget.relation, option) }}>

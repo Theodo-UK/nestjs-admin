@@ -80,9 +80,19 @@ class DefaultAdminSite {
 
       if (!column) {
         // Manytomany
+
         const relation = metadata.findRelationWithPropertyPath(property)
         const repo = this.connection.getRepository(relation.type)
-        cleanedValues[property] = await repo.findByIds(value)
+
+        let values
+        // filter out empty string because that is sent as a default value to avoid not sending anything
+        if (Array.isArray(value)) {
+          values = await repo.findByIds(value.filter(it => it != ''))
+        } else {
+          values = []
+        }
+
+        cleanedValues[property] = values
         continue
       }
 
