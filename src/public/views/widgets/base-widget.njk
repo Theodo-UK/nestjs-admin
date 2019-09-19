@@ -2,6 +2,9 @@
   {% block label %}
   <label class="col-12 col-md-3 col-form-label" for="{{ widget.column.propertyName }}">
     {{ widget.getLabel() }}
+    {% if not widget.column.isNullable %}
+      <span style="color: red;">*</span>
+    {% endif %}
   </label>
   {% endblock %}
   <div class="col-12 col-md-9">
