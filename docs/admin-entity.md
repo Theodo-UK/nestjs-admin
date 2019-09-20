@@ -1,30 +1,8 @@
-## AdminEntity class
+## Registering entities on the admin site
 
-You can register entities with options using the `AdminEntity` class
+There are two ways you can register an entity on the admin site.
 
-The simpliest example of registering an `AdminEntity` class to for a `User` entity looks like this:
-
-```typescript
-// user.admin.ts
-import { AdminEntity, DefaultAdminSite } from 'nestjs-admin'
-import { UserAdmin } from './user.admin'
-import { User } from './user.entity'
-
-export class UserAdmin extends AdminEntity {
-  entity = User
-}
-
-@Module({...})
-export class UserModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('User', UserAdmin)
-    ...
-  }
-}
-
-```
-
-This will behave the same as:
+#### 1. Registering entities directly
 
 ```typescript
 // user.module.ts
@@ -38,7 +16,28 @@ export class UserModule {
     ...
   }
 }
+```
 
+#### 2. Registering entities using the `AdminEntity` class
+
+```typescript
+// user.admin.ts
+import { AdminEntity, DefaultAdminSite } from 'nestjs-admin'
+import { UserAdmin } from './user.admin'
+import { User } from './user.entity'
+
+export class UserAdmin extends AdminEntity {
+  entity = User
+}
+
+// user.module.ts
+@Module({...})
+export class UserModule {
+  constructor(private readonly adminSite: DefaultAdminSite) {
+    adminSite.register('User', UserAdmin)
+    ...
+  }
+}
 ```
 
 ## AdminEntity options
@@ -64,6 +63,6 @@ Set `listDisplay` to control which entity fields are displayed on the list page 
 listDisplay = ['firstname', 'lastname']
 ```
 
-- If you don't set `listDisplay` the list page with show a single column containing the `toString()` representation of the entity.
+- If you don't set `listDisplay` the list page with show a single column containing the primary key of the entity, or the `toString()` representation of the entity if defined.
 
-- `listDisplay` values cannot refer to `ManyToOne` or `ManyToMany` fields entity fields
+- `listDisplay` values cannot refer to `ManyToOne`, `OneToMany` or `ManyToMany` fields.
