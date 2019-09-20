@@ -16,5 +16,6 @@
     name="{{ widget.column.propertyName }}"
     value=1
     {% if widget.getValue() %}checked{% endif %}
+    {{ "required" if widget.isRequired() }}
   />
 {% endblock %}
