@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 import { UserModule } from '../../exampleApp/src/user/user.module'
 import { TestAuthModule } from '../../exampleApp/test/testAuth/testAuth.module'
 import { AdminCoreModuleFactory } from '../adminCore.module'
@@ -14,7 +14,7 @@ describe('changelist', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forRoot(),
+        TestTypeOrmModule.forRoot(),
         UserModule,
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),
