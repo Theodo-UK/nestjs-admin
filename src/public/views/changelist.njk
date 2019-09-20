@@ -22,15 +22,11 @@
       <table class="table table-bordered table-striped entity-table">
         {% if adminEntity.listDisplay %}
           <thead class='thead-dark'>
-            <th>
-              {{ metadata.name }}
-            </th>
+            <th>{{ metadata.name }}</th>
             {% for property in adminEntity.listDisplay %}
-              <th>
-                {{ property }}
-              </th>
+              <th>{{ property }}</th>
             {% endfor %}
-          </thead class='thead-dark'>
+          </thead>
         {% endif %}
         {% for entity in entities %}
           <tr>
@@ -39,9 +35,7 @@
                 {{ entity | displayName(metadata) }}
               </a>
             {% for property in adminEntity.listDisplay %}
-              <td>
-                {{ entity }}
-              </td>
+              <td>{{ entity }}</td>
             {% endfor %}
             </td>
           </tr>
