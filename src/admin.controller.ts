@@ -71,7 +71,7 @@ export class DefaultAdminController {
 
   async getAdminModels(query: AdminModelsQuery): Promise<AdminModelsResult> {
     // @ts-ignore
-    const result: Partial<AdminModelsResult> = {}
+    const result: AdminModelsResult = {}
     if (query.sectionName) {
       result.section = this.adminSite.getSection(query.sectionName)
       if (query.entityName) {
@@ -84,7 +84,7 @@ export class DefaultAdminController {
         }
       }
     }
-    return result as AdminModelsResult
+    return result
   }
 
   @Get()
