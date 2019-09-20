@@ -32,7 +32,7 @@ class DefaultAdminNunjucksEnvironment {
 
     this.env.addExtension('SetAsyncExtension', new SetAsyncExtension())
 
-    dateFilter.setDefaultFormat('YYYY-MM-DD')
+    dateFilter.setDefaultFormat(adminSite.defaultDateFormat)
     this.env.addFilter('date', dateFilter)
     this.env.addFilter('adminUrl', filters.adminUrl)
     this.env.addFilter('displayName', filters.displayName)

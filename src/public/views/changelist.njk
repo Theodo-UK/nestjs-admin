@@ -37,7 +37,7 @@
                   {% else %}
                     {% if metadata.findColumnWithPropertyName(property).type | isDateType %}
                         {% if entity[property] != null %}
-                          {{ entity[property] | date('YYYY-MM-DD hh:mm:ss') }}
+                          {{ entity[property] | date }}
                         {% endif %}
                     {% else %}{{ entity[property] }}
                     {% endif %}
