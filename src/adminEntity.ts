@@ -13,6 +13,7 @@ abstract class AdminEntity {
   static adminEntityDiscriminant = 'ADMIN_ENTITY_DISCRIMINANT'
   abstract entity: EntityType
   listDisplay: string[] | null = null
+  searchFields: string[] | null = null
 
   constructor(
     private readonly adminSite: DefaultAdminSite,
