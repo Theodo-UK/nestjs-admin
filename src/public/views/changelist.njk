@@ -35,7 +35,12 @@
                   {% if loop.first %}
                     <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity[property] }}</a>
                   {% else %}
-                    {{ entity[property] }}
+                    {% if metadata.findColumnWithPropertyName(property).type | isDateType %}
+                        {% if entity[property] != null %}
+                          {{ entity[property] | date('YYYY-MM-DD hh:mm:ss') }}
+                        {% endif %}
+                    {% else %}{{ entity[property] }}
+                    {% endif %}
                   {% endif %}</td>
               {% endfor %}
             </tr>
@@ -47,7 +52,6 @@
             <tr><td><a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity | displayName(metadata) }}</a></td></tr>
           {% endfor %}
         {% endif %}
-
       </table>
 
       <ul class="pagination">
