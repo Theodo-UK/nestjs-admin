@@ -20,26 +20,34 @@
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered table-striped entity-table">
+
+        {# If there's a `listDisplay` config, we'll display columns with the properties of the entity #}
         {% if adminEntity.listDisplay %}
           <thead class='thead-dark'>
-            <th>{{ metadata.name }}</th>
             {% for property in adminEntity.listDisplay %}
               <th>{{ property }}</th>
             {% endfor %}
           </thead>
+          {% for entity in entities %}
+            <tr>
+              {% for property in adminEntity.listDisplay %}
+                <td>
+                  {% if loop.first %}
+                    <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity[property] }}</a>
+                  {% else %}
+                    {{ entity[property] }}
+                  {% endif %}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+
+        {# If there's no `listDisplay` config, just use the default display of the entity #}
+        {% else %}
+          {% for entity in entities %}
+            <tr><td><a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity | displayName(metadata) }}</a></td></tr>
+          {% endfor %}
         {% endif %}
-        {% for entity in entities %}
-          <tr>
-            <td>
-              <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">
-                {{ entity | displayName(metadata) }}
-              </a>
-            {% for property in adminEntity.listDisplay %}
-              <td>{{ entity }}</td>
-            {% endfor %}
-            </td>
-          </tr>
-        {% endfor %}
+
       </table>
 
       <ul class="pagination">

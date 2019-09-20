@@ -44,10 +44,9 @@ describe('changelist', () => {
     expect(res.status).toBe(200)
 
     document.documentElement.innerHTML = res.text
-    expect(document.querySelector('table th:nth-child(1)').innerHTML.includes('User')).toBeTruthy()
-    expect(document.querySelector('table th:nth-child(2)').innerHTML.includes('email')).toBeTruthy()
+    expect(document.querySelector('table th:nth-child(1)').innerHTML.includes('id')).toBeTruthy()
     expect(
-      document.querySelector('table th:nth-child(3)').innerHTML.includes('description'),
+      document.querySelector('table th:nth-child(2)').innerHTML.includes('firstName'),
     ).toBeTruthy()
   })
 

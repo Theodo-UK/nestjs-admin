@@ -23,7 +23,8 @@ export class TestTypeOrmModule {
       entities: [
         AdminEntity,
         __dirname + '/../../**/*.entity.{js,ts}', // for use in the library
-        __dirname + '/../../../dist/**/*.entity.{js,ts}', // for use in the exampleApp
+        __dirname + '/../../../dist/**/*.entity.{js,ts}', // for use locally in the exampleApp
+        __dirname + '/../../../exampleApp/node_modules/nestjs-admin/dist/**/*.entity.{js,ts}', // for use in CI in the exampleApp
         ...config.entities,
       ],
       synchronize: true,
