@@ -4,6 +4,7 @@ import { EntitySchema } from 'typeorm'
 import { injectionTokens } from '../../../src/tokens'
 import DefaultAdminSite from '../../../src/adminSite'
 import { EntityType } from '../../../src/types'
+import AdminEntity from '../../adminUser.entity'
 
 interface TestTypeOrmModuleConfig {
   entities: EntityType[]
@@ -20,6 +21,7 @@ export class TestTypeOrmModule {
       password: 'Ge0rgesMoustaki',
       database: 'seed',
       entities: [
+        AdminEntity,
         __dirname + '/../../**/*.entity.{js,ts}', // for use in the library
         __dirname + '/../../../dist/**/*.entity.{js,ts}', // for use in the exampleApp
         ...config.entities,
