@@ -4,6 +4,7 @@ import { EntitySchema } from 'typeorm'
 import { injectionTokens } from '../../../src/tokens'
 import DefaultAdminSite from '../../../src/adminSite'
 import { EntityType } from '../../../src/types'
+import AdminEntity from '../../adminUser.entity'
 
 interface TestTypeOrmModuleConfig {
   entities: EntityType[]
@@ -19,7 +20,13 @@ export class TestTypeOrmModule {
       username: 'seed',
       password: 'Ge0rgesMoustaki',
       database: 'seed',
-      entities: [__dirname + '/../../**/*.entity.{js,ts}', ...config.entities],
+      entities: [
+        AdminEntity,
+        __dirname + '/../../**/*.entity.{js,ts}', // for use in the library
+        __dirname + '/../../../dist/**/*.entity.{js,ts}', // for use locally in the exampleApp
+        __dirname + '/../../../exampleApp/node_modules/nestjs-admin/dist/**/*.entity.{js,ts}', // for use in CI in the exampleApp
+        ...config.entities,
+      ],
       synchronize: true,
     })
     return {

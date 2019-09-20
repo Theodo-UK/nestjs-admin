@@ -18,6 +18,7 @@ const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
   imports: [TypeOrmModule.forFeature([Group]), TestAuthModule, DefaultCoreModule],
   exports: [TypeOrmModule],
 })
+// @ts-ignore
 class RegisteredEntityModule {
   constructor(private readonly adminSite: DefaultAdminSite) {
     adminSite.register('group', Group)
