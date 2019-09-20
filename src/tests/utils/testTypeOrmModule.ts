@@ -19,7 +19,11 @@ export class TestTypeOrmModule {
       username: 'seed',
       password: 'Ge0rgesMoustaki',
       database: 'seed',
-      entities: [__dirname + '/../../**/*.entity.{js,ts}', ...config.entities],
+      entities: [
+        __dirname + '/../../**/*.entity.{js,ts}', // for use in the library
+        __dirname + '/../../../dist/**/*.entity.{js,ts}', // for use in the exampleApp
+        ...config.entities,
+      ],
       synchronize: true,
     })
     return {

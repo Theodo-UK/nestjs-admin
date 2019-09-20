@@ -6,9 +6,9 @@ import { UserModule } from '../../exampleApp/src/user/user.module'
 import { TestAuthModule } from '../../exampleApp/test/testAuth/testAuth.module'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import { JSDOM } from 'jsdom'
-import DefaultAdminModule from '../defaultAdmin.module'
 import { Agency } from '../../exampleApp/src/user/agency.entity'
 import { User } from '../../exampleApp/src/user/user.entity'
+import { Group } from '../../exampleApp/src/user/group.entity'
 
 describe('changelist', () => {
   let app: INestApplication
@@ -17,7 +17,7 @@ describe('changelist', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestTypeOrmModule.forRoot({ entities: [User, Agency] }),
+        TestTypeOrmModule.forRoot({ entities: [User, Agency, Group] }),
         UserModule,
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),
