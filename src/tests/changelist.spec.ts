@@ -60,10 +60,23 @@ describe('changelist', () => {
     expect(document.querySelector('table > thead')).toBeFalsy()
   })
 
-  it('renders a page when searchFields is defined', async () => {
+  it('renders a search box when searchFields is defined', async () => {
+    const server = app.getHttpServer()
+    const res = await request(server).get(`/admin/user/user`)
+
+    expect(res.status).toBe(200)
+
+    document.documentElement.innerHTML = res.text
+    expect(document.querySelector('form input[name="search"]')).toBeTruthy()
+  })
+
+  it('does not render a search box when searchFields is undefined', async () => {
     const server = app.getHttpServer()
     const res = await request(server).get(`/admin/agency/agency`)
 
     expect(res.status).toBe(200)
+
+    document.documentElement.innerHTML = res.text
+    expect(document.querySelector('form input[name="search"]')).toBeFalsy()
   })
 })
