@@ -59,4 +59,11 @@ describe('changelist', () => {
     document.documentElement.innerHTML = res.text
     expect(document.querySelector('table > thead')).toBeFalsy()
   })
+
+  it('renders a page when searchFields is defined', async () => {
+    const server = app.getHttpServer()
+    const res = await request(server).get(`/admin/agency/agency`)
+
+    expect(res.status).toBe(200)
+  })
 })
