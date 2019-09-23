@@ -19,12 +19,22 @@
 
 <div class="admin-content">
   {% if adminEntity.searchFields %}
-  <form method="GET">
-    <div class="search-bar row">
-      <input type="text" class="form-control col-5 search-box" name="searchString" id="search" placeholder="Search">
-      <button class="btn btn-primary">Search</button>
+  <div class="row">
+    <div class="col-12">
+      <div class="search-bar">
+        <div class="row">
+          <div class="col-6">
+            <form method="GET">
+              <div class="search-box">
+                <input type="text" class="form-control" name="search" id="search" placeholder="Search">
+                <input type="submit" class="btn btn-primary" value="Search">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-  </form>
+  </div>
 {% endif %}
   <div class="row">
     <div class="col-12">

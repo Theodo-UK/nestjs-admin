@@ -67,9 +67,7 @@ describe('changelist', () => {
     expect(res.status).toBe(200)
 
     document.documentElement.innerHTML = res.text
-    expect(
-      document.querySelector('body > div.admin-content > form > div > input[name="searchString"]'),
-    ).toBeTruthy()
+    expect(document.querySelector('form input[name="search"]')).toBeTruthy()
   })
 
   it('does not render a search box when searchFields is undefined', async () => {
@@ -79,8 +77,6 @@ describe('changelist', () => {
     expect(res.status).toBe(200)
 
     document.documentElement.innerHTML = res.text
-    expect(
-      document.querySelector('body > div.admin-content > form > div > input[name="searchString"]'),
-    ).toBeFalsy()
+    expect(document.querySelector('form input[name="search"]')).toBeFalsy()
   })
 })
