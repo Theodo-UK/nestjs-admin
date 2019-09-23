@@ -16,7 +16,16 @@
     <button class="btn btn-primary">Add {{ metadata.name | lower }}</button>
   </a>
 </div>
+
 <div class="admin-content">
+  {% if adminEntity.searchFields %}
+  <form method="GET">
+    <div class="search-bar row">
+      <input type="text" class="form-control col-5 search-box" name="searchString" id="search" placeholder="Search">
+      <button class="btn btn-primary">Search</button>
+    </div>
+  </form>
+{% endif %}
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered table-striped entity-table">
