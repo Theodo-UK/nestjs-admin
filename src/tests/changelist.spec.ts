@@ -9,6 +9,9 @@ import { JSDOM } from 'jsdom'
 import { Agency } from '../../exampleApp/src/user/agency.entity'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { Group } from '../../exampleApp/src/user/group.entity'
+import { getRepositoryToken } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { createTestUser } from '../../exampleApp/test/utils'
 
 describe('changelist', () => {
   let app: INestApplication
@@ -58,5 +61,29 @@ describe('changelist', () => {
 
     document.documentElement.innerHTML = res.text
     expect(document.querySelector('table > thead')).toBeFalsy()
+  })
+
+  it('shows date properties in the correct format', async () => {
+    const server = app.getHttpServer()
+
+    const userData = createTestUser({
+      firstName: 'Max',
+      hireDatetime: new Date('2019-07-20 09:30:00'),
+    })
+    const userRepository: Repository<User> = app.get(getRepositoryToken(User))
+    const user = await userRepository.save(userData)
+
+    const res = await request(server).get(`/admin/user/user`)
+
+    expect(res.status).toBe(200)
+
+    document.documentElement.innerHTML = res.text
+    // @debt architecture "1: This currently outputs as UTC, we need to decide how we handle dates"
+    // @debt architecture "2: This test will break on 27/10 when the clocks go back"
+    expect(
+      document
+        .querySelector('table tr:nth-child(1) td:nth-child(3)')
+        .innerHTML.includes('2019-07-20 08:30:00'),
+    ).toBeTruthy()
   })
 })
