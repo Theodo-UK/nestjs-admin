@@ -103,6 +103,8 @@ export class DefaultAdminController {
     const page = parseInt(pageParam, 10)
     const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
 
+    adminEntity.validate()
+
     return await this.env.render('changelist.njk', {
       request,
       section,
