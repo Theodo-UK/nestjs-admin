@@ -36,13 +36,13 @@ class DefaultAdminNunjucksEnvironment {
     this.env.addFilter('date', dateFilter)
     this.env.addFilter('adminUrl', filters.adminUrl)
     this.env.addFilter('displayName', filters.displayName)
-    this.env.addFilter('isDateType', isDateType)
 
     this.env.addGlobal('adminSite', adminSite)
     this.env.addGlobal('getRelationOptions', getRelationOptions) // Meh name
     this.env.addGlobal('isEntityInList', isEntityInList)
     this.env.addGlobal('getPaginationRanges', getPaginationRanges)
     this.env.addGlobal('generatePaginatedUrl', generatePaginatedUrl)
+    this.env.addGlobal('isDateType', isDateType)
   }
 
   async render(name: string, parameters: TemplateParameters) {

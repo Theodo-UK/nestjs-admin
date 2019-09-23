@@ -23,7 +23,7 @@ class DefaultAdminSite {
   siteHeader = 'NestJS Administration'
 
   /**
-   * The default Nunjucks date format used when displaying dates.
+   * The default date format used when displaying dates.
    * Uses the moment format string: https://momentjs.com/docs/#/displaying/format/
    * By default, this is 'YYYY-MM-DD hh:mm:ss'
    */

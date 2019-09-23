@@ -35,11 +35,12 @@
                   {% if loop.first %}
                     <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity[property] }}</a>
                   {% else %}
-                    {% if metadata.findColumnWithPropertyName(property).type | isDateType %}
+                    {% if isDateType(metadata.findColumnWithPropertyName(property).type) %}
                         {% if entity[property] != null %}
                           {{ entity[property] | date }}
                         {% endif %}
-                    {% else %}{{ entity[property] }}
+                    {% else %}
+                      {{ entity[property] }}
                     {% endif %}
                   {% endif %}</td>
               {% endfor %}
