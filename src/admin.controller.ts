@@ -28,12 +28,19 @@ import { displayName } from './admin.filters'
 
 const resultsPerPage = 25
 
-function getPaginationQueryOptions(page: number) {
+function buildPaginationQueryOptions(query, page: number) {
   // @debt architecture "williamd: this could be made configurable on a per-section basis"
-  return {
-    skip: resultsPerPage * (page - 1),
-    take: resultsPerPage,
-  }
+  query.skip(resultsPerPage * (page - 1)).take(resultsPerPage)
+  return query
+}
+
+function buildSearchQueryOptions(query, searchFields: string[], searchParam: string) {
+  searchFields.forEach(field => {
+    query.orWhere(`"alias"."${field}" LIKE :name`, {
+      name: `%${searchParam}%`,
+    })
+  })
+  return query
 }
 
 type AdminModelsQuery = {
@@ -98,10 +105,17 @@ export class DefaultAdminController {
     @Req() request: Request,
     @Param() params: AdminModelsQuery,
     @Query('page') pageParam: string = '1',
+    @Query('search') searchParam: string,
   ) {
     const { section, repository, metadata, adminEntity } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
-    const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
+    let query = repository.createQueryBuilder('alias')
+    query = buildPaginationQueryOptions(query, page)
+
+    if (searchParam) {
+      query = buildSearchQueryOptions(query, adminEntity.searchFields, searchParam)
+    }
+    const [entities, count] = await query.getManyAndCount()
 
     adminEntity.validateListConfig()
 
