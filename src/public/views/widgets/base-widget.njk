@@ -1,7 +1,7 @@
 <div class="form-group row">
   {% block label %}
   <label class="col-12 col-md-3 col-form-label" for="{{ widget.column.propertyName }}">
-    {{ widget.getLabel() }}
+    {{ widget.getLabel() |prettyPrint }}
     {% if widget.isRequired() %}
       <span style="color: red;">*</span>
     {% endif %}

@@ -22,7 +22,7 @@
             <tr>
               <td>
                 <a href="{{ 'changelist' | adminUrl(section, entityMD) }}">
-                  {{ entityMD.name }}
+                  {{ entityMD.name | prettyPrint }}
                 </a>
               </td>
             </tr>

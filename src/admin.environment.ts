@@ -34,6 +34,7 @@ class DefaultAdminNunjucksEnvironment {
     dateFilter.setDefaultFormat('YYYY-MM-DD')
     this.env.addFilter('date', dateFilter)
     this.env.addFilter('adminUrl', filters.adminUrl)
+    this.env.addFilter('prettyPrint', filters.prettyPrint)
     this.env.addFilter('displayName', filters.displayName)
 
     this.env.addGlobal('adminSite', adminSite)
