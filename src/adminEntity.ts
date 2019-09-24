@@ -4,6 +4,7 @@ import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
 import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exception'
+import { countBy } from 'lodash'
 
 abstract class AdminEntity {
   /**
@@ -88,6 +89,13 @@ abstract class AdminEntity {
       }
     })
   }
-}
 
+  validateFormConfig() {
+    const count = countBy(this.fields)
+
+    Object.keys(count).forEach(key => {
+      if (count[key] > 1) throw new InvalidDisplayFieldsException(`Property ${key} is duplicated`)
+    })
+  }
+}
 export default AdminEntity
