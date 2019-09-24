@@ -67,24 +67,27 @@ abstract class AdminEntity {
     return [...widgets, ...manyToManyWidgets]
   }
 
-  validate() {
-    if (this.searchFields) {
-      this.searchFields.forEach(field => {
-        if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
+  validateListConfig() {
+    this.validateSearchFields()
+  }
+
+  private validateSearchFields() {
+    if (!this.searchFields) return;
+    this.searchFields.forEach(field => {
+      if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
+        throw new InvalidSearchFieldsException(
+          `Property ${field} invalid in searchFields: does not exist on ${this.entity.name}.`,
+        )
+      } else {
+        // We do not support searching relations.
+        const relation = this.metadata.findRelationWithPropertyPath(field)
+        if (relation) {
           throw new InvalidSearchFieldsException(
-            `Property ${field} invalid in searchFields: does not exist on ${this.entity.name}.`,
+            `Property ${field} on ${this.entity.name} invalid in searchFields: relations are not supported for searching.`,
           )
-        } else {
-          // We do not support searching relations.
-          const relation = this.metadata.findRelationWithPropertyPath(field)
-          if (relation) {
-            throw new InvalidSearchFieldsException(
-              `Property ${field} on ${this.entity.name} invalid in searchFields: relations are not supported for searching.`,
-            )
-          }
         }
-      })
-    }
+      }
+    })
   }
 }
 
