@@ -13,7 +13,15 @@ abstract class AdminEntity {
    */
   static adminEntityDiscriminant = 'ADMIN_ENTITY_DISCRIMINANT'
   abstract entity: EntityType
+
+  /**
+   * Fields of the entity that will be displayed on the list page
+   */
   listDisplay: string[] | null = null
+
+  /**
+   * Fields of the entity that will be searchable on the list page
+   */
   searchFields: string[] | null = null
 
   constructor(
