@@ -10,6 +10,7 @@ import { isEntityInList } from './utils/entity'
 import { getPaginationRanges, generatePaginatedUrl } from './utils/pagination'
 import { SetAsyncExtension } from './extensions/setAsync'
 import { injectionTokens } from './tokens'
+import { isDateType } from './utils/column'
 
 interface TemplateParameters {
   request: Request
@@ -31,7 +32,7 @@ class DefaultAdminNunjucksEnvironment {
 
     this.env.addExtension('SetAsyncExtension', new SetAsyncExtension())
 
-    dateFilter.setDefaultFormat('YYYY-MM-DD')
+    dateFilter.setDefaultFormat(adminSite.defaultDateFormat)
     this.env.addFilter('date', dateFilter)
     this.env.addFilter('adminUrl', filters.adminUrl)
     this.env.addFilter('displayName', filters.displayName)
@@ -41,6 +42,7 @@ class DefaultAdminNunjucksEnvironment {
     this.env.addGlobal('isEntityInList', isEntityInList)
     this.env.addGlobal('getPaginationRanges', getPaginationRanges)
     this.env.addGlobal('generatePaginatedUrl', generatePaginatedUrl)
+    this.env.addGlobal('isDateType', isDateType)
   }
 
   async render(name: string, parameters: TemplateParameters) {

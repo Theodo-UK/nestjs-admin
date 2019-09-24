@@ -22,6 +22,13 @@ class DefaultAdminSite {
    */
   siteHeader = 'NestJS Administration'
 
+  /**
+   * The default date format used when displaying dates.
+   * Uses the moment format string: https://momentjs.com/docs/#/displaying/format/
+   * By default, this is 'YYYY-MM-DD hh:mm:ss'
+   */
+  defaultDateFormat = 'YYYY-MM-DD hh:mm:ss'
+
   /* @debt architecture "We should use the EntityManager instead of the Connection and Repositories" */
   constructor(private readonly connection: Connection) {}
 
@@ -48,7 +55,10 @@ class DefaultAdminSite {
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
 
-    if (adminEntityOrEntity.prototype instanceof AdminEntity) {
+    if (
+      'adminEntityDiscriminant' in adminEntityOrEntity &&
+      adminEntityOrEntity.adminEntityDiscriminant === AdminEntity.adminEntityDiscriminant
+    ) {
       // adminEntityOrEntity is a derived class of AdminEntity
       const AdminEntityClass = adminEntityOrEntity as typeof AdminEntity
       // @ts-ignore
