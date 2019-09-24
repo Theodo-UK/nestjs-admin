@@ -76,14 +76,14 @@ abstract class AdminEntity {
     this.searchFields.forEach(field => {
       if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
         throw new InvalidSearchFieldsException(
-          `Property ${field} invalid in searchFields: does not exist on ${this.entity.name}.`,
+          `Property ${field} invalid in searchFields: does not exist on ${this.name}.`,
         )
       } else {
         // We do not support searching relations.
         const relation = this.metadata.findRelationWithPropertyPath(field)
         if (relation) {
           throw new InvalidSearchFieldsException(
-            `Property ${field} on ${this.entity.name} invalid in searchFields: relations are not supported for searching.`,
+            `Property ${field} on ${this.name} invalid in searchFields: relations are not supported for searching.`,
           )
         }
       }
