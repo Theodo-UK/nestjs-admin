@@ -9,6 +9,10 @@ import { JSDOM } from 'jsdom'
 import { Agency } from '../../exampleApp/src/user/agency.entity'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { Group } from '../../exampleApp/src/user/group.entity'
+import { getRepositoryToken } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { createTestUser } from '../../exampleApp/test/utils'
+import * as dateFilter from 'nunjucks-date-filter'
 
 describe('changelist', () => {
   let app: INestApplication
@@ -73,10 +77,31 @@ describe('changelist', () => {
   it('does not render a search box when searchFields is undefined', async () => {
     const server = app.getHttpServer()
     const res = await request(server).get(`/admin/agency/agency`)
-
     expect(res.status).toBe(200)
 
     document.documentElement.innerHTML = res.text
     expect(document.querySelector('form input[name="search"]')).toBeFalsy()
+  })
+
+  it('shows date properties in the correct format', async () => {
+    const server = app.getHttpServer()
+
+    const userData = createTestUser({
+      firstName: 'Max',
+    })
+    const userRepository: Repository<User> = app.get(getRepositoryToken(User))
+    const user = await userRepository.save(userData)
+
+    const res = await request(server).get(`/admin/user/user`)
+
+    expect(res.status).toBe(200)
+
+    document.documentElement.innerHTML = res.text
+    // @debt bug "Generated datetimes are converted to UTC twice resulting in them displaying wrong if the nest app isn't in UTC"
+    expect(
+      document
+        .querySelector('table tr:nth-child(1) td:nth-child(5)')
+        .innerHTML.includes(dateFilter(user.createdDate, 'YYYY-MM-DD hh:mm:ss')),
+    ).toBeTruthy()
   })
 })

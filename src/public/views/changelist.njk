@@ -18,6 +18,7 @@
 </div>
 
 <div class="admin-content">
+
   {% if adminEntity.searchFields %}
   <div class="row">
     <div class="col-12">
@@ -35,7 +36,8 @@
       </div>
     </div>
   </div>
-{% endif %}
+  {% endif %}
+
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered table-striped entity-table">
@@ -54,7 +56,13 @@
                   {% if loop.first %}
                     <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity[property] }}</a>
                   {% else %}
-                    {{ entity[property] }}
+                    {% if isDateType(metadata.findColumnWithPropertyName(property).type) %}
+                        {% if entity[property] != null %}
+                          {{ entity[property] | date }}
+                        {% endif %}
+                    {% else %}
+                      {{ entity[property] }}
+                    {% endif %}
                   {% endif %}</td>
               {% endfor %}
             </tr>

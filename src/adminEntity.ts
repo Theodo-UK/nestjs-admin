@@ -1,9 +1,10 @@
-import { Connection } from 'typeorm'
+import { Connection, EntityMetadata } from 'typeorm'
 import { EntityType } from './types'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
-import { InvalidSearchFieldsException } from '../src/exceptions/invalidSearchFields.exception'
+import { InvalidSearchFieldsException } from './exceptions/invalidSearchFields.exception'
+import { InvalidDisplayFieldsException } from './exceptions/invalidDisplayFields.exception'
 
 abstract class AdminEntity {
   /**
@@ -76,27 +77,54 @@ abstract class AdminEntity {
   }
 
   validateListConfig() {
+    this.validateDisplayFields()
     this.validateSearchFields()
   }
 
-  private validateSearchFields() {
-    if (!this.searchFields) return;
-    this.searchFields.forEach(field => {
-      if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
-        throw new InvalidSearchFieldsException(
-          `Property ${field} invalid in searchFields: does not exist on ${this.name}.`,
-        )
-      } else {
-        // We do not support searching relations.
-        const relation = this.metadata.findRelationWithPropertyPath(field)
-        if (relation) {
-          throw new InvalidSearchFieldsException(
-            `Property ${field} on ${this.name} invalid in searchFields: relations are not supported for searching.`,
-          )
-        }
-      }
-    })
+  private validateDisplayFields() {
+    validateFieldsExist(this, 'listDisplay', this.metadata)
+    validateFieldsAreNotRelation(this, 'listDisplay', this.metadata)
   }
+
+  private validateSearchFields() {
+    validateFieldsExist(this, 'searchFields', this.metadata)
+    validateFieldsAreNotRelation(this, 'searchFields', this.metadata)
+  }
+}
+
+function validateFieldsExist(
+  adminEntity: AdminEntity,
+  configField: keyof AdminEntity,
+  metadata: EntityMetadata,
+) {
+  const fieldsList = adminEntity[configField] as string[]
+  if (!fieldsList) return
+
+  fieldsList.forEach(field => {
+    if (!metadata.columns.map(column => column.propertyName).includes(field)) {
+      throw new InvalidDisplayFieldsException(
+        `Property ${field} invalid in ${configField}: does not exist on ${metadata.name}.`,
+      )
+    }
+  })
+}
+
+function validateFieldsAreNotRelation(
+  adminEntity: AdminEntity,
+  configField: keyof AdminEntity,
+  metadata: EntityMetadata,
+) {
+  const fieldsList = adminEntity[configField] as string[]
+  if (!fieldsList) return
+
+  fieldsList.forEach(field => {
+    const relation = metadata.findRelationWithPropertyPath(field)
+    if (relation) {
+      throw new InvalidDisplayFieldsException(
+        `Property ${field} on ${metadata.name} invalid in ${configField}: relations are not supported for displaying.`,
+      )
+    }
+  })
 }
 
 export default AdminEntity
