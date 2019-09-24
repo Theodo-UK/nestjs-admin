@@ -3,6 +3,7 @@ import { EntityType } from './types'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
+import { InvalidSearchFieldsException } from '../src/exceptions/invalidSearchFields.exception'
 
 abstract class AdminEntity {
   /**
@@ -64,6 +65,29 @@ abstract class AdminEntity {
       })
 
     return [...widgets, ...manyToManyWidgets]
+  }
+
+  validateListConfig() {
+    this.validateSearchFields()
+  }
+
+  private validateSearchFields() {
+    if (!this.searchFields) return;
+    this.searchFields.forEach(field => {
+      if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
+        throw new InvalidSearchFieldsException(
+          `Property ${field} invalid in searchFields: does not exist on ${this.name}.`,
+        )
+      } else {
+        // We do not support searching relations.
+        const relation = this.metadata.findRelationWithPropertyPath(field)
+        if (relation) {
+          throw new InvalidSearchFieldsException(
+            `Property ${field} on ${this.name} invalid in searchFields: relations are not supported for searching.`,
+          )
+        }
+      }
+    })
   }
 }
 
