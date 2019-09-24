@@ -79,7 +79,7 @@ abstract class AdminEntity {
           const relation = this.metadata.findRelationWithPropertyPath(field)
           if (relation) {
             throw new InvalidSearchFieldsException(
-              `Property ${field} on ${this.entity.name} is a relation, which is not supported for searching.`,
+              `Property ${field} on ${this.entity.name} invalid in searchFields: relations are not supported for searching.`,
             )
           }
         }
