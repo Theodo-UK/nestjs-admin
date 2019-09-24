@@ -12,6 +12,7 @@ import { Group } from '../../exampleApp/src/user/group.entity'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { createTestUser } from '../../exampleApp/test/utils'
+import * as dateFilter from 'nunjucks-date-filter'
 
 describe('changelist', () => {
   let app: INestApplication
@@ -68,7 +69,6 @@ describe('changelist', () => {
 
     const userData = createTestUser({
       firstName: 'Max',
-      hireDatetime: new Date('2019-07-20 09:30:00'),
     })
     const userRepository: Repository<User> = app.get(getRepositoryToken(User))
     const user = await userRepository.save(userData)
@@ -78,12 +78,12 @@ describe('changelist', () => {
     expect(res.status).toBe(200)
 
     document.documentElement.innerHTML = res.text
-    // @debt architecture "1: This currently outputs as UTC, we need to decide how we handle dates"
-    // @debt architecture "2: This test will break on 27/10 when the clocks go back"
+
+    // @debt bug "Generated datetimes are converted to UTC twice resulting in them displaying wrong if the nest app isn't in UTC"
     expect(
       document
-        .querySelector('table tr:nth-child(1) td:nth-child(3)')
-        .innerHTML.includes('2019-07-20 08:30:00'),
+        .querySelector('table tr:nth-child(1) td:nth-child(5)')
+        .innerHTML.includes(dateFilter(user.createdDate, 'YYYY-MM-DD hh:mm:ss')),
     ).toBeTruthy()
   })
 })
