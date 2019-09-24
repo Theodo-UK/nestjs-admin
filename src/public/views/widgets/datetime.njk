@@ -9,13 +9,13 @@
       type="text"
       id="{{ widget.column.propertyName }}"
       name="{{ widget.column.propertyName }}"
-      {% if widget.getValue() %}value="{{ widget.getValue() | date('YYYY-MM-DD hh:mm:ss') }}"{% endif %}
+      {% if widget.getValue() %}value="{{ widget.getValue() | date }}"{% endif %}
       pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"
       {{ "required" if widget.isRequired() }}
     />
   {% else %}
     <div class="col-form-label">
-      {{ widget.getValue() | date('YYYY-MM-DD hh:mm:ss') }}
+      {{ widget.getValue() | date }}
     </div>
   {% endif %}
 {% endblock %}
