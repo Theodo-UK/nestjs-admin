@@ -3,6 +3,7 @@ import { EntityType } from './types'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
+import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exception'
 
 abstract class AdminEntity {
   /**
@@ -64,6 +65,30 @@ abstract class AdminEntity {
 
     return [...widgets, ...manyToManyWidgets]
   }
+
+  validateListConfig() {
+    this.validateDisplayFields()
+  }
+
+  private validateDisplayFields() {
+    if (!this.listDisplay) return;
+    this.listDisplay.forEach(field => {
+      if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
+        throw new InvalidDisplayFieldsException(
+          `Property ${field} invalid in listDisplay: does not exist on ${this.name}.`,
+        )
+      }
+      // We do not support displaying relations.
+      const relation = this.metadata.findRelationWithPropertyPath(field)
+      if (relation) {
+        throw new InvalidDisplayFieldsException(
+          `Property ${field} on ${this.name} invalid in listDisplay: relations are not supported for displaying.`,
+        )
+      }
+    })
+
+  }
+
 }
 
 export default AdminEntity
