@@ -2,5 +2,5 @@
   "watch": ["src", "../src"],
   "ext": "ts",
   "ignore": ["src/**/*.spec.ts", "../src/**/*.spec.ts"],
-  "exec": "NODE_ENV=development node --inspect -r ts-node/register -r tsconfig-paths/register src/main.ts"
+  "exec": "tsc -p tsconfig.build.json && NODE_ENV=development node --inspect dist/src/main.js"
 }
