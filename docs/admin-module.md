@@ -1,4 +1,9 @@
-# Instantiating the AdminModule
+---
+id: admin-module
+title: AdminModule
+---
+
+## Instantiating the AdminModule
 
 The AdminModule is an instance of an administration interface. `nestjs-admin` exposes a `AdminCoreModule`, but you can create your own if you need customizability thanks to the `AdminCoreModuleFactory`.
 

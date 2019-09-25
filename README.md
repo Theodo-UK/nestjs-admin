@@ -120,6 +120,16 @@ export class UserModule {
 
 Check the [rest of the docs](./docs) for more details.
 
+## Compatibility
+
+| Library                  | Version |
+| ------------------------ | ------- |
+| @nestjs/common           | ^6.0.0  |
+| @nestjs/core             | ^6.0.0  |
+| @nestjs/platform-express | ^6.0.0  |
+| @nestjs/typeorm          | ^6.0.0  |
+| typeorm                  | ^0.2.12 |
+
 ## Contributing
 
 Any contribution is welcome. If you want to implement a feature, you need to know that we are following [django-admin's API](https://docs.djangoproject.com/en/2.2/ref/contrib/admin/) as closely as possible. Why?

@@ -1,10 +1,16 @@
+---
+id: admin-entity
+title: Registering entities in the admin site
+sidebar_label: Register entities
+---
+
 ## Registering entities on the admin site
 
 There are two ways you can display an entity on the admin site using `DefaultAdminSite.register`.
 
 In both cases, the first parameter defines the name of the section on the admin site where the entity is registered.
 
-#### 1. Registering entities directly
+## Registering entities directly
 
 Registering an entity directly will use the default [configuration options](#adminentity-options), and is good enough for most cases.
 
@@ -24,7 +30,7 @@ export class UserModule {
 }
 ```
 
-#### 2. Registering entities using the `AdminEntity` class
+## Registering entities using the `AdminEntity` class
 
 If you want to add some [configuration options](#adminentity-options), you will need to extend the `AdminEntity` class.
 
@@ -67,7 +73,7 @@ export class UserAdmin extends AdminEntity {
 }
 ```
 
-#### AdminEntity.listDisplay
+### AdminEntity.listDisplay
 
 Configures which fields of the entity will be displayed on the list page.
 
@@ -75,7 +81,7 @@ Configures which fields of the entity will be displayed on the list page.
 listDisplay = ['id', 'firstname', 'lastname', 'email']
 ```
 
-![image](./assets/AdminEntity.listDisplay.png)
+![image](assets/AdminEntity.listDisplay.png)
 
 - If you don't set `listDisplay`, the list page will display a single column containing the primary key of the entity, or the `toString()` representation of the entity if defined.
 

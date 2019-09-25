@@ -1,0 +1,17 @@
+/* your custom css */
+
+.homeLogo {
+  width: 70%;
+  max-width: 700px;
+}
+
+.homeTagline {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .homeLogo {
+    width: 100%;
+  }
+}
