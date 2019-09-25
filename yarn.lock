@@ -490,6 +490,11 @@
     "@types/tough-cookie" "*"
     parse5 "^4.0.0"
 
+"@types/lodash@^4.14.139":
+  version "4.14.139"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.139.tgz#b7b8a00d014a7debb29dc2dae4f91d3d3c6d5ab3"
+  integrity sha512-Z6pbDYaWpluqcF8+6qgv6STPEl0jIlyQmpYGwTrzhgwqok8ltBh/p7GAmYnz81wUhxQRhEr8MBpQrB4fQ/hwIA==
+
 "@types/mime@*":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.1.tgz#dc488842312a7f075149312905b5e3c0b054c79d"
