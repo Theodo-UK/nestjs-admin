@@ -3,7 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "It's really neat",
+    "tagline": "A generic administration interface for TypeORM entities",
     "docs": {
       "admin-entity": {
         "title": "The Admin Entity",
@@ -12,6 +12,9 @@
       "admin-module": {
         "title": "The Admin Module",
         "sidebar_label": "Admin Modules"
+      },
+      "adr/01-admin-authentication": {
+        "title": "adr/01-admin-authentication"
       },
       "contributing": {
         "title": "Contributing"
