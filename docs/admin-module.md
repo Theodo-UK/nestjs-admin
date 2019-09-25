@@ -1,7 +1,6 @@
 ---
 id: admin-module
-title: The Admin Module
-sidebar_label: Admin Modules
+title: AdminModule
 ---
 
 ## Instantiating the AdminModule

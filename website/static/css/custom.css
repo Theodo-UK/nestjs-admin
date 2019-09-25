@@ -1,17 +1,13 @@
 /* your custom css */
 
 .homeLogo {
-  width: 80%;
-  max-width: 900px;
+  width: 70%;
+  max-width: 700px;
 }
 
 .homeTagline {
   font-size: 20px;
   font-weight: 500;
-}
-
-.mainContainer {
-  padding: 0;
 }
 
 @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 ---
 id: admin-entity
-title: The Admin Entity
-sidebar_label: Admin Enitities
+title: Registering entities in the admin site
+sidebar_label: Register entities
 ---
 
 ## Registering entities on the admin site

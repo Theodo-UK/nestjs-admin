@@ -12,7 +12,7 @@
 const users = []
 
 const siteConfig = {
-  title: 'NestJS-admin',
+  title: 'NestJS Admin',
   tagline: 'A generic administration interface for TypeORM entities',
   url: 'https://williamdclt.github.io/',
   baseUrl: '/nestjs-admin/',
