@@ -24,8 +24,7 @@ import { AdminFilter } from './admin.filter'
 import { injectionTokens } from './tokens'
 import { Request } from 'express'
 import { getPrimaryKeyValue } from './utils/entity'
-import { displayName } from './admin.filters'
-import { startCase as _startCase } from 'lodash'
+import { displayName, prettyPrint } from './admin.filters'
 
 const resultsPerPage = 25
 
@@ -143,7 +142,7 @@ export class DefaultAdminController {
 
     request.flash(
       'messages',
-      `Successfully created ${_startCase(metadata.name)}: ${displayName(createdEntity, metadata)}`,
+      `Successfully created ${prettyPrint(metadata.name)}: ${displayName(createdEntity, metadata)}`,
     )
     return response.redirect(urls.changeUrl(section, metadata, createdEntity))
   }
@@ -185,7 +184,7 @@ export class DefaultAdminController {
     )
     request.flash(
       'messages',
-      `Successfully updated ${_startCase(metadata.name)}: ${displayName(entity, metadata)}`,
+      `Successfully updated ${prettyPrint(metadata.name)}: ${displayName(entity, metadata)}`,
     )
     return response.redirect(urls.changeUrl(section, metadata, updatedEntity))
   }
@@ -202,7 +201,7 @@ export class DefaultAdminController {
     await repository.remove(entity)
     request.flash(
       'messages',
-      `Successfully deleted ${_startCase(metadata.name)}: ${entityDisplayName}`,
+      `Successfully deleted ${prettyPrint(metadata.name)}: ${entityDisplayName}`,
     )
     return response.redirect(urls.changeListUrl(section, metadata))
   }
