@@ -3,35 +3,36 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "A website for testing",
+    "tagline": "It's really neat",
     "docs": {
-      "doc1": {
-        "title": "Latin-ish",
-        "sidebar_label": "Example Page"
+      "admin-entity": {
+        "title": "The Admin Entity",
+        "sidebar_label": "Admin Enitities"
       },
-      "doc2": {
-        "title": "document number 2"
+      "admin-module": {
+        "title": "The Admin Module",
+        "sidebar_label": "Admin Modules"
       },
-      "doc3": {
-        "title": "This is document number 3"
+      "contributing": {
+        "title": "Contributing"
       },
-      "doc4": {
-        "title": "Other Document"
+      "index": {
+        "title": "index"
       },
-      "doc5": {
-        "title": "Fifth Document"
+      "install": {
+        "title": "Installation"
+      },
+      "known-issues": {
+        "title": "Known Issues"
       }
     },
     "links": {
-      "Docs": "Docs",
-      "API": "API",
-      "Help": "Help",
-      "Blog": "Blog"
+      "Docs": "Docs"
     },
     "categories": {
-      "Docusaurus": "Docusaurus",
-      "First Category": "First Category",
-      "Second Category": "Second Category"
+      "Getting started": "Getting started",
+      "Concepts": "Concepts",
+      "Practicalities": "Practicalities"
     }
   },
   "pages-strings": {
