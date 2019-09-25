@@ -17,7 +17,7 @@ import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 import DefaultAdminModule from '../defaultAdmin.module'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey'
 import { changeUrl } from '../utils/urls'
-import { TestAuthModule } from '../../exampleApp/test/testAuth/testAuth.module'
+import { TestAuthModule } from './utils/testAuth.module'
 
 describe('AdminCoreModuleFactory', () => {
   let app: INestApplication
