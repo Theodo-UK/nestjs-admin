@@ -33,6 +33,8 @@ This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-
 > This is still very much a work in progress.
 > Your help is more than welcome!
 
+**Full docs: http://localhost:3000/nestjs-admin/**
+
 ## Installation
 
 Let's get you started with a minimal setup.
