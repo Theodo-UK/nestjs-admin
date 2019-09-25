@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Installation · NestJS Admin</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Let&#x27;s get you started with a minimal setup."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Installation · NestJS Admin"/><meta property="og:type" content="website"/><meta property="og:url" content="https://williamdclt.github.io//nestjs-admin/"/><meta property="og:description" content="Let&#x27;s get you started with a minimal setup."/><meta property="og:image" content="https://williamdclt.github.io//nestjs-admin/img/logo-with-name.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://williamdclt.github.io//nestjs-admin/img/logo-with-name.png"/><link rel="shortcut icon" href="/nestjs-admin/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/nestjs-admin/js/scrollSpy.js"></script><link rel="stylesheet" href="/nestjs-admin/css/main.css"/><script src="/nestjs-admin/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/nestjs-admin/"><img class="logo" src="/nestjs-admin/img/logo.png" alt="NestJS Admin"/><h2 class="headerTitleWithLogo">NestJS Admin</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/nestjs-admin/docs/install" target="_self">Docs</a></li><li class=""><a href="https://github.com/williamdclt/nestjs-admin" target="_self">Github</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Getting started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting started</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/nestjs-admin/docs/install">Installation</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Concepts</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nestjs-admin/docs/admin-module">AdminModule</a></li><li class="navListItem"><a class="navItem" href="/nestjs-admin/docs/admin-entity">Register entities</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Practicalities</h3><ul class=""><li class="navListItem"><a class="navItem" href="/nestjs-admin/docs/contributing">Contributing</a></li><li class="navListItem"><a class="navItem" href="/nestjs-admin/docs/known-issues">Known Issues</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Installation</h1></header><article><div><span><p>Let's get you started with a minimal setup.</p>
+<h2><a class="anchor" aria-hidden="true" id="installing-nestjs-admin"></a><a href="#installing-nestjs-admin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installing nestjs-admin</h2>
+<p>Add nestjs-admin to your dependencies:</p>
+<pre><code class="hljs css language-bash">yarn add nestjs-admin <span class="hljs-comment"># With yarn</span>
+npm install nestjs-admin <span class="hljs-comment"># With NPM</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="updating-nest-config"></a><a href="#updating-nest-config" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Updating Nest config</h2>
+<p>Then add the provided <code>DefaultAdminModule</code> to your app modules:</p>
+<pre><code class="hljs css language-ts"><span class="hljs-comment">// src/app.module.ts</span>
+<span class="hljs-keyword">import</span> { Module } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nestjs/common'</span>
+<span class="hljs-keyword">import</span> { DefaultAdminModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'nestjs-admin'</span>
+
+<span class="hljs-meta">@Module</span>({
+  imports: [TypeOrmModule.forRoot(), <span class="hljs-comment">/* ... */</span>, DefaultAdminModule],
+  <span class="hljs-comment">/* ... */</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> AppModule {
+  <span class="hljs-comment">/* ... */</span>
+}
+</code></pre>
+<p>Add the provided <code>AdminUser</code> to your orm config:</p>
+<p>The DefaultAdminModule exposes an AdminUser entity, which has credentials that allow you to login to the admin interface.</p>
+<blockquote>
+<p>There's no easy option to use your own user entity for now. If you have this requirement, open an issue so that we can help you.</p>
+</blockquote>
+<pre><code class="hljs css language-ts"><span class="hljs-comment">// If you use an ormconfig.js</span>
+<span class="hljs-keyword">const</span> AdminUser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'nestjs-admin'</span>).AdminUserEntity
+<span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-comment">/* ... */</span>,
+  entities: [<span class="hljs-comment">/* ... */</span>, AdminUser],
+  <span class="hljs-comment">// Alternatively:</span>
+  <span class="hljs-comment">// entities: [/* ... */, 'node_modules/nestjs-admin/**/*.entity.js'],</span>
+}
+</code></pre>
+<pre><code class="hljs css language-bash"><span class="hljs-comment"># If you use environment variables</span>
+TYPEORM_ENTITIES=your_existing_paths,node_modules/nestjs-admin/**/*.entity.js
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="using-the-admin"></a><a href="#using-the-admin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using the admin</h2>
+<p>Create a first AdminUser to log in with:</p>
+<pre><code class="hljs css language-bash"><span class="hljs-comment"># Create the AdminUser schema in database</span>
+npx ts-node node_modules/.bin/typeorm migration:generate -n <span class="hljs-string">"create-admin-user"</span>
+npx ts-node node_modules/.bin/typeorm migration:run
+
+<span class="hljs-comment"># Now you can create an AdminUser through the CLI</span>
+npx nestjs-admin createAdminUser
+</code></pre>
+<blockquote>
+<p>You can create AdminUsers from the <code>nestjs-admin createAdminUser</code> CLI, or directly from the administration interface!</p>
+</blockquote>
+<p>You can now login to access the admin interface at <code>/admin/login</code>!</p>
+<p>Register entities in the admin site:</p>
+<pre><code class="hljs css language-ts"><span class="hljs-comment">// user.module.ts</span>
+<span class="hljs-keyword">import</span> { TypeOrmModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nestjs/typeorm'</span>
+<span class="hljs-keyword">import</span> { Module } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nestjs/common'</span>
+<span class="hljs-keyword">import</span> { DefaultAdminModule, DefaultAdminSite } <span class="hljs-keyword">from</span> <span class="hljs-string">'nestjs-admin'</span>
+<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'./user.entity'</span>
+
+<span class="hljs-meta">@Module</span>({
+  imports: [TypeOrmModule.forFeature([User]), DefaultAdminModule],
+  exports: [TypeOrmModule],
+})
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> UserModule {
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"><span class="hljs-keyword">private</span> readonly adminSite: DefaultAdminSite</span>) {
+    <span class="hljs-comment">// Register the User entity under the "User" section</span>
+    adminSite.register(<span class="hljs-string">'User'</span>, User)
+  }
+}
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/nestjs-admin/docs/admin-module"><span class="function-name-prevnext">AdminModule</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#installing-nestjs-admin">Installing nestjs-admin</a></li><li><a href="#updating-nest-config">Updating Nest config</a></li><li><a href="#using-the-admin">Using the admin</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/nestjs-admin/" class="nav-home"><img src="/nestjs-admin/img/logo.png" alt="NestJS Admin" width="66" height="58"/></a><div><h5>Docs</h5><a href="/nestjs-admin/docs/en/install">Getting Started</a></div><div><h5>More</h5><a href="https://https://github.com/williamdclt/nestjs-admin">GitHub</a><a class="github-button" data-icon="octicon-star" data-count-href="/williamdclt/nestjs-admin/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section></footer></div></body></html>
