@@ -68,6 +68,20 @@ jobs:
           name: Run tests
           command: yarn test
 
+  deploy-docs:
+    docker:
+      - image: circleci/node:10.16.3
+
+    steps:
+      - checkout
+      - run:
+          name: Deploying docs to GitHub Pages
+          command: |
+            git config --global user.email "williamdclt@users.noreply.github.com"
+            git config --global user.name "William Duclot"
+            echo "machine github.com login williamdclt password $GITHUB_TOKEN" > ~/.netrc
+            cd website && yarn install && GIT_USER=williamdclt yarn run publish-gh-pages
+
 workflows:
   version: 2
   stack:
@@ -76,3 +90,6 @@ workflows:
       - test-unit:
           requires:
             - yarn-install-back
+      - deploy-docs:
+          requires:
+            - test-unit
