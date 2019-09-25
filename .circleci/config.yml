@@ -93,3 +93,7 @@ workflows:
       - deploy-docs:
           requires:
             - test-unit
+          filters:
+            branches:
+              only:
+                - master
