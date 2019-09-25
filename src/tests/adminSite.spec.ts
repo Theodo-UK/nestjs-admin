@@ -8,7 +8,7 @@ import AdminEntity from '../adminEntity'
 import * as request from 'supertest'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import { Group } from '../../exampleApp/src/user/group.entity'
-import { TestAuthModule } from '../../exampleApp/test/testAuth/testAuth.module'
+import { TestAuthModule } from './utils/testAuth.module'
 import { JSDOM } from 'jsdom'
 import { InvalidAdminRegistration } from '../exceptions/invalidAdminRegistration.exception'
 

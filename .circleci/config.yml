@@ -68,28 +68,11 @@ jobs:
           name: Run tests
           command: yarn test
 
-  test-library:
-    executor: defaults_typescript
-    working_directory: ~/nestjs-admin
-    environment:
-      NODE_ENV: prod
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/nestjs-admin
-      - generate-example-project
-      - run:
-          name: Start the example project
-          command: cd exampleApp/test-project && yarn start
-
 workflows:
   version: 2
   stack:
     jobs:
       - yarn-install-back
       - test-unit:
-          requires:
-            - yarn-install-back
-      - test-library:
           requires:
             - yarn-install-back

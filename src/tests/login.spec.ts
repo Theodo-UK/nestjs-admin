@@ -4,7 +4,7 @@ import { EntityManager } from 'typeorm'
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
 import { DefaultAdminModule } from '..'
-import { createTestAdminUser } from './utils'
+import { createTestAdminUser } from './utils/entityUtils'
 import AdminUser from '../adminUser.entity'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 
