@@ -2,10 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { AdminCoreModuleFactory } from 'nestjs-admin'
-import { UserModule } from '../src/user/user.module'
-import { TestAuthModule } from './testAuth/testAuth.module'
+import { AdminCoreModuleFactory } from '../adminCore.module'
+import { UserModule } from '../../exampleApp/src/user/user.module'
+import { TestAuthModule } from './utils/testAuth.module'
+import { TestTypeOrmModule } from './utils/testTypeOrmModule'
+import { User } from '../../exampleApp/src/user/user.entity'
+import { Agency } from '../../exampleApp/src/user/agency.entity'
+import { Group } from '../../exampleApp/src/user/group.entity'
 
 describe('widgets', () => {
   let app: INestApplication
@@ -14,7 +17,7 @@ describe('widgets', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forRoot(),
+        TestTypeOrmModule.forRoot({ entities: [User, Agency, Group] }),
         UserModule,
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),

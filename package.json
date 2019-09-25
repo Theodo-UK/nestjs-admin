@@ -18,7 +18,7 @@
     "prepublishOnly": "yarn build",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "postbuild": "cp -r src/public dist/src/public",
-    "test:unit": "env TZ=UTC ts-node node_modules/.bin/jest * --maxWorkers=4 && cd exampleApp && yarn test:unit",
+    "test:unit": "env TZ=UTC ts-node node_modules/.bin/jest * --maxWorkers=4",
     "test:lint": "tslint -p tsconfig.json -c tslint.json",
     "test:type": "tsc --noEmit",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest",
@@ -76,7 +76,7 @@
     "ts-node": "8.1.0",
     "tsc-watch": "2.2.1",
     "tslint": "^5.20.0",
-    "typeorm": "^0.2.18",
+    "typeorm": "^0.2.19",
     "typescript": "3.5.1"
   },
   "jest": {
