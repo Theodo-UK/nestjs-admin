@@ -27,7 +27,8 @@
       }
     },
     "links": {
-      "Docs": "Docs"
+      "Docs": "Docs",
+      "Github": "Github"
     },
     "categories": {
       "Getting started": "Getting started",

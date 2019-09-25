@@ -1,16 +1,21 @@
 /* your custom css */
 
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+.homeLogo {
+  width: 80%;
+  max-width: 900px;
 }
 
-@media only screen and (min-width: 1024px) {
+.homeTagline {
+  font-size: 20px;
+  font-weight: 500;
 }
 
-@media only screen and (max-width: 1023px) {
+.mainContainer {
+  padding: 0;
 }
 
-@media only screen and (min-width: 1400px) {
-}
-
-@media only screen and (min-width: 1500px) {
+@media (max-width: 768px) {
+  .homeLogo {
+    width: 100%;
+  }
 }

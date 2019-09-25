@@ -13,7 +13,7 @@ const users = []
 
 const siteConfig = {
   title: 'NestJS-admin',
-  tagline: "It's really neat",
+  tagline: 'A generic administration interface for TypeORM entities',
   url: 'https://williamdclt.github.io/',
   baseUrl: '/nestjs-admin/',
 
@@ -24,7 +24,10 @@ const siteConfig = {
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
 
-  headerLinks: [{ doc: 'install', label: 'Docs' }, { blog: false }],
+  headerLinks: [
+    { doc: 'install', label: 'Docs' },
+    { href: 'https://github.com/williamdclt/nestjs-admin', label: 'Github' },
+  ],
 
   // If you have users set above, you add it here:
   // users,
@@ -35,7 +38,7 @@ const siteConfig = {
 
   colors: {
     primaryColor: '#343a40',
-    secondaryColor: '#343a40',
+    secondaryColor: '#22272b',
   },
 
   // copyright: `Copyright © ${new Date().getFullYear()} Your Name or Your Company Name`,
