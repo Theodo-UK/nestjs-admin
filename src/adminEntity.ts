@@ -14,6 +14,7 @@ abstract class AdminEntity {
   static adminEntityDiscriminant = 'ADMIN_ENTITY_DISCRIMINANT'
   abstract entity: EntityType
   listDisplay: string[] | null = null
+  fields: string[] | null = null
 
   constructor(
     private readonly adminSite: DefaultAdminSite,
@@ -71,7 +72,7 @@ abstract class AdminEntity {
   }
 
   private validateDisplayFields() {
-    if (!this.listDisplay) return;
+    if (!this.listDisplay) return
     this.listDisplay.forEach(field => {
       if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
         throw new InvalidDisplayFieldsException(
@@ -86,9 +87,7 @@ abstract class AdminEntity {
         )
       }
     })
-
   }
-
 }
 
 export default AdminEntity
