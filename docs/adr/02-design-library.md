@@ -97,7 +97,7 @@ After a hesitation with Bulma, we decided to go with Bootstrap 4, for the follow
 - Reasonable size, we can import only the elements we need
 - Easy install => easy to get rid of if we want to change later
 
-## Consequences
+## Conclusion
 
 Using a design library allow us to focus on features while providing a good UI.
 
