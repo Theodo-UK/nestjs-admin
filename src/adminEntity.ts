@@ -95,6 +95,11 @@ abstract class AdminEntity {
 
     Object.keys(count).forEach(key => {
       if (count[key] > 1) throw new InvalidDisplayFieldsException(`Property ${key} is duplicated`)
+      if (!this.metadata.columns.map(column => column.propertyName).includes(key)) {
+        throw new InvalidDisplayFieldsException(
+          `Property ${key} invalid in fields: does not exist on ${this.name}.`,
+        )
+      }
     })
   }
 }
