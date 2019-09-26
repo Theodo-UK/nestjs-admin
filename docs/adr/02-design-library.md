@@ -91,7 +91,7 @@ The utility class focus makes it a non-starter for a lib that wants to be custom
 After a hesitation with Bulma, we decided to go with Bootstrap 4, for the following reasons:
 
 - Though it seems to not be the most liked library by the dev community, most front-end devs know the basics
-  - This makes it very easy to contribute to and extends
+  - This makes it very easy to contribute to and extend
 - Better browser compatibility
 - Better accessibility
 - Reasonable size, we can import only the elements we need
