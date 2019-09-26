@@ -25,7 +25,7 @@ describe('change', () => {
     document = dom.window.document
   })
 
-  it('Only configured fields are present', async () => {
+  it('displays only the configured fields', async () => {
     class UserAdmin extends AdminEntity {
       entity = User
       fields = ['firstName', 'lastName', 'gender']
@@ -69,7 +69,7 @@ describe('change', () => {
     await app.close()
   })
 
-  it('Only one input per field', async () => {
+  it('displays one input per property when the fields property is not configured', async () => {
     class UserAdmin extends AdminEntity {
       entity = User
     }
