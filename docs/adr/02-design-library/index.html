@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>adr/02-design-library · NestJS Admin</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="# Use a design library"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="adr/02-design-library · NestJS Admin"/><meta property="og:type" content="website"/><meta property="og:url" content="https://nestjs-admin.com//"/><meta property="og:description" content="# Use a design library"/><meta property="og:image" content="https://nestjs-admin.com/img/logo-with-name.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://nestjs-admin.com/img/logo-with-name.png"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/logo.png" alt="NestJS Admin"/><h2 class="headerTitleWithLogo">NestJS Admin</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/docs/install" target="_self">Docs</a></li><li class=""><a href="https://github.com/williamdclt/nestjs-admin" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">adr/02-design-library</h1></header><article><div><span><h1><a class="anchor" aria-hidden="true" id="use-a-design-library"></a><a href="#use-a-design-library" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use a design library</h1>
+<h2><a class="anchor" aria-hidden="true" id="status"></a><a href="#status" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Status</h2>
+<p>Approved</p>
+<h2><a class="anchor" aria-hidden="true" id="context"></a><a href="#context" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Context</h2>
+<h3><a class="anchor" aria-hidden="true" id="problem"></a><a href="#problem" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Problem</h3>
+<ol>
+<li>We want to provide a good design out-of-the-box, so that users of the library do not feel obligated to override it</li>
+<li>Nobody in the core team is a professional designer</li>
+<li>Implementing a design is expensive (especially accounting for browser compatibility)</li>
+<li>We want to make it as easy as possible to override the design (for users of the library) and to use it (for contributors)</li>
+</ol>
+<h3><a class="anchor" aria-hidden="true" id="options"></a><a href="#options" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Options</h3>
+<ol>
+<li>Find a designer, implement their design</li>
+</ol>
+<ul>
+<li>This is expensive (in designer time and dev time)</li>
+<li>Any future requirement has to involve a designer</li>
+</ul>
+<ol start="2">
+<li>Use a component library</li>
+</ol>
+<ul>
+<li>Cheaper (no designer time, no design implementation time)</li>
+<li>Hard to find a library that everyone agrees on</li>
+<li>Potential bloat</li>
+<li>Opinionated libraries won't make it easy to override the design for users of nestjs-admin</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="component-library-options"></a><a href="#component-library-options" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Component library options</h3>
+<ol>
+<li>Bootstrap 4</li>
+</ol>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Well-known by devs
+<ul>
+<li>Easy for contributors</li>
+<li>Easy to extend for nestjs-admin users</li>
+</ul></li>
+<li>Good accessibility</li>
+<li>Good browser compatibility</li>
+<li>Lots of UI widgets available
+<ul>
+<li>We probably won't use them, but nestjs-admin users might (when we support custom widget for form input)</li>
+</ul></li>
+<li>Easy customization through SCSS variables</li>
+<li>High-level components (list group, navs, page header...)</li>
+<li>Well maintained</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Not liked a lot by devs</li>
+<li>A bit bulkly (68kb, 12kb gzipped)</li>
+<li>Significant DOM bloat (<code>.row</code> and <code>.col-*</code>)</li>
+<li>Utils classes (&quot;CSS-in-classes&quot; such as <code>.d-flex</code>, <code>.border</code>, <code>h-100</code>...) make it harder for nestjs-admin users to override the design without touching HTML</li>
+</ul>
+<ol start="2">
+<li>Bulma</li>
+</ol>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Readable syntax</li>
+<li>Fontawesome support</li>
+<li>Light (73kb, 10kb gzipped)</li>
+<li>Generally liked by devs</li>
+<li>Well maintained</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Lack of high-level components</li>
+<li>Accessibility (from bulma.io: &quot;90% of Bulma works in IE11&quot;)</li>
+</ul>
+<ol start="3">
+<li>Semantic UI</li>
+</ol>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Fairly well-known</li>
+<li>Looks sleek</li>
+<li>Good collection of UI widgets</li>
+<li>Nice to read, semantic classes</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Complex installation</li>
+<li>Very heavy (146kb, 20kb gzipped)</li>
+<li>Not clear how to customize it as a nestjs-admin user</li>
+<li>Poorly maintained</li>
+</ul>
+<ol start="4">
+<li>Tailwind</li>
+</ol>
+<p>The utility class focus makes it a non-starter for a lib that wants to be customizable.</p>
+<h2><a class="anchor" aria-hidden="true" id="decision"></a><a href="#decision" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decision</h2>
+<p>After a hesitation with Bulma, we decided to go with Bootstrap 4, for the following reasons:</p>
+<ul>
+<li>Though it seems to not be the most liked library by the dev community, most front-end devs know the basics
+<ul>
+<li>This makes it very easy to contribute to and extend</li>
+</ul></li>
+<li>Better browser compatibility</li>
+<li>Better accessibility</li>
+<li>Reasonable size, we can import only the elements we need</li>
+<li>Easy install =&gt; easy to get rid of if we want to change later</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="conclusion"></a><a href="#conclusion" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Conclusion</h2>
+<p>Using a design library allow us to focus on features while providing a good UI.</p>
+<ul>
+<li>We install and use Bootstrap - done
+<ul>
+<li>We avoid using utility classes</li>
+</ul></li>
+<li>We define and document how to extend the design =&gt; needs to be subject of another ADR</li>
+</ul>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#status">Status</a></li><li><a href="#context">Context</a><ul class="toc-headings"><li><a href="#problem">Problem</a></li><li><a href="#options">Options</a></li><li><a href="#component-library-options">Component library options</a></li></ul></li><li><a href="#decision">Decision</a></li><li><a href="#conclusion">Conclusion</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/logo.png" alt="NestJS Admin" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/install">Getting Started</a></div><div><h5>More</h5><a href="https://https://github.com/williamdclt/nestjs-admin">GitHub</a><a class="github-button" data-icon="octicon-star" data-count-href="/williamdclt/nestjs-admin/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section></footer></div></body></html>
