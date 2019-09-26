@@ -14,8 +14,8 @@ const users = []
 const siteConfig = {
   title: 'NestJS Admin',
   tagline: 'A generic administration interface for TypeORM entities',
-  url: 'https://williamdclt.github.io/',
-  baseUrl: '/nestjs-admin/',
+  url: 'https://nestjs-admin/',
+  baseUrl: '/',
 
   // Used for publishing and more
   projectName: 'nestjs-admin',
@@ -26,7 +26,7 @@ const siteConfig = {
 
   headerLinks: [
     { doc: 'install', label: 'Docs' },
-    { href: 'https://github.com/williamdclt/nestjs-admin', label: 'Github' },
+    { href: 'https://github.com/williamdclt/nestjs-admin', label: 'GitHub' },
   ],
 
   // If you have users set above, you add it here:
