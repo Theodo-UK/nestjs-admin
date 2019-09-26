@@ -23,7 +23,7 @@ Approved
 2. Use a component library
 
 - Cheaper (no designer time, no design implementation time)
-- Hard to find a library that makes consensus
+- Hard to find a library that everyone agrees on
 - Potential bloat
 - Opinionated libraries won't make it easy to override the design for users of nestjs-admin
 
