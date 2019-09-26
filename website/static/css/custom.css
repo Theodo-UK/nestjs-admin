@@ -10,6 +10,14 @@
   font-weight: 500;
 }
 
+.noPadding {
+  padding: 0;
+}
+
+.container .wrapper .imageAlignSide h2 {
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .homeLogo {
     width: 100%;

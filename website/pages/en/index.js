@@ -88,11 +88,45 @@ class Index extends React.Component {
       </Block>
     )
 
+    const List = () => (
+      <Block background="dark">
+        {[
+          {
+            content: `Create, update and delete entities at the press of a button
+              - long before you need to write any user-facing code. A generic
+              backoffice for all your entities allows for maximum flexibility
+              during development and beyond.`,
+            image: `${baseUrl}img/screenshot-list.png`,
+            imageAlign: 'right',
+            title: 'All your entities in one place',
+          },
+        ]}
+      </Block>
+    )
+
+    const Form = () => (
+      <Block background="light">
+        {[
+          {
+            content: `NestJS Admin can be installed on a project in a matter of
+              minutes and used straight away with your existing entities.
+              A straightforward interface allows any non-technical team member to
+              manage your entities while developers focus on the important stuff.`,
+            image: `${baseUrl}img/screenshot-form.png`,
+            imageAlign: 'left',
+            title: 'Manage your entities instantly',
+          },
+        ]}
+      </Block>
+    )
+
     return (
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
-        <div className="mainContainer">
+        <div className="mainContainer noPadding">
           <Features />
+          <List />
+          <Form />
         </div>
       </div>
     )
