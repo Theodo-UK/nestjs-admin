@@ -37,10 +37,13 @@ abstract class AdminEntity {
    * The fields displayed on the form
    */
   getFields(form: 'add' | 'change'): string[] {
-    return [
-      ...this.metadata.columns.map(column => column.propertyName),
-      ...this.metadata.manyToManyRelations.map(relation => relation.propertyName),
-    ]
+    if (!this.fields) {
+      return [
+        ...this.metadata.columns.map(column => column.propertyName),
+        ...this.metadata.manyToManyRelations.map(relation => relation.propertyName),
+      ]
+    }
+    return this.fields
   }
 
   getWidgets(form: 'add' | 'change', entity?: object) {
