@@ -14,8 +14,9 @@ const users = []
 const siteConfig = {
   title: 'NestJS Admin',
   tagline: 'A generic administration interface for TypeORM entities',
-  url: 'https://nestjs-admin/',
+  url: 'https://nestjs-admin.com/',
   baseUrl: '/',
+  cname: 'nestjs-admin.com',
 
   // Used for publishing and more
   projectName: 'nestjs-admin',
