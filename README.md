@@ -33,6 +33,14 @@ This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-
 > This is still very much a work in progress.
 > Your help is more than welcome!
 
+**Full docs: http://localhost:3000/nestjs-admin/**
+
+![](docs/assets/screenshot-list.png)
+_All your entities in one place._
+
+![](docs/assets/screenshot-form.png)
+_Create, update and delete entities with ease._
+
 ## Installation
 
 Let's get you started with a minimal setup.
