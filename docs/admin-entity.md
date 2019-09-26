@@ -86,3 +86,15 @@ listDisplay = ['id', 'firstname', 'lastname', 'email']
 - If you don't set `listDisplay`, the list page will display a single column containing the primary key of the entity, or the `toString()` representation of the entity if defined.
 
 - `listDisplay` values cannot refer to `ManyToOne`, `OneToMany` or `ManyToMany` fields.
+
+### AdminEntity.fields
+
+Configures which fields of the entity will be displayed (and therefore editable) in the create and update forms.
+
+```typescript
+fields = ['firstname', 'lastname', 'createdDate', 'gender']
+```
+
+![image](assets/AdminEntity.fields.jpeg)
+
+- If you don't set `fields`, the create and update forms will display all properties of the entity
