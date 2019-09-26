@@ -29,7 +29,7 @@
             {% endfor %}
           </thead>
           {% for entity in entities %}
-            <tr>
+            <tr data-entity-id= "{{entity.id}}">
               {% for property in adminEntity.listDisplay %}
                 <td>
                   {% if loop.first %}

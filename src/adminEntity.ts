@@ -37,6 +37,9 @@ abstract class AdminEntity {
    * The fields displayed on the form
    */
   getFields(form: 'add' | 'change'): string[] {
+    if (this.fields) {
+      return this.fields
+    }
     return [
       ...this.metadata.columns.map(column => column.propertyName),
       ...this.metadata.manyToManyRelations.map(relation => relation.propertyName),
