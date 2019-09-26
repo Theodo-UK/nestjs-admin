@@ -3,18 +3,10 @@ import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
-import {
-  defaultAdminConfigurationOptions,
-  AdminAppConfigurationOptions,
-} from '../admin.configuration'
-import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
-import DefaultAdminNunjucksEnvironment from '../admin.environment'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { MemoryStore } from 'express-session'
-import { DeepPartial, EntityManager } from 'typeorm'
+import { getEntityManagerToken, getConnectionToken } from '@nestjs/typeorm'
+import { EntityManager } from 'typeorm'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
-import DefaultAdminModule from '../defaultAdmin.module'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey'
 import { changeUrl } from '../utils/urls'
 import { TestAuthModule } from './utils/testAuth.module'
@@ -30,7 +22,17 @@ describe('AdminCoreModuleFactory', () => {
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),
       ],
-    }).compile()
+    })
+      .overrideProvider(getEntityManagerToken())
+      .useFactory({
+        factory: (connection: any) => {
+          const queryRunner: any = connection.createQueryRunner()
+          const entityManager: any = connection.createEntityManager(queryRunner)
+          return entityManager
+        },
+        inject: [getConnectionToken()],
+      })
+      .compile()
     app = module.createNestApplication()
     await app.init()
 
@@ -40,6 +42,14 @@ describe('AdminCoreModuleFactory', () => {
 
   afterAll(async () => {
     await app.close()
+  })
+
+  beforeEach(async () => {
+    await app.get(getEntityManagerToken()).queryRunner.startTransaction()
+  })
+
+  afterEach(async () => {
+    await app.get(getEntityManagerToken()).queryRunner.rollbackTransaction()
   })
 
   it('can display a form for an entity with composite primary key', async () => {
@@ -62,6 +72,7 @@ describe('AdminCoreModuleFactory', () => {
     expect(metadata.hasMultiplePrimaryKeys).toBe(true)
 
     const entity = await adminSite.entityManager.save(new EntityWithCompositePrimaryKey())
+    expect(await adminSite.entityManager.count(EntityWithCompositePrimaryKey)).toBe(1)
 
     const server = app.getHttpServer()
     const newData = { ...entity, country: 'France' }
