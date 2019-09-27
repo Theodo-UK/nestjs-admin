@@ -37,6 +37,7 @@ class DefaultAdminNunjucksEnvironment {
     this.env.addFilter('adminUrl', filters.adminUrl)
     this.env.addFilter('prettyPrint', filters.prettyPrint)
     this.env.addFilter('displayName', filters.displayName)
+    this.env.addFilter('compositeKey', filters.compositeKey)
 
     this.env.addGlobal('adminSite', adminSite)
     this.env.addGlobal('getRelationOptions', getRelationOptions) // Meh name

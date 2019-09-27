@@ -20,8 +20,8 @@
     {{ "required" if widget.isRequired() }}
   >
     {% for option in options %}
-      <option value="{{ option.id }}" {{ maybeSelected(widget.relation, option) }}>
-        {{ option | displayName(widget.relation.inverseEntityMetadata) }}
+      <option value="{{ option | compositeKey(widget.relation.inverseEntityMetadata) }}" {{ maybeSelected(widget.relation, option) }}>
+        {{ option | compositeKey(widget.relation.inverseEntityMetadata) }}
       </option>
     {% endfor %}
   </select>

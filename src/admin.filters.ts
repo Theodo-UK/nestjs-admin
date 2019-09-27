@@ -36,6 +36,15 @@ export function displayName(entity: object, metadata: EntityMetadata) {
   return primaryColumns.join(' - ')
 }
 
+export function compositeKey(entity: object, metadata: EntityMetadata) {
+  const primaryColumns = metadata.primaryColumns.map(
+    col => `${col.databaseName}:${col.getEntityValue(entity)}`,
+  )
+  console.log(`{${primaryColumns.join(',')}}`)
+  return `{${primaryColumns.join(',')}}`
+  // {"id":1,"name":"hi"}
+}
+
 export function prettyPrint(name: string) {
   return _startCase(name)
 }
