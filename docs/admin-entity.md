@@ -92,7 +92,7 @@ listDisplay = ['id', 'firstname', 'lastname', 'email']
 Configures which fields of the entity will be displayed (and therefore editable) in the create and update forms.
 
 ```typescript
-fields = ['firstname', 'lastname', 'createdDate', 'gender']
+fields = ['firstName', 'lastName', 'createdDate', 'gender']
 ```
 
 ![image](assets/AdminEntity.fields.jpeg)
