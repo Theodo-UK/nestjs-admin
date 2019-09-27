@@ -1,7 +1,7 @@
 {% extends 'widgets/base-widget.njk' %}
 
 {% block label %}
-<label class="col-12 col-md-3 col-form-label" for="{{ widget.relation.propertyName }}">{{ widget.getLabel() }}</label>
+<label class="col-12 col-md-3 col-form-label" for="{{ widget.relation.propertyName }}">{{ widget.getLabel() | prettyPrint }}</label>
 {% endblock %}
 
 {% block input %}
