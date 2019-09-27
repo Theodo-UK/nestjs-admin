@@ -6,7 +6,7 @@ export class Agency extends Object {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ length: 50 })
+  @PrimaryColumn({ length: 50 })
   name: string
 
   @OneToMany(type => User, user => user.agency)
