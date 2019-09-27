@@ -9,21 +9,21 @@ import { Module } from '@nestjs/common'
 import DefaultAdminSite from '../adminSite'
 import AdminEntity from '../adminEntity'
 import { AdminCoreModuleFactory } from '../adminCore.module'
-import InvalidDisplayFieldsException from '../exceptions/invalidDisplayFields.exception'
+import InvalidAdminEntityFormConfig from '../exceptions/invalidAdminEntityFormConfig.exception'
 
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common'
 import { Request, Response } from 'express'
 
 const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
-@Catch(InvalidDisplayFieldsException)
+@Catch(InvalidAdminEntityFormConfig)
 export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: InvalidDisplayFieldsException, host: ArgumentsHost) {
+  catch(exception: InvalidAdminEntityFormConfig, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()
 
     response.status(500).json({
-      error: 'InvalidDisplayFieldsException',
+      error: 'InvalidAdminEntityFormConfig',
     })
   }
 }
@@ -95,7 +95,7 @@ describe('adminEntity', () => {
     const response = await request(server).get(`/admin/group/group`)
 
     expect(response.status).toBe(500)
-    expect(response.body).toMatchObject({ error: 'InvalidDisplayFieldsException' })
+    expect(response.body).toMatchObject({ error: 'InvalidAdminEntityFormConfig' })
 
     await app.close()
   })
