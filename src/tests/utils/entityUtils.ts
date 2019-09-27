@@ -1,5 +1,6 @@
 import { User } from '../../../exampleApp/src/user/user.entity'
 import AdminUser from '../../adminUser.entity'
+import { Group } from '../../../exampleApp/src/user/group.entity'
 
 export function createTestAdminUser(attrs: Partial<AdminUser> = {}): AdminUser {
   const user = new AdminUser()
@@ -18,4 +19,12 @@ export function createTestUser(attrs?: Partial<User>): User {
     isCool: true,
   }
   return Object.assign(user, { ...defaultAttrs, ...attrs })
+}
+export function createTestGroup(attrs?: Partial<Group>): Group {
+  const group = new Group()
+  const defaultAttrs = {
+    Name: 'Harry Potter',
+    id: 1997,
+  }
+  return Object.assign(group, { ...defaultAttrs, ...attrs })
 }

@@ -4,6 +4,8 @@ import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
 import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exception'
+import InvalidAdminEntityFormConfig from './exceptions/invalidAdminEntityFormConfig.exception'
+import { countBy } from 'lodash'
 
 abstract class AdminEntity {
   /**
@@ -91,6 +93,19 @@ abstract class AdminEntity {
       }
     })
   }
-}
 
+  validateFormConfig() {
+    const countMap = countBy(this.fields)
+
+    Object.keys(countMap).forEach(key => {
+      if (countMap[key] > 1)
+        throw new InvalidAdminEntityFormConfig(`Property ${key} is duplicated`)
+      if (!this.metadata.columns.map(column => column.propertyName).includes(key)) {
+        throw new InvalidAdminEntityFormConfig(
+          `Property ${key} invalid in fields: does not exist on ${this.name}.`,
+        )
+      }
+    })
+  }
+}
 export default AdminEntity
