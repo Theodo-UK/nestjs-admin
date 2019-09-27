@@ -103,7 +103,6 @@ export class DefaultAdminController {
     const page = parseInt(pageParam, 10)
     const [entities, count] = await repository.findAndCount(getPaginationQueryOptions(page))
 
-    adminEntity.validateFormConfig()
     adminEntity.validateListConfig()
     return await this.env.render('changelist.njk', {
       request,
@@ -120,6 +119,8 @@ export class DefaultAdminController {
   @Get(':sectionName/:entityName/add')
   async add(@Req() request: Request, @Param() params: AdminModelsQuery) {
     const { section, metadata, adminEntity } = await this.getAdminModels(params)
+
+    adminEntity.validateFormConfig()
     return await this.env.render('add.njk', { request, section, metadata, adminEntity })
   }
 
@@ -153,6 +154,8 @@ export class DefaultAdminController {
   @Get(':sectionName/:entityName/:primaryKey/change')
   async change(@Req() request: Request, @Param() params: AdminModelsQuery) {
     const { section, adminEntity, metadata, entity } = await this.getAdminModels(params)
+
+    adminEntity.validateFormConfig()
     return await this.env.render('change.njk', { request, section, adminEntity, metadata, entity })
   }
 
