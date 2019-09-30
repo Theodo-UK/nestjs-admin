@@ -4,6 +4,7 @@ import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
 import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exception'
+import { WidgetConstructor } from './widgets/widget.interface'
 
 abstract class AdminEntity {
   /**
@@ -14,6 +15,8 @@ abstract class AdminEntity {
   static adminEntityDiscriminant = 'ADMIN_ENTITY_DISCRIMINANT'
   abstract entity: EntityType
   listDisplay: string[] | null = null
+
+  widgets: { [propertyName: string]: WidgetConstructor } = {}
 
   constructor(
     private readonly adminSite: DefaultAdminSite,
@@ -53,7 +56,11 @@ abstract class AdminEntity {
       })
       .map(field => {
         const column = this.metadata.findColumnWithPropertyName(field)
-        return getDefaultWidget(column, this.adminSite, entity)
+        if (this.widgets[field]) {
+          return new this.widgets[field](column, this.adminSite, entity)
+        } else {
+          return getDefaultWidget(column, this.adminSite, entity)
+        }
       })
 
     const manyToManyWidgets = fields
@@ -71,7 +78,7 @@ abstract class AdminEntity {
   }
 
   private validateDisplayFields() {
-    if (!this.listDisplay) return;
+    if (!this.listDisplay) return
     this.listDisplay.forEach(field => {
       if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
         throw new InvalidDisplayFieldsException(
@@ -86,9 +93,7 @@ abstract class AdminEntity {
         )
       }
     })
-
   }
-
 }
 
 export default AdminEntity
