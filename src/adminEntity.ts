@@ -99,7 +99,7 @@ abstract class AdminEntity {
 
     Object.keys(countMap).forEach(key => {
       if (countMap[key] > 1)
-        throw new InvalidAdminEntityFormConfig(`Property ${key} is duplicated`)
+        throw new InvalidAdminEntityFormConfig(`Property ${key} is duplicated in fields`)
       if (!this.metadata.columns.map(column => column.propertyName).includes(key)) {
         throw new InvalidAdminEntityFormConfig(
           `Property ${key} invalid in fields: does not exist on ${this.name}.`,
