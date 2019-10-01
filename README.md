@@ -33,6 +33,14 @@ This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-
 > This is still very much a work in progress.
 > Your help is more than welcome!
 
+**Full docs: https://nestjs-admin.com/**
+
+|              |   |
+:-------------------------:|:-------------------------:
+![](docs/assets/screenshot-list.png)  |  ![](docs/assets/screenshot-form.png)
+_All your entities in one place._  |  _Create, update and delete entities with ease._
+
+
 ## Installation
 
 Let's get you started with a minimal setup.
@@ -119,6 +127,16 @@ export class UserModule {
 ```
 
 Check the [rest of the docs](./docs) for more details.
+
+## Compatibility
+
+| Library                  | Version |
+| ------------------------ | ------- |
+| @nestjs/common           | ^6.0.0  |
+| @nestjs/core             | ^6.0.0  |
+| @nestjs/platform-express | ^6.0.0  |
+| @nestjs/typeorm          | ^6.0.0  |
+| typeorm                  | ^0.2.12 |
 
 ## Contributing
 
