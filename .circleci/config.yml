@@ -68,6 +68,31 @@ jobs:
           name: Run tests
           command: yarn test
 
+  test-e2e:
+    executor: defaults_typescript
+    working_directory: ~/nestjs-admin
+    environment:
+      NODE_ENV: test
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/nestjs-admin
+      - restore_cache:
+          keys:
+            - cy-{{ .Branch }}-{{ checksum "package.json" }}
+            - cy-{{ .Branch }}
+            - cy
+      - run:
+          name: Run migrations
+          command: cd exampleApp && yarn test:migration:run
+      - save_cache:
+          key: cy-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ~/.cache
+      - run:
+          name: Run tests
+          command: cd exampleApp && yarn test:e2e
+
   deploy-docs:
     docker:
       - image: circleci/node:10.16.3
@@ -90,9 +115,13 @@ workflows:
       - test-unit:
           requires:
             - yarn-install-back
+      - test-e2e:
+          requires:
+            - yarn-install-back
       - deploy-docs:
           requires:
             - test-unit
+            - test-e2e
           filters:
             branches:
               only:
