@@ -1,16 +1,22 @@
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
 import { DefaultAdminSite } from '..'
 
+export interface WidgetConstructor {
+  new (column: ColumnMetadata, adminSite: DefaultAdminSite, entity?: object)
+}
+
 export interface Widget {
   template: string
 }
 
-export class BaseWidget {
+export abstract class BaseWidget {
   constructor(
     public readonly column: ColumnMetadata,
     public readonly adminSite: DefaultAdminSite,
     public readonly entity?: object,
   ) {}
+
+  abstract template: string
 
   getLabel() {
     return this.column.propertyName

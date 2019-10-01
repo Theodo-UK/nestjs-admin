@@ -6,6 +6,7 @@ import ManyToManyWidget from './widgets/manyToManyWidget'
 import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exception'
 import InvalidAdminEntityFormConfig from './exceptions/invalidAdminEntityFormConfig.exception'
 import { countBy } from 'lodash'
+import { WidgetConstructor } from './widgets/widget.interface'
 
 abstract class AdminEntity {
   /**
@@ -17,6 +18,8 @@ abstract class AdminEntity {
   abstract entity: EntityType
   listDisplay: string[] | null = null
   fields: string[] | null = null
+
+  widgets: { [propertyName: string]: WidgetConstructor } = {}
 
   constructor(
     private readonly adminSite: DefaultAdminSite,
@@ -59,7 +62,11 @@ abstract class AdminEntity {
       })
       .map(field => {
         const column = this.metadata.findColumnWithPropertyName(field)
-        return getDefaultWidget(column, this.adminSite, entity)
+        if (this.widgets[field]) {
+          return new this.widgets[field](column, this.adminSite, entity)
+        } else {
+          return getDefaultWidget(column, this.adminSite, entity)
+        }
       })
 
     const manyToManyWidgets = fields
