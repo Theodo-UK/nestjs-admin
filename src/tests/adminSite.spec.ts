@@ -36,10 +36,13 @@ describe('adminSite.register', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [TestTypeOrmModule.forRoot({ entities: [Group] }), RegisteredEntityModule],
     }).compile()
+
     const app = module.createNestApplication()
     await app.init()
     const server = app.getHttpServer()
+
     const res = await request(server).get(`/admin`)
+
     expect(res.status).toBe(200)
     document.documentElement.innerHTML = res.text
     expect(document.querySelector('a[href="/admin/group/group"]')).toBeTruthy()
@@ -63,6 +66,7 @@ describe('adminSite.register', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [TestTypeOrmModule.forRoot({ entities: [Group] }), RegisteredAdminEntityModule],
     }).compile()
+    
     const app = module.createNestApplication()
     await app.init()
     const server = app.getHttpServer()

@@ -82,7 +82,7 @@ describe('changelist', () => {
     // @debt bug "Generated datetimes are converted to UTC twice resulting in them displaying wrong if the nest app isn't in UTC"
     expect(
       document
-        .querySelector('table tr:nth-child(1) td:nth-child(5)')
+        .querySelector(`table tr[data-entity-id="${user.id}"] td:nth-child(5)`)
         .innerHTML.includes(dateFilter(user.createdDate, 'YYYY-MM-DD hh:mm:ss')),
     ).toBeTruthy()
   })

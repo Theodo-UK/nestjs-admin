@@ -4,6 +4,8 @@ import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
 import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exception'
+import InvalidAdminEntityFormConfig from './exceptions/invalidAdminEntityFormConfig.exception'
+import { countBy } from 'lodash'
 import { WidgetConstructor } from './widgets/widget.interface'
 
 abstract class AdminEntity {
@@ -15,6 +17,7 @@ abstract class AdminEntity {
   static adminEntityDiscriminant = 'ADMIN_ENTITY_DISCRIMINANT'
   abstract entity: EntityType
   listDisplay: string[] | null = null
+  fields: string[] | null = null
 
   widgets: { [propertyName: string]: WidgetConstructor } = {}
 
@@ -39,6 +42,9 @@ abstract class AdminEntity {
    * The fields displayed on the form
    */
   getFields(form: 'add' | 'change'): string[] {
+    if (this.fields) {
+      return this.fields
+    }
     return [
       ...this.metadata.columns.map(column => column.propertyName),
       ...this.metadata.manyToManyRelations.map(relation => relation.propertyName),
@@ -94,6 +100,19 @@ abstract class AdminEntity {
       }
     })
   }
-}
 
+  validateFormConfig() {
+    const countMap = countBy(this.fields)
+
+    Object.keys(countMap).forEach(key => {
+      if (countMap[key] > 1)
+        throw new InvalidAdminEntityFormConfig(`Property ${key} is duplicated in fields`)
+      if (!this.metadata.columns.map(column => column.propertyName).includes(key)) {
+        throw new InvalidAdminEntityFormConfig(
+          `Property ${key} invalid in fields: does not exist on ${this.name}.`,
+        )
+      }
+    })
+  }
+}
 export default AdminEntity
