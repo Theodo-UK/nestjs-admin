@@ -10,7 +10,7 @@ executors:
           - POSTGRES_USER=seed
           - POSTGRES_PASSWORD=Ge0rgesMoustaki
           - PGPORT=5434
- node_mysql:
+  node_mysql:
     docker:
       - image: circleci/node:10.13.0
       - image: circleci/mysql:8.0.4
@@ -56,32 +56,13 @@ commands:
 
 jobs:
   yarn-install-back:
-    executor:  node_postgres
+    executor: node_postgres
     working_directory: ~/nestjs-admin
     steps:
       - yarn-install
 
   test-unit-postgres:
-    executor:  node_postgres
-    working_directory: ~/nestjs-admin
-    environment:
-      NODE_ENV: test
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/nestjs-admin
-      - run:
-        name: Run environment
-        command: cp .env.postgres .env.test
-      - run:
-          name: Run migrations
-          command: cd exampleApp && yarn test:migration:run
-      - run:
-          name: Run tests
-          command: yarn test
-
-  test-unit-mysql:
-    executor:  node_postgres
+    executor: node_postgres
     working_directory: ~/nestjs-admin
     environment:
       NODE_ENV: test
@@ -91,7 +72,26 @@ jobs:
           at: ~/nestjs-admin
       - run:
           name: Run environment
-          command: cp .env.mysql .env.test
+          command: cd exampleApp && cp .env.postgres .env.test
+      - run:
+          name: Run migrations
+          command: cd exampleApp && yarn test:migration:run
+      - run:
+          name: Run tests
+          command: yarn test
+
+  test-unit-mysql:
+    executor: node_postgres
+    working_directory: ~/nestjs-admin
+    environment:
+      NODE_ENV: test
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/nestjs-admin
+      - run:
+          name: Run environment
+          command: cd exampleApp && cp .env.mysql .env.test
       - run:
           name: Run migrations
           command: cd exampleApp && yarn test:migration:run
@@ -121,13 +121,12 @@ workflows:
       - test-unit-postgres:
           requires:
             - yarn-install-back
-       - yarn-install-back
       - test-unit-mysql:
           requires:
             - yarn-install-back
       - deploy-docs:
           requires:
-            -test-unit-postgres
+            - test-unit-postgres
             - test-unit-mysql
           filters:
             branches:
