@@ -2,14 +2,11 @@
 
 context('Login', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:8000/admin');
-    cy.server();
-  });
+    cy.visit('http://localhost:8000/admin')
+    cy.server()
+  })
 
   it('should open login page', () => {
-      cy.get('[data-cy="Login"]').should('visible')
-  });
-
-});
-
-
+    cy.get('[data-cy="Login"]').should('visible')
+  })
+})

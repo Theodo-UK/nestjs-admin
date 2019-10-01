@@ -14,8 +14,8 @@
     "test:schema:drop": "ts-node -r dotenv-safe/config node_modules/.bin/typeorm schema:drop dotenv_config_path=.env.test",
     "start:debug": "nodemon --config nodemon-debug.json",
     "test:unit": "ts-node -r dotenv-safe/config node_modules/.bin/jest * --maxWorkers=4 dotenv_config_path=.env.test",
-    "cy:run": "cypress run",
-    "test": "yarn cy:run"
+    "cy:e2e": "cypress run",
+    "test": "yarn test:unit && yarn test:e2e"
   },
   "dependencies": {
     "@nestjs/common": "^6.0.0",
