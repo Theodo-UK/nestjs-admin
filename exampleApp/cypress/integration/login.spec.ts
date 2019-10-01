@@ -7,6 +7,6 @@ context('Login', () => {
   })
 
   it('should open login page', () => {
-    cy.get('[data-cy="Login"]').should('visible')
+    cy.get('[data-cy="login-info"]').should('visible')
   })
 })
