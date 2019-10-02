@@ -4,7 +4,7 @@ import { EntitySchema } from 'typeorm'
 import { injectionTokens } from '../../../src/tokens'
 import DefaultAdminSite from '../../../src/adminSite'
 import { EntityType } from '../../../src/types'
-import AdminEntity from '../../adminUser.entity'
+import AdminUser from '../../../src/adminUser.entity'
 
 interface TestTypeOrmModuleConfig {
   entities: EntityType[]
@@ -16,17 +16,12 @@ export class TestTypeOrmModule {
     const typeOrmModule = TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5434,
-      username: 'seed',
-      password: 'Ge0rgesMoustaki',
-      database: 'seed',
-      entities: [
-        AdminEntity,
-        __dirname + '/../../**/*.entity.{js,ts}', // for use in the library
-        __dirname + '/../../../dist/**/*.entity.{js,ts}', // for use locally in the exampleApp
-        __dirname + '/../../../exampleApp/node_modules/nestjs-admin/dist/**/*.entity.{js,ts}', // for use in CI in the exampleApp
-        ...config.entities,
-      ],
+      port: parseInt(process.env.DB_PORT, 10),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [__dirname + '/dist/**/*.entity.js', AdminUser],
+      migrations: ['dist/migration/*.js'],
       synchronize: true,
     })
     return {

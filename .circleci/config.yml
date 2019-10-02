@@ -15,10 +15,10 @@ executors:
       - image: circleci/node:10.13.0
       - image: circleci/mysql:8.0.4
         environment:
-          - MYSQL_ROOT_PASSWORD=rootpw
-          - MYSQL_DATABASE=test_db
-          - MYSQL_USER=user
-          - MYSQL_PASSWORD=passw0rd
+          - MYSQL_DB=seed
+          - MYSQL_USER=seed
+          - MYSQL_PASSWORD=Ge0rgesMoustaki
+          - PGPORT=3306
 
 commands:
   yarn-install:
@@ -72,13 +72,10 @@ jobs:
           at: ~/nestjs-admin
       - run:
           name: Run environment
-          command: cd exampleApp && cp .env.postgres .env.test
-      - run:
-          name: Run migrations
-          command: cd exampleApp && yarn test:migration:run
+          command: rm -f .env.test && cp .env.postgres .env.test
       - run:
           name: Run tests
-          command: yarn test
+          command: ls && yarn test
 
   test-unit-mysql:
     executor: node_postgres
@@ -91,13 +88,10 @@ jobs:
           at: ~/nestjs-admin
       - run:
           name: Run environment
-          command: cd exampleApp && cp .env.mysql .env.test
-      - run:
-          name: Run migrations
-          command: cd exampleApp && yarn test:migration:run
+          command: rm -f .env.test && cp .env.mysql .env.test
       - run:
           name: Run tests
-          command: yarn test
+          command: ls -lah && yarn test
 
   deploy-docs:
     docker:
