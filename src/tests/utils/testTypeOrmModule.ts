@@ -4,7 +4,7 @@ import { EntitySchema } from 'typeorm'
 import { injectionTokens } from '../../../src/tokens'
 import DefaultAdminSite from '../../../src/adminSite'
 import { EntityType } from '../../../src/types'
-import AdminUser from '../../../src/adminUser.entity'
+import AdminEntity from '../../adminUser.entity'
 
 interface TestTypeOrmModuleConfig {
   entities: EntityType[]
@@ -14,8 +14,13 @@ interface TestTypeOrmModuleConfig {
 export class TestTypeOrmModule {
   static forRoot(config: TestTypeOrmModuleConfig = { entities: [] }) {
     const typeOrmModule = TypeOrmModule.forRoot({
-      entities: [__dirname + '/dist/**/*.entity.js', AdminUser],
-      migrations: ['dist/migration/*.js'],
+      entities: [
+        AdminEntity,
+        __dirname + '/../../**/*.entity.{js,ts}', // for use in the library
+        __dirname + '/../../../dist/**/*.entity.{js,ts}', // for use locally in the exampleApp
+        __dirname + '/../../../exampleApp/node_modules/nestjs-admin/dist/**/*.entity.{js,ts}', // for use in CI in the exampleApp
+        ...config.entities,
+      ],
       synchronize: true,
     })
     return {

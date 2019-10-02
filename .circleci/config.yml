@@ -14,11 +14,11 @@ executors:
     docker:
       - image: circleci/node:10.13.0
       - image: circleci/mysql:8.0.4
+        command: [--default-authentication-plugin=mysql_native_password]
         environment:
-          - MYSQL_DB=seed
+          - MYSQL_DATABASE=seed
           - MYSQL_USER=seed
           - MYSQL_PASSWORD=Ge0rgesMoustaki
-          - PGPORT=3306
 
 commands:
   yarn-install:
