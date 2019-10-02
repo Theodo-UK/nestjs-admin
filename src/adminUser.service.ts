@@ -12,8 +12,14 @@ import AdminUser from './adminUser.entity'
 import { DuplicateEmailException } from './exceptions/userAdmin.exception'
 import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'
 
+type AdminUserWithoutPassword = Omit<AdminUser, 'password'>
+
+export interface AdminUserServiceInterface extends EntitySubscriberInterface<AdminUser> {
+  validateCredentials(email: string, pass: string): Promise<AdminUserWithoutPassword | null>
+}
+
 @Injectable()
-export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
+export class AdminUserService implements AdminUserServiceInterface {
   constructor(
     @InjectConnection() readonly connection: Connection,
     @InjectRepository(AdminUser)
@@ -74,7 +80,7 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
   }
 
   async validateCredentials(email: string, pass: string) {
-    const adminUser = await this.findOne(email)
+    const adminUser: AdminUser | null = await this.findOne(email)
     if (adminUser && this.comparePassword(adminUser, pass)) {
       // @debt quality "miker: 1/ is this destructure necessary? was copied from blog post
       // @debt quality "miker: 2/ https://dev.to/nestjs/authentication-and-sessions-for-mvc-apps-with-nestjs-55a4"
