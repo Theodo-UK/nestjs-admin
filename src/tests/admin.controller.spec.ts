@@ -15,7 +15,7 @@ import { MemoryStore } from 'express-session'
 import { DeepPartial, EntityManager } from 'typeorm'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 import DefaultAdminModule from '../defaultAdmin.module'
-import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey'
+import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
 import { changeUrl } from '../utils/urls'
 import { TestAuthModule } from './utils/testAuth.module'
 

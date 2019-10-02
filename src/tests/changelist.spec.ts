@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
+import { INestApplication, Module } from '@nestjs/common'
 import * as request from 'supertest'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
-import { UserModule } from '../../exampleApp/src/user/user.module'
 import { TestAuthModule } from './utils/testAuth.module'
 import { createTestUser } from './utils/entityUtils'
 import { AdminCoreModuleFactory } from '../adminCore.module'
@@ -10,9 +9,29 @@ import { JSDOM } from 'jsdom'
 import { Agency } from '../../exampleApp/src/user/agency.entity'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { Group } from '../../exampleApp/src/user/group.entity'
-import { getRepositoryToken } from '@nestjs/typeorm'
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import * as dateFilter from 'nunjucks-date-filter'
+import DefaultAdminSite from '../adminSite'
+import AdminEntity from '../adminEntity'
+
+export class UserAdmin extends AdminEntity {
+  entity = User
+  listDisplay = ['id', 'firstName', 'lastName', 'email', 'createdDate']
+}
+
+const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
+@Module({
+  imports: [DefaultCoreModule, TypeOrmModule.forFeature([User, Agency, Group])],
+})
+// @ts-ignore
+class RegisteredEntityModule {
+  constructor(private readonly adminSite: DefaultAdminSite) {
+    adminSite.register('user', UserAdmin)
+    adminSite.register('agency', Agency)
+    adminSite.register('group', Group)
+  }
+}
 
 describe('changelist', () => {
   let app: INestApplication
@@ -22,9 +41,9 @@ describe('changelist', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TestTypeOrmModule.forRoot({ entities: [User, Agency, Group] }),
-        UserModule,
         TestAuthModule,
-        AdminCoreModuleFactory.createAdminCoreModule({}),
+        RegisteredEntityModule,
+        DefaultCoreModule,
       ],
     }).compile()
 

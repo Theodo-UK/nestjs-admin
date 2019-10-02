@@ -7,42 +7,21 @@ import * as request from 'supertest'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import { TestAuthModule } from './utils/testAuth.module'
 import { JSDOM } from 'jsdom'
+import { EntityWithRequiredFields } from './entities/entityWithRequiredFields.entity'
 
 const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-
-enum TestEnum {
-  first = 'first',
-  second = 'second',
-  third = 'third',
-}
-
-@Entity('dummyentities')
-class DummyEntity {
-  @PrimaryGeneratedColumn()
-  id: number
-
-  @Column({ length: 50 })
-  requiredString: string
-
-  @Column('enum', { enum: TestEnum })
-  requiredEnum: TestEnum
-
-  @Column({ length: 50, nullable: true })
-  nullableString: string
-
-  @Column('enum', { enum: TestEnum, nullable: true })
-  nullableEnum: TestEnum
-}
-
 @Module({
-  imports: [TypeOrmModule.forFeature([DummyEntity]), TestAuthModule, DefaultCoreModule],
+  imports: [
+    TypeOrmModule.forFeature([EntityWithRequiredFields]),
+    TestAuthModule,
+    DefaultCoreModule,
+  ],
   exports: [TypeOrmModule],
 })
 class RegisteredEntityModule {
   constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('test', DummyEntity)
+    adminSite.register('test', EntityWithRequiredFields)
   }
 }
 
@@ -53,7 +32,10 @@ describe('adminSite.register', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot({ entities: [DummyEntity] }), RegisteredEntityModule],
+      imports: [
+        TestTypeOrmModule.forRoot({ entities: [EntityWithRequiredFields] }),
+        RegisteredEntityModule,
+      ],
     }).compile()
     app = module.createNestApplication()
     await app.init()
@@ -70,7 +52,7 @@ describe('adminSite.register', () => {
   })
 
   it('should set the correct fields to be required', async () => {
-    const res = await request(server).get(`/admin/test/dummyentity/add`)
+    const res = await request(server).get(`/admin/test/entitywithrequiredfields/add`)
     expect(res.status).toBe(200)
     document.documentElement.innerHTML = res.text
 

@@ -13,16 +13,7 @@ interface TestTypeOrmModuleConfig {
 @Module({})
 export class TestTypeOrmModule {
   static forRoot(config: TestTypeOrmModuleConfig = { entities: [] }) {
-    const typeOrmModule = TypeOrmModule.forRoot({
-      entities: [
-        AdminEntity,
-        __dirname + '/../../**/*.entity.{js,ts}', // for use in the library
-        __dirname + '/../../../dist/**/*.entity.{js,ts}', // for use locally in the exampleApp
-        __dirname + '/../../../exampleApp/node_modules/nestjs-admin/dist/**/*.entity.{js,ts}', // for use in CI in the exampleApp
-        ...config.entities,
-      ],
-      synchronize: true,
-    })
+    const typeOrmModule = TypeOrmModule.forRoot()
     return {
       module: TestTypeOrmModule,
       imports: [typeOrmModule],
