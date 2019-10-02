@@ -14,12 +14,6 @@ interface TestTypeOrmModuleConfig {
 export class TestTypeOrmModule {
   static forRoot(config: TestTypeOrmModuleConfig = { entities: [] }) {
     const typeOrmModule = TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: parseInt(process.env.DB_PORT, 10),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
       entities: [__dirname + '/dist/**/*.entity.js', AdminUser],
       migrations: ['dist/migration/*.js'],
       synchronize: true,

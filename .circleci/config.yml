@@ -74,6 +74,9 @@ jobs:
           name: Run environment
           command: rm -f .env.test && cp .env.postgres .env.test
       - run:
+          name: Run migrations
+          command: yarn test:migration:run
+      - run:
           name: Run tests
           command: yarn test
 
@@ -89,6 +92,9 @@ jobs:
       - run:
           name: Run environment
           command: rm -f .env.test && cp .env.mysql .env.test
+      - run:
+          name: Run migrations
+          command: yarn test:migration:run
       - run:
           name: Run tests
           command: yarn test
