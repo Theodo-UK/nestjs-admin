@@ -7,12 +7,6 @@ import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exc
 import { WidgetConstructor } from './widgets/widget.interface'
 
 abstract class AdminEntity {
-  /**
-   * This is for internal use, it allows us to identify that a class extends AdminEntity.
-   * `instanceof` should work, but it breaks in testing. This is a workaround that's not
-   * elegant, but has little chance of breaking.
-   */
-  static adminEntityDiscriminant = 'ADMIN_ENTITY_DISCRIMINANT'
   abstract entity: EntityType
   listDisplay: string[] | null = null
 
