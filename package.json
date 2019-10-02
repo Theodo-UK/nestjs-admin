@@ -18,10 +18,11 @@
     "prepublishOnly": "yarn build",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "postbuild": "cp -r src/public dist/src/public",
+    "test:unit": ". ./.env.test && env TZ=UTC ts-node node_modules/.bin/jest * --maxWorkers=4",
     "test:lint": "tslint -p tsconfig.json -c tslint.json",
     "test:type": "tsc --noEmit",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest",
-    "test": "yarn test:lint && yarn test:type"
+    "test": "yarn test:lint && yarn test:type && yarn test:unit"
   },
   "peerDependencies": {
     "@nestjs/common": "^6.0.0",

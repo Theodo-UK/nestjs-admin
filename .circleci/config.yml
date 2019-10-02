@@ -75,10 +75,10 @@ jobs:
           command: rm -f .env.test && cp .env.postgres .env.test
       - run:
           name: Run tests
-          command: ls && yarn test
+          command: yarn test
 
   test-unit-mysql:
-    executor: node_postgres
+    executor: node_mysql
     working_directory: ~/nestjs-admin
     environment:
       NODE_ENV: test
@@ -91,7 +91,7 @@ jobs:
           command: rm -f .env.test && cp .env.mysql .env.test
       - run:
           name: Run tests
-          command: ls -lah && yarn test
+          command: yarn test
 
   deploy-docs:
     docker:
