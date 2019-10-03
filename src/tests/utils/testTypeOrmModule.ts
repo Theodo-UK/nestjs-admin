@@ -1,8 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { Module, Inject } from '@nestjs/common'
-import { EntitySchema } from 'typeorm'
-import { injectionTokens } from '../../../src/tokens'
-import DefaultAdminSite from '../../../src/adminSite'
+import { Module } from '@nestjs/common'
 import { EntityType } from '../../../src/types'
 import AdminEntity from '../../adminUser.entity'
 

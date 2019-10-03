@@ -1,13 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm'
 import { hashSync as bcryptHashSync, compareSync } from 'bcryptjs'
-import {
-  Connection,
-  EntitySubscriberInterface,
-  InsertEvent,
-  UpdateEvent,
-  Repository,
-} from 'typeorm'
+import { Connection, Repository } from './utils/typeormSwitch'
+import { EntitySubscriberInterface, InsertEvent, UpdateEvent } from 'typeorm'
 import AdminUser from './adminUser.entity'
 import { DuplicateEmailException } from './exceptions/userAdmin.exception'
 import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'

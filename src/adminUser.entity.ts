@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn } from './utils/typeormSwitch'
 
 @Entity('adminUser')
 class AdminUser {

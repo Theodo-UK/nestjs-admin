@@ -10,7 +10,7 @@ import { JSDOM } from 'jsdom'
 
 const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn } from '../utils/typeormSwitch'
 
 enum TestEnum {
   first = 'first',

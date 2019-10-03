@@ -3,18 +3,8 @@ import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
-import {
-  defaultAdminConfigurationOptions,
-  AdminAppConfigurationOptions,
-} from '../admin.configuration'
-import { DefaultAdminController } from '../admin.controller'
 import { injectionTokens } from '../tokens'
-import DefaultAdminNunjucksEnvironment from '../admin.environment'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { MemoryStore } from 'express-session'
-import { DeepPartial, EntityManager } from 'typeorm'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
-import DefaultAdminModule from '../defaultAdmin.module'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey'
 import { changeUrl } from '../utils/urls'
 import { TestAuthModule } from './utils/testAuth.module'

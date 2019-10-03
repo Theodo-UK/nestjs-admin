@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Repository } from '../utils/typeormSwitch'
 import * as request from 'supertest'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import { displayName } from '../admin.filters'

@@ -80,3 +80,11 @@ listDisplay = ['id', 'firstname', 'lastname', 'email']
 - If you don't set `listDisplay`, the list page will display a single column containing the primary key of the entity, or the `toString()` representation of the entity if defined.
 
 - `listDisplay` values cannot refer to `ManyToOne`, `OneToMany` or `ManyToMany` fields.
+
+#### AdminEntity.resultsPerPage
+
+Configures the number of entities that will be displayed on each page on the list page. Defaults to `25`.
+
+```typescript
+resultsPerPage = 25
+```

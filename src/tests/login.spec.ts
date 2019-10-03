@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { EntityManager } from 'typeorm'
+import { EntityManager } from '../utils/typeormSwitch'
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
 import { DefaultAdminModule } from '..'

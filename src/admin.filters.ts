@@ -1,4 +1,4 @@
-import { EntityMetadata } from 'typeorm'
+import { EntityMetadata } from './utils/typeormSwitch'
 import * as urls from './utils/urls'
 
 type Route = 'index' | 'changelist' | 'change' | 'add' | 'delete' | 'login' | 'logout'
