@@ -11,18 +11,11 @@ import {
 import AdminUser from './adminUser.entity'
 import { DuplicateEmailException } from './exceptions/userAdmin.exception'
 import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'
-
-type AdminUserWithoutPassword = Omit<AdminUser, 'password'>
-
-export interface AdminUserServiceInterface {
-  validateCredentials(email: string, pass: string): Promise<AdminUserWithoutPassword | null>
-}
-
-export type AdminUserServiceConstructor = new (...args) => AdminUserServiceInterface
+import { AdminAuthenticatorInterface } from './adminAuthenticator.interface'
 
 @Injectable()
 export class AdminUserService
-  implements AdminUserServiceInterface, EntitySubscriberInterface<AdminUser> {
+  implements AdminAuthenticatorInterface, EntitySubscriberInterface<AdminUser> {
   constructor(
     @InjectConnection() readonly connection: Connection,
     @InjectRepository(AdminUser)
