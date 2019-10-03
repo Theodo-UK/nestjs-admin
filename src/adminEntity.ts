@@ -7,11 +7,12 @@ import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exc
 import { WidgetConstructor } from './widgets/widget.interface'
 import { Request, Response } from 'express'
 
-type listActions = { label: string; action: (request: Request, response: Response) => void }
+export type ListAction = { label: string; action: (request: Request, response: Response) => void }
+
 abstract class AdminEntity {
   abstract entity: EntityType
   listDisplay: string[] | null = null
-  listActions: listActions[]
+  listActions: ListAction[]
   widgets: { [propertyName: string]: WidgetConstructor } = {}
 
   constructor(
