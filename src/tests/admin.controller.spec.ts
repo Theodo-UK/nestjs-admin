@@ -7,7 +7,7 @@ import { injectionTokens } from '../tokens'
 import { getEntityManagerToken, getConnectionToken } from '@nestjs/typeorm'
 import { EntityManager } from 'typeorm'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
-import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey'
+import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
 import { changeUrl } from '../utils/urls'
 import { TestAuthModule } from './utils/testAuth.module'
 
@@ -18,7 +18,7 @@ describe('AdminCoreModuleFactory', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestTypeOrmModule.forRoot({ entities: [EntityWithCompositePrimaryKey] }),
+        TestTypeOrmModule.forRoot(),
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),
       ],

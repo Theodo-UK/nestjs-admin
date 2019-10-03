@@ -15,6 +15,9 @@
       "adr/01-admin-authentication": {
         "title": "adr/01-admin-authentication"
       },
+      "adr/02-design-library": {
+        "title": "adr/02-design-library"
+      },
       "contributing": {
         "title": "Contributing"
       },
@@ -27,7 +30,7 @@
     },
     "links": {
       "Docs": "Docs",
-      "Github": "Github"
+      "GitHub": "GitHub"
     },
     "categories": {
       "Getting started": "Getting started",

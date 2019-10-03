@@ -58,10 +58,7 @@ class DefaultAdminSite {
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
 
-    if (
-      'adminEntityDiscriminant' in adminEntityOrEntity &&
-      adminEntityOrEntity.adminEntityDiscriminant === AdminEntity.adminEntityDiscriminant
-    ) {
+    if (adminEntityOrEntity.prototype instanceof AdminEntity) {
       // adminEntityOrEntity is a derived class of AdminEntity
       const AdminEntityClass = adminEntityOrEntity as typeof AdminEntity
       // @ts-ignore
