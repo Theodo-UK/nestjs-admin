@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { Repository } from '../../src/utils/typeormSwitch'
+import { Repository } from '../../src/utils/typeormProxy'
 import * as inquirer from 'inquirer'
 import AdminUser from '../../src/adminUser.entity'
 import { AdminUserService } from '../../src/adminUser.service'

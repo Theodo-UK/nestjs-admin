@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, PrimaryColumn } from '../../../src/utils/typeormSwitch'
+import { Entity, PrimaryGeneratedColumn, PrimaryColumn } from '../../utils/typeormProxy'
 
 @Entity()
 export class EntityWithCompositePrimaryKey extends Object {

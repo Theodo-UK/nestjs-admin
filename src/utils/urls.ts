@@ -1,4 +1,4 @@
-import { EntityMetadata } from './typeormSwitch'
+import { EntityMetadata } from './typeormProxy'
 import AdminSection from '../adminSection'
 import { parseName } from './formatting'
 import { getPrimaryKeyValue } from './entity'

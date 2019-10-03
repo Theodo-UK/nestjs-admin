@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { getConnectionOptions } from '../src/utils/typeormSwitch'
+import { getConnectionOptions } from '../src/utils/typeormProxy'
 import AdminUser from '../src/adminUser.entity'
 import { AdminUserService } from '../src/adminUser.service'
 

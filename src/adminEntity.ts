@@ -1,4 +1,4 @@
-import { Connection, EntityMetadata, SelectQueryBuilder, Brackets } from './utils/typeormSwitch'
+import { Connection, EntityMetadata, SelectQueryBuilder, Brackets } from './utils/typeormProxy'
 import { EntityType } from './types'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
@@ -92,7 +92,7 @@ abstract class AdminEntity {
   }
 
   buildSearchQueryOptions(
-    query: SelectQueryBuilder<unknown>, // @debt typing "miker: can I type this better?"
+    query: SelectQueryBuilder<unknown>,
     options: { alias: string; searchParam: string },
   ) {
     if (options.searchParam && this.searchFields) {
@@ -114,12 +114,13 @@ abstract class AdminEntity {
     return query
   }
 
-  buildPaginationQueryOptions(
-    query: SelectQueryBuilder<unknown>, // @debt typing "miker: can I type this better?",
-    page: number,
-  ) {
+  buildPaginationQueryOptions(query: SelectQueryBuilder<unknown>, page: number) {
     query.skip(this.resultsPerPage * (page - 1)).take(this.resultsPerPage)
     return query
+  }
+
+  getManyAndCount(query: SelectQueryBuilder<unknown>) {
+    return query.getManyAndCount()
   }
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Connection, EntityMetadata } from './utils/typeormSwitch'
+import { Connection, EntityMetadata } from './utils/typeormProxy'
 import { parseName } from './utils/formatting'
 import AdminSection from './adminSection'
 import { EntityType } from './types'
@@ -74,15 +74,15 @@ class DefaultAdminSite {
     }
   }
 
-  async getChangeList(adminEntity: AdminEntity, page: number, searchParam: string) {
+  async getEntityList(adminEntity: AdminEntity, page: number, searchParam: string) {
     const repository = this.getRepository(adminEntity.entity)
-    const alias = 'column'
+    const alias = 'entity'
 
     let query = repository.createQueryBuilder(alias)
     query = adminEntity.buildPaginationQueryOptions(query, page)
     query = adminEntity.buildSearchQueryOptions(query, { alias, searchParam })
 
-    return await query.getManyAndCount()
+    return await adminEntity.getManyAndCount(query)
   }
 
   getSectionList() {

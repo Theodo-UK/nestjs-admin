@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { Repository } from '../utils/typeormSwitch'
+import { Repository } from '../utils/typeormProxy'
 import { INestApplication, Module } from '@nestjs/common'
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm'
 import * as request from 'supertest'

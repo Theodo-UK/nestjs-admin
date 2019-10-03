@@ -1,4 +1,4 @@
-import { EntityMetadata } from './typeormSwitch'
+import { EntityMetadata } from './typeormProxy'
 import { EntityType } from '../types'
 
 export function getPrimaryKeyValue(metadata: EntityMetadata, entity: object) {

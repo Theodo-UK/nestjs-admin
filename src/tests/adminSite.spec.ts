@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { Module } from '@nestjs/common'
-import { getConnection } from '../utils/typeormSwitch'
+import { getConnection } from '../utils/typeormProxy'
 import DefaultAdminSite from '../adminSite'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'

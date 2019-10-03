@@ -11,7 +11,7 @@ import {
   UseFilters,
   Req,
 } from '@nestjs/common'
-import { Repository, EntityMetadata } from './utils/typeormSwitch'
+import { Repository, EntityMetadata } from './utils/typeormProxy'
 import * as express from 'express'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminSection from './adminSection'
@@ -93,7 +93,7 @@ export class DefaultAdminController {
     const { section, metadata, adminEntity } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
 
-    const [entities, count] = await this.adminSite.getChangeList(adminEntity, page, searchString)
+    const [entities, count] = await this.adminSite.getEntityList(adminEntity, page, searchString)
 
     adminEntity.validateListConfig()
 

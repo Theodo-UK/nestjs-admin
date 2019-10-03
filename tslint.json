@@ -18,8 +18,7 @@
     "trailing-comma": false,
     "max-classes-per-file": false,
     "only-arrow-functions": false,
-    "curly": false,
-    "no-var-requires": false
+    "curly": false
   },
   "rulesDirectory": [],
   "linterOptions": {

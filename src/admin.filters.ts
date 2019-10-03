@@ -1,4 +1,4 @@
-import { EntityMetadata } from './utils/typeormSwitch'
+import { EntityMetadata } from './utils/typeormProxy'
 import * as urls from './utils/urls'
 import { startCase as _startCase } from 'lodash'
 
