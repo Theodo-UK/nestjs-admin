@@ -75,7 +75,7 @@ export class AdminUserService
     return await this.adminUserRepository.findOne({ where: { email } })
   }
 
-  async validateCredentials(email: string, pass: string) {
+  async validateAdminCredentials(email: string, pass: string) {
     const adminUser: AdminUser | null = await this.findOne(email)
     if (adminUser && this.comparePassword(adminUser, pass)) {
       // @debt quality "miker: 1/ is this destructure necessary? was copied from blog post
