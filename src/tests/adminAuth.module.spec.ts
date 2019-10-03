@@ -6,16 +6,12 @@ import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
+import { createTestApp, createTestingModule, createAndStartTestApp } from './utils/setup'
 
 describe('AdminAuthModuleFactory', () => {
   it('should return the default admin site and environment when passed no params', async () => {
-    const DefaultAdminAuthModule = AdminAuthModuleFactory.createAdminAuthModule({})
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot(), DefaultAdminAuthModule],
-    }).compile()
-
-    const app = module.createNestApplication()
-    await app.init()
+    const app = await createAndStartTestApp()
+    await app.startTest()
 
     const adminSite = app.get(injectionTokens.ADMIN_SITE)
     expect(adminSite).toBeInstanceOf(DefaultAdminSite)
@@ -23,6 +19,7 @@ describe('AdminAuthModuleFactory', () => {
     const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
     expect(adminEnv).toBeInstanceOf(DefaultAdminNunjucksEnvironment)
 
+    await app.stopTest()
     await app.close()
   })
 
@@ -37,16 +34,8 @@ describe('AdminAuthModuleFactory', () => {
       adminEnvironment: CustomAdminEnvironment,
     })
 
-    const CustomAdminModule = AdminAuthModuleFactory.createAdminAuthModule({
-      adminCoreModule: CustomAdminCoreModule,
-    })
-
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot(), CustomAdminModule],
-    }).compile()
-
-    const app = module.createNestApplication()
-    await app.init()
+    const app = await createAndStartTestApp({ adminCoreModule: CustomAdminCoreModule })
+    await app.startTest()
 
     expect(app.get(CustomAdminController)).toBeInstanceOf(CustomAdminController)
     expect(() => app.get(DefaultAdminController)).toThrow()
@@ -58,6 +47,7 @@ describe('AdminAuthModuleFactory', () => {
 
     expect(() => app.get(DefaultAdminNunjucksEnvironment)).toThrow()
 
+    await app.stopTest()
     await app.close()
   })
 })

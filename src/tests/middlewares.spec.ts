@@ -1,11 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
 import * as request from 'supertest'
-import { AdminCoreModuleFactory } from '../adminCore.module'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
+import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { User } from '../../exampleApp/src/user/user.entity'
 
-const middlewareMock = (req, res, next) => next()
+const middlewareMock = (req, res, next) => {
+  try {
+    req.flash = jest.fn()
+    next()
+  } catch (e) {
+    console.warn(e)
+  }
+}
 
 const flashMock = jest.fn().mockImplementation(middlewareMock)
 jest.mock('connect-flash', () => {
@@ -20,22 +24,25 @@ jest.mock('express-session', () => {
 const middlewares = [flashMock, sessionMock]
 
 describe('Middlewares', () => {
-  let app: INestApplication
+  let app: TestApplication
+
+  beforeAll(async () => {
+    app = await createAndStartTestApp({ registerEntities: [User] })
+  })
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot(), AdminCoreModuleFactory.createAdminCoreModule({})],
-    }).compile()
-
-    app = module.createNestApplication()
-    await app.init()
+    await app.startTest()
   })
 
   afterEach(async () => {
-    await app.close()
+    await app.stopTest()
     middlewares.forEach(middleware => {
       middleware.mockClear()
     })
+  })
+
+  afterAll(async () => {
+    await app.close()
   })
 
   it('should be defined', () => {

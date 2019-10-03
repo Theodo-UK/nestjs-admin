@@ -1,48 +1,45 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
 import { EntityManager } from 'typeorm'
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
-import { DefaultAdminModule } from '..'
 import { createTestAdminUser } from './utils/entityUtils'
 import AdminUser from '../adminUser.entity'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
+import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { AdminAuthModuleFactory } from '../adminAuth.module'
 
 describe('login', () => {
-  let app: INestApplication
+  let app: TestApplication
   let document: Document
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot(), DefaultAdminModule],
-    }).compile()
-    app = module.createNestApplication()
-    await app.init()
+    app = await createAndStartTestApp({
+      adminAuthModule: AdminAuthModuleFactory.createAdminAuthModule({}),
+    })
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await app.startTest()
     const dom = new JSDOM()
     document = dom.window.document
+  })
+
+  afterEach(async () => {
+    await app.stopTest()
   })
 
   afterAll(async () => {
     await app.close()
   })
 
-  it('should be defined', async () => {
-    expect(app).toBeDefined()
-  })
-
   it('redirects to login when unauthenticated', async () => {
     const server = app.getHttpServer()
-    const res = await request(server).get(`/admin/user/user`)
+    const res = await request(server).get(`/admin/test/user`)
     expect(res.status).toBe(302)
     expect(res.header.location).toBe(`/admin/login`)
   })
 
   it('returns 302 when unauthenticated using POST', async () => {
     const server = app.getHttpServer()
-    const res = await request(server).post(`/admin/user/user/add`)
+    const res = await request(server).post(`/admin/test/user/add`)
     expect(res.status).toBe(302)
     expect(res.header.location).toBe(`/admin/login`)
   })

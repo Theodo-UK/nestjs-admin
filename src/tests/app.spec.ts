@@ -1,74 +1,50 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication, Module } from '@nestjs/common'
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { INestApplication } from '@nestjs/common'
+import { getRepositoryToken, getEntityManagerToken } from '@nestjs/typeorm'
+import { Repository, EntityManager } from 'typeorm'
 import * as request from 'supertest'
-import { AdminCoreModuleFactory } from '../adminCore.module'
 import { displayName } from '../admin.filters'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { createTestUser } from './utils/entityUtils'
-import { UserModule } from '../../exampleApp/src/user/user.module'
-import { TestAuthModule } from './utils/testAuth.module'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
-import { Agency } from '../../exampleApp/src/user/agency.entity'
-import { Group } from '../../exampleApp/src/user/group.entity'
-import DefaultAdminSite from '../adminSite'
-
-const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
-@Module({
-  imports: [DefaultCoreModule, TypeOrmModule.forFeature([User])],
-})
-// @ts-ignore
-class RegisteredEntityModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('user', User)
-  }
-}
+import { createAndStartTestApp, TestApplication } from './utils/setup'
 
 describe('AppController', () => {
-  let app: INestApplication
+  let app: TestApplication
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TestTypeOrmModule.forRoot(),
-        RegisteredEntityModule,
-        TestAuthModule,
-        AdminCoreModuleFactory.createAdminCoreModule({}),
-      ],
-    }).compile()
+    app = await createAndStartTestApp({ registerEntities: [User] })
+  })
 
-    app = module.createNestApplication()
-    await app.init()
+  beforeEach(async () => {
+    await app.startTest()
+  })
+
+  afterEach(async () => {
+    await app.stopTest()
   })
 
   afterAll(async () => {
     await app.close()
   })
 
-  it('should be defined', () => {
-    expect(app).toBeDefined()
-  })
-
   it('can delete a user', async () => {
     // add the user to the database
     const userData = createTestUser({ firstName: 'Max' })
-    const userRepository: Repository<User> = app.get(getRepositoryToken(User))
-    const user = await userRepository.save(userData)
-    expect(await userRepository.findOneOrFail(user.id)).toBeDefined()
+    const entityManager: EntityManager = app.get(getEntityManagerToken())
+    const user = await entityManager.save(userData)
+    expect(await entityManager.findOneOrFail(User, user.id)).toBeDefined()
 
     // delete the user via the api call
     const server = app.getHttpServer()
-    const req = await request(server).post(`/admin/user/user/${user.id}/delete`)
+    const req = await request(server).post(`/admin/test/user/${user.id}/delete`)
     expect(req.status).toBe(302)
-    expect(req.header.location).toBe(`/admin/user/user`)
+    expect(req.header.location).toBe(`/admin/test/user`)
 
-    const expectedDisplayName = displayName(user, userRepository.metadata)
+    const expectedDisplayName = displayName(user, entityManager.connection.getMetadata(User))
     const res = await request(server)
-      .get(`/admin/user/user`)
+      .get(`/admin/test/user`)
       .set('Cookie', req.get('Set-Cookie')[0])
     expect(res.text).toContain(`Successfully deleted User: ${expectedDisplayName}`)
 
-    expect(await userRepository.findOne(user.id)).toBeUndefined()
+    expect(await entityManager.findOne(User, user.id)).toBeUndefined()
   })
 })

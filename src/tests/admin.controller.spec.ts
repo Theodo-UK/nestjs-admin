@@ -1,55 +1,32 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
-import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
 import { injectionTokens } from '../tokens'
-import { getEntityManagerToken, getConnectionToken } from '@nestjs/typeorm'
 import { EntityManager } from 'typeorm'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
 import { changeUrl } from '../utils/urls'
-import { TestAuthModule } from './utils/testAuth.module'
+import { createAndStartTestApp, TestApplication } from './utils/setup'
 
 describe('AdminCoreModuleFactory', () => {
-  let app: INestApplication
+  let app: TestApplication
   let adminSite: DefaultAdminSite
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TestTypeOrmModule.forRoot(),
-        TestAuthModule,
-        AdminCoreModuleFactory.createAdminCoreModule({}),
-      ],
-    })
-      .overrideProvider(getEntityManagerToken())
-      .useFactory({
-        factory: (connection: any) => {
-          const queryRunner: any = connection.createQueryRunner()
-          const entityManager: any = connection.createEntityManager(queryRunner)
-          return entityManager
-        },
-        inject: [getConnectionToken()],
-      })
-      .compile()
-    app = module.createNestApplication()
-    await app.init()
+    app = await createAndStartTestApp()
 
     adminSite = app.get(injectionTokens.ADMIN_SITE)
     adminSite.register('test', EntityWithCompositePrimaryKey)
   })
 
-  afterAll(async () => {
-    await app.close()
-  })
-
   beforeEach(async () => {
-    await app.get(getEntityManagerToken()).queryRunner.startTransaction()
+    await app.startTest()
   })
 
   afterEach(async () => {
-    await app.get(getEntityManagerToken()).queryRunner.rollbackTransaction()
+    await app.stopTest()
+  })
+
+  afterAll(async () => {
+    await app.close()
   })
 
   it('can display a form for an entity with composite primary key', async () => {

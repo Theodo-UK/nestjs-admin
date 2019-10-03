@@ -1,47 +1,26 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { Module, INestApplication } from '@nestjs/common'
-import DefaultAdminSite from '../adminSite'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 import * as request from 'supertest'
-import { AdminCoreModuleFactory } from '../adminCore.module'
-import { TestAuthModule } from './utils/testAuth.module'
 import { JSDOM } from 'jsdom'
 import { EntityWithRequiredFields } from './entities/entityWithRequiredFields.entity'
-
-const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
-
-@Module({
-  imports: [
-    TypeOrmModule.forFeature([EntityWithRequiredFields]),
-    TestAuthModule,
-    DefaultCoreModule,
-  ],
-  exports: [TypeOrmModule],
-})
-class RegisteredEntityModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('test', EntityWithRequiredFields)
-  }
-}
+import { createAndStartTestApp, TestApplication } from './utils/setup'
 
 describe('adminSite.register', () => {
   let document: Document
-  let app: INestApplication
+  let app: TestApplication
   let server: any
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot(), RegisteredEntityModule],
-    }).compile()
-    app = module.createNestApplication()
-    await app.init()
+    app = await createAndStartTestApp({ registerEntities: [EntityWithRequiredFields] })
     server = app.getHttpServer()
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await app.startTest()
     const dom = new JSDOM()
     document = dom.window.document
+  })
+
+  afterEach(async () => {
+    await app.stopTest()
   })
 
   afterAll(async () => {
@@ -60,7 +39,5 @@ describe('adminSite.register', () => {
     expect(document.querySelector('select[name="nullableEnum"]')).toBeTruthy()
     expect(document.querySelector('input[name="nullableString"][required]')).toBeFalsy()
     expect(document.querySelector('select[name="nullableEnum"][required]')).toBeFalsy()
-
-    await app.close()
   })
 })
