@@ -11,9 +11,9 @@
 {% block body %}
 
 <div class="admin-title">
-  <div><h3>{{ metadata.name }}</h3> <span class="admin-changelist__count">({{ count }} results)</span></div>
+  <div><h3>{{ metadata.name | prettyPrint }}</h3> <span class="admin-changelist__count">({{ count }} results)</span></div>
   <a href="{{ 'add' | adminUrl(section, metadata, entity) }}">
-    <button class="btn btn-primary">Add {{ metadata.name | lower }}</button>
+    <button class="btn btn-primary">Add {{ metadata.name | prettyPrint}}</button>
   </a>
 </div>
 

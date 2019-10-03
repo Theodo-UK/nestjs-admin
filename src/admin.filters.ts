@@ -1,8 +1,8 @@
 import { EntityMetadata } from './utils/typeormSwitch'
 import * as urls from './utils/urls'
+import { startCase as _startCase } from 'lodash'
 
 type Route = 'index' | 'changelist' | 'change' | 'add' | 'delete' | 'login' | 'logout'
-
 type RouteArgs = string[]
 
 export function adminUrl(route: Route, ...args: RouteArgs) {
@@ -34,4 +34,8 @@ export function displayName(entity: object, metadata: EntityMetadata) {
   }
   const primaryColumns = metadata.primaryColumns.map(col => col.getEntityValue(entity))
   return primaryColumns.join(' - ')
+}
+
+export function prettyPrint(name: string) {
+  return _startCase(name)
 }

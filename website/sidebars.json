@@ -1,0 +1,7 @@
+{
+  "docs": {
+    "Getting started": ["install"],
+    "Concepts": ["admin-module", "admin-entity"],
+    "Practicalities": ["contributing", "known-issues"]
+  }
+}

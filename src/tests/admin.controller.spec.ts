@@ -5,7 +5,7 @@ import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
 import { injectionTokens } from '../tokens'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
-import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey'
+import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
 import { changeUrl } from '../utils/urls'
 import { TestAuthModule } from './utils/testAuth.module'
 
@@ -16,7 +16,7 @@ describe('AdminCoreModuleFactory', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestTypeOrmModule.forRoot({ entities: [EntityWithCompositePrimaryKey] }),
+        TestTypeOrmModule.forRoot(),
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),
       ],
