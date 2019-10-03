@@ -42,18 +42,6 @@ commands:
             - exampleApp/node_modules
             - .env
 
-  generate-example-project:
-    steps:
-      - restore_cache:
-          key: v3-example-project-cache-{{ checksum "test-project/yarn.lock" }}
-      - run:
-          name: Generate example project
-          command: ./.circleci/scripts/generate-project.sh
-      - save_cache:
-          key: v3-example-project-cache-{{ checksum "test-project/yarn.lock" }}
-          paths:
-            - test-project/node_modules
-
 jobs:
   yarn-install-back:
     executor: node_postgres
