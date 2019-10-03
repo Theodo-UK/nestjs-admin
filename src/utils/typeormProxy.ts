@@ -16,7 +16,5 @@ if (process.env.NESTJS_ADMIN_TYPEORM_PATH) {
 // This was causing issues with conditions within 'typeorm' e.g. "instanceof {Class}" comparisons
 // This broke some features of 'typeorm' when we were developing using exampleApp
 // So we have added the NESTJS_ADMIN_TYPEORM_PATH env variable to set which 'typeorm' library to use in 'start:debug' command
-//
-// This should not affect prod
 
 export = TORM

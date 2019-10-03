@@ -91,18 +91,15 @@ abstract class AdminEntity {
     validateFieldsAreNotRelation(this, 'searchFields', this.metadata)
   }
 
-  buildSearchQueryOptions(
-    query: SelectQueryBuilder<unknown>,
-    options: { alias: string; searchParam: string },
-  ) {
-    if (options.searchParam && this.searchFields) {
-      const searchArray = options.searchParam.split(' ')
+  buildSearchQueryOptions(query: SelectQueryBuilder<unknown>, alias: string, searchParam: string) {
+    if (searchParam && this.searchFields) {
+      const searchArray = searchParam.split(' ')
       searchArray.forEach((searchTerm, searchTermIndex) =>
         query.andWhere(
           new Brackets((qb: SelectQueryBuilder<unknown>) => {
             this.searchFields.forEach((field, fieldIndex) => {
               const paramString = `searchTerm${searchTermIndex}Field${fieldIndex}`
-              qb.orWhere(`${options.alias}.${field} LIKE :${paramString}`, {
+              qb.orWhere(`${alias}.${field} LIKE :${paramString}`, {
                 [paramString]: `%${searchTerm}%`,
               })
             })
@@ -119,7 +116,11 @@ abstract class AdminEntity {
     return query
   }
 
-  getManyAndCount(query: SelectQueryBuilder<unknown>) {
+  getManyAndCount(page: number, searchString: string) {
+    const alias = this.name
+    let query = this.repository.createQueryBuilder(alias)
+    query = this.buildPaginationQueryOptions(query, page)
+    query = this.buildSearchQueryOptions(query, alias, searchString)
     return query.getManyAndCount()
   }
 }

@@ -74,15 +74,8 @@ class DefaultAdminSite {
     }
   }
 
-  async getEntityList(adminEntity: AdminEntity, page: number, searchParam: string) {
-    const repository = this.getRepository(adminEntity.entity)
-    const alias = 'entity'
-
-    let query = repository.createQueryBuilder(alias)
-    query = adminEntity.buildPaginationQueryOptions(query, page)
-    query = adminEntity.buildSearchQueryOptions(query, { alias, searchParam })
-
-    return await adminEntity.getManyAndCount(query)
+  async getEntityList(adminEntity: AdminEntity, page: number, searchSting: string) {
+    return await adminEntity.getManyAndCount(page, searchSting)
   }
 
   getSectionList() {
