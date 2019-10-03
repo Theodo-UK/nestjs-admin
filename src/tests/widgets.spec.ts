@@ -29,7 +29,7 @@ describe('widgets', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestTypeOrmModule.forRoot({ entities: [User, Agency, Group] }),
+        TestTypeOrmModule.forRoot(),
         RegisteredEntityModule,
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),

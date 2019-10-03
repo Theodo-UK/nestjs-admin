@@ -26,7 +26,7 @@ describe('AdminCoreModuleFactory', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestTypeOrmModule.forRoot({ entities: [EntityWithCompositePrimaryKey] }),
+        TestTypeOrmModule.forRoot(),
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),
       ],

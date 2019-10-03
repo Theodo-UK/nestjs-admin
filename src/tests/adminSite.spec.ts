@@ -34,7 +34,7 @@ describe('adminSite.register', () => {
   })
   it('should register an entity', async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot({ entities: [Group] }), RegisteredEntityModule],
+      imports: [TestTypeOrmModule.forRoot(), RegisteredEntityModule],
     }).compile()
     const app = module.createNestApplication()
     await app.init()
@@ -61,7 +61,7 @@ describe('adminSite.register', () => {
       }
     }
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot({ entities: [Group] }), RegisteredAdminEntityModule],
+      imports: [TestTypeOrmModule.forRoot(), RegisteredAdminEntityModule],
     }).compile()
     const app = module.createNestApplication()
     await app.init()

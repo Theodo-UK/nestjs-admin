@@ -40,7 +40,7 @@ describe('changelist', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestTypeOrmModule.forRoot({ entities: [User, Agency, Group] }),
+        TestTypeOrmModule.forRoot(),
         TestAuthModule,
         RegisteredEntityModule,
         DefaultCoreModule,

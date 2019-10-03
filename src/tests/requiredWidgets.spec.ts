@@ -32,10 +32,7 @@ describe('adminSite.register', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TestTypeOrmModule.forRoot({ entities: [EntityWithRequiredFields] }),
-        RegisteredEntityModule,
-      ],
+      imports: [TestTypeOrmModule.forRoot(), RegisteredEntityModule],
     }).compile()
     app = module.createNestApplication()
     await app.init()
