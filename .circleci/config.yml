@@ -42,6 +42,24 @@ commands:
             - exampleApp/node_modules
             - .env
 
+  run-tests:
+    parameters:
+      env:
+        type: string
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/nestjs-admin
+      - run:
+          name: Prepare environment
+          command: rm -f .env.test && cp << parameters.env >> .env.test
+      - run:
+          name: Run migrations
+          command: yarn test:schema:sync
+      - run:
+          name: Run tests
+          command: yarn test
+
 jobs:
   yarn-install-back:
     executor: node_postgres
@@ -55,18 +73,8 @@ jobs:
     environment:
       NODE_ENV: test
     steps:
-      - checkout
-      - attach_workspace:
-          at: ~/nestjs-admin
-      - run:
-          name: Run environment
-          command: rm -f .env.test && cp .env.postgres .env.test
-      - run:
-          name: Run migrations
-          command: yarn test:schema:sync
-      - run:
-          name: Run tests
-          command: yarn test
+      - run-tests:
+          env: .env.postgres
 
   test-unit-mysql:
     executor: node_mysql
@@ -74,18 +82,8 @@ jobs:
     environment:
       NODE_ENV: test
     steps:
-      - checkout
-      - attach_workspace:
-          at: ~/nestjs-admin
-      - run:
-          name: Run environment
-          command: rm -f .env.test && cp .env.mysql .env.test
-      - run:
-          name: Run migrations
-          command: yarn test:schema:sync
-      - run:
-          name: Run tests
-          command: yarn test
+      - run-tests:
+          env: .env.mysql
 
   deploy-docs:
     docker:
