@@ -2,6 +2,7 @@ import { createConnection, Connection, getConnectionOptions } from 'typeorm'
 import * as faker from 'faker'
 import { range as _range } from 'lodash'
 import { AdminUserEntity } from 'nestjs-admin'
+import { hashSync as bcryptHashSync } from 'bcryptjs'
 import { User } from '../src/user/user.entity'
 import { Group } from '../src/user/group.entity'
 import { Agency } from '../src/user/agency.entity'
@@ -9,7 +10,7 @@ import { Agency } from '../src/user/agency.entity'
 function createAdmin() {
   const user = new AdminUserEntity()
   user.email = 'admin@admin.com'
-  user.password = 'admin'
+  user.password = bcryptHashSync('admin', 12)
   return user
 }
 

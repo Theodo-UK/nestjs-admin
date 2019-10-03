@@ -5,10 +5,12 @@ import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
 import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exception'
 import { WidgetConstructor } from './widgets/widget.interface'
+import { Request, Response } from 'express'
 
 abstract class AdminEntity {
   abstract entity: EntityType
   listDisplay: string[] | null = null
+  listActions: Array<{ label: string; action: (request: Request, response: Response) => void }>
 
   widgets: { [propertyName: string]: WidgetConstructor } = {}
 
