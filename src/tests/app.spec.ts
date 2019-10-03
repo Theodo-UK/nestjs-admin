@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken } from '@nestjs/typeorm'
+import { INestApplication, Module } from '@nestjs/common'
+import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import * as request from 'supertest'
 import { AdminCoreModuleFactory } from '../adminCore.module'
@@ -12,6 +12,18 @@ import { TestAuthModule } from './utils/testAuth.module'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 import { Agency } from '../../exampleApp/src/user/agency.entity'
 import { Group } from '../../exampleApp/src/user/group.entity'
+import DefaultAdminSite from '../adminSite'
+
+const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
+@Module({
+  imports: [DefaultCoreModule, TypeOrmModule.forFeature([User])],
+})
+// @ts-ignore
+class RegisteredEntityModule {
+  constructor(private readonly adminSite: DefaultAdminSite) {
+    adminSite.register('user', User)
+  }
+}
 
 describe('AppController', () => {
   let app: INestApplication
@@ -19,8 +31,8 @@ describe('AppController', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestTypeOrmModule.forRoot({ entities: [User, Agency, Group] }),
-        UserModule,
+        TestTypeOrmModule.forRoot(),
+        RegisteredEntityModule,
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),
       ],
