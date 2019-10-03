@@ -1,7 +1,7 @@
 version: 2.1
 
 executors:
-  defaults_typescript:
+  node_postgres:
     docker:
       - image: circleci/node:10.13.0
       - image: circleci/postgres:9.6-alpine-ram
@@ -10,6 +10,15 @@ executors:
           - POSTGRES_USER=seed
           - POSTGRES_PASSWORD=Ge0rgesMoustaki
           - PGPORT=5434
+  node_mysql:
+    docker:
+      - image: circleci/node:10.13.0
+      - image: circleci/mysql:8.0.4
+        command: [--default-authentication-plugin=mysql_native_password]
+        environment:
+          - MYSQL_DATABASE=seed
+          - MYSQL_USER=seed
+          - MYSQL_PASSWORD=Ge0rgesMoustaki
 
 commands:
   yarn-install:
@@ -33,63 +42,79 @@ commands:
             - exampleApp/node_modules
             - .env
 
-  generate-example-project:
-    steps:
-      - restore_cache:
-          key: v3-example-project-cache-{{ checksum "test-project/yarn.lock" }}
-      - run:
-          name: Generate example project
-          command: ./.circleci/scripts/generate-project.sh
-      - save_cache:
-          key: v3-example-project-cache-{{ checksum "test-project/yarn.lock" }}
-          paths:
-            - test-project/node_modules
-
-jobs:
-  yarn-install-back:
-    executor: defaults_typescript
-    working_directory: ~/nestjs-admin
-    steps:
-      - yarn-install
-
-  test-unit:
-    executor: defaults_typescript
-    working_directory: ~/nestjs-admin
-    environment:
-      NODE_ENV: test
+  run-tests:
+    parameters:
+      env:
+        type: string
     steps:
       - checkout
       - attach_workspace:
           at: ~/nestjs-admin
       - run:
+          name: Prepare environment
+          command: rm -f .env.test && cp << parameters.env >> .env.test
+      - run:
           name: Run migrations
-          command: cd exampleApp && yarn test:migration:run
+          command: yarn test:schema:sync
       - run:
           name: Run tests
           command: yarn test
 
-  test-library:
-    executor: defaults_typescript
+jobs:
+  yarn-install-back:
+    executor: node_postgres
+    working_directory: ~/nestjs-admin
+    steps:
+      - yarn-install
+
+  test-unit-postgres:
+    executor: node_postgres
     working_directory: ~/nestjs-admin
     environment:
-      NODE_ENV: prod
+      NODE_ENV: test
+    steps:
+      - run-tests:
+          env: .env.postgres
+
+  test-unit-mysql:
+    executor: node_mysql
+    working_directory: ~/nestjs-admin
+    environment:
+      NODE_ENV: test
+    steps:
+      - run-tests:
+          env: .env.mysql
+
+  deploy-docs:
+    docker:
+      - image: circleci/node:10.16.3
+
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/nestjs-admin
-      - generate-example-project
       - run:
-          name: Start the example project
-          command: cd exampleApp/test-project && yarn start
+          name: Deploying docs to GitHub Pages
+          command: |
+            git config --global user.email "williamdclt@users.noreply.github.com"
+            git config --global user.name "William Duclot"
+            echo "machine github.com login williamdclt password $GITHUB_TOKEN" > ~/.netrc
+            cd website && yarn install && GIT_USER=williamdclt yarn run publish-gh-pages
 
 workflows:
   version: 2
   stack:
     jobs:
       - yarn-install-back
-      - test-unit:
+      - test-unit-postgres:
           requires:
             - yarn-install-back
-      - test-library:
+      - test-unit-mysql:
           requires:
             - yarn-install-back
+      - deploy-docs:
+          requires:
+            - test-unit-postgres
+            - test-unit-mysql
+          filters:
+            branches:
+              only:
+                - master

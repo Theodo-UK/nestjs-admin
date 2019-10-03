@@ -18,10 +18,12 @@
     "prepublishOnly": "yarn build",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "postbuild": "cp -r src/public dist/src/public",
-    "test:unit": "env TZ=UTC ts-node node_modules/.bin/jest * --maxWorkers=4 && cd exampleApp && yarn test:unit",
+    "test:unit": ". ./.env.test && env TZ=UTC ts-node node_modules/.bin/jest * --maxWorkers=4",
     "test:lint": "tslint -p tsconfig.json -c tslint.json",
     "test:type": "tsc --noEmit",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest",
+    "test:schema:sync": ". ./.env.test && ts-node node_modules/.bin/typeorm schema:sync",
+    "test:schema:drop": ". ./.env.test && ts-node node_modules/.bin/typeorm schema:drop",
     "test": "yarn test:lint && yarn test:type && yarn test:unit"
   },
   "peerDependencies": {
@@ -58,6 +60,7 @@
     "@types/inquirer": "^6.5.0",
     "@types/jest": "^24.0.18",
     "@types/jsdom": "^12.2.4",
+    "@types/lodash": "^4.14.139",
     "@types/node": "11.13.4",
     "@types/nunjucks": "^3.1.1",
     "@types/passport": "^1.0.1",
@@ -67,6 +70,7 @@
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
     "jsdom": "^15.1.1",
+    "mysql": "^2.17.1",
     "pg": "^7.12.1",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^3.0.0",
@@ -76,7 +80,7 @@
     "ts-node": "8.1.0",
     "tsc-watch": "2.2.1",
     "tslint": "^5.20.0",
-    "typeorm": "^0.2.18",
+    "typeorm": "^0.2.19",
     "typescript": "3.5.1"
   },
   "jest": {

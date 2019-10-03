@@ -8,7 +8,7 @@ import AdminEntity from '../adminEntity'
 import * as request from 'supertest'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import { Group } from '../../exampleApp/src/user/group.entity'
-import { TestAuthModule } from '../../exampleApp/test/testAuth/testAuth.module'
+import { TestAuthModule } from './utils/testAuth.module'
 import { JSDOM } from 'jsdom'
 import { InvalidAdminRegistration } from '../exceptions/invalidAdminRegistration.exception'
 
@@ -34,7 +34,7 @@ describe('adminSite.register', () => {
   })
   it('should register an entity', async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot({ entities: [Group] }), RegisteredEntityModule],
+      imports: [TestTypeOrmModule.forRoot(), RegisteredEntityModule],
     }).compile()
     const app = module.createNestApplication()
     await app.init()
@@ -61,7 +61,7 @@ describe('adminSite.register', () => {
       }
     }
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot({ entities: [Group] }), RegisteredAdminEntityModule],
+      imports: [TestTypeOrmModule.forRoot(), RegisteredAdminEntityModule],
     }).compile()
     const app = module.createNestApplication()
     await app.init()

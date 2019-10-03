@@ -15,9 +15,9 @@ import { MemoryStore } from 'express-session'
 import { DeepPartial, EntityManager } from 'typeorm'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 import DefaultAdminModule from '../defaultAdmin.module'
-import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey'
+import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
 import { changeUrl } from '../utils/urls'
-import { TestAuthModule } from '../../exampleApp/test/testAuth/testAuth.module'
+import { TestAuthModule } from './utils/testAuth.module'
 
 describe('AdminCoreModuleFactory', () => {
   let app: INestApplication
@@ -26,7 +26,7 @@ describe('AdminCoreModuleFactory', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestTypeOrmModule.forRoot({ entities: [EntityWithCompositePrimaryKey] }),
+        TestTypeOrmModule.forRoot(),
         TestAuthModule,
         AdminCoreModuleFactory.createAdminCoreModule({}),
       ],

@@ -24,7 +24,7 @@ import { AdminFilter } from './admin.filter'
 import { injectionTokens } from './tokens'
 import { Request } from 'express'
 import { getPrimaryKeyValue } from './utils/entity'
-import { displayName } from './admin.filters'
+import { displayName, prettyPrint } from './admin.filters'
 
 const resultsPerPage = 25
 
@@ -145,7 +145,7 @@ export class DefaultAdminController {
 
     request.flash(
       'messages',
-      `Successfully created ${metadata.name}: ${displayName(createdEntity, metadata)}`,
+      `Successfully created ${prettyPrint(metadata.name)}: ${displayName(createdEntity, metadata)}`,
     )
     return response.redirect(urls.changeUrl(section, metadata, createdEntity))
   }
@@ -187,7 +187,7 @@ export class DefaultAdminController {
     )
     request.flash(
       'messages',
-      `Successfully updated ${metadata.name}: ${displayName(entity, metadata)}`,
+      `Successfully updated ${prettyPrint(metadata.name)}: ${displayName(entity, metadata)}`,
     )
     return response.redirect(urls.changeUrl(section, metadata, updatedEntity))
   }
@@ -202,7 +202,10 @@ export class DefaultAdminController {
     const entityDisplayName = displayName(entity, metadata)
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     await repository.remove(entity)
-    request.flash('messages', `Successfully deleted ${metadata.name}: ${entityDisplayName}`)
+    request.flash(
+      'messages',
+      `Successfully deleted ${prettyPrint(metadata.name)}: ${entityDisplayName}`,
+    )
     return response.redirect(urls.changeListUrl(section, metadata))
   }
 }
