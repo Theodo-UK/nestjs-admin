@@ -1,7 +1,7 @@
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 import AdminUserEntity from './adminUser.entity'
-import { AdminUserService } from './adminUser.service'
+import { AdminUserService, AdminUserServiceConstructor } from './adminUser.service'
 import { LocalStrategy } from './local.strategy'
 import { AdminUserController } from './adminUser.controller'
 import { AdminCoreModuleFactory } from './adminCore.module'
@@ -11,7 +11,7 @@ const defaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 export interface AdminAuthModuleConfig {
   adminCoreModule?: any
-  adminAuthInterface?: any
+  adminAuthInterface?: AdminUserServiceConstructor
 }
 
 @Module({

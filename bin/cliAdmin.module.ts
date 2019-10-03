@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { getConnectionOptions } from 'typeorm'
 import AdminUser from '../src/adminUser.entity'
-import { AdminAuthModuleFactory } from 'src'
+import { AdminAuthModuleFactory } from '../src/adminAuth.module'
 
 class AdminConnectionException extends Error {
   constructor(msg) {

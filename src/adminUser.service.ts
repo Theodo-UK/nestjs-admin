@@ -14,12 +14,15 @@ import { AdminUserValidationException } from './exceptions/adminUserValidation.e
 
 type AdminUserWithoutPassword = Omit<AdminUser, 'password'>
 
-export interface AdminUserServiceInterface extends EntitySubscriberInterface<AdminUser> {
+export interface AdminUserServiceInterface {
   validateCredentials(email: string, pass: string): Promise<AdminUserWithoutPassword | null>
 }
 
+export type AdminUserServiceConstructor = new (...args) => AdminUserServiceInterface
+
 @Injectable()
-export class AdminUserService implements AdminUserServiceInterface {
+export class AdminUserService
+  implements AdminUserServiceInterface, EntitySubscriberInterface<AdminUser> {
   constructor(
     @InjectConnection() readonly connection: Connection,
     @InjectRepository(AdminUser)
