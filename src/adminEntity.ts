@@ -125,7 +125,7 @@ abstract class AdminEntity {
     searchString: string,
   ): Promise<{ entities: unknown[]; count: number }> {
     const alias = this.name
-    let query = this.repository.createQueryBuilder(alias)
+    let query = this.adminSite.entityManager.createQueryBuilder(this.entity, alias)
     query = this.buildPaginationQueryOptions(query, page)
     query = this.buildSearchQueryOptions(query, alias, searchString)
     const [entities, count] = await query.getManyAndCount()

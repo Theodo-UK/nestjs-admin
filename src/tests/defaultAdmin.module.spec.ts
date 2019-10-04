@@ -1,26 +1,29 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
 import DefaultAdminSite from '../adminSite'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { DefaultAdminModule } from '..'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
+import { TestApplication, createAndStartTestApp } from './utils/testApp'
 
 describe('DefaultAdminModule', () => {
-  let app: INestApplication
+  let app: TestApplication
+
+  beforeAll(async () => {
+    app = await createAndStartTestApp({ adminModule: DefaultAdminModule })
+  })
+
+  beforeEach(async () => {
+    await app.startTest()
+  })
+
+  afterEach(async () => {
+    await app.stopTest()
+  })
 
   afterAll(async () => {
     await app.close()
   })
 
   it('should return the default admin site and environment', async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot(), DefaultAdminModule],
-    }).compile()
-
-    app = module.createNestApplication()
-    await app.init()
-
     const adminSite = app.get(injectionTokens.ADMIN_SITE)
     expect(adminSite).toBeInstanceOf(DefaultAdminSite)
 

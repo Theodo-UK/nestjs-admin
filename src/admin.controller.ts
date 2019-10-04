@@ -11,7 +11,7 @@ import {
   UseFilters,
   Req,
 } from '@nestjs/common'
-import { Repository, EntityMetadata } from './utils/typeormProxy'
+import { EntityMetadata, EntityManager } from 'typeorm'
 import * as express from 'express'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminSection from './adminSection'
@@ -35,7 +35,6 @@ type AdminModelsQuery = {
 type AdminModelsResult = {
   section: DefaultAdminSection
   adminEntity: AdminEntity
-  repository: Repository<unknown>
   metadata: EntityMetadata
   entity: object
 }
@@ -49,12 +48,13 @@ export class DefaultAdminController {
     private adminSite: DefaultAdminSite,
     @Inject(injectionTokens.ADMIN_ENVIRONMENT)
     private env: DefaultAdminNunjucksEnvironment,
+    private entityManager: EntityManager,
   ) {}
 
-  async getEntityWithRelations(repository: Repository<unknown>, primaryKey: any) {
-    const metadata = repository.metadata
+  async getEntityWithRelations(adminEntity: AdminEntity, primaryKey: any) {
+    const metadata = adminEntity.metadata
     const relations = metadata.relations.map(r => r.propertyName)
-    return (await repository.findOneOrFail(primaryKey, {
+    return (await this.entityManager.findOneOrFail(adminEntity.entity, primaryKey, {
       relations,
     })) as object
   }
@@ -66,11 +66,10 @@ export class DefaultAdminController {
       result.section = this.adminSite.getSection(query.sectionName)
       if (query.entityName) {
         result.adminEntity = result.section.getAdminEntity(query.entityName)
-        result.repository = result.adminEntity.repository
         result.metadata = result.adminEntity.metadata
         if (query.primaryKey) {
           const decodedPrimaryKey = JSON.parse(decodeURIComponent(query.primaryKey))
-          result.entity = await this.getEntityWithRelations(result.repository, decodedPrimaryKey)
+          result.entity = await this.getEntityWithRelations(result.adminEntity, decodedPrimaryKey)
         }
       }
     }
@@ -92,7 +91,6 @@ export class DefaultAdminController {
   ) {
     const { section, metadata, adminEntity } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
-
     const { entities, count } = await this.adminSite.getEntityList(adminEntity, page, searchString)
 
     adminEntity.validateListConfig()
@@ -121,7 +119,7 @@ export class DefaultAdminController {
     @Param() params: AdminModelsQuery,
     @Response() response: express.Response,
   ) {
-    const { section, repository, metadata } = await this.getAdminModels(params)
+    const { section, metadata } = await this.getAdminModels(params)
 
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     let entityToBePersisted = await this.adminSite.cleanValues(createEntityDto, metadata)
@@ -132,7 +130,7 @@ export class DefaultAdminController {
       entityToBePersisted = Object.assign(new metadata.target(), entityToBePersisted)
     }
 
-    const createdEntity = await repository.save(entityToBePersisted)
+    const createdEntity = await this.entityManager.save(entityToBePersisted)
 
     request.flash(
       'messages',
@@ -154,7 +152,7 @@ export class DefaultAdminController {
     @Param() params: AdminModelsQuery,
     @Response() response: express.Response,
   ) {
-    const { section, repository, metadata, entity } = await this.getAdminModels(params)
+    const { section, adminEntity, metadata, entity } = await this.getAdminModels(params)
 
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
     const updatedValues = await this.adminSite.cleanValues(updateEntityDto, metadata)
@@ -165,15 +163,16 @@ export class DefaultAdminController {
 
     // We first have to update the primary key, because `save()` would create a new entity.
     // We don't update all fields with `update()`, because it doesn't cascade or handle relations.
-    await repository.update(
+    await this.entityManager.update(
+      adminEntity.entity,
       metadata.getEntityIdMap(entity),
       metadata.getEntityIdMap(entityToBePersisted),
     )
     // Primary key updated, we can safely update all the other fields
-    await repository.save(entityToBePersisted)
+    await this.entityManager.save(entityToBePersisted)
 
     const updatedEntity = await this.getEntityWithRelations(
-      repository,
+      adminEntity,
       getPrimaryKeyValue(metadata, entityToBePersisted),
     )
     request.flash(
@@ -189,10 +188,10 @@ export class DefaultAdminController {
     @Param() params: AdminModelsQuery,
     @Response() response: express.Response,
   ) {
-    const { section, repository, metadata, entity } = await this.getAdminModels(params)
+    const { section, metadata, entity } = await this.getAdminModels(params)
     const entityDisplayName = displayName(entity, metadata)
     // @debt architecture "This should be entirely moved to the adminSite, so that it can be overriden by the custom adminSite of a user"
-    await repository.remove(entity)
+    await this.entityManager.remove(entity)
     request.flash(
       'messages',
       `Successfully deleted ${prettyPrint(metadata.name)}: ${entityDisplayName}`,

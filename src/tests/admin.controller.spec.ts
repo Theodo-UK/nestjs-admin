@@ -1,31 +1,28 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
 import * as request from 'supertest'
-import { AdminCoreModuleFactory } from '../adminCore.module'
+import { EntityManager } from 'typeorm'
 import DefaultAdminSite from '../adminSite'
 import { injectionTokens } from '../tokens'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
 import { changeUrl } from '../utils/urls'
-import { TestAuthModule } from './utils/testAuth.module'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 describe('AdminCoreModuleFactory', () => {
-  let app: INestApplication
+  let app: TestApplication
   let adminSite: DefaultAdminSite
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TestTypeOrmModule.forRoot(),
-        TestAuthModule,
-        AdminCoreModuleFactory.createAdminCoreModule({}),
-      ],
-    }).compile()
-    app = module.createNestApplication()
-    await app.init()
+    app = await createAndStartTestApp()
 
     adminSite = app.get(injectionTokens.ADMIN_SITE)
     adminSite.register('test', EntityWithCompositePrimaryKey)
+  })
+
+  beforeEach(async () => {
+    await app.startTest()
+  })
+
+  afterEach(async () => {
+    await app.stopTest()
   })
 
   afterAll(async () => {
@@ -34,9 +31,10 @@ describe('AdminCoreModuleFactory', () => {
 
   it('can display a form for an entity with composite primary key', async () => {
     const metadata = adminSite.getEntityMetadata(EntityWithCompositePrimaryKey)
+    const entityManager = app.get(EntityManager)
     expect(metadata.hasMultiplePrimaryKeys).toBe(true)
 
-    const entity = await adminSite
+    const entity = await entityManager
       .getRepository(EntityWithCompositePrimaryKey)
       .save(new EntityWithCompositePrimaryKey())
 
@@ -48,10 +46,10 @@ describe('AdminCoreModuleFactory', () => {
 
   it('can save a change for an entity with composite primary key', async () => {
     const metadata = adminSite.getEntityMetadata(EntityWithCompositePrimaryKey)
-    const repository = adminSite.getRepository(EntityWithCompositePrimaryKey)
     expect(metadata.hasMultiplePrimaryKeys).toBe(true)
 
-    const entity = await repository.save(new EntityWithCompositePrimaryKey())
+    const entity = await adminSite.entityManager.save(new EntityWithCompositePrimaryKey())
+    expect(await adminSite.entityManager.count(EntityWithCompositePrimaryKey)).toBe(1)
 
     const server = app.getHttpServer()
     const newData = { ...entity, country: 'France' }
@@ -61,9 +59,12 @@ describe('AdminCoreModuleFactory', () => {
 
     expect(res.status).toBe(302)
 
-    const updatedEntity: EntityWithCompositePrimaryKey = (await repository.findOne({
-      id: entity.id,
-    })) as any
+    const updatedEntity: EntityWithCompositePrimaryKey = (await adminSite.entityManager.findOne(
+      EntityWithCompositePrimaryKey,
+      {
+        id: entity.id,
+      },
+    )) as any
     expect(updatedEntity.country).toEqual('France')
   })
 })
