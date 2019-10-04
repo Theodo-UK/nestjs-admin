@@ -1,68 +1,45 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication, Module } from '@nestjs/common'
 import * as request from 'supertest'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
-import { TestAuthModule } from './utils/testAuth.module'
-import { createTestUser } from './utils/entityUtils'
-import { AdminCoreModuleFactory } from '../adminCore.module'
+import { getEntityManagerToken } from '@nestjs/typeorm'
+import { EntityManager } from 'typeorm'
+import * as dateFilter from 'nunjucks-date-filter'
 import { JSDOM } from 'jsdom'
+import { createTestUser } from './utils/entityUtils'
 import { Agency } from '../../exampleApp/src/user/agency.entity'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { Group } from '../../exampleApp/src/user/group.entity'
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import * as dateFilter from 'nunjucks-date-filter'
-import DefaultAdminSite from '../adminSite'
 import AdminEntity from '../adminEntity'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 export class UserAdmin extends AdminEntity {
   entity = User
   listDisplay = ['id', 'firstName', 'lastName', 'email', 'createdDate']
 }
 
-const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
-@Module({
-  imports: [DefaultCoreModule, TypeOrmModule.forFeature([User, Agency, Group])],
-})
-// @ts-ignore
-class RegisteredEntityModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('user', UserAdmin)
-    adminSite.register('agency', Agency)
-    adminSite.register('group', Group)
-  }
-}
-
 describe('changelist', () => {
-  let app: INestApplication
+  let app: TestApplication
   let document: Document
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TestTypeOrmModule.forRoot(),
-        TestAuthModule,
-        RegisteredEntityModule,
-        DefaultCoreModule,
-      ],
-    }).compile()
+    app = await createAndStartTestApp({ registerEntities: [UserAdmin, Agency, Group] })
+  })
 
-    app = module.createNestApplication()
-    await app.init()
+  beforeEach(async () => {
+    await app.startTest()
+    const dom = new JSDOM()
+    document = dom.window.document
+  })
+
+  afterEach(async () => {
+    await app.stopTest()
   })
 
   afterAll(async () => {
     await app.close()
   })
 
-  beforeEach(() => {
-    const dom = new JSDOM()
-    document = dom.window.document
-  })
-
   it('can show the columns defined in listDisplay', async () => {
     const server = app.getHttpServer()
-    const res = await request(server).get(`/admin/user/user`)
+    const res = await request(server).get(`/admin/test/user`)
 
     expect(res.status).toBe(200)
 
@@ -75,7 +52,7 @@ describe('changelist', () => {
 
   it('does not show a table when listDisplay is not defined', async () => {
     const server = app.getHttpServer()
-    const res = await request(server).get(`/admin/agency/agency`)
+    const res = await request(server).get(`/admin/test/agency`)
 
     expect(res.status).toBe(200)
 
@@ -108,10 +85,10 @@ describe('changelist', () => {
     const userData = createTestUser({
       firstName: 'Max',
     })
-    const userRepository: Repository<User> = app.get(getRepositoryToken(User))
-    const user = await userRepository.save(userData)
+    const entityManager: EntityManager = app.get(getEntityManagerToken())
+    const user = await entityManager.save(userData)
 
-    const res = await request(server).get(`/admin/user/user`)
+    const res = await request(server).get(`/admin/test/user`)
 
     expect(res.status).toBe(200)
 
