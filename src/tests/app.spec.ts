@@ -1,6 +1,5 @@
-import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken, getEntityManagerToken } from '@nestjs/typeorm'
-import { Repository, EntityManager } from 'typeorm'
+import { getEntityManagerToken } from '@nestjs/typeorm'
+import { EntityManager } from 'typeorm'
 import * as request from 'supertest'
 import { displayName } from '../admin.filters'
 import { User } from '../../exampleApp/src/user/user.entity'

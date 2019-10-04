@@ -1,4 +1,4 @@
-import { EntityManager } from 'typeorm'
+import { EntityManager } from '../utils/typeormProxy'
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
 import { createTestAdminUser } from './utils/entityUtils'

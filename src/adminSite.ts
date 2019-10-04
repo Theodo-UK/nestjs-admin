@@ -77,6 +77,10 @@ class DefaultAdminSite {
     }
   }
 
+  async getEntityList(adminEntity: AdminEntity, page: number, searchSting: string) {
+    return await adminEntity.getEntityList(page, searchSting)
+  }
+
   getSectionList() {
     /**
      * @debt quality "Rely on implementation detail"

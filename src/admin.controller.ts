@@ -26,16 +26,6 @@ import { Request } from 'express'
 import { getPrimaryKeyValue } from './utils/entity'
 import { displayName, prettyPrint } from './admin.filters'
 
-const resultsPerPage = 25
-
-function getPaginationQueryOptions(page: number) {
-  // @debt architecture "williamd: this could be made configurable on a per-section basis"
-  return {
-    skip: resultsPerPage * (page - 1),
-    take: resultsPerPage,
-  }
-}
-
 type AdminModelsQuery = {
   sectionName?: string
   entityName?: string
@@ -97,15 +87,14 @@ export class DefaultAdminController {
     @Req() request: Request,
     @Param() params: AdminModelsQuery,
     @Query('page') pageParam: string = '1',
+    @Query('search') searchString: string,
   ) {
     const { section, metadata, adminEntity } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
-    const [entities, count] = await this.entityManager.findAndCount(
-      adminEntity.entity,
-      getPaginationQueryOptions(page),
-    )
+    const { entities, count } = await this.adminSite.getEntityList(adminEntity, page, searchString)
 
     adminEntity.validateListConfig()
+    request.flash('searchString', searchString)
 
     return await this.env.render('changelist.njk', {
       request,
@@ -114,7 +103,6 @@ export class DefaultAdminController {
       count,
       metadata,
       page,
-      resultsPerPage,
       adminEntity,
     })
   }

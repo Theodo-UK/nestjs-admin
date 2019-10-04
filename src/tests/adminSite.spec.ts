@@ -1,4 +1,4 @@
-import { getConnection } from 'typeorm'
+import { getConnection } from '../utils/typeormProxy'
 import AdminEntity from '../adminEntity'
 import * as request from 'supertest'
 import { Group } from '../../exampleApp/src/user/group.entity'
