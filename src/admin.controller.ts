@@ -94,6 +94,7 @@ export class DefaultAdminController {
     const { entities, count } = await this.adminSite.getEntityList(adminEntity, page, searchString)
 
     adminEntity.validateListConfig()
+    request.flash('searchString', searchString)
 
     return await this.env.render('changelist.njk', {
       request,

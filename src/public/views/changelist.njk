@@ -27,7 +27,14 @@
           <div class="col-6">
             <form method="GET">
               <div class="search-box">
-                <input type="text" class="form-control" name="search" id="search" placeholder="Search">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="search"
+                  id="search"
+                  placeholder="Search"
+                  {% if flash.searchString %}value="{{ flash.searchString }}"{% endif %}
+                />
                 <input type="submit" class="btn btn-primary" value="Search">
               </div>
             </form>
