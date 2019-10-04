@@ -1,7 +1,7 @@
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
 import { EntityWithRequiredFields } from './entities/entityWithRequiredFields.entity'
-import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 describe('adminSite.register', () => {
   let document: Document

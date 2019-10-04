@@ -4,7 +4,7 @@ import * as request from 'supertest'
 import { Group } from '../../exampleApp/src/user/group.entity'
 import { JSDOM } from 'jsdom'
 import { InvalidAdminRegistration } from '../exceptions/invalidAdminRegistration.exception'
-import { createTestingModule, createAndStartTestApp } from './utils/setup'
+import { createTestingModule, createAndStartTestApp } from './utils/testApp'
 
 describe('adminSite.register', () => {
   let document: Document

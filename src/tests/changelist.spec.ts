@@ -1,14 +1,14 @@
 import * as request from 'supertest'
-import { createTestUser } from './utils/entityUtils'
+import { getEntityManagerToken } from '@nestjs/typeorm'
+import { EntityManager } from 'typeorm'
+import * as dateFilter from 'nunjucks-date-filter'
 import { JSDOM } from 'jsdom'
+import { createTestUser } from './utils/entityUtils'
 import { Agency } from '../../exampleApp/src/user/agency.entity'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { Group } from '../../exampleApp/src/user/group.entity'
-import { getRepositoryToken, getEntityManagerToken } from '@nestjs/typeorm'
-import { Repository, EntityManager } from 'typeorm'
-import * as dateFilter from 'nunjucks-date-filter'
 import AdminEntity from '../adminEntity'
-import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 export class UserAdmin extends AdminEntity {
   entity = User

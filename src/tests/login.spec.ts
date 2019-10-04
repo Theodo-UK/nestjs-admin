@@ -3,7 +3,7 @@ import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
 import { createTestAdminUser } from './utils/entityUtils'
 import AdminUser from '../adminUser.entity'
-import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 import { AdminAuthModuleFactory } from '../adminAuth.module'
 
 describe('login', () => {

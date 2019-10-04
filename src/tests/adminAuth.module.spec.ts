@@ -6,7 +6,7 @@ import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import { TestTypeOrmModule } from './utils/testTypeOrmModule'
-import { createTestApp, createTestingModule, createAndStartTestApp } from './utils/setup'
+import { createTestApp, createTestingModule, createAndStartTestApp } from './utils/testApp'
 
 describe('AdminAuthModuleFactory', () => {
   it('should return the default admin site and environment when passed no params', async () => {

@@ -5,7 +5,7 @@ import * as request from 'supertest'
 import { displayName } from '../admin.filters'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { createTestUser } from './utils/entityUtils'
-import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 describe('AppController', () => {
   let app: TestApplication

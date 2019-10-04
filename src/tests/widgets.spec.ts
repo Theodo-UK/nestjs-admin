@@ -1,7 +1,7 @@
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
 import { User } from '../../exampleApp/src/user/user.entity'
-import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 describe('widgets', () => {
   let app: TestApplication

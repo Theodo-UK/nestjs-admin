@@ -9,7 +9,7 @@ import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { MemoryStore } from 'express-session'
 import { DeepPartial } from 'typeorm'
-import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 describe('AdminCoreModuleFactory', () => {
   let app: TestApplication

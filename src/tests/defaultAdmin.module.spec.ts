@@ -2,7 +2,7 @@ import DefaultAdminSite from '../adminSite'
 import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { DefaultAdminModule } from '..'
-import { TestApplication, createAndStartTestApp } from './utils/setup'
+import { TestApplication, createAndStartTestApp } from './utils/testApp'
 
 describe('DefaultAdminModule', () => {
   let app: TestApplication

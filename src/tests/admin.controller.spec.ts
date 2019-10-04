@@ -4,7 +4,7 @@ import { injectionTokens } from '../tokens'
 import { EntityManager } from 'typeorm'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
 import { changeUrl } from '../utils/urls'
-import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 describe('AdminCoreModuleFactory', () => {
   let app: TestApplication

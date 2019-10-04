@@ -1,5 +1,5 @@
 import * as request from 'supertest'
-import { createAndStartTestApp, TestApplication } from './utils/setup'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 import { User } from '../../exampleApp/src/user/user.entity'
 
 const middlewareMock = (req, res, next) => {
