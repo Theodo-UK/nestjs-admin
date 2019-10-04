@@ -15,10 +15,10 @@
   <div class="admin-changelist__list-actions">
     {% if adminEntity.listActions %}
       {% for action in adminEntity.listActions %}
-          <form method="POST">
-            <input type="hidden" name='listActionIndex' value={{ loop.index0 }}>
-            <button class="btn btn-secondary">{{ action.label }}</button>
-          </form>
+        <form method="POST">
+          <input type="hidden" name="listActionIndex" value="{{ loop.index0 }}">
+          <button class="btn btn-secondary">{{ action.label }}</button>
+        </form>
       {% endfor %}
     {% endif %}
     <a href="{{ 'add' | adminUrl(section, metadata, entity) }}">
