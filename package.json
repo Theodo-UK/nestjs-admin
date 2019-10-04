@@ -18,7 +18,7 @@
     "prepublishOnly": "yarn build",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "postbuild": "cp -r src/public dist/src/public",
-    "jest": ". ./.env.test && node --inspect=9339 node_modules/.bin/jest",
+    "jest": ". ./.env.test && node_modules/.bin/jest",
     "test:unit": "yarn jest --maxWorkers=4",
     "test:lint": "tslint -p tsconfig.json -c tslint.json",
     "test:type": "tsc --noEmit",

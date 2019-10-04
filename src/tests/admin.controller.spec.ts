@@ -1,7 +1,7 @@
 import * as request from 'supertest'
-import { EntityManager } from 'typeorm'
 import DefaultAdminSite from '../adminSite'
 import { injectionTokens } from '../tokens'
+import { EntityManager } from 'typeorm'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
 import { changeUrl } from '../utils/urls'
 import { createAndStartTestApp, TestApplication } from './utils/testApp'
