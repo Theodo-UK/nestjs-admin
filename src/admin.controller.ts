@@ -208,4 +208,19 @@ export class DefaultAdminController {
     )
     return response.redirect(urls.changeListUrl(section, metadata))
   }
+
+  @Post(':sectionName/:entityName')
+  async custombutton(
+    @Req() request: Request,
+    @Body() body: { listActionIndex: number },
+    @Param() params: AdminModelsQuery,
+    @Response() response: express.Response,
+  ) {
+    const { adminEntity, section, metadata } = await this.getAdminModels(params)
+
+    const index = body.listActionIndex
+    adminEntity.listActions[index].action(request, response)
+
+    return response.redirect(urls.changeListUrl(section, metadata))
+  }
 }
