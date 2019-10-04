@@ -1,5 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { INestApplication } from '@nestjs/common'
 import { AdminCoreModuleFactory } from '../adminCore.module'
 import DefaultAdminSite from '../adminSite'
 import {
@@ -11,29 +9,24 @@ import { injectionTokens } from '../tokens'
 import DefaultAdminNunjucksEnvironment from '../admin.environment'
 import { MemoryStore } from 'express-session'
 import { DeepPartial } from 'typeorm'
-import { TestTypeOrmModule } from './utils/testTypeOrmModule'
+import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 describe('AdminCoreModuleFactory', () => {
-  let app: INestApplication
-
-  afterEach(async () => {
-    await app.close()
-  })
+  let app: TestApplication
 
   it('should return the default admin site and environment when passed no params', async () => {
     const CustomAdminCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot(), CustomAdminCoreModule],
-    }).compile()
-
-    app = module.createNestApplication()
-    await app.init()
+    app = await createAndStartTestApp({ adminCoreModule: CustomAdminCoreModule })
+    await app.startTest()
 
     const adminSite = app.get(injectionTokens.ADMIN_SITE)
     expect(adminSite).toBeInstanceOf(DefaultAdminSite)
 
     const adminEnv = app.get(injectionTokens.ADMIN_ENVIRONMENT)
     expect(adminEnv).toBeInstanceOf(DefaultAdminNunjucksEnvironment)
+
+    await app.stopTest()
+    await app.close()
   })
 
   it('should allow to configure the admin core site and controller', async () => {
@@ -52,12 +45,8 @@ describe('AdminCoreModuleFactory', () => {
       adminEnvironment: CustomAdminEnvironment,
       appConfig,
     })
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TestTypeOrmModule.forRoot(), CustomAdminCoreModule],
-    }).compile()
-
-    app = module.createNestApplication()
-    await app.init()
+    app = await createAndStartTestApp({ adminCoreModule: CustomAdminCoreModule })
+    await app.startTest()
 
     expect(app.get(CustomAdminController)).toBeInstanceOf(CustomAdminController)
     expect(() => app.get(DefaultAdminController)).toThrow()
@@ -74,5 +63,8 @@ describe('AdminCoreModuleFactory', () => {
 
     const appConfiguration = app.get(injectionTokens.APP_CONFIG)
     expect(appConfiguration).toMatchObject({ ...defaultAdminConfigurationOptions, ...appConfig })
+
+    await app.stopTest()
+    await app.close()
   })
 })

@@ -239,7 +239,6 @@ export async function getRelationOptions(
   if (!isClass(relation.type)) {
     throw new Error(`${relation.type} is not an entity, it cannot be used as relation`)
   }
-  const repository = adminSite.getRepository(relation.type)
-  const options = await repository.find()
+  const options = await adminSite.entityManager.find(relation.type)
   cb(null, options)
 }
