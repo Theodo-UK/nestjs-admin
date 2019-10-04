@@ -1,10 +1,12 @@
 /* your custom css */
 
+/* Restrict home logo size */
 .homeLogo {
   width: 70%;
   max-width: 700px;
 }
 
+/* Increase size of tagline on home page */
 .homeTagline {
   font-size: 20px;
   font-weight: 500;
@@ -14,10 +16,12 @@
   padding: 0;
 }
 
+/* Center-align home page section titles */
 .container .wrapper .imageAlignSide h2 {
   text-align: center;
 }
 
+/* Increase width of search bar on mobile */
 .navSearchWrapper {
   width: 75%;
 }
