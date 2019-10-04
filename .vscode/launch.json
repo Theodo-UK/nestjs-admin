@@ -8,5 +8,12 @@
       "port": 9229,
       "restart": true
     },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Tests",
+      "port": 9339,
+      "restart": true
+    }
   ]
 }

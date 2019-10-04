@@ -98,3 +98,11 @@ fields = ['firstName', 'lastName', 'createdDate', 'gender']
 ![image](assets/AdminEntity.fields.jpeg)
 
 - If you don't set `fields`, the create and update forms will display all properties of the entity
+
+### AdminEntity.resultsPerPage
+
+Configures the number of entities that will be displayed on each page on the list page. Defaults to `25`.
+
+```typescript
+resultsPerPage = 25
+```

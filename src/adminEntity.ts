@@ -1,11 +1,9 @@
-import { Connection, EntityMetadata } from 'typeorm'
+import { Connection, EntityMetadata, SelectQueryBuilder, Brackets } from './utils/typeormProxy'
 import { EntityType } from './types'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
-import { InvalidSearchFieldsException } from './exceptions/invalidSearchFields.exception'
 import { InvalidDisplayFieldsException } from './exceptions/invalidDisplayFields.exception'
-import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exception'
 import { WidgetConstructor } from './widgets/widget.interface'
 
 abstract class AdminEntity {
@@ -20,6 +18,7 @@ abstract class AdminEntity {
    * Fields of the entity that will be searchable on the list page
    */
   searchFields: string[] | null = null
+  resultsPerPage: number = 25
   widgets: { [propertyName: string]: WidgetConstructor } = {}
 
   constructor(
@@ -91,6 +90,47 @@ abstract class AdminEntity {
     validateFieldsExist(this, 'searchFields', this.metadata)
     validateFieldsAreNotRelation(this, 'searchFields', this.metadata)
   }
+
+  protected buildSearchQueryOptions(
+    query: SelectQueryBuilder<unknown>,
+    alias: string,
+    searchParam: string,
+  ) {
+    if (searchParam && this.searchFields) {
+      const searchArray = searchParam.split(' ')
+      searchArray.forEach((searchTerm, searchTermIndex) =>
+        query.andWhere(
+          new Brackets((qb: SelectQueryBuilder<unknown>) => {
+            this.searchFields.forEach((field, fieldIndex) => {
+              const paramString = `searchTerm${searchTermIndex}Field${fieldIndex}`
+              qb.orWhere(`${alias}.${field} LIKE :${paramString}`, {
+                [paramString]: `%${searchTerm}%`,
+              })
+            })
+            return qb
+          }),
+        ),
+      )
+    }
+    return query
+  }
+
+  protected buildPaginationQueryOptions(query: SelectQueryBuilder<unknown>, page: number) {
+    query.skip(this.resultsPerPage * (page - 1)).take(this.resultsPerPage)
+    return query
+  }
+
+  async getEntityList(
+    page: number,
+    searchString: string,
+  ): Promise<{ entities: unknown[]; count: number }> {
+    const alias = this.name
+    let query = this.adminSite.entityManager.createQueryBuilder(this.entity, alias)
+    query = this.buildPaginationQueryOptions(query, page)
+    query = this.buildSearchQueryOptions(query, alias, searchString)
+    const [entities, count] = await query.getManyAndCount()
+    return { entities, count }
+  }
 }
 
 function validateFieldsExist(
@@ -126,22 +166,21 @@ function validateFieldsAreNotRelation(
       )
     }
   })
-    if (!this.listDisplay) return
-    this.listDisplay.forEach(field => {
-      if (!this.metadata.columns.map(column => column.propertyName).includes(field)) {
-        throw new InvalidDisplayFieldsException(
-          `Property ${field} invalid in listDisplay: does not exist on ${this.name}.`,
-        )
-      }
-      // We do not support displaying relations.
-      const relation = this.metadata.findRelationWithPropertyPath(field)
-      if (relation) {
-        throw new InvalidDisplayFieldsException(
-          `Property ${field} on ${this.name} invalid in listDisplay: relations are not supported for displaying.`,
-        )
-      }
-    })
-  }
+  if (!adminEntity.listDisplay) return
+  adminEntity.listDisplay.forEach(field => {
+    if (!metadata.columns.map(column => column.propertyName).includes(field)) {
+      throw new InvalidDisplayFieldsException(
+        `Property ${field} invalid in listDisplay: does not exist on ${metadata.name}.`,
+      )
+    }
+    // We do not support displaying relations.
+    const relation = metadata.findRelationWithPropertyPath(field)
+    if (relation) {
+      throw new InvalidDisplayFieldsException(
+        `Property ${field} on ${metadata.name} invalid in listDisplay: relations are not supported for displaying.`,
+      )
+    }
+  })
 }
 
 export default AdminEntity

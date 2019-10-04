@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, PrimaryColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, PrimaryColumn } from '../../utils/typeormProxy'
 
 @Entity()
 export class EntityWithCompositePrimaryKey extends Object {

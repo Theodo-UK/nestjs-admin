@@ -78,7 +78,7 @@
       </table>
 
       <ul class="pagination">
-        {% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
+        {% set paginationRanges = getPaginationRanges(page, adminEntity.resultsPerPage, count) %}
         {% for pageRange in paginationRanges %}
           {% for pageNumber in pageRange %}
             {% set active = page == pageNumber %}
