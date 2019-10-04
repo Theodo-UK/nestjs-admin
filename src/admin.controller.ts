@@ -93,7 +93,7 @@ export class DefaultAdminController {
     const { section, metadata, adminEntity } = await this.getAdminModels(params)
     const page = parseInt(pageParam, 10)
 
-    const [entities, count] = await this.adminSite.getEntityList(adminEntity, page, searchString)
+    const { entities, count } = await this.adminSite.getEntityList(adminEntity, page, searchString)
 
     adminEntity.validateListConfig()
 

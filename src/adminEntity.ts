@@ -91,7 +91,11 @@ abstract class AdminEntity {
     validateFieldsAreNotRelation(this, 'searchFields', this.metadata)
   }
 
-  buildSearchQueryOptions(query: SelectQueryBuilder<unknown>, alias: string, searchParam: string) {
+  protected buildSearchQueryOptions(
+    query: SelectQueryBuilder<unknown>,
+    alias: string,
+    searchParam: string,
+  ) {
     if (searchParam && this.searchFields) {
       const searchArray = searchParam.split(' ')
       searchArray.forEach((searchTerm, searchTermIndex) =>
@@ -111,17 +115,21 @@ abstract class AdminEntity {
     return query
   }
 
-  buildPaginationQueryOptions(query: SelectQueryBuilder<unknown>, page: number) {
+  protected buildPaginationQueryOptions(query: SelectQueryBuilder<unknown>, page: number) {
     query.skip(this.resultsPerPage * (page - 1)).take(this.resultsPerPage)
     return query
   }
 
-  getManyAndCount(page: number, searchString: string) {
+  async getEntityList(
+    page: number,
+    searchString: string,
+  ): Promise<{ entities: unknown[]; count: number }> {
     const alias = this.name
     let query = this.repository.createQueryBuilder(alias)
     query = this.buildPaginationQueryOptions(query, page)
     query = this.buildSearchQueryOptions(query, alias, searchString)
-    return query.getManyAndCount()
+    const [entities, count] = await query.getManyAndCount()
+    return { entities, count }
   }
 }
 

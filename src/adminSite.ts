@@ -75,7 +75,7 @@ class DefaultAdminSite {
   }
 
   async getEntityList(adminEntity: AdminEntity, page: number, searchSting: string) {
-    return await adminEntity.getManyAndCount(page, searchSting)
+    return await adminEntity.getEntityList(page, searchSting)
   }
 
   getSectionList() {
