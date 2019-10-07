@@ -62,7 +62,7 @@
 <span class="hljs-keyword">import</span> { Module } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nestjs/common'</span>
 <span class="hljs-keyword">import</span> { AdminCoreModuleFactory } <span class="hljs-keyword">from</span> <span class="hljs-string">'nestjs-admin'</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> AdminModule = AdminCoreModuleFactory({
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> AdminModule = AdminCoreModuleFactory.createAdminCoreModule({
   adminSite: ..., <span class="hljs-comment">// your own service for custom behavior</span>
   adminController: ..., <span class="hljs-comment">// your own controller to plug in the routes or add your own</span>
   adminEnvironment: ..., <span class="hljs-comment">// your own Nunjucks environment, if you need to configure the templating layer</span>
@@ -73,7 +73,7 @@
 <span class="hljs-keyword">import</span> { Module } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nestjs/common'</span>
 <span class="hljs-keyword">import</span> { AdminCoreModuleFactory } <span class="hljs-keyword">from</span> <span class="hljs-string">'nestjs-admin'</span>
 
-<span class="hljs-keyword">const</span> AdminModuleInstance = AdminCoreModuleFactory({
+<span class="hljs-keyword">const</span> AdminModuleInstance = AdminCoreModuleFactory.createAdminCoreModule({
   <span class="hljs-comment">/* ... */</span>
 })
 
