@@ -7,7 +7,7 @@ import {
   DefaultAdminSite,
   AdminUserEntity,
 } from 'nestjs-admin'
-import { UserAuthenticator } from '../user/userAuthenticator'
+import { UserCredentialValidator } from '../user/userCredentialValidator'
 
 const sessionDBUrl = process.env.SESSION_DB_URL
 const PgSession = pgConnect(session)
@@ -23,7 +23,7 @@ const AdminCoreModule = AdminCoreModuleFactory.createAdminCoreModule({
 })
 
 const AdminAuthModule = AdminAuthModuleFactory.createAdminAuthModule({
-  authenticator: UserAuthenticator,
+  credentialValidator: UserCredentialValidator,
 })
 
 @Module({
