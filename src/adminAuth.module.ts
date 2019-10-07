@@ -26,7 +26,7 @@ export const AdminUserCredentialValidator = {
   imports: [TypeOrmModule.forFeature([AdminUser])],
   useFactory: (adminUserRepository: Repository<AdminUser>) => {
     return async function validateCredentials(email: string, password: string) {
-      const adminUser: AdminUser | null = await adminUserRepository.findOne(email)
+      const adminUser: AdminUser | null = await adminUserRepository.findOne({ email })
       if (adminUser && compareSync(password, adminUser.password)) {
         return adminUser
       }
