@@ -2,7 +2,15 @@ import { EntityMetadata } from 'typeorm'
 import * as urls from './utils/urls'
 import { startCase as _startCase } from 'lodash'
 
-type Route = 'index' | 'changelist' | 'change' | 'add' | 'delete' | 'login' | 'logout'
+type Route =
+  | 'index'
+  | 'changelist'
+  | 'listAction'
+  | 'change'
+  | 'add'
+  | 'delete'
+  | 'login'
+  | 'logout'
 type RouteArgs = string[]
 
 export function adminUrl(route: Route, ...args: RouteArgs) {
@@ -13,6 +21,8 @@ export function adminUrl(route: Route, ...args: RouteArgs) {
       return urls.indexUrl()
     case 'changelist':
       return urls.changeListUrl(...(args as [any, any]))
+    case 'listAction':
+      return urls.listActionUrl(...(args as [any, any]))
     case 'change':
       return urls.changeUrl(...(args as [any, any, any]))
     case 'add':
