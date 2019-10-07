@@ -16,7 +16,7 @@ Here's how to make your own AdminModule:
 import { Module } from '@nestjs/common'
 import { AdminCoreModuleFactory } from 'nestjs-admin'
 
-export const AdminModule = AdminCoreModuleFactory({
+export const AdminModule = AdminCoreModuleFactory.createAdminCoreModule({
   adminSite: ..., // your own service for custom behavior
   adminController: ..., // your own controller to plug in the routes or add your own
   adminEnvironment: ..., // your own Nunjucks environment, if you need to configure the templating layer
@@ -30,7 +30,7 @@ Need to inject your own providers into your custom site, controller or environme
 import { Module } from '@nestjs/common'
 import { AdminCoreModuleFactory } from 'nestjs-admin'
 
-const AdminModuleInstance = AdminCoreModuleFactory({
+const AdminModuleInstance = AdminCoreModuleFactory.createAdminCoreModule({
   /* ... */
 })
 
