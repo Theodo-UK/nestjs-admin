@@ -7,6 +7,7 @@ import { AdminCoreModuleFactory } from './adminCore.module'
 import { injectionTokens } from './tokens'
 import AdminUser from './adminUser.entity'
 import { Repository } from 'typeorm'
+import { compareSync } from 'bcryptjs'
 
 const defaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
@@ -24,10 +25,10 @@ export interface CredentialValidatorProvider {
 export const AdminUserCredentialValidator = {
   imports: [TypeOrmModule.forFeature([AdminUser])],
   useFactory: (adminUserRepository: Repository<AdminUser>) => {
-    return async function validateCredentials(email: string, pass: string) {
-      const user: AdminUser | null = await adminUserRepository.findOne(email)
-      if (user && pass === user.password) {
-        return user
+    return async function validateCredentials(email: string, password: string) {
+      const adminUser: AdminUser | null = await adminUserRepository.findOne(email)
+      if (adminUser && compareSync(password, adminUser.password)) {
+        return adminUser
       }
       return null
     }
