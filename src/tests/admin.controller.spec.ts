@@ -1,5 +1,5 @@
 import * as request from 'supertest'
-import DefaultAdminSite from '../adminSite'
+import DefaultAdminSite from '../adminCore/adminSite'
 import { injectionTokens } from '../tokens'
 import { EntityManager } from 'typeorm'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'

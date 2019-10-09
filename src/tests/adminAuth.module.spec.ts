@@ -1,8 +1,8 @@
-import DefaultAdminSite from '../adminSite'
-import { DefaultAdminController } from '../admin.controller'
+import DefaultAdminSite from '../adminCore/adminSite'
+import { DefaultAdminController } from '../adminCore/admin.controller'
 import { injectionTokens } from '../tokens'
-import DefaultAdminNunjucksEnvironment from '../admin.environment'
-import { AdminCoreModuleFactory } from '../adminCore.module'
+import DefaultAdminNunjucksEnvironment from '../adminCore/admin.environment'
+import { AdminCoreModuleFactory } from '../adminCore/adminCore.module'
 import { createAndStartTestApp } from './utils/testApp'
 
 describe('AdminAuthModuleFactory', () => {

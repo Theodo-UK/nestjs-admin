@@ -1,12 +1,12 @@
-import { AdminCoreModuleFactory } from '../adminCore.module'
-import DefaultAdminSite from '../adminSite'
+import { AdminCoreModuleFactory } from '../adminCore/adminCore.module'
+import DefaultAdminSite from '../adminCore/adminSite'
 import {
   defaultAdminConfigurationOptions,
   AdminAppConfigurationOptions,
-} from '../admin.configuration'
-import { DefaultAdminController } from '../admin.controller'
+} from '../adminCore/admin.configuration'
+import { DefaultAdminController } from '../adminCore/admin.controller'
 import { injectionTokens } from '../tokens'
-import DefaultAdminNunjucksEnvironment from '../admin.environment'
+import DefaultAdminNunjucksEnvironment from '../adminCore/admin.environment'
 import { MemoryStore } from 'express-session'
 import { DeepPartial } from 'typeorm'
 import { createAndStartTestApp, TestApplication } from './utils/testApp'

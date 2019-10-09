@@ -1,9 +1,9 @@
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 import AdminUserEntity from '../adminUser/adminUser.entity'
-import { LocalStrategy } from '../local.strategy'
+import { LocalStrategy } from './local.strategy'
 import { AdminUserController } from './adminUser.controller'
-import { AdminCoreModuleFactory } from '../adminCore.module'
+import { AdminCoreModuleFactory } from '../adminCore/adminCore.module'
 import { injectionTokens } from '../tokens'
 import { AdminUserService } from '../adminUser/adminUser.service'
 

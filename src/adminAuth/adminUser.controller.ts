@@ -10,10 +10,10 @@ import {
   UseFilters,
 } from '@nestjs/common'
 import { Request } from 'express'
-import DefaultAdminNunjucksEnvironment from '../admin.environment'
-import { LoginGuard } from '../login.guard'
+import DefaultAdminNunjucksEnvironment from '../adminCore/admin.environment'
+import { LoginGuard } from './login.guard'
 import { injectionTokens } from '../tokens'
-import { adminUrl } from '../admin.filters'
+import { adminUrl } from '../adminCore/admin.filters'
 import { AdminFilter } from './admin.filter'
 
 @Controller('admin')

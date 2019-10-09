@@ -9,7 +9,7 @@ import AdminSite from '../adminSite'
 import { Widget } from './widget.interface'
 import TextWidget from './textWidget'
 import IntegerWidget from './integerWidget'
-import { DefaultAdminSite } from '..'
+import DefaultAdminSite from '../adminSite'
 import TextareaWidget from './textareaWidget'
 import ArrayWidget from './arrayWidget'
 import DecimalWidget from './decimalWidget'
@@ -20,7 +20,7 @@ import TimeWidget from './timeWidget'
 import DatetimeWidget from './datetimeWidget'
 import PasswordWidget from './passwordWidget'
 import EnumWidget from './enumWidget'
-import { isClass } from '../utils/typechecks'
+import { isClass } from '../../utils/typechecks'
 
 export function getDefaultWidget(
   column: ColumnMetadata,

@@ -1,4 +1,4 @@
-import { parseName } from './utils/formatting'
+import { parseName } from '../utils/formatting'
 import AdminEntity from './adminEntity'
 
 class AdminSection {

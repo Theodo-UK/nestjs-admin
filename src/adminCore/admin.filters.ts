@@ -1,5 +1,5 @@
-import { EntityMetadata } from './utils/typeormProxy'
-import * as urls from './utils/urls'
+import { EntityMetadata } from '../utils/typeormProxy'
+import * as urls from '../utils/urls'
 import { startCase as _startCase } from 'lodash'
 
 type Route = 'index' | 'changelist' | 'change' | 'add' | 'delete' | 'login' | 'logout'

@@ -1,9 +1,9 @@
 import { Strategy } from 'passport-local'
 import { PassportStrategy } from '@nestjs/passport'
 import { Injectable, Inject } from '@nestjs/common'
-import InvalidCredentials from './adminAuth/exceptions/invalidCredentials.exception'
-import { injectionTokens } from './tokens'
-import { CredentialValidator } from './adminAuth/adminAuth.module'
+import InvalidCredentials from './exceptions/invalidCredentials.exception'
+import { injectionTokens } from '../tokens'
+import { CredentialValidator } from './adminAuth.module'
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {

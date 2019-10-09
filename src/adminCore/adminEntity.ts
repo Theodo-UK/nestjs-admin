@@ -1,5 +1,5 @@
-import { Connection, EntityMetadata, SelectQueryBuilder, Brackets } from './utils/typeormProxy'
-import { EntityType } from './types'
+import { Connection, EntityMetadata, SelectQueryBuilder, Brackets } from '../utils/typeormProxy'
+import { EntityType } from '../types'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
