@@ -34,9 +34,7 @@ describe('AdminCoreModuleFactory', () => {
     const entityManager = app.get(EntityManager)
     expect(metadata.hasMultiplePrimaryKeys).toBe(true)
 
-    const entity = await entityManager
-      .getRepository(EntityWithCompositePrimaryKey)
-      .save(new EntityWithCompositePrimaryKey())
+    const entity = await entityManager.save(new EntityWithCompositePrimaryKey())
 
     const server = app.getHttpServer()
     const res = await request(server).get(changeUrl(adminSite.getSection('test'), metadata, entity))

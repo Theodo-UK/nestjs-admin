@@ -1,4 +1,4 @@
-import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm'
+import { TypeOrmModule, getEntityManagerToken } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 import AdminUserEntity from './adminUser.entity'
 import { LocalStrategy } from './local.strategy'
@@ -6,8 +6,9 @@ import { AdminUserController } from './adminUser.controller'
 import { AdminCoreModuleFactory } from './adminCore.module'
 import { injectionTokens } from './tokens'
 import AdminUser from './adminUser.entity'
-import { Repository } from 'typeorm'
+import { EntityManager } from 'typeorm'
 import { compareSync } from 'bcryptjs'
+import { AdminUserService } from './adminUser.service'
 
 const defaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
@@ -24,16 +25,16 @@ export interface CredentialValidatorProvider {
 
 export const AdminUserCredentialValidator = {
   imports: [TypeOrmModule.forFeature([AdminUser])],
-  useFactory: (adminUserRepository: Repository<AdminUser>) => {
-    return async function validateCredentials(email: string, password: string) {
-      const adminUser: AdminUser | null = await adminUserRepository.findOne({ email })
+  useFactory: (entityManager: EntityManager) => {
+    return async function validateCredentials(username: string, password: string) {
+      const adminUser: AdminUser | null = await entityManager.findOne(AdminUser, { username })
       if (adminUser && compareSync(password, adminUser.password)) {
         return adminUser
       }
       return null
     }
   },
-  inject: [getRepositoryToken(AdminUser)],
+  inject: [getEntityManagerToken()],
 }
 
 interface AdminAuthModuleConfig {
@@ -51,16 +52,16 @@ export class AdminAuthModuleFactory {
     adminCoreModule = defaultCoreModule,
     credentialValidator = AdminUserCredentialValidator,
   }: Partial<AdminAuthModuleConfig>) {
-    const adminUserServiceProvider = {
-      provide: injectionTokens.ADMIN_AUTH_SERVICE,
+    const credentialValidatorProvider = {
+      provide: injectionTokens.ADMIN_AUTH_CREDENTIAL_VALIDATOR,
       useFactory: credentialValidator.useFactory,
       inject: credentialValidator.inject,
     }
     return {
       module: AdminAuthModuleFactory,
       imports: [adminCoreModule, ...(credentialValidator.imports || [])],
-      exports: [adminUserServiceProvider],
-      providers: [adminUserServiceProvider],
+      exports: [credentialValidatorProvider],
+      providers: [credentialValidatorProvider, AdminUserService],
     }
   }
 }

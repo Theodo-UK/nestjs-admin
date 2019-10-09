@@ -1,7 +1,6 @@
 import { Strategy } from 'passport-local'
 import { PassportStrategy } from '@nestjs/passport'
 import { Injectable, Inject } from '@nestjs/common'
-import { AdminUserService } from './adminUser.service'
 import InvalidCredentials from './exceptions/invalidCredentials.exception'
 import { injectionTokens } from './tokens'
 import { CredentialValidator } from './adminAuth.module'
@@ -9,7 +8,7 @@ import { CredentialValidator } from './adminAuth.module'
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @Inject(injectionTokens.ADMIN_AUTH_SERVICE)
+    @Inject(injectionTokens.ADMIN_AUTH_CREDENTIAL_VALIDATOR)
     private readonly credentialValidator: CredentialValidator,
   ) {
     super()
