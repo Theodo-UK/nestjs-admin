@@ -9,7 +9,7 @@ import {
   Repository,
 } from 'typeorm'
 import AdminUser from './adminUser.entity'
-import { DuplicateEmailException } from './exceptions/userAdmin.exception'
+import { DuplicateUsernameException } from './exceptions/userAdmin.exception'
 import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'
 import { AdminAuthenticatorInterface } from './adminAuthenticator.interface'
 
@@ -55,28 +55,28 @@ export class AdminUserService
     }
   }
 
-  async create(email: string, password: string) {
-    if (await this.adminUserRepository.findOne({ email })) {
-      throw new DuplicateEmailException(email)
+  async create(username: string, password: string) {
+    if (await this.adminUserRepository.findOne({ username })) {
+      throw new DuplicateUsernameException(username)
     }
 
-    if (!email || !password) {
+    if (!username || !password) {
       throw new AdminUserValidationException()
     }
 
     const admin = new AdminUser()
-    admin.email = email
+    admin.username = username
     admin.password = password
 
     await this.adminUserRepository.save(admin)
   }
 
-  async findOne(email: string): Promise<AdminUser | undefined> {
-    return await this.adminUserRepository.findOne({ where: { email } })
+  async findOne(username: string): Promise<AdminUser | undefined> {
+    return await this.adminUserRepository.findOne({ where: { username } })
   }
 
-  async validateAdminCredentials(email: string, pass: string) {
-    const adminUser: AdminUser | null = await this.findOne(email)
+  async validateAdminCredentials(username: string, pass: string) {
+    const adminUser: AdminUser | null = await this.findOne(username)
     if (adminUser && this.comparePassword(adminUser, pass)) {
       // @debt quality "miker: 1/ is this destructure necessary? was copied from blog post
       // @debt quality "miker: 2/ https://dev.to/nestjs/authentication-and-sessions-for-mvc-apps-with-nestjs-55a4"
