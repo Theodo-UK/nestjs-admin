@@ -10,4 +10,17 @@
   &__count {
     color: $gray-600;
   }
+
+  .search-bar {
+    background-color: $background-gray;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+
+  .search-box {
+    display: flex;
+    input {
+      margin-right: 1rem;
+    }
+  }
 }

@@ -1,13 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { InjectConnection, InjectRepository } from '@nestjs/typeorm'
+import { InjectConnection } from '@nestjs/typeorm'
 import { hashSync as bcryptHashSync, compareSync } from 'bcryptjs'
-import {
-  Connection,
-  EntitySubscriberInterface,
-  InsertEvent,
-  UpdateEvent,
-  Repository,
-} from 'typeorm'
+import { EntitySubscriberInterface, InsertEvent, UpdateEvent, EntityManager } from 'typeorm'
+import { Connection } from './utils/typeormProxy'
 import AdminUser from './adminUser.entity'
 import { DuplicateEmailException } from './exceptions/userAdmin.exception'
 import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'
@@ -16,8 +11,7 @@ import { AdminUserValidationException } from './exceptions/adminUserValidation.e
 export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
   constructor(
     @InjectConnection() readonly connection: Connection,
-    @InjectRepository(AdminUser)
-    private readonly adminUserRepository: Repository<AdminUser>,
+    private readonly entityManager: EntityManager,
   ) {
     connection.subscribers.push(this)
   }
@@ -54,7 +48,7 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
   }
 
   async create(email: string, password: string) {
-    if (await this.adminUserRepository.findOne({ email })) {
+    if (await this.entityManager.findOne(AdminUser, { email })) {
       throw new DuplicateEmailException(email)
     }
 
@@ -66,10 +60,10 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
     admin.email = email
     admin.password = password
 
-    await this.adminUserRepository.save(admin)
+    await this.entityManager.save(admin)
   }
 
   async findOne(email: string): Promise<AdminUser | undefined> {
-    return await this.adminUserRepository.findOne({ where: { email } })
+    return await this.entityManager.findOne(AdminUser, { where: { email } })
   }
 }

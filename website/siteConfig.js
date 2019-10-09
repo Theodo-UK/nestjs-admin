@@ -21,14 +21,17 @@ const siteConfig = {
   // Used for publishing and more
   projectName: 'nestjs-admin',
   organizationName: 'williamdclt',
-  // For top-level user or org sites, the organization is still the same.
-  // e.g., for the https://JoelMarcey.github.io site, it would be set like...
-  //   organizationName: 'JoelMarcey'
 
   headerLinks: [
     { doc: 'install', label: 'Docs' },
     { href: 'https://github.com/williamdclt/nestjs-admin', label: 'GitHub' },
   ],
+
+  algolia: {
+    apiKey: 'c6e38ac254000d1a9d9e086369d88c22',
+    indexName: 'nestjs-admin',
+    algoliaOptions: {}, // Optional, if provided by Algolia
+  },
 
   // If you have users set above, you add it here:
   // users,
