@@ -26,6 +26,10 @@
       },
       "known-issues": {
         "title": "Known Issues"
+      },
+      "register-entities": {
+        "title": "Registering entities in the admin site",
+        "sidebar_label": "Register entities"
       }
     },
     "links": {
@@ -34,7 +38,8 @@
     },
     "categories": {
       "Getting started": "Getting started",
-      "Concepts": "Concepts",
+      "Techniques": "Techniques",
+      "API": "API",
       "Practicalities": "Practicalities"
     }
   },
