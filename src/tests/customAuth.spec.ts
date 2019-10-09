@@ -89,7 +89,6 @@ describe('custom authentication', () => {
   })
 
   it('does not log the admin in if unsuccessful credential check', async () => {
-    mockCredentialValidator.mockImplementationOnce(() => false)
     // add the admin to the database
     const entityManager = app.get(EntityManager)
 
