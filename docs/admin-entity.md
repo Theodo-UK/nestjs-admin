@@ -73,6 +73,18 @@ export class UserAdmin extends AdminEntity {
 }
 ```
 
+### AdminEntity.fields
+
+Configures which fields of the entity will be displayed (and therefore editable) in the create and update forms.
+
+```typescript
+fields = ['firstName', 'lastName', 'createdDate', 'gender']
+```
+
+![image](assets/AdminEntity.fields.jpeg)
+
+- If you don't set `fields`, the create and update forms will display all properties of the entity
+
 ### AdminEntity.listDisplay
 
 Configures which fields of the entity will be displayed on the list page.
@@ -87,22 +99,16 @@ listDisplay = ['id', 'firstname', 'lastname', 'email']
 
 - `listDisplay` values cannot refer to `ManyToOne`, `OneToMany` or `ManyToMany` fields.
 
-### AdminEntity.fields
+### AdminEntity.searchFields
 
-Configures which fields of the entity will be displayed (and therefore editable) in the create and update forms.
-
-```typescript
-fields = ['firstName', 'lastName', 'createdDate', 'gender']
-```
-
-![image](assets/AdminEntity.fields.jpeg)
-
-- If you don't set `fields`, the create and update forms will display all properties of the entity
-
-### AdminEntity.resultsPerPage
-
-Configures the number of entities that will be displayed on each page on the list page. Defaults to `25`.
+Configures whether the search box will be displayed on the list page, and which fields of the entity will be searched.
 
 ```typescript
-resultsPerPage = 25
+searchFields = ['firstName', 'lastName', 'createdDate', 'gender']
 ```
+
+![image](assets/AdminEntity.searchFields.png)
+
+- If you don't set `searchFields`, the search box will not be displayed on the list page.
+- If you search for `john`, the entity instances will be displayed if `john` appears in any of the configured fields.
+- If you search for `john smith`, the entity instances will be displayed if `john` appears in any of the configured fields AND if `john` appears in any of the configured fields.
