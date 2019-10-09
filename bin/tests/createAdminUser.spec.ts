@@ -25,7 +25,7 @@ describe('createAdminUser', () => {
   })
 
   it('prompts for answers and creates an AdminUser', async () => {
-    const answers = { email: 'some@example.com', password: 'somepassword' }
+    const answers = { username: 'some@example.com', password: 'somepassword' }
 
     // Mock inquirer's prompt
     const promptBackup = inquirer.prompt
@@ -38,12 +38,12 @@ describe('createAdminUser', () => {
 
     expect(inquirer.prompt).toBeCalledWith(
       expect.arrayContaining([
-        expect.objectContaining({ name: 'email' }),
+        expect.objectContaining({ name: 'username' }),
         expect.objectContaining({ name: 'password' }),
       ]),
     )
 
-    const adminUser = await adminUserRepository.findOneOrFail({ email: answers.email })
+    const adminUser = await adminUserRepository.findOneOrFail({ username: answers.username })
     expect(adminUser).toBeDefined()
     expect(adminUserService.comparePassword(adminUser, answers.password)).toBe(true)
 

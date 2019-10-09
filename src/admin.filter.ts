@@ -16,7 +16,7 @@ export class AdminFilter implements ExceptionFilter {
 
     if (exception instanceof InvalidCredentials) {
       req.flash('loginError', 'Invalid credentials')
-      req.flash('email', exception.username)
+      req.flash('username', exception.username)
     }
     res.redirect(adminUrl('login'))
   }

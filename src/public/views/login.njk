@@ -27,15 +27,14 @@
           {% endif %}
           <form method="POST" action="{{ "login" | adminUrl() }}">
             <div class="form-group">
-              <label for="email">Email address</label>
+              <label for="username">Username</label>
               <input
-                id="email"
+                id="username"
                 name="username"
-                type="email"
-                placeholder="Enter your email"
+                placeholder="Enter your username"
                 required
                 class="form-control"
-                value="{{ flash.email }}"
+                value="{{ flash.username }}"
               />
             </div>
             <div class="form-group">
