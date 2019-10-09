@@ -10,4 +10,12 @@
   &__count {
     color: $gray-600;
   }
+
+  &__list-actions {
+    display: flex;
+
+    .btn {
+      margin-left: 0.5rem;
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import { Connection } from 'typeorm'
-import { EntityType } from './types'
+import { EntityType, MaybePromise } from './types'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
 import ManyToManyWidget from './widgets/manyToManyWidget'
@@ -7,7 +7,8 @@ import InvalidDisplayFieldsException from './exceptions/invalidDisplayFields.exc
 import { WidgetConstructor } from './widgets/widget.interface'
 import { Request, Response } from 'express'
 
-export type ListAction = { label: string; action: (request: Request, response: Response) => void }
+export type ListActionHandler = (request: Request, response: Response) => MaybePromise<void>
+export type ListAction = { label: string; action: ListActionHandler }
 
 abstract class AdminEntity {
   abstract entity: EntityType

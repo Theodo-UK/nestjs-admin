@@ -12,6 +12,6 @@ export class UserAdmin extends AdminEntity {
   }
 
   createRandom(request: Request, response: Response) {
-    // Leave empty
+    request.flash('messages', 'Successfully created')
   }
 }
