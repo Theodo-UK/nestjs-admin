@@ -111,4 +111,4 @@ searchFields = ['firstName', 'lastName', 'createdDate', 'gender']
 
 - If you don't set `searchFields`, the search box will not be displayed on the list page.
 - If you search for `john`, the entity instances will be displayed if `john` appears in any of the configured fields.
-- If you search for `john smith`, the entity instances will be displayed if `john` appears in any of the configured fields AND if `john` appears in any of the configured fields.
+- If you search for `john smith`, an entity instance will be displayed if `john` appears in any of the configured fields AND if `smith` appears in any of the configured fields.
