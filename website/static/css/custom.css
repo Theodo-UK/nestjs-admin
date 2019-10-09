@@ -31,3 +31,21 @@
     width: 100%;
   }
 }
+
+.post {
+  padding-left: 20px;
+}
+
+.post h6,
+.post h5,
+.post h4,
+.post h3,
+.post h2,
+.post h1 {
+  margin-left: -20px;
+}
+
+.post img {
+  border: thin solid black;
+  border-radius: 4px;
+}
