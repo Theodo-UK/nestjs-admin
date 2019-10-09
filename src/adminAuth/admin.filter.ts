@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
   ForbiddenException,
 } from '@nestjs/common'
-import { adminUrl } from './admin.filters'
+import { adminUrl } from '../admin.filters'
 import InvalidCredentials from './exceptions/invalidCredentials.exception'
 
 @Catch(UnauthorizedException, ForbiddenException, InvalidCredentials)

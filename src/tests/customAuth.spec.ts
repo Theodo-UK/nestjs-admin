@@ -4,7 +4,7 @@ import { JSDOM } from 'jsdom'
 import { createTestAdminUser } from './utils/entityUtils'
 import AdminUser from '../adminUser/adminUser.entity'
 import { createAndStartTestApp, TestApplication } from './utils/testApp'
-import { AdminAuthModuleFactory } from '../adminAuth.module'
+import { AdminAuthModuleFactory } from '../adminAuth/adminAuth.module'
 
 const mockCredentialValidator = jest.fn().mockImplementation((username, password) => {
   return false

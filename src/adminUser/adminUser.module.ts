@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AdminAuthModuleFactory } from '../adminAuth.module'
+import { AdminAuthModuleFactory } from '../adminAuth/adminAuth.module'
 import AdminUser from './adminUser.entity'
 import { AdminUserService } from './adminUser.service'
 
