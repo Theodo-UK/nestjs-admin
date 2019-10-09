@@ -7,6 +7,7 @@ const middlewareMock = (req, res, next) => {
     req.flash = jest.fn()
     next()
   } catch (e) {
+    // tslint:disable-next-line
     console.warn(e)
   }
 }

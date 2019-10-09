@@ -1,9 +1,9 @@
 import { getConnection } from '../utils/typeormProxy'
-import AdminEntity from '../adminEntity'
+import AdminEntity from '../adminCore/adminEntity'
 import * as request from 'supertest'
 import { Group } from '../../exampleApp/src/user/group.entity'
 import { JSDOM } from 'jsdom'
-import { InvalidAdminRegistration } from '../exceptions/invalidAdminRegistration.exception'
+import { InvalidAdminRegistration } from '../adminCore/exceptions/invalidAdminRegistration.exception'
 import { createTestingModule, createAndStartTestApp } from './utils/testApp'
 
 describe('adminSite.register', () => {

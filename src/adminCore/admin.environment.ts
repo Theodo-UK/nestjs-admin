@@ -6,11 +6,11 @@ import { Request } from 'express'
 import * as filters from './admin.filters'
 import DefaultAdminSite from './adminSite'
 import { getRelationOptions } from './widgets/utils'
-import { isEntityInList } from './utils/entity'
-import { getPaginationRanges, generatePaginatedUrl } from './utils/pagination'
+import { isEntityInList } from '../utils/entity'
+import { getPaginationRanges, generatePaginatedUrl } from '../utils/pagination'
 import { SetAsyncExtension } from './extensions/setAsync'
-import { injectionTokens } from './tokens'
-import { isDateType } from './utils/column'
+import { injectionTokens } from '../tokens'
+import { isDateType } from '../utils/column'
 
 interface TemplateParameters {
   request: Request
@@ -26,7 +26,7 @@ class DefaultAdminNunjucksEnvironment {
     private adminSite: DefaultAdminSite,
   ) {
     // Configure nunjucks for the admin
-    this.env = nunjucks.configure(join(__dirname, 'public', 'views'), {
+    this.env = nunjucks.configure(join(__dirname, '..', 'public', 'views'), {
       noCache: true,
     })
 

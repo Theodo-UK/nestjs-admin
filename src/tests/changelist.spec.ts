@@ -7,7 +7,7 @@ import { createTestUser } from './utils/entityUtils'
 import { Agency } from '../../exampleApp/src/user/agency.entity'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { Group } from '../../exampleApp/src/user/group.entity'
-import AdminEntity from '../adminEntity'
+import AdminEntity from '../adminCore/adminEntity'
 import { createAndStartTestApp, TestApplication } from './utils/testApp'
 
 export class UserAdmin extends AdminEntity {

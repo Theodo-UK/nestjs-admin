@@ -3,7 +3,7 @@ import { join } from 'path'
 import { DeepPartial } from 'typeorm'
 import { merge as _merge } from 'lodash'
 
-export const publicFolder = join(__dirname, 'public')
+export const publicFolder = join(__dirname, '..', 'public')
 
 export interface AdminAppConfigurationOptions {
   session: session.SessionOptions

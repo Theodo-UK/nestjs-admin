@@ -1,4 +1,4 @@
-import { createConnection, Connection, getConnectionOptions } from 'typeorm'
+import { createConnection, getConnectionOptions } from 'typeorm'
 import * as faker from 'faker'
 import { range as _range } from 'lodash'
 import { AdminUserEntity } from 'nestjs-admin'
@@ -8,7 +8,7 @@ import { Agency } from '../src/user/agency.entity'
 
 function createAdmin() {
   const user = new AdminUserEntity()
-  user.email = 'admin@admin.com'
+  user.username = 'admin'
   user.password = 'admin'
   return user
 }
