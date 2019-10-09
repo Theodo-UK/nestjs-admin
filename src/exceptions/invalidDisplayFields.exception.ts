@@ -1,4 +1,4 @@
-export default class InvalidDisplayFieldsException extends Error {
+export class InvalidDisplayFieldsException extends Error {
   constructor(message: string) {
     super(message)
   }

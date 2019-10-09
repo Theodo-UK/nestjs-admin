@@ -1,13 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { InjectConnection, InjectRepository } from '@nestjs/typeorm'
+import { InjectConnection } from '@nestjs/typeorm'
 import { hashSync as bcryptHashSync, compareSync } from 'bcryptjs'
-import {
-  Connection,
-  EntitySubscriberInterface,
-  InsertEvent,
-  UpdateEvent,
-  Repository,
-} from 'typeorm'
+import { EntitySubscriberInterface, InsertEvent, UpdateEvent, EntityManager } from 'typeorm'
+import { Connection } from './utils/typeormProxy'
 import AdminUser from './adminUser.entity'
 import { DuplicateUsernameException } from './exceptions/userAdmin.exception'
 import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'
@@ -18,8 +13,7 @@ export class AdminUserService
   implements AdminAuthenticatorInterface, EntitySubscriberInterface<AdminUser> {
   constructor(
     @InjectConnection() readonly connection: Connection,
-    @InjectRepository(AdminUser)
-    private readonly adminUserRepository: Repository<AdminUser>,
+    private readonly entityManager: EntityManager,
   ) {
     connection.subscribers.push(this)
   }
@@ -56,7 +50,7 @@ export class AdminUserService
   }
 
   async create(username: string, password: string) {
-    if (await this.adminUserRepository.findOne({ username })) {
+    if (await this.entityManager.findOne(AdminUser, { username })) {
       throw new DuplicateUsernameException(username)
     }
 
@@ -68,11 +62,11 @@ export class AdminUserService
     admin.username = username
     admin.password = password
 
-    await this.adminUserRepository.save(admin)
+    await this.entityManager.save(admin)
   }
 
   async findOne(username: string): Promise<AdminUser | undefined> {
-    return await this.adminUserRepository.findOne({ where: { username } })
+    return await this.entityManager.findOne(AdminUser, { where: { username } })
   }
 
   async validateAdminCredentials(username: string, pass: string) {

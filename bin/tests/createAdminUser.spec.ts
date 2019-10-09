@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { getEntityManagerToken } from '@nestjs/typeorm'
 import * as inquirer from 'inquirer'
 import AdminUser from '../../src/adminUser.entity'
 import { AdminUserService } from '../../src/adminUser.service'
 import { CliAdminModule } from '../cliAdmin.module'
 import { createAdminUser } from '../createAdminUser'
+import { EntityManager } from 'typeorm'
 
 describe('createAdminUser', () => {
   let app: INestApplication
@@ -32,7 +32,7 @@ describe('createAdminUser', () => {
     // @ts-ignore
     inquirer.prompt = jest.fn().mockResolvedValue(answers)
 
-    const adminUserRepository: Repository<AdminUser> = app.get(getRepositoryToken(AdminUser))
+    const entityManager: EntityManager = app.get(getEntityManagerToken())
     const adminUserService = app.get(AdminUserService)
     await createAdminUser(app)
 
@@ -43,12 +43,12 @@ describe('createAdminUser', () => {
       ]),
     )
 
-    const adminUser = await adminUserRepository.findOneOrFail({ username: answers.username })
+    const adminUser = await entityManager.findOneOrFail(AdminUser, { email: answers.username })
     expect(adminUser).toBeDefined()
     expect(adminUserService.comparePassword(adminUser, answers.password)).toBe(true)
 
     // Restore initial state
-    await adminUserRepository.remove(adminUser)
+    await entityManager.remove(adminUser)
     // @ts-ignore
     inquirer.prompt = promptBackup
   })

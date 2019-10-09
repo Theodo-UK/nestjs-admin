@@ -16,7 +16,35 @@
     <button class="btn btn-primary">Add {{ metadata.name | prettyPrint}}</button>
   </a>
 </div>
+
 <div class="admin-content">
+
+  {% if adminEntity.searchFields %}
+  <div class="row">
+    <div class="col-12">
+      <div class="search-bar">
+        <div class="row">
+          <div class="col-6">
+            <form method="GET">
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="search"
+                  id="search"
+                  placeholder="Search"
+                  {% if flash.searchString %}value="{{ flash.searchString }}"{% endif %}
+                />
+                <input type="submit" class="btn btn-primary" value="Search">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
   <div class="row">
     <div class="col-12">
       <table class="table table-bordered table-striped entity-table">
@@ -53,10 +81,11 @@
             <tr><td><a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity | displayName(metadata) }}</a></td></tr>
           {% endfor %}
         {% endif %}
+
       </table>
 
       <ul class="pagination">
-        {% set paginationRanges = getPaginationRanges(page, resultsPerPage, count) %}
+        {% set paginationRanges = getPaginationRanges(page, adminEntity.resultsPerPage, count) %}
         {% for pageRange in paginationRanges %}
           {% for pageNumber in pageRange %}
             {% set active = page == pageNumber %}
