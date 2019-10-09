@@ -4,8 +4,6 @@ title: Registering entities in the admin site
 sidebar_label: Register entities
 ---
 
-## Registering entities on the admin site
-
 There are two ways you can display an entity on the admin site using `adminSite.register`:
 
 - Register the entity class directly
