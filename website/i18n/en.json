@@ -6,11 +6,8 @@
     "tagline": "A generic administration interface for TypeORM entities",
     "docs": {
       "admin-entity": {
-        "title": "Registering entities in the admin site",
-        "sidebar_label": "Register entities"
-      },
-      "admin-module": {
-        "title": "AdminModule"
+        "title": "AdminEntity API",
+        "sidebar_label": "AdminEntity"
       },
       "adr/01-admin-authentication": {
         "title": "adr/01-admin-authentication"
@@ -21,11 +18,18 @@
       "contributing": {
         "title": "Contributing"
       },
+      "custom-admin-module": {
+        "title": "Create your own admin module"
+      },
       "install": {
         "title": "Installation"
       },
       "known-issues": {
         "title": "Known Issues"
+      },
+      "register-entities": {
+        "title": "Registering entities in the admin site",
+        "sidebar_label": "Register entities"
       }
     },
     "links": {
@@ -34,7 +38,8 @@
     },
     "categories": {
       "Getting started": "Getting started",
-      "Concepts": "Concepts",
+      "Techniques": "Techniques",
+      "API": "API",
       "Practicalities": "Practicalities"
     }
   },

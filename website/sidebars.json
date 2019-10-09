@@ -1,7 +1,8 @@
 {
   "docs": {
     "Getting started": ["install"],
-    "Concepts": ["admin-module", "admin-entity"],
+    "Techniques": ["register-entities", "custom-admin-module"],
+    "API": ["admin-entity"],
     "Practicalities": ["contributing", "known-issues"]
   }
 }
