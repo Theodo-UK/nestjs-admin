@@ -1,6 +1,6 @@
 import { INestApplicationContext } from '@nestjs/common'
 import { prompt } from 'inquirer'
-import { AdminUserService } from '../src/adminUser.service'
+import { AdminUserService } from '../src/adminUser/adminUser.service'
 
 export async function createAdminUser(app: INestApplicationContext) {
   const adminUserService = app.get(AdminUserService)

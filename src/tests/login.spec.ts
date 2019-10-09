@@ -2,9 +2,9 @@ import { EntityManager } from '../utils/typeormProxy'
 import * as request from 'supertest'
 import { JSDOM } from 'jsdom'
 import { createTestAdminUser } from './utils/entityUtils'
-import AdminUser from '../adminUser.entity'
+import AdminUser from '../adminUser/adminUser.entity'
 import { createAndStartTestApp, TestApplication } from './utils/testApp'
-import { AdminAuthModuleFactory } from '../adminAuth.module'
+import { AdminUserModule } from '../adminUser/adminUser.module'
 
 describe('login', () => {
   let app: TestApplication
@@ -13,7 +13,7 @@ describe('login', () => {
 
   beforeAll(async () => {
     app = await createAndStartTestApp({
-      adminAuthModule: AdminAuthModuleFactory.createAdminAuthModule({}),
+      adminAuthModule: AdminUserModule,
     })
     server = app.getHttpServer()
   })

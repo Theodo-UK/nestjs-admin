@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common'
 import { InjectConnection } from '@nestjs/typeorm'
 import { hashSync as bcryptHashSync, compareSync } from 'bcryptjs'
 import { EntitySubscriberInterface, InsertEvent, UpdateEvent, EntityManager } from 'typeorm'
-import { Connection } from './utils/typeormProxy'
+import { Connection } from '../utils/typeormProxy'
 import AdminUser from './adminUser.entity'
-import { DuplicateUsernameException } from './exceptions/userAdmin.exception'
-import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'
+import { DuplicateUsernameException } from '../exceptions/userAdmin.exception'
+import { AdminUserValidationException } from '../exceptions/adminUserValidation.exception'
 
 @Injectable()
 export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
