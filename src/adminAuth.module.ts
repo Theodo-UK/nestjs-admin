@@ -1,4 +1,4 @@
-import { TypeOrmModule, getEntityManagerToken } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 import AdminUserEntity from './adminUser.entity'
 import { LocalStrategy } from './local.strategy'
@@ -6,8 +6,6 @@ import { AdminUserController } from './adminUser.controller'
 import { AdminCoreModuleFactory } from './adminCore.module'
 import { injectionTokens } from './tokens'
 import AdminUser from './adminUser.entity'
-import { EntityManager } from 'typeorm'
-import { compareSync } from 'bcryptjs'
 import { AdminUserService } from './adminUser.service'
 
 const defaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
@@ -25,16 +23,10 @@ export interface CredentialValidatorProvider {
 
 export const AdminUserCredentialValidator = {
   imports: [TypeOrmModule.forFeature([AdminUser])],
-  useFactory: (entityManager: EntityManager) => {
-    return async function validateCredentials(username: string, password: string) {
-      const adminUser: AdminUser | null = await entityManager.findOne(AdminUser, { username })
-      if (adminUser && compareSync(password, adminUser.password)) {
-        return adminUser
-      }
-      return null
-    }
+  useFactory: (adminUserService: AdminUserService) => {
+    return adminUserService.validateAdminCredentials.bind(adminUserService)
   },
-  inject: [getEntityManagerToken()],
+  inject: [AdminUserService],
 }
 
 interface AdminAuthModuleConfig {

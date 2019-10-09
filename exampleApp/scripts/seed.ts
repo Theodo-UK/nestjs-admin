@@ -1,4 +1,4 @@
-import { createConnection, Connection, getConnectionOptions } from 'typeorm'
+import { createConnection, getConnectionOptions } from 'typeorm'
 import * as faker from 'faker'
 import { range as _range } from 'lodash'
 import { AdminUserEntity } from 'nestjs-admin'
