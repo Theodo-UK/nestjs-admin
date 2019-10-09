@@ -10,8 +10,8 @@ import { AdminUserService } from '../adminUser/adminUser.service'
 const defaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 export type CredentialValidator = (
-  email: string,
-  pass: string,
+  username: string,
+  password: string,
 ) => object | null | Promise<object | null>
 
 export interface CredentialValidatorProvider {
