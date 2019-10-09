@@ -51,7 +51,7 @@ describe('login', () => {
     expect(res.status).toBe(200)
 
     document.documentElement.innerHTML = res.text
-    expect(document.querySelector('input[name="username"][type="email"]')).toBeTruthy()
+    expect(document.querySelector('input[name="username"]')).toBeTruthy()
     expect(document.querySelector('input[name="password"][type="password"]')).toBeTruthy()
   })
 
@@ -74,7 +74,7 @@ describe('login', () => {
     const server = app.getHttpServer()
     const res = await request(server)
       .post(`/admin/login`)
-      .send({ username: adminData.email, password })
+      .send({ username: adminData.username, password })
     expect(res.status).toBe(302)
     expect(res.header.location).toBe(`/admin`)
   })

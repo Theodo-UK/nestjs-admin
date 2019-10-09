@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { INestApplication } from '@nestjs/common'
-import { getRepositoryToken, getEntityManagerToken } from '@nestjs/typeorm'
-import { Repository } from '../../src/utils/typeormProxy'
+import { getEntityManagerToken } from '@nestjs/typeorm'
 import * as inquirer from 'inquirer'
 import AdminUser from '../../src/adminUser.entity'
 import { AdminUserService } from '../../src/adminUser.service'
@@ -26,7 +25,7 @@ describe('createAdminUser', () => {
   })
 
   it('prompts for answers and creates an AdminUser', async () => {
-    const answers = { email: 'some@example.com', password: 'somepassword' }
+    const answers = { username: 'some@example.com', password: 'somepassword' }
 
     // Mock inquirer's prompt
     const promptBackup = inquirer.prompt
@@ -39,12 +38,12 @@ describe('createAdminUser', () => {
 
     expect(inquirer.prompt).toBeCalledWith(
       expect.arrayContaining([
-        expect.objectContaining({ name: 'email' }),
+        expect.objectContaining({ name: 'username' }),
         expect.objectContaining({ name: 'password' }),
       ]),
     )
 
-    const adminUser = await entityManager.findOneOrFail(AdminUser, { email: answers.email })
+    const adminUser = await entityManager.findOneOrFail(AdminUser, { email: answers.username })
     expect(adminUser).toBeDefined()
     expect(adminUserService.comparePassword(adminUser, answers.password)).toBe(true)
 

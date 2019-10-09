@@ -1,5 +1,5 @@
 export class AdminUserValidationException extends Error {
   constructor() {
-    super(`Email address and password are required.`)
+    super(`Username and password are required.`)
   }
 }

@@ -15,10 +15,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super()
   }
 
-  async validate(email: string, password: string) {
-    const adminUser = await this.credentialValidator(email, password)
+  async validate(username: string, password: string) {
+    const adminUser = await this.credentialValidator(username, password)
     if (!adminUser) {
-      throw new InvalidCredentials(email)
+      throw new InvalidCredentials(username)
     }
     return adminUser
   }

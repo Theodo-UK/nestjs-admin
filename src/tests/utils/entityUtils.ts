@@ -7,7 +7,7 @@ faker.seed(1232) // random, but consistent between executions
 export function createTestAdminUser(attrs: Partial<AdminUser> = {}): AdminUser {
   const user = new AdminUser()
   const defaultAttrs = {
-    email: faker.internet.email(),
+    username: faker.internet.userName(),
     password: faker.internet.password(),
   }
   return Object.assign(user, { ...defaultAttrs, ...attrs })
