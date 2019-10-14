@@ -21,6 +21,9 @@
       "custom-admin-module": {
         "title": "Create your own admin module"
       },
+      "custom-authentication": {
+        "title": "Custom authentication"
+      },
       "install": {
         "title": "Installation"
       },
