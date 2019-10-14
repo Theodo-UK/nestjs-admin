@@ -20,11 +20,11 @@ const siteConfig = {
 
   // Used for publishing and more
   projectName: 'nestjs-admin',
-  organizationName: 'williamdclt',
+  organizationName: 'Theodo-UK',
 
   headerLinks: [
     { doc: 'install', label: 'Docs' },
-    { href: 'https://github.com/williamdclt/nestjs-admin', label: 'GitHub' },
+    { href: 'https://github.com/Theodo-UK/nestjs-admin', label: 'GitHub' },
   ],
 
   algolia: {
