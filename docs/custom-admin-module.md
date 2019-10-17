@@ -57,7 +57,20 @@ export class AdminSite extends DefaultAdminSite {
 }
 ```
 
-Then give this `AdminSite` to the `AdminCoreModuleFactory.createAdminCoreModule` in your `BackofficeModule`.
+Then give this `AdminSite` to the `AdminCoreModuleFactory.createAdminCoreModule` in your `BackofficeModule`, and update your `BackofficeModule`:
+
+```ts
+const coreModule = AdminCoreModuleFactory.createAdminCoreModule({
+  adminSite: AdminSite,
+  appConfig: { ... }
+})
+
+export class BackofficeModule {
+  constructor(private readonly adminSite: CustomAdminSite) {
+    adminSite.register(...)
+  }
+}
+```
 
 ## Custom AdminController
 
