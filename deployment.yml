@@ -1,0 +1,9 @@
+---
+- hosts: all
+  remote_user: ec2-user
+  become: yes
+  tasks:
+    - git:
+        repo: 'https://github.com/Theodo-UK/nestjs-admin.git'
+        dest: /home/ec2-user/nestjs-admin
+        version: master
