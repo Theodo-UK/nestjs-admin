@@ -1,13 +1,13 @@
 import * as faker from 'faker'
 import { User } from '../../../exampleApp/src/user/user.entity'
-import AdminUser from '../../adminUser.entity'
+import AdminUser from '../../adminUser/adminUser.entity'
 
 faker.seed(1232) // random, but consistent between executions
 
 export function createTestAdminUser(attrs: Partial<AdminUser> = {}): AdminUser {
   const user = new AdminUser()
   const defaultAttrs = {
-    email: faker.internet.email(),
+    username: faker.internet.userName(),
     password: faker.internet.password(),
   }
   return Object.assign(user, { ...defaultAttrs, ...attrs })

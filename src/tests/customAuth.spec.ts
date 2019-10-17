@@ -4,16 +4,24 @@ import { JSDOM } from 'jsdom'
 import { createTestAdminUser } from './utils/entityUtils'
 import AdminUser from '../adminUser/adminUser.entity'
 import { createAndStartTestApp, TestApplication } from './utils/testApp'
-import { AdminUserModule } from '../adminUser/adminUser.module'
+import { AdminAuthModuleFactory } from '../adminAuth/adminAuth.module'
 
-describe('login', () => {
+const mockCredentialValidator = jest.fn().mockImplementation((username, password) => {
+  return false
+})
+
+describe('custom authentication', () => {
   let app: TestApplication
   let document: Document
   let server: any
 
   beforeAll(async () => {
     app = await createAndStartTestApp({
-      adminAuthModule: AdminUserModule,
+      adminAuthModule: AdminAuthModuleFactory.createAdminAuthModule({
+        credentialValidator: {
+          useFactory: () => mockCredentialValidator,
+        },
+      }),
     })
     server = app.getHttpServer()
   })
@@ -22,6 +30,7 @@ describe('login', () => {
     await app.startTest()
     const dom = new JSDOM()
     document = dom.window.document
+    mockCredentialValidator.mockClear()
   })
 
   afterEach(async () => {
@@ -54,25 +63,47 @@ describe('login', () => {
     expect(document.querySelector('input[name="password"][type="password"]')).toBeTruthy()
   })
 
-  it('provides the styling', async () => {
-    const res = await request(server).get(`/admin-static/scss/login.scss`)
-
-    expect(res.status).toBe(200)
-  })
-
-  it('logs the admin in if entering correct credentials', async () => {
+  it('logs the admin in if successful credential check', async () => {
+    mockCredentialValidator.mockImplementationOnce(() => true)
     // add the admin to the database
     const entityManager = app.get(EntityManager)
 
     const password = 'adminpassword'
-    const adminData = createTestAdminUser({ password })
+    const adminData = createTestAdminUser({ password, username: 'admin' })
     const admin = await entityManager.save(adminData)
     expect(await entityManager.findOneOrFail(AdminUser, admin.id)).toBeDefined()
 
     const res = await request(server)
       .post(`/admin/login`)
       .send({ username: adminData.username, password })
+    expect(mockCredentialValidator).toHaveBeenCalledTimes(1)
+    expect(mockCredentialValidator).toHaveBeenCalledWith(adminData.username, password)
+    expect(mockCredentialValidator).toHaveReturnedWith(true)
     expect(res.status).toBe(302)
     expect(res.header.location).toBe(`/admin`)
+
+    const res2 = await request(server)
+      .get(`/admin`)
+      .set('Cookie', res.get('Set-Cookie')[0])
+    expect(res2.status).toBe(200)
+  })
+
+  it('does not log the admin in if unsuccessful credential check', async () => {
+    // add the admin to the database
+    const entityManager = app.get(EntityManager)
+
+    const password = 'adminpassword'
+    const adminData = createTestAdminUser({ password, username: 'notadmin' })
+    const admin = await entityManager.save(adminData)
+    expect(await entityManager.findOneOrFail(AdminUser, admin.id)).toBeDefined()
+
+    const res = await request(server)
+      .post(`/admin/login`)
+      .send({ username: adminData.username, password })
+    expect(mockCredentialValidator).toHaveBeenCalledTimes(1)
+    expect(mockCredentialValidator).toHaveBeenCalledWith(adminData.username, password)
+    expect(mockCredentialValidator).toHaveReturnedWith(false)
+    expect(res.status).toBe(302)
+    expect(res.header.location).toBe(`/admin/login`)
   })
 })

@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
   ForbiddenException,
 } from '@nestjs/common'
-import { adminUrl } from './admin.filters'
+import { adminUrl } from '../adminCore/admin.filters'
 import InvalidCredentials from './exceptions/invalidCredentials.exception'
 
 @Catch(UnauthorizedException, ForbiddenException, InvalidCredentials)
@@ -16,7 +16,7 @@ export class AdminFilter implements ExceptionFilter {
 
     if (exception instanceof InvalidCredentials) {
       req.flash('loginError', 'Invalid credentials')
-      req.flash('email', exception.username)
+      req.flash('username', exception.username)
     }
     res.redirect(adminUrl('login'))
   }

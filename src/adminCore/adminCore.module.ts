@@ -4,13 +4,16 @@ import { DeepPartial } from 'typeorm'
 import flash = require('connect-flash')
 import * as session from 'express-session'
 import * as passport from 'passport'
-import { join } from 'path'
 
 import { DefaultAdminController } from './admin.controller'
 import DefaultAdminSite from './adminSite'
 import DefaultAdminNunjucksEnvironment from './admin.environment'
-import { injectionTokens } from './tokens'
-import { AdminAppConfigurationOptions, createAppConfiguration } from './admin.configuration'
+import { injectionTokens } from '../tokens'
+import {
+  AdminAppConfigurationOptions,
+  createAppConfiguration,
+  publicFolder,
+} from './admin.configuration'
 
 export interface AdminCoreModuleConfig {
   adminSite?: typeof DefaultAdminSite
@@ -18,8 +21,6 @@ export interface AdminCoreModuleConfig {
   adminEnvironment?: typeof DefaultAdminNunjucksEnvironment
   appConfig?: DeepPartial<AdminAppConfigurationOptions>
 }
-
-export const publicFolder = join(__dirname, 'public')
 
 @Module({})
 export class AdminCoreModuleFactory implements NestModule {

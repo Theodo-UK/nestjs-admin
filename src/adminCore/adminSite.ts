@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { Connection, EntityMetadata, EntityManager } from 'typeorm'
-import { parseName } from './utils/formatting'
+import { parseName } from '../utils/formatting'
 import AdminSection from './adminSection'
-import { EntityType } from './types'
+import { EntityType } from '../types'
 import {
   isIntegerType,
   isNumberType,
@@ -10,7 +10,7 @@ import {
   isBooleanType,
   isEnumType,
   isDecimalType,
-} from './utils/column'
+} from '../utils/column'
 import AdminEntity from './adminEntity'
 import { InvalidAdminRegistration } from './exceptions/invalidAdminRegistration.exception'
 

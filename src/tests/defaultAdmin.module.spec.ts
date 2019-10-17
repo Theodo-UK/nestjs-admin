@@ -1,6 +1,6 @@
-import DefaultAdminSite from '../adminSite'
+import DefaultAdminSite from '../adminCore/adminSite'
 import { injectionTokens } from '../tokens'
-import DefaultAdminNunjucksEnvironment from '../admin.environment'
+import DefaultAdminNunjucksEnvironment from '../adminCore/admin.environment'
 import { DefaultAdminModule } from '..'
 import { TestApplication, createAndStartTestApp } from './utils/testApp'
 

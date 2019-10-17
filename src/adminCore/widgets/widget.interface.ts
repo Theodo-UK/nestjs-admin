@@ -1,5 +1,5 @@
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
-import { DefaultAdminSite } from '..'
+import DefaultAdminSite from '../adminSite'
 
 export interface WidgetConstructor {
   new (column: ColumnMetadata, adminSite: DefaultAdminSite, entity?: object)

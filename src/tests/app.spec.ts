@@ -1,7 +1,7 @@
 import { getEntityManagerToken } from '@nestjs/typeorm'
 import { EntityManager } from 'typeorm'
 import * as request from 'supertest'
-import { displayName } from '../admin.filters'
+import { displayName } from '../adminCore/admin.filters'
 import { User } from '../../exampleApp/src/user/user.entity'
 import { createTestUser } from './utils/entityUtils'
 import { createAndStartTestApp, TestApplication } from './utils/testApp'

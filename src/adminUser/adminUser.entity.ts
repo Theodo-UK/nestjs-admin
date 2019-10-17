@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from './utils/typeormProxy'
+import { Column, Entity, PrimaryGeneratedColumn } from '../utils/typeormProxy'
 
 @Entity('adminUser')
 class AdminUser {
@@ -6,14 +6,14 @@ class AdminUser {
   id: string
 
   @Column({ length: 50, unique: true, nullable: false })
-  email: string
+  username: string
 
   @Column({ length: 128, nullable: false })
   password: string
 
   toString() {
-    if (this.email) {
-      return `${this.id} - ${this.email}`
+    if (this.username) {
+      return `${this.id} - ${this.username}`
     }
     return this.id
   }

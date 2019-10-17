@@ -1,5 +1,5 @@
 import * as request from 'supertest'
-import DefaultAdminSite from '../adminSite'
+import DefaultAdminSite from '../adminCore/adminSite'
 import { injectionTokens } from '../tokens'
 import { EntityManager } from 'typeorm'
 import { EntityWithCompositePrimaryKey } from './entities/entityWithCompositePrimaryKey.entity'
@@ -34,9 +34,7 @@ describe('AdminCoreModuleFactory', () => {
     const entityManager = app.get(EntityManager)
     expect(metadata.hasMultiplePrimaryKeys).toBe(true)
 
-    const entity = await entityManager
-      .getRepository(EntityWithCompositePrimaryKey)
-      .save(new EntityWithCompositePrimaryKey())
+    const entity = await entityManager.save(new EntityWithCompositePrimaryKey())
 
     const server = app.getHttpServer()
     const res = await request(server).get(changeUrl(adminSite.getSection('test'), metadata, entity))

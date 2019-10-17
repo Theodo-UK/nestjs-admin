@@ -1,5 +1,5 @@
 import { EntityMetadata } from './typeormProxy'
-import AdminSection from '../adminSection'
+import AdminSection from '../adminCore/adminSection'
 import { parseName } from './formatting'
 import { getPrimaryKeyValue } from './entity'
 

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { getConnectionOptions } from '../src/utils/typeormProxy'
-import AdminUser from '../src/adminUser.entity'
-import { AdminUserService } from '../src/adminUser.service'
+import AdminUser from '../src/adminUser/adminUser.entity'
+import { AdminUserModule } from 'src/adminUser/adminUser.module'
 
 class AdminConnectionException extends Error {
   constructor(msg) {
@@ -11,7 +11,7 @@ class AdminConnectionException extends Error {
 }
 
 @Module({
-  providers: [AdminUserService], // @debt TODO "Import DefaultAdminAuthModule instead"
+  imports: [AdminUserModule],
 })
 export class CliAdminModule {
   static async getConnectionOptions() {

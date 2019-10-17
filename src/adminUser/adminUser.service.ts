@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { InjectConnection } from '@nestjs/typeorm'
 import { hashSync as bcryptHashSync, compareSync } from 'bcryptjs'
 import { EntitySubscriberInterface, InsertEvent, UpdateEvent, EntityManager } from 'typeorm'
-import { Connection } from './utils/typeormProxy'
+import { Connection } from '../utils/typeormProxy'
 import AdminUser from './adminUser.entity'
-import { DuplicateEmailException } from './exceptions/userAdmin.exception'
+import { DuplicateUsernameException } from './exceptions/userAdmin.exception'
 import { AdminUserValidationException } from './exceptions/adminUserValidation.exception'
 
 @Injectable()
@@ -47,32 +47,32 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
     }
   }
 
-  async create(email: string, password: string) {
-    if (await this.entityManager.findOne(AdminUser, { email })) {
-      throw new DuplicateEmailException(email)
+  async create(username: string, password: string) {
+    if (await this.entityManager.findOne(AdminUser, { username })) {
+      throw new DuplicateUsernameException(username)
     }
 
-    if (!email || !password) {
+    if (!username || !password) {
       throw new AdminUserValidationException()
     }
 
     const admin = new AdminUser()
-    admin.email = email
+    admin.username = username
     admin.password = password
 
     await this.entityManager.save(admin)
   }
 
-  async findOne(email: string): Promise<AdminUser | undefined> {
-    return await this.entityManager.findOne(AdminUser, { where: { email } })
+  async findOne(username: string): Promise<AdminUser | undefined> {
+    return await this.entityManager.findOne(AdminUser, { where: { username } })
   }
 
-  async validateCredentials(email: string, pass: string) {
-    const adminUser = await this.findOne(email)
-    if (adminUser && this.comparePassword(adminUser, pass)) {
+  async validateAdminCredentials(username: string, password: string) {
+    const adminUser: AdminUser | null = await this.findOne(username)
+    if (adminUser && this.comparePassword(adminUser, password)) {
       // @debt quality "miker: 1/ is this destructure necessary? was copied from blog post
       // @debt quality "miker: 2/ https://dev.to/nestjs/authentication-and-sessions-for-mvc-apps-with-nestjs-55a4"
-      const { password, ...result } = adminUser
+      const { password: pass, ...result } = adminUser
       return result
     }
     return null
