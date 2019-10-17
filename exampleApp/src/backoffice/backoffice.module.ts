@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, Injectable } from '@nestjs/common'
 import * as pgConnect from 'connect-pg-simple'
 import * as session from 'express-session'
 import {
@@ -8,9 +8,15 @@ import {
   AdminUserEntity,
 } from 'nestjs-admin'
 
+@Injectable()
+export class CustomAdminSite extends DefaultAdminSite {
+  loginInfoMessage = 'You can login with the username "admin", password "admin"'
+}
+
 const sessionDBUrl = process.env.SESSION_DB_URL
 const PgSession = pgConnect(session)
 const AdminCoreModule = AdminCoreModuleFactory.createAdminCoreModule({
+  adminSite: CustomAdminSite,
   appConfig: {
     session: {
       store:
@@ -29,7 +35,7 @@ const AdminAuthModule = AdminAuthModuleFactory.createAdminAuthModule({
   exports: [AdminCoreModule, AdminAuthModule],
 })
 export class BackofficeModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
+  constructor(private readonly adminSite: CustomAdminSite) {
     adminSite.register('Administration', AdminUserEntity)
   }
 }

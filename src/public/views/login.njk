@@ -20,9 +20,9 @@
             <div class="alert alert-danger">
               {{ flash.loginError }}
             </div>
-          {% else %}
+          {% elif adminSite.loginInfoMessage %}
             <div class="alert alert-info">
-              Please provide admin credentials to access the administration
+              {{ adminSite.loginInfoMessage }}
             </div>
           {% endif %}
           <form method="POST" action="{{ "login" | adminUrl() }}">
