@@ -2,7 +2,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 
 import { DefaultAdminSite } from 'nestjs-admin'
-import { BackofficeModule } from '../backoffice/backoffice.module'
+import { BackofficeModule, CustomAdminSite } from '../backoffice/backoffice.module'
 
 import { User } from './user.entity'
 import { Group } from './group.entity'
@@ -16,7 +16,7 @@ import { UserAdmin } from './user.admin'
   exports: [TypeOrmModule],
 })
 export class UserModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
+  constructor(private readonly adminSite: CustomAdminSite) {
     adminSite.register('User', UserAdmin)
     adminSite.register('User', Group)
     adminSite.register('Agency', Agency)
