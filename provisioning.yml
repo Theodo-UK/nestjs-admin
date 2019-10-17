@@ -1,0 +1,25 @@
+---
+- hosts: all
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: add EPEL repository to yum
+      shell: yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      ignore_errors: yes # The above command will error if the repo is already installed
+    - name: install node at the latest version
+      yum:
+        name: nodejs
+        state: latest
+    - name: install git at the latest version
+      yum:
+        name: git
+        state: latest
+    - name: install SQLite at the latest version
+      yum:
+        name: sqlite
+        state: latest
+    - name: Install yarn globally
+      npm:
+        name: yarn
+        global: yes
