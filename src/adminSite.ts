@@ -25,7 +25,7 @@ class DefaultAdminSite {
   /**
    * The hint text to be displayed on the login page.
    */
-  loginInfo = 'Please provide admin credentials to access the administration'
+  loginInfoMessage = 'Please provide admin credentials to access the administration'
 
   /**
    * The default date format used when displaying dates.

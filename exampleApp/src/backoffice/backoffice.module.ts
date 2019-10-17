@@ -10,7 +10,7 @@ import {
 
 @Injectable()
 export class CustomAdminSite extends DefaultAdminSite {
-  loginInfo = 'Please provide admin credentials to access the administration'
+  loginInfoMessage = 'You can login with the username "admin", password "admin"'
 }
 
 const sessionDBUrl = process.env.SESSION_DB_URL
