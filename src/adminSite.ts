@@ -23,6 +23,11 @@ class DefaultAdminSite {
   siteHeader = 'NestJS Administration'
 
   /**
+   * The hint text to be displayed on the login page.
+   */
+  loginInfo = 'Please provide admin credentials to access the administration'
+
+  /**
    * The default date format used when displaying dates.
    * Uses the moment format string: https://momentjs.com/docs/#/displaying/format/
    * By default, this is 'YYYY-MM-DD hh:mm:ss'

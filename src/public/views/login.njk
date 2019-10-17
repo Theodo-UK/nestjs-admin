@@ -22,7 +22,7 @@
             </div>
           {% else %}
             <div class="alert alert-info">
-              Please provide admin credentials to access the administration
+              {{ adminSite.loginInfo }}
             </div>
           {% endif %}
           <form method="POST" action="{{ "login" | adminUrl() }}">
