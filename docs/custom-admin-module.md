@@ -62,7 +62,6 @@ Then give this `AdminSite` to the `AdminCoreModuleFactory.createAdminCoreModule`
 ```ts
 const coreModule = AdminCoreModuleFactory.createAdminCoreModule({
   adminSite: AdminSite,
-  appConfig: { ... }
 })
 
 export class BackofficeModule {
