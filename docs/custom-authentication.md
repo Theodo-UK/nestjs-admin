@@ -67,7 +67,7 @@ Let's have our BackofficeModule actually provide admin functionalities:
 // src/backoffice/backoffice.module.ts
 import { AdminCoreModuleFactory } from 'nestjs-admin'
 
-const CoreModule = AdminCoreModuleFactory.create({})
+const CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 @Module({
   imports: [CoreModule],
@@ -122,7 +122,7 @@ Now, we can use this validator to instantiate the `AdminAuthModuleFactory`:
 import { AdminCoreModuleFactory, AdminAuthModuleFactory } from 'nestjs-admin'
 import { adminCredentialValidator } from './credentialValidator'
 
-const CoreModule = AdminCoreModuleFactory.create({})
+const CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 const AuthModule = AdminAuthModuleFactory.createAdminAuthModule({
   adminCoreModule: CoreModule, // what core module are you authenticating
   credentialValidator: adminCredentialValidator, // how do you validate credentials
@@ -149,7 +149,7 @@ Assuming you've written your authentication module, you can use it like this:
 import { AdminCoreModuleFactory } from 'nestjs-admin'
 import { MyAdminAuthModule } from './myadminauth.module'
 
-const CoreModule = AdminCoreModuleFactory.create({})
+const CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 @Module({
   imports: [CoreModule, MyAdminAuthModule],
