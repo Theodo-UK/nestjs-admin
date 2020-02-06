@@ -85,7 +85,7 @@ import { User } from '../user/user.entity'
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-export const UserCredentialValidator = {
+export const adminCredentialValidator = {
   imports: [TypeOrmModule.forFeature([User])], // will make the User repository available for injecting
   inject: [getRepositoryToken(User)], // injects the User repository in the factory
   useFactory: (userRepository: Repository<User>) => {
