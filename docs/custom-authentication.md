@@ -67,7 +67,7 @@ Let's have our BackofficeModule actually provide admin functionalities:
 // src/backoffice/backoffice.module.ts
 import { AdminCoreModuleFactory } from 'nestjs-admin'
 
-const CoreModule = AdminCoreModuleFactory.create({})
+const CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 @Module({
   imports: [CoreModule],
@@ -81,18 +81,16 @@ To validate credentials, you'll probably need to have access to some Nest provid
 
 ```ts
 // src/backoffice/credentialValidator.ts
-
-import { CredentialValidatorProvider } from 'nestjs-admin'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { User } from '../user/user.entity'
+import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { User } from '../user/user.entity.ts'
 
-export const adminCredentialValidator: CredentialValidatorProvider = {
+export const adminCredentialValidator = {
   imports: [TypeOrmModule.forFeature([User])], // will make the User repository available for injecting
   inject: [getRepositoryToken(User)], // injects the User repository in the factory
-  useFactory: (UserRepository: Repository<User>) => {
+  useFactory: (userRepository: Repository<User>) => {
     // You can now return a function to validate the credentials
-    return async function(email: string, password: string) {
+    return async function validateCredentials(email: string, password: string) {
       const user: User | null = await userRepository.findOne({ email })
       // Note: here we're assuming the password is in plaintext in the database.
       // Never do that in a real app! You should hash your password and compare hashes
@@ -122,7 +120,7 @@ Now, we can use this validator to instantiate the `AdminAuthModuleFactory`:
 import { AdminCoreModuleFactory, AdminAuthModuleFactory } from 'nestjs-admin'
 import { adminCredentialValidator } from './credentialValidator'
 
-const CoreModule = AdminCoreModuleFactory.create({})
+const CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 const AuthModule = AdminAuthModuleFactory.createAdminAuthModule({
   adminCoreModule: CoreModule, // what core module are you authenticating
   credentialValidator: adminCredentialValidator, // how do you validate credentials
@@ -149,7 +147,7 @@ Assuming you've written your authentication module, you can use it like this:
 import { AdminCoreModuleFactory } from 'nestjs-admin'
 import { MyAdminAuthModule } from './myadminauth.module'
 
-const CoreModule = AdminCoreModuleFactory.create({})
+const CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 @Module({
   imports: [CoreModule, MyAdminAuthModule],
