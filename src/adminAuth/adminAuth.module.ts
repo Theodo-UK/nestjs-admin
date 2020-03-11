@@ -2,7 +2,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 import AdminUserEntity from '../adminUser/adminUser.entity'
 import { LocalStrategy } from './local.strategy'
-import { AdminUserController } from './adminUser.controller'
+import { AdminAuthController } from './adminAuth.controller'
 import { AdminCoreModuleFactory } from '../adminCore/adminCore.module'
 import { injectionTokens } from '../tokens'
 import { AdminUserService } from '../adminUser/adminUser.service'
@@ -28,7 +28,7 @@ interface AdminAuthModuleConfig {
 @Module({
   imports: [TypeOrmModule.forFeature([AdminUserEntity])],
   providers: [LocalStrategy],
-  controllers: [AdminUserController],
+  controllers: [AdminAuthController],
 })
 export class AdminAuthModuleFactory {
   static createAdminAuthModule({

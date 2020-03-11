@@ -8,7 +8,7 @@ export { default as AdminUserEntity } from './adminUser/adminUser.entity'
 export { default as PasswordWidget } from './adminCore/widgets/passwordWidget' // TODO: export all widgets
 export { default as DefaultAdminNunjucksEnvironment } from './adminCore/admin.environment'
 export { AdminUserService } from './adminUser/adminUser.service'
-export { AdminUserController } from './adminAuth/adminUser.controller'
+export { AdminAuthController } from './adminAuth/adminAuth.controller'
 export { LocalStrategy } from './adminAuth/local.strategy'
 export { default as DefaultAdminModule } from './defaultAdmin.module'
 export { AdminCoreModuleFactory, AdminCoreModuleConfig } from './adminCore/adminCore.module'
