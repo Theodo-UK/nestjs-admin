@@ -101,7 +101,7 @@
 <pre><code class="hljs css language-ts"><span class="hljs-comment">// src/backoffice/backoffice.module.ts</span>
 <span class="hljs-keyword">import</span> { AdminCoreModuleFactory } <span class="hljs-keyword">from</span> <span class="hljs-string">'nestjs-admin'</span>
 
-<span class="hljs-keyword">const</span> CoreModule = AdminCoreModuleFactory.create({})
+<span class="hljs-keyword">const</span> CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 <span class="hljs-meta">@Module</span>({
   imports: [CoreModule],
@@ -111,18 +111,16 @@
 <p>At this point, any request to <code>/admin/*</code> will fail because the user won't be authenticated (<code>request.user</code> is never set). We need to instantiate the provided <code>AdminAuthModuleFactory</code>, telling it how to validate credentials.</p>
 <p>To validate credentials, you'll probably need to have access to some Nest providers: your User entity's repository at the very least. For this we use the <a href="https://docs.nestjs.com/fundamentals/custom-providers">factory provider pattern</a>. It can look complicated, but it's fairly easy to use:</p>
 <pre><code class="hljs css language-ts"><span class="hljs-comment">// src/backoffice/credentialValidator.ts</span>
-
-<span class="hljs-keyword">import</span> { CredentialValidatorProvider } <span class="hljs-keyword">from</span> <span class="hljs-string">'nestjs-admin'</span>
-<span class="hljs-keyword">import</span> { TypeOrmModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nestjs/typeorm'</span>
+<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'../user/user.entity'</span>
+<span class="hljs-keyword">import</span> { TypeOrmModule, getRepositoryToken } <span class="hljs-keyword">from</span> <span class="hljs-string">'@nestjs/typeorm'</span>
 <span class="hljs-keyword">import</span> { Repository } <span class="hljs-keyword">from</span> <span class="hljs-string">'typeorm'</span>
-<span class="hljs-keyword">import</span> { User } <span class="hljs-keyword">from</span> <span class="hljs-string">'../user/user.entity.ts'</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> adminCredentialValidator: CredentialValidatorProvider = {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> adminCredentialValidator = {
   imports: [TypeOrmModule.forFeature([User])], <span class="hljs-comment">// will make the User repository available for injecting</span>
   inject: [getRepositoryToken(User)], <span class="hljs-comment">// injects the User repository in the factory</span>
-  useFactory: <span class="hljs-function">(<span class="hljs-params">UserRepository: Repository&lt;User&gt;</span>) =&gt;</span> {
+  useFactory: <span class="hljs-function">(<span class="hljs-params">userRepository: Repository&lt;User&gt;</span>) =&gt;</span> {
     <span class="hljs-comment">// You can now return a function to validate the credentials</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">email: <span class="hljs-built_in">string</span>, password: <span class="hljs-built_in">string</span></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateCredentials</span>(<span class="hljs-params">email: <span class="hljs-built_in">string</span>, password: <span class="hljs-built_in">string</span></span>) </span>{
       <span class="hljs-keyword">const</span> user: User | <span class="hljs-literal">null</span> = <span class="hljs-keyword">await</span> userRepository.findOne({ email })
       <span class="hljs-comment">// Note: here we're assuming the password is in plaintext in the database.</span>
       <span class="hljs-comment">// Never do that in a real app! You should hash your password and compare hashes</span>
@@ -155,7 +153,7 @@
 <span class="hljs-keyword">import</span> { AdminCoreModuleFactory, AdminAuthModuleFactory } <span class="hljs-keyword">from</span> <span class="hljs-string">'nestjs-admin'</span>
 <span class="hljs-keyword">import</span> { adminCredentialValidator } <span class="hljs-keyword">from</span> <span class="hljs-string">'./credentialValidator'</span>
 
-<span class="hljs-keyword">const</span> CoreModule = AdminCoreModuleFactory.create({})
+<span class="hljs-keyword">const</span> CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 <span class="hljs-keyword">const</span> AuthModule = AdminAuthModuleFactory.createAdminAuthModule({
   adminCoreModule: CoreModule, <span class="hljs-comment">// what core module are you authenticating</span>
   credentialValidator: adminCredentialValidator, <span class="hljs-comment">// how do you validate credentials</span>
@@ -175,7 +173,7 @@
 <span class="hljs-keyword">import</span> { AdminCoreModuleFactory } <span class="hljs-keyword">from</span> <span class="hljs-string">'nestjs-admin'</span>
 <span class="hljs-keyword">import</span> { MyAdminAuthModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'./myadminauth.module'</span>
 
-<span class="hljs-keyword">const</span> CoreModule = AdminCoreModuleFactory.create({})
+<span class="hljs-keyword">const</span> CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 
 <span class="hljs-meta">@Module</span>({
   imports: [CoreModule, MyAdminAuthModule],
