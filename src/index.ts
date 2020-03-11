@@ -15,4 +15,3 @@ export { AdminCoreModuleFactory, AdminCoreModuleConfig } from './adminCore/admin
 export { AdminAuthModuleFactory } from './adminAuth/adminAuth.module'
 export { injectionTokens } from './tokens'
 export { AdminAppConfigurationOptions } from './adminCore/admin.configuration'
-export { adminUserCredentialValidator } from './adminUser/adminUser.module'

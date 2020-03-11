@@ -4,7 +4,7 @@ import { AdminAuthModuleFactory } from '../adminAuth/adminAuth.module'
 import AdminUser from './adminUser.entity'
 import { AdminUserService } from './adminUser.service'
 
-export const adminUserCredentialValidator = {
+const adminUserCredentialValidator = {
   imports: [TypeOrmModule.forFeature([AdminUser])],
   useFactory: (adminUserService: AdminUserService) => {
     return adminUserService.validateAdminCredentials.bind(adminUserService)
@@ -18,5 +18,7 @@ export const adminUserCredentialValidator = {
       credentialValidator: adminUserCredentialValidator,
     }),
   ],
+  providers: [AdminUserService],
+  exports: [AdminUserService],
 })
 export class AdminUserModule {}
