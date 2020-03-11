@@ -4,7 +4,7 @@ executors:
   node_postgres:
     docker:
       - image: circleci/node:10.13.0
-      - image: circleci/postgres:9.6-alpine-ram
+      - image: circleci/postgres:10.9-alpine-ram
         environment:
           - POSTGRES_DB=seed
           - POSTGRES_USER=seed
