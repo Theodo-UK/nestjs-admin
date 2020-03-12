@@ -26,7 +26,6 @@ interface AdminAuthModuleConfig {
 }
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AdminUserEntity])],
   providers: [LocalStrategy],
   controllers: [AdminAuthController],
 })
@@ -35,16 +34,18 @@ export class AdminAuthModuleFactory {
     adminCoreModule = defaultCoreModule,
     credentialValidator,
   }: Partial<AdminAuthModuleConfig>) {
+    const injectedProviders = credentialValidator.inject || []
+    const importedModules = credentialValidator.imports || []
     const credentialValidatorProvider = {
       provide: injectionTokens.ADMIN_AUTH_CREDENTIAL_VALIDATOR,
       useFactory: credentialValidator.useFactory,
-      inject: credentialValidator.inject,
+      inject: injectedProviders,
     }
     return {
       module: AdminAuthModuleFactory,
-      imports: [adminCoreModule, ...(credentialValidator.imports || [])],
-      exports: [credentialValidatorProvider],
-      providers: [credentialValidatorProvider, AdminUserService],
+      imports: [adminCoreModule, ...importedModules],
+      exports: [credentialValidatorProvider, ...injectedProviders],
+      providers: [credentialValidatorProvider, ...injectedProviders],
     }
   }
 }
