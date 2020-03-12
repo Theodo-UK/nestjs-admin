@@ -18,7 +18,7 @@ import { AdminFilter } from './admin.filter'
 
 @Controller('admin')
 @UseFilters(AdminFilter)
-export class AdminUserController {
+export class AdminAuthController {
   constructor(
     @Inject(injectionTokens.ADMIN_ENVIRONMENT)
     private env: DefaultAdminNunjucksEnvironment,

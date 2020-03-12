@@ -2,7 +2,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 import AdminUserEntity from '../adminUser/adminUser.entity'
 import { LocalStrategy } from './local.strategy'
-import { AdminUserController } from './adminUser.controller'
+import { AdminAuthController } from './adminAuth.controller'
 import { AdminCoreModuleFactory } from '../adminCore/adminCore.module'
 import { injectionTokens } from '../tokens'
 import { AdminUserService } from '../adminUser/adminUser.service'
@@ -26,25 +26,26 @@ interface AdminAuthModuleConfig {
 }
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AdminUserEntity])],
   providers: [LocalStrategy],
-  controllers: [AdminUserController],
+  controllers: [AdminAuthController],
 })
 export class AdminAuthModuleFactory {
   static createAdminAuthModule({
     adminCoreModule = defaultCoreModule,
     credentialValidator,
   }: Partial<AdminAuthModuleConfig>) {
+    const injectedProviders = credentialValidator.inject || []
+    const importedModules = credentialValidator.imports || []
     const credentialValidatorProvider = {
       provide: injectionTokens.ADMIN_AUTH_CREDENTIAL_VALIDATOR,
       useFactory: credentialValidator.useFactory,
-      inject: credentialValidator.inject,
+      inject: injectedProviders,
     }
     return {
       module: AdminAuthModuleFactory,
-      imports: [adminCoreModule, ...(credentialValidator.imports || [])],
-      exports: [credentialValidatorProvider],
-      providers: [credentialValidatorProvider, AdminUserService],
+      imports: [adminCoreModule, ...importedModules],
+      exports: [credentialValidatorProvider, ...injectedProviders],
+      providers: [credentialValidatorProvider, ...injectedProviders],
     }
   }
 }
