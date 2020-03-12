@@ -100,7 +100,7 @@
     },
     "testEnvironment": "node",
     "modulePathIgnorePatterns": [
-      "exampleApp"
+      "exampleApp/"
     ]
   }
 }
