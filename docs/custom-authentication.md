@@ -86,7 +86,6 @@ import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 export const adminCredentialValidator = {
-  imports: [TypeOrmModule.forFeature([User])], // will make the User repository available for injecting
   inject: [getRepositoryToken(User)], // injects the User repository in the factory
   useFactory: (userRepository: Repository<User>) => {
     // You can now return a function to validate the credentials
@@ -103,15 +102,15 @@ export const adminCredentialValidator = {
 }
 ```
 
-A bit terse, but nothing incredible:
+A bit terse, but it's all standard NestJS (see [factory provider pattern](https://docs.nestjs.com/fundamentals/custom-providers)):
 
 - The `useFactory` function takes whatever Nest providers you'll need as arguments, and return a validation function
-  - Here we use a repository, but you could use whatever you want (such as a `UserService` you defined in your User module for example)
+  - Here we use a repository, but you could use whatever you want (for example, a `UserService` you defined in your User module)
 - `inject` contains the injection tokens for the services you want to inject in your factory (in the same order than the arguments of the factory).
   - It is whatever you'd pass to the `@Inject` decorator.
   - If you want to inject one of your own providers, chances are that you'll just give the provider class itself in the `inject` array (eg `UserService`)
-- `imports` contains the list of modules that export the Nest providers you're injecting into your factory function.
-  - If you are injecting your `UserService`, you'll need to import your `UserModule`
+  - You will need to make sure the module exporting these providers are imported. You can specify these modules when instanciating the `AdminAuthModuleFactory`, see below.
+    - For example if you are injecting your `UserService`, you'll need to import your `UserModule`
 
 Now, we can use this validator to instantiate the `AdminAuthModuleFactory`:
 
@@ -122,8 +121,10 @@ import { adminCredentialValidator } from './credentialValidator'
 
 const CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 const AuthModule = AdminAuthModuleFactory.createAdminAuthModule({
-  adminCoreModule: CoreModule, // what core module are you authenticating
+  adminCoreModule: CoreModule, // what admin module are you configuring authentication for
   credentialValidator: adminCredentialValidator, // how do you validate credentials
+  imports: [TypeOrmModule.forFeature([User])], // what modules export the dependencies of the credentialValidator available
+  providers: [], // additional providers that will be instanciated and exported by the AdminAuthModuleFactory
 })
 
 @Module({
@@ -155,4 +156,4 @@ const CoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 export class BackofficeModule {}
 ```
 
-Good luck, feel free to ask for help!
+Good luck, feel free to ask for help using GitHub issues!

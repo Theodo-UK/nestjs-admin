@@ -18,6 +18,7 @@ const adminUserCredentialValidator = {
     TypeOrmModule.forFeature([AdminUserEntity]),
     AdminAuthModuleFactory.createAdminAuthModule({
       credentialValidator: adminUserCredentialValidator,
+      providers: [AdminUserService],
     }),
   ],
   exports: [AdminAuthModuleFactory],
