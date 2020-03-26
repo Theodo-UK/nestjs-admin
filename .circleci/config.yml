@@ -4,6 +4,11 @@ executors:
   node_postgres:
     docker:
       - image: circleci/node:10.13.0
+        environment: # overrides the .env
+          - DB_USERNAME=seed
+          - DB_PASSWORD=Ge0rgesMoustaki
+          - DB_DATABASE=seed
+          - DB_PORT=5434
       - image: circleci/postgres:10.9-alpine-ram
         environment:
           - POSTGRES_DB=seed
@@ -46,6 +51,8 @@ commands:
           paths:
             - node_modules
             - exampleApp/node_modules
+            - dist
+            - exampleApp/dist
             - .env
 
   run-tests:
@@ -72,6 +79,37 @@ jobs:
     working_directory: ~/nestjs-admin
     steps:
       - yarn-install
+
+  test-example-app:
+    executor: node_postgres
+    working_directory: ~/nestjs-admin
+    environment:
+      NODE_ENV: test
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/nestjs-admin
+      - run:
+          name: Compile the exampleApp
+          working_directory: ~/nestjs-admin/exampleApp
+          command: yarn tsc -p tsconfig.build.json
+      - run:
+          name: Run the dev server
+          working_directory: ~/nestjs-admin/exampleApp
+          command: node dist/src/main.js
+          background: true
+      - run:
+          name: Check that the dev server starts correctly
+          working_directory: ~/nestjs-admin/exampleApp
+          command: |
+            sleep 8
+            curl -v --fail http://localhost:8000 > home.html
+            grep -q "Hello World" home.html
+            curl -v --fail http://localhost:8000/admin > redirect.html
+            grep -q "Found. Redirecting to /admin/login" redirect.html
+            curl -v --fail http://localhost:8000/admin/login > login.html
+            grep -q "NestJS Administration" login.html
+            grep -q "Please provide admin credentials to access the administration" login.html
 
   test-unit-postgres:
     executor: node_postgres
@@ -110,6 +148,9 @@ workflows:
   stack:
     jobs:
       - yarn-install-back
+      - test-example-app:
+          requires:
+            - yarn-install-back
       - test-unit-postgres:
           requires:
             - yarn-install-back
@@ -120,6 +161,7 @@ workflows:
           requires:
             - test-unit-postgres
             - test-unit-mysql
+            - test-example-app
           filters:
             branches:
               only:
