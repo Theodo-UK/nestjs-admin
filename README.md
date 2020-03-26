@@ -30,8 +30,8 @@ Ready-to-use user interface for administrative activities. Allows to list, edit,
 
 This is heavily, heavily inspired by [Django admin](https://djangobook.com/mdj2-django-admin/), from the concept to the API.
 
-> This is still very much a work in progress.
-> Your help is more than welcome!
+> This is still very much a work in progress. Your help is more than welcome!
+> The API is still very unstable. Until a 1.x.x release, **expect breaking changes in minor versions**
 
 **Full docs: https://nestjs-admin.com/**
 
