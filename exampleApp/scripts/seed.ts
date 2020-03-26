@@ -62,7 +62,7 @@ async function seed() {
 
   console.log('Creating admin...')
   const admin = createAdmin()
-  adminRepository.save(admin)
+  await adminRepository.save(admin)
 
   console.log('Creating agencies...')
   let agencies = _range(10).map(createRandomAgency)
