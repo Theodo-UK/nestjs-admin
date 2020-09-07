@@ -1,0 +1,31 @@
+{% set useJquery = true %}
+{% set backLink = "changelist" | adminUrl(section, metadata)  %}
+{% set pageId = "admin-add" %}
+
+{% extends 'base.njk'%}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/admin-static/css/form.css">
+{% endblock %}
+
+{% block body %}
+
+<div class="admin-title"><h3>Add new {{ metadata.name | prettyPrint}}</h3></div>
+<div class="admin-content">
+  <div class="row">
+    <div class="col-12 col-xl-8">
+      <div class="admin-form admin-form--add">
+        <form method="POST" action="{{ 'add' | adminUrl(section, metadata) }}">
+          {% asyncEach widget in adminEntity.getWidgets("add") %}
+            <fieldset class="entity-form__field {{ field }}">
+                {% include widget.template %}
+            </fieldset>
+          {% endeach %}
+          <button type="submit" class="btn btn-primary float-right">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

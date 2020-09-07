@@ -1,0 +1,13 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  <input
+    class="form-control"
+    type="time"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    {% if widget.getValue() %}value="{{ widget.getValue() }}"{% endif %}
+    pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
+    {{ "required" if widget.isRequired() }}
+  />
+{% endblock %}

@@ -1,0 +1,60 @@
+{% set useJquery = false %}
+{% set pageId = "admin-login" %}
+{% extends 'base.njk'%}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/admin-static/css/login.css">
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="admin-login__container">
+        <div class="admin-login__header">
+          {{ adminSite.siteHeader }}
+        </div>
+        <div class="admin-login__content">
+          {% if flash.loginError %}
+            <div class="alert alert-danger">
+              {{ flash.loginError }}
+            </div>
+          {% else %}
+            <div class="alert alert-info">
+              Please provide admin credentials to access the administration
+            </div>
+          {% endif %}
+          <form method="POST" action="{{ "login" | adminUrl() }}">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                id="username"
+                name="username"
+                placeholder="Enter your username"
+                required
+                class="form-control"
+                value="{{ flash.username }}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                class="form-control"
+              />
+            </div>
+            <div class="admin-login__content__submit">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

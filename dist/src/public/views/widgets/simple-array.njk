@@ -1,0 +1,42 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  {% macro field(name, isRequired, value = '') %}
+    <div class="array-value input-{{ name }}">
+      <input
+        id="{{ name }}"
+        name="{{ name }}[]"
+        value="{{ value }}"
+        class="form-control array-value__input"
+        {{ "required" if isRequired }}
+      />
+      <button type="button" class="array-remove" onclick="{{ name }}RemoveInput(this)">－</button>
+    </div>
+  {% endmacro %}
+
+  <input type="hidden" id="{{ widget.column.propertyName }}-empty" name="{{ widget.column.propertyName }}" value="" disabled>
+
+  <div id="values-{{ widget.column.propertyName }}">
+    {% for singleValue in widget.getValue() %}
+      {{ field(widget.column.propertyName, widget.isRequired(), singleValue) }}
+    {% endfor %}
+  </div>
+  <button type="button" class="btn btn-primary" onclick="{{ widget.column.propertyName }}AddInput()">Add another</button>
+{% endblock %}
+
+{% block script %}
+  <script>
+    function {{ widget.column.propertyName }}AddInput() {
+      const inputContainer = document.getElementById("values-{{ widget.column.propertyName }}");
+      const newInput = "{{ field(widget.column.propertyName, widget.isRequired()) | replace("\n", "") | replace("\"", "\\\"") }}";
+      inputContainer.appendChild($(newInput)[0]);
+      document.getElementById("{{ widget.column.propertyName }}-empty").setAttribute('disabled', true);
+    }
+    function {{ widget.column.propertyName }}RemoveInput(self) {
+      self.closest('.input-{{ widget.column.propertyName }}').remove();
+      if(document.getElementsByClassName('input-{{ widget.column.propertyName }}').length === 0) {
+        document.getElementById("{{ widget.column.propertyName }}-empty").removeAttribute('disabled');
+      }
+    }
+  </script>
+{% endblock %}

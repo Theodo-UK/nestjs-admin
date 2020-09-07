@@ -1,0 +1,13 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  <input
+    class="form-control"
+    type="number"
+    step="1"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    {% if widget.getValue() %}value={{ widget.getValue() }}{% endif %}
+    {{ "required" if widget.isRequired() }}
+  />
+{% endblock %}

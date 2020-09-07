@@ -1,0 +1,16 @@
+<div class="form-group row">
+  {% block label %}
+  <label class="col-12 col-md-3 col-form-label" for="{{ widget.column.propertyName }}">
+    {{ widget.getLabel() | prettyPrint }}
+    {% if widget.isRequired() %}
+      <span style="color: red;">*</span>
+    {% endif %}
+  </label>
+  {% endblock %}
+  <div class="col-12 col-md-9">
+  {% block input %}
+  {% endblock %}
+  {% block script %}
+  {% endblock %}
+  </div>
+</div>

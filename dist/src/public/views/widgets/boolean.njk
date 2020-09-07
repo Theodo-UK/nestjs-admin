@@ -1,0 +1,21 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  {# Because checkboxes don't send a value if left unchecked, we include a hidden default field
+  to pass the false value. If the box is checked, both values are sent and the true value is used #}
+  <input
+    type="hidden"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    value=0
+  />
+  <input
+    class="form-control checkbox"
+    type="checkbox"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    value=1
+    {% if widget.getValue() %}checked{% endif %}
+    {{ "required" if widget.isRequired() }}
+  />
+{% endblock %}

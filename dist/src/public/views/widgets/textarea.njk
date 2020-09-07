@@ -1,0 +1,10 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block input %}
+  <textarea
+    class="form-control"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    {{ "required" if widget.isRequired() }}
+  >{{ widget.getValue() }}</textarea>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% set useJquery = false %}
+{% set pageId = 'admin-index' %}
+
+{% extends 'base.njk'%}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/admin-static/css/index.css">
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid admin-content">
+  <div class="row">
+    {% for section in sections %}
+      <div class="col-12 col-md-7">
+        <table class="table table-bordered table-striped section-table">
+          <thead class="thead-dark">
+            <tr><th>{{ section.name }}</th></tr>
+          </thead>
+          <tbody>
+          {% for entityMD in section.getEntitiesMetadata() %}
+            <tr>
+              <td>
+                <a href="{{ 'changelist' | adminUrl(section, entityMD) }}">
+                  {{ entityMD.name | prettyPrint }}
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

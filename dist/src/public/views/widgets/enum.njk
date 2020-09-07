@@ -1,0 +1,30 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% macro maybeSelected(widget, value) %}
+    {% if value == widget.getValue() %}selected{% endif %}
+  {% endmacro %}
+
+  {% macro maybeDisabled(column) %}
+    {% if not column.isNullable %}disabled{% endif %}
+  {% endmacro %}
+
+{% block input %}
+  <select
+    class="form-control"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    {{ "required" if widget.isRequired() }}
+  >
+    <option
+      value=''
+      {{ maybeSelected(widget, null) }}
+      {{ maybeDisabled(widget.column) }}
+    >
+    </option>
+    {% for value in widget.column.enum %}
+      <option value="{{ value }}" {{ maybeSelected(widget, value) }}>
+        {{ value }}
+      </option>
+    {% endfor %}
+  </select>
+{% endblock %}

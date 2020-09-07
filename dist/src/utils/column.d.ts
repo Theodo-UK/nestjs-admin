@@ -1,0 +1,13 @@
+import { ColumnType } from 'typeorm';
+export declare type IntegerColumnType = NumberConstructor | 'number' | 'integer' | 'tinyint' | 'smallint' | 'mediumint' | 'bigint' | 'int' | 'int2' | 'int4' | 'int8' | 'int64' | 'unsigned big int' | 'long';
+export declare type DecimalColumnType = 'numeric' | 'float' | 'dec' | 'decimal' | 'real' | 'double' | 'double precision' | 'fixed';
+export declare type NumberColumnType = IntegerColumnType | DecimalColumnType;
+export declare type DateType = 'date' | 'datetime' | 'datetime2' | 'datetimeoffset' | 'time' | 'time with time zone' | 'time without time zone' | 'timestamp' | 'timestamp without time zone' | 'timestamp with time zone' | 'timestamp with local time zone';
+export declare type BooleanType = 'boolean' | 'bool';
+export declare type EnumType = 'enum';
+export declare function isIntegerType(type: ColumnType): type is IntegerColumnType;
+export declare function isDecimalType(type: ColumnType): type is DecimalColumnType;
+export declare function isNumberType(type: ColumnType): type is NumberColumnType;
+export declare function isDateType(type: ColumnType): type is DateType;
+export declare function isBooleanType(type: ColumnType): type is BooleanType;
+export declare function isEnumType(type: ColumnType): type is EnumType;

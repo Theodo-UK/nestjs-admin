@@ -1,0 +1,28 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% set value = widget.getValue() %}
+
+{% block input %}
+  <select
+    class="form-control"
+    id="{{ widget.column.propertyName }}"
+    name="{{ widget.column.propertyName }}"
+    {{ "required" if widget.isRequired() }}
+  >
+    <option value='null'
+      {% if value == null %}selected{% endif %}
+    >
+      Unknown
+    </option>
+    <option value='true'
+      {% if value == true %}selected{% endif %}
+    >
+      True
+    </option>
+    <option value='false'
+      {% if value == false %}selected{% endif %}
+    >
+      False
+    </option>
+  </select>
+{% endblock %}

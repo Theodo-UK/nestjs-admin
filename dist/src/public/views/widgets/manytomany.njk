@@ -1,0 +1,28 @@
+{% extends 'widgets/base-widget.njk' %}
+
+{% block label %}
+<label class="col-12 col-md-3 col-form-label" for="{{ widget.relation.propertyName }}">{{ widget.getLabel() | prettyPrint }}</label>
+{% endblock %}
+
+{% block input %}
+  {% macro maybeSelected(relation, value) %}
+    {% if isEntityInList(value, relation.getEntityValue(entity), relation.inverseEntityMetadata) %}selected{% endif %}
+  {% endmacro %}
+
+  {% setAsync 'options', getRelationOptions, [adminSite, widget.relation] %}
+
+  <input type="hidden" id="{{ widget.relation.propertyName }}" name="{{ widget.relation.propertyName }}"  value="" />
+  <select
+    class="form-control"
+    id="{{ widget.relation.propertyName }}"
+    name="{{ widget.relation.propertyName }}"
+    multiple
+    {{ "required" if widget.isRequired() }}
+  >
+    {% for option in options %}
+      <option value="{{ option.id }}" {{ maybeSelected(widget.relation, option) }}>
+        {{ option | displayName(widget.relation.inverseEntityMetadata) }}
+      </option>
+    {% endfor %}
+  </select>
+{% endblock %}

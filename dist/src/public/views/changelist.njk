@@ -1,0 +1,112 @@
+{% set useJquery = false %}
+{% set backLink = 'index' | adminUrl  %}
+{% set pageId = 'admin-changelist' %}
+
+{% extends 'base.njk'%}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/admin-static/css/changelist.css">
+{% endblock %}
+
+{% block body %}
+
+<div class="admin-title">
+  <div><h3>{{ metadata.name | prettyPrint }}</h3> <span class="admin-changelist__count">({{ count }} results)</span></div>
+  <a href="{{ 'add' | adminUrl(section, metadata, entity) }}">
+    <button class="btn btn-primary">Add {{ metadata.name | prettyPrint}}</button>
+  </a>
+</div>
+
+<div class="admin-content">
+
+  {% if adminEntity.searchFields %}
+  <div class="row">
+    <div class="col-12">
+      <div class="search-bar">
+        <div class="row">
+          <div class="col-6">
+            <form method="GET">
+              <div class="search-box">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="search"
+                  id="search"
+                  placeholder="Search"
+                  {% if flash.searchString %}value="{{ flash.searchString }}"{% endif %}
+                />
+                <input type="submit" class="btn btn-primary" value="Search">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered table-striped entity-table">
+
+        {# If there's a `listDisplay` config, we'll display columns with the properties of the entity #}
+        {% if adminEntity.listDisplay %}
+          <thead class='thead-dark'>
+            {% for property in adminEntity.listDisplay %}
+              <th>{{ property }}</th>
+            {% endfor %}
+          </thead>
+          {% for entity in entities %}
+            <tr>
+              {% for property in adminEntity.listDisplay %}
+                <td>
+                  {% if loop.first %}
+                    <a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity[property] }}</a>
+                  {% else %}
+                    {% if isDateType(metadata.findColumnWithPropertyName(property).type) %}
+                        {% if entity[property] != null %}
+                          {{ entity[property] | date }}
+                        {% endif %}
+                    {% else %}
+                      {{ entity[property] }}
+                    {% endif %}
+                  {% endif %}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+
+        {# If there's no `listDisplay` config, just use the default display of the entity #}
+        {% else %}
+          {% for entity in entities %}
+            <tr><td><a href="{{ 'change' | adminUrl(section, metadata, entity) }}">{{ entity | displayName(metadata) }}</a></td></tr>
+          {% endfor %}
+        {% endif %}
+
+      </table>
+
+      <ul class="pagination">
+        {% set paginationRanges = getPaginationRanges(page, adminEntity.resultsPerPage, count) %}
+        {% for pageRange in paginationRanges %}
+          {% for pageNumber in pageRange %}
+            {% set active = page == pageNumber %}
+            <li class="page-item {{ "active" if active }}">
+              <a
+                class="page-link"
+                {% if not active %}
+                  href="{{ generatePaginatedUrl(request, pageNumber) }}"
+                {% endif %}
+              >
+                {{ pageNumber }}
+              </a>
+            </li>
+          {% endfor %}
+          {% if not loop.last %}
+            <li class="page-item"><a class="page-link disabled">…</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

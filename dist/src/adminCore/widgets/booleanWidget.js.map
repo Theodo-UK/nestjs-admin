@@ -1,0 +1,1 @@
+{"version":3,"file":"booleanWidget.js","sourceRoot":"","sources":["../../../../src/adminCore/widgets/booleanWidget.ts"],"names":[],"mappings":";;AAAA,yDAAuD;AAEvD,MAAqB,aAAc,SAAQ,6BAAU;IACnD,IAAI,QAAQ;QACV,OAAO,IAAI,CAAC,MAAM,CAAC,UAAU,CAAC,CAAC,CAAC,8BAA8B,CAAC,CAAC,CAAC,qBAAqB,CAAA;IACxF,CAAC;IAED,UAAU;QACR,OAAO,KAAK,CAAA;IACd,CAAC;CACF;AARD,gCAQC"}
