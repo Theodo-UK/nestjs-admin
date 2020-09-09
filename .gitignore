@@ -1,3 +1,4 @@
 src/public/css
 node_modules
 .idea
+.vscode
