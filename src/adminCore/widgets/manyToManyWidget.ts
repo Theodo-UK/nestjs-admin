@@ -1,6 +1,6 @@
 import { Widget } from './widget.interface'
 import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
-import { DefaultAdminSite } from 'src'
+import { DefaultAdminSite } from '../../index'
 
 export default class ManyToManyWidget implements Widget {
   template = 'widgets/manytomany.njk'

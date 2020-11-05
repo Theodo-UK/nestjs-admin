@@ -21,6 +21,7 @@ const adminUserCredentialValidator = {
       providers: [AdminUserService],
     }),
   ],
-  exports: [AdminAuthModuleFactory],
+  exports: [AdminAuthModuleFactory, AdminUserService],
+  providers: [AdminAuthModuleFactory, AdminUserService]
 })
 export class AdminUserModule {}
