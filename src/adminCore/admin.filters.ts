@@ -32,7 +32,7 @@ export function displayName(entity: object, metadata: EntityMetadata) {
   if (entity.__proto__.hasOwnProperty('toString')) {
     return entity.toString()
   }
-  const primaryColumns = metadata.primaryColumns.map(col => col.getEntityValue(entity))
+  const primaryColumns = metadata.primaryColumns.map((col) => col.getEntityValue(entity))
   return primaryColumns.join(' - ')
 }
 

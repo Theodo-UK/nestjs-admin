@@ -24,7 +24,7 @@ export function getPaginationRanges(
   ]
 
   return paginationRanges.reduce(
-    function(ranges, currRange) {
+    function (ranges, currRange) {
       if (currRange.length === 0) return ranges
 
       const unchangedRanges = [...ranges]

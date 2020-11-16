@@ -10,7 +10,7 @@ if (process.env.NESTJS_ADMIN_TYPEORM_PATH) {
 // WHY? To improve development environment:
 //
 // In our dev env there are two typeorm libraries:
-// The first is in the library itself in /node_modiules
+// The first is in the library itself in /node_modules
 // The second is in exampleApp/node_modules
 //
 // This was causing issues with conditions within 'typeorm' e.g. "instanceof {Class}" comparisons

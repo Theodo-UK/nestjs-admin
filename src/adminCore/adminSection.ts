@@ -16,7 +16,7 @@ class AdminSection {
   }
 
   getEntitiesMetadata() {
-    return Object.values(this.entities).map(e => e.metadata)
+    return Object.values(this.entities).map((e) => e.metadata)
   }
 
   getRepository(entityName: string) {

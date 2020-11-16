@@ -54,7 +54,7 @@ class DefaultAdminNunjucksEnvironment {
     }
 
     const prom = new Promise((resolve, reject) => {
-      this.env.render(name, templateParameters, function(err, res) {
+      this.env.render(name, templateParameters, function (err, res) {
         if (err) {
           reject(err)
           return err

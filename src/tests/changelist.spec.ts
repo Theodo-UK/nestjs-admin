@@ -132,7 +132,7 @@ describe('changelist', () => {
 
     const tableCellContents = Array.from(
       document.querySelectorAll('table tbody tr td:nth-child(1) a'),
-    ).map(x => x.innerHTML)
+    ).map((x) => x.innerHTML)
 
     expect(tableCellContents.includes(user1.id.toString())).toBeTruthy()
     expect(tableCellContents.includes(user2.id.toString())).toBeFalsy()
@@ -147,7 +147,7 @@ describe('changelist', () => {
 
     const tableCellContents = Array.from(
       document.querySelectorAll('table tbody tr td:nth-child(1) a'),
-    ).map(x => x.innerHTML)
+    ).map((x) => x.innerHTML)
 
     expect(tableCellContents.includes(user1.id.toString())).toBeFalsy()
     expect(tableCellContents.includes(user2.id.toString())).toBeTruthy()
@@ -162,7 +162,7 @@ describe('changelist', () => {
 
     const tableCellContents = Array.from(
       document.querySelectorAll('table tbody tr td:nth-child(1) a'),
-    ).map(x => x.innerHTML)
+    ).map((x) => x.innerHTML)
 
     expect(tableCellContents.includes(user1.id.toString())).toBeTruthy()
     expect(tableCellContents.includes(user2.id.toString())).toBeTruthy()

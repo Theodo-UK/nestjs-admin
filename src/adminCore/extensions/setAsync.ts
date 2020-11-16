@@ -9,7 +9,7 @@
 export class SetAsyncExtension {
   tags = ['setAsync']
 
-  parse = function(parser: any, nodes: any, lexer: any) {
+  parse = function (parser: any, nodes: any, lexer: any) {
     let args
     const tok = parser.nextToken()
 

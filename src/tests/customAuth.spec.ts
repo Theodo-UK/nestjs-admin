@@ -82,9 +82,7 @@ describe('custom authentication', () => {
     expect(res.status).toBe(302)
     expect(res.header.location).toBe(`/admin`)
 
-    const res2 = await request(server)
-      .get(`/admin`)
-      .set('Cookie', res.get('Set-Cookie')[0])
+    const res2 = await request(server).get(`/admin`).set('Cookie', res.get('Set-Cookie')[0])
     expect(res2.status).toBe(200)
   })
 

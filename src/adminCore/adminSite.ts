@@ -88,7 +88,7 @@ class DefaultAdminSite {
      * it is the name, which is more of an implementation detail
      */
     const keys = Object.keys(this.sections)
-    return keys.sort((k1, k2) => k1.localeCompare(k2)).map(key => this.sections[key])
+    return keys.sort((k1, k2) => k1.localeCompare(k2)).map((key) => this.sections[key])
   }
 
   getSection(sectionName: string): AdminSection

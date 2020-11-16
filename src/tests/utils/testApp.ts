@@ -23,7 +23,7 @@ function createRegistrationModule(registrables: EntityType[], adminModules: any[
   @Module({ imports: [...adminModules] })
   class AdminRegistrationModule {
     constructor(@Inject(injectionTokens.ADMIN_SITE) private readonly adminSite: DefaultAdminSite) {
-      registrables.forEach(registrable => {
+      registrables.forEach((registrable) => {
         adminSite.register('test', registrable)
       })
     }

@@ -53,7 +53,7 @@ export class DefaultAdminController {
 
   async getEntityWithRelations(adminEntity: AdminEntity, primaryKey: any) {
     const metadata = adminEntity.metadata
-    const relations = metadata.relations.map(r => r.propertyName)
+    const relations = metadata.relations.map((r) => r.propertyName)
     return (await this.entityManager.findOneOrFail(adminEntity.entity, primaryKey, {
       relations,
     })) as object

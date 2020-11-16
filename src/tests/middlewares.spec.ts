@@ -37,7 +37,7 @@ describe('Middlewares', () => {
 
   afterEach(async () => {
     await app.stopTest()
-    middlewares.forEach(middleware => {
+    middlewares.forEach((middleware) => {
       middleware.mockClear()
     })
   })
@@ -52,7 +52,7 @@ describe('Middlewares', () => {
 
   it('should apply middlewares on /admin routes', async () => {
     const server = app.getHttpServer()
-    middlewares.forEach(middleware => {
+    middlewares.forEach((middleware) => {
       expect(middleware).toHaveBeenCalledTimes(0)
     })
 
@@ -60,14 +60,14 @@ describe('Middlewares', () => {
     await request(server).get(`/admin/`)
     await request(server).get(`/admin/user`)
 
-    middlewares.forEach(middleware => {
+    middlewares.forEach((middleware) => {
       expect(middleware).toHaveBeenCalledTimes(3)
     })
   })
 
   it('should not apply middlewares on non /admin routes', async () => {
     const server = app.getHttpServer()
-    middlewares.forEach(middleware => {
+    middlewares.forEach((middleware) => {
       expect(middleware).toHaveBeenCalledTimes(0)
     })
 
@@ -75,7 +75,7 @@ describe('Middlewares', () => {
     await request(server).get(`/`)
     await request(server).get(`/test`)
 
-    middlewares.forEach(middleware => {
+    middlewares.forEach((middleware) => {
       expect(middleware).toHaveBeenCalledTimes(0)
     })
   })
