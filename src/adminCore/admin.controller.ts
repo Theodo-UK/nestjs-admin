@@ -199,4 +199,20 @@ export class DefaultAdminController {
     )
     return response.redirect(urls.changeListUrl(section, metadata))
   }
+
+  @Post(':sectionName/:entityName/action')
+  async executeListAction(
+    @Req() request: Request,
+    @Body('listActionIndex') listActionIndex: number,
+    @Param() params: AdminModelsQuery,
+    @Response() response: express.Response,
+  ) {
+    const { adminEntity, section, metadata } = await this.getAdminModels(params)
+
+    const listAction = adminEntity.listActions[listActionIndex].action
+    const boundedListAction = listAction.bind(adminEntity)
+    await boundedListAction(request, response)
+
+    return response.redirect(urls.changeListUrl(section, metadata))
+  }
 }
