@@ -1,3 +1,4 @@
+import { EntityMetadata, SelectQueryBuilder, Brackets } from '../utils/typeormProxy'
 import { EntityType, MaybePromise } from '../types'
 import { getDefaultWidget } from './widgets/utils'
 import DefaultAdminSite from './adminSite'
@@ -9,6 +10,13 @@ import { Request, Response } from 'express'
 
 export type ListActionHandler = (request: Request, response: Response) => MaybePromise<void>
 export type ListAction = { label: string; action: ListActionHandler }
+export type ChangeActionHandler = (
+  entity: object,
+  request: Request,
+  response: Response,
+) => MaybePromise<void>
+export type ChangeAction = { label: string; action: ChangeActionHandler }
+
 abstract class AdminEntity {
   abstract entity: EntityType
 
@@ -21,6 +29,11 @@ abstract class AdminEntity {
    * List of the actions possible on the list page
    */
   listActions: ListAction[]
+
+  /**
+   * List of the actions possible on the change page
+   */
+  changeActions: ChangeAction[]
 
   /**
    * Fields of the entity that will be searchable on the list page
