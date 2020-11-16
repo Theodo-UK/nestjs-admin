@@ -215,4 +215,20 @@ export class DefaultAdminController {
 
     return response.redirect(urls.changeListUrl(section, metadata))
   }
+
+  @Post(':sectionName/:entityName/:primaryKey/action')
+  async executeChangeAction(
+    @Req() request: Request,
+    @Body('changeActionIndex') changeActionIndex: number,
+    @Param() params: AdminModelsQuery,
+    @Response() response: express.Response,
+  ) {
+    const { adminEntity, section, metadata, entity } = await this.getAdminModels(params)
+
+    const changeAction = adminEntity.changeActions[changeActionIndex].action
+    const boundedChangeAction = changeAction.bind(adminEntity)
+    await boundedChangeAction(entity, request, response)
+
+    return response.redirect(urls.changeActionUrl(section, metadata, entity))
+  }
 }
