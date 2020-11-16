@@ -19,6 +19,10 @@ export function changeListUrl(section: AdminSection, metadata: EntityMetadata) {
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}`
 }
 
+export function listActionUrl(section: AdminSection, metadata: EntityMetadata) {
+  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/action`
+}
+
 export function changeUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
   const primaryKey = urlEncodePrimaryKey(getPrimaryKeyValue(metadata, entity))
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}/change`
