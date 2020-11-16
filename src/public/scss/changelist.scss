@@ -11,6 +11,14 @@
     color: $gray-600;
   }
 
+  &__list-actions {
+    display: flex;
+
+    .btn {
+      margin-left: 0.5rem;
+    }
+  }
+
   .search-bar {
     background-color: $background-gray;
     margin-bottom: 1rem;
