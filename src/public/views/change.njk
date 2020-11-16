@@ -10,7 +10,19 @@
 
 {% block body %}
 
-<div class="admin-title"><h3>{{ entity | displayName(metadata) }}</h3></div>
+<div class="admin-title">
+<h3>{{ entity | displayName(metadata) }}</h3>
+  <div class="admin-change__change-actions">
+    {% if adminEntity.changeActions %}
+      {% for action in adminEntity.changeActions %}
+        <form method="POST" action="{{ 'changeAction' | adminUrl(section, metadata, entity) }}">
+          <input type="hidden" name="changeActionIndex" value="{{ loop.index0 }}">
+          <button class="btn btn-secondary">{{ action.label }}</button>
+        </form>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
 <div class="admin-content">
   <div class="row">
     <div class="col-12 col-xl-8">
