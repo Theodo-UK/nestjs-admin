@@ -1,4 +1,4 @@
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm'
 import { Module } from '@nestjs/common'
 
 import { DefaultAdminSite } from 'nestjs-admin'
@@ -12,13 +12,13 @@ import { UserAdmin } from './user.admin'
 @Module({
   imports: [TypeOrmModule.forFeature([User]), BackofficeModule],
   controllers: [],
-  providers: [],
+  providers: [UserAdmin],
   exports: [TypeOrmModule],
 })
 export class UserModule {
-  constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('User', UserAdmin)
-    adminSite.register('User', Group)
+  constructor(adminSite: DefaultAdminSite, userAdmin: UserAdmin) {
+    adminSite.register('User', userAdmin)
+    adminSite.register('Group', Group)
     adminSite.register('Agency', Agency)
   }
 }

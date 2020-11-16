@@ -31,7 +31,7 @@ class DefaultAdminSite {
 
   /* @debt architecture "We should use the EntityManager instead of the Connection and Repositories" */
   constructor(
-    private readonly connection: Connection,
+    public readonly connection: Connection,
     public readonly entityManager: EntityManager,
   ) {}
 
@@ -53,12 +53,17 @@ class DefaultAdminSite {
    * @argument sectionName The section the entity will be displayed under
    * @argument adminEntity The entity or AdminEntity to be registered in the admin site
    */
-  register(sectionName: string, adminEntity: EntityType | typeof AdminEntity): void
-  register(unsafeName: string, adminEntityOrEntity: EntityType | typeof AdminEntity) {
+  register(sectionName: string, adminEntity: EntityType | typeof AdminEntity | AdminEntity): void
+  register(
+    unsafeName: string,
+    adminEntityOrEntity: EntityType | typeof AdminEntity | AdminEntity,
+  ): void {
     const name = parseName(unsafeName)
     const section = this.getOrCreateSection(name)
 
-    if (adminEntityOrEntity.prototype instanceof AdminEntity) {
+    if (adminEntityOrEntity instanceof AdminEntity) {
+      section.register(adminEntityOrEntity)
+    } else if (adminEntityOrEntity.prototype instanceof AdminEntity) {
       // adminEntityOrEntity is a derived class of AdminEntity
       const AdminEntityClass = adminEntityOrEntity as typeof AdminEntity
       // @ts-ignore
@@ -70,7 +75,7 @@ class DefaultAdminSite {
       class AdminEntityClass extends AdminEntity {
         entity = entity
       }
-      const adminEntity = new AdminEntityClass(this, this.connection)
+      const adminEntity = new AdminEntityClass(this)
       section.register(adminEntity)
     } else {
       throw new InvalidAdminRegistration(adminEntityOrEntity)
