@@ -28,6 +28,11 @@ export function changeUrl(section: AdminSection, metadata: EntityMetadata, entit
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}/change`
 }
 
+export function changeActionUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
+  const primaryKey = urlEncodePrimaryKey(getPrimaryKeyValue(metadata, entity))
+  return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}/action`
+}
+
 export function deleteUrl(section: AdminSection, metadata: EntityMetadata, entity: object) {
   const primaryKey = urlEncodePrimaryKey(getPrimaryKeyValue(metadata, entity))
   return `/admin/${parseName(section.name)}/${parseName(metadata.name)}/${primaryKey}/delete`

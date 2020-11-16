@@ -7,6 +7,7 @@ type Route =
   | 'changelist'
   | 'listAction'
   | 'change'
+  | 'changeAction'
   | 'add'
   | 'delete'
   | 'login'
@@ -25,6 +26,8 @@ export function adminUrl(route: Route, ...args: RouteArgs) {
       return urls.listActionUrl(...(args as [any, any]))
     case 'change':
       return urls.changeUrl(...(args as [any, any, any]))
+    case 'changeAction':
+      return urls.changeActionUrl(...(args as [any, any, any]))
     case 'add':
       return urls.addUrl(...(args as [any, any]))
     case 'delete':
