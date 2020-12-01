@@ -19,6 +19,7 @@ export class UserAdmin extends AdminEntity {
   listDisplay = ['id', 'firstName', 'lastName', 'email', 'createdDate']
   searchFields = ['firstName', 'lastName', 'email']
   listActions = [{ label: 'Create random', action: this.createRandom }]
+  changeActions = [{ label: 'Duplicate', action: this.duplicate }]
 
   widgets = {
     password: PasswordWidget,
@@ -27,5 +28,12 @@ export class UserAdmin extends AdminEntity {
   async createRandom(request: Request, response: Response) {
     this.userRepository.save(new User())
     request.flash('messages', 'Successfully created')
+  }
+
+  async duplicate(entity: User, request: Request, response: Response) {
+    const newUser = new User()
+    newUser.email = entity.email
+    this.userRepository.save(newUser)
+    response.status(200).json({ message: 'It worked' })
   }
 }
