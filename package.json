@@ -14,7 +14,7 @@
     "dist"
   ],
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"**/*.{ts,js,yml,njk,json}\"",
     "start:dev": "tsc-watch --onSuccess \"ln -sfn ../../src/public dist/src/public\" --onFailure \"echo 'There was a problem compiling'\"",
     "prepublishOnly": "yarn build",
     "build": "rimraf dist && tsc -p tsconfig.build.json",
@@ -78,6 +78,7 @@
     "mysql": "^2.17.1",
     "pg": "^8.3.2",
     "prettier": "^2.1.2",
+    "prettier-plugin-twig-melody": "^0.4.6",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^3.0.0",
     "rxjs": "^6.0.0",

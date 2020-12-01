@@ -3,5 +3,14 @@
   "trailingComma": "all",
   "printWidth": 100,
   "tabWidth": 2,
-  "semi": false
+  "semi": false,
+  "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": "*.njk",
+      "options": {
+        "parser": "melody"
+      }
+    }
+  ]
 }
