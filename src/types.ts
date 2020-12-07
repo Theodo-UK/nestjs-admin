@@ -1,2 +1,2 @@
-export type EntityType = new () => unknown
-export type MaybePromise<T> = T | Promise<T>
+export type EntityType = new () => unknown;
+export type MaybePromise<T> = T | Promise<T>;

@@ -1,12 +1,12 @@
-import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
-import DefaultAdminSite from '../adminSite'
+import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata';
+import DefaultAdminSite from '../adminSite';
 
 export interface WidgetConstructor {
-  new (column: ColumnMetadata, adminSite: DefaultAdminSite, entity?: object)
+  new (column: ColumnMetadata, adminSite: DefaultAdminSite, entity?: object);
 }
 
 export interface Widget {
-  template: string
+  template: string;
 }
 
 export abstract class BaseWidget {
@@ -16,20 +16,20 @@ export abstract class BaseWidget {
     public readonly entity?: object,
   ) {}
 
-  abstract template: string
+  abstract template: string;
 
   getLabel() {
-    return this.column.propertyName
+    return this.column.propertyName;
   }
 
   isRequired() {
-    return !this.column.isNullable
+    return !this.column.isNullable;
   }
 
   getValue() {
     if (!this.entity) {
-      return null
+      return null;
     }
-    return this.column.getEntityValue(this.entity)
+    return this.column.getEntityValue(this.entity);
   }
 }

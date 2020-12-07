@@ -1,22 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from '../utils/typeormProxy'
+import { Column, Entity, PrimaryGeneratedColumn } from '../utils/typeormProxy';
 
 @Entity('adminUser')
 class AdminUser {
   @PrimaryGeneratedColumn('uuid')
-  id: string
+  id: string;
 
   @Column({ length: 50, unique: true, nullable: false })
-  username: string
+  username: string;
 
   @Column({ length: 128, nullable: false })
-  password: string
+  password: string;
 
   toString() {
     if (this.username) {
-      return `${this.id} - ${this.username}`
+      return `${this.id} - ${this.username}`;
     }
-    return this.id
+    return this.id;
   }
 }
 
-export default AdminUser
+export default AdminUser;

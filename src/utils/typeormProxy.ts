@@ -1,10 +1,10 @@
-import * as NestJSTypeORM from 'typeorm'
+import * as NestJSTypeORM from 'typeorm';
 
-let TORM = NestJSTypeORM
+let TORM = NestJSTypeORM;
 
 // tslint:disable:no-var-requires
 if (process.env.NESTJS_ADMIN_TYPEORM_PATH) {
-  TORM = require(process.env.NESTJS_ADMIN_TYPEORM_PATH)
+  TORM = require(process.env.NESTJS_ADMIN_TYPEORM_PATH);
 }
 
 // WHY? To improve development environment:
@@ -17,4 +17,4 @@ if (process.env.NESTJS_ADMIN_TYPEORM_PATH) {
 // This broke some features of 'typeorm' when we were developing using exampleApp
 // So we have added the NESTJS_ADMIN_TYPEORM_PATH env variable to set which 'typeorm' library to use in 'start:debug' command
 
-export = TORM
+export = TORM;

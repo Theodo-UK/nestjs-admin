@@ -1,17 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('groups')
 export class Group {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ length: 50 })
-  name: string
+  name: string;
 
   toString(): string {
     if (this.name) {
-      return `${this.id} - ${this.name}`
+      return `${this.id} - ${this.name}`;
     }
-    return this.id.toString()
+    return this.id.toString();
   }
 }

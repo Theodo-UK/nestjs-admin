@@ -1,5 +1,5 @@
-import { Widget, BaseWidget } from './widget.interface'
+import { Widget, BaseWidget } from './widget.interface';
 
 export default class ForeignKeyWidget extends BaseWidget {
-  template = 'widgets/foreign-key.njk'
+  template = 'widgets/foreign-key.njk';
 }

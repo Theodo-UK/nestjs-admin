@@ -1,21 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, PrimaryColumn } from 'typeorm'
-import { User } from './user.entity'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, PrimaryColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity('agencies')
 export class Agency extends Object {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ length: 50 })
-  name: string
+  name: string;
 
   @OneToMany(type => User, user => user.agency)
-  users: User[]
+  users: User[];
 
   toString() {
     if (this.name) {
-      return `${this.id} - ${this.name}`
+      return `${this.id} - ${this.name}`;
     }
-    return this.id.toString()
+    return this.id.toString();
   }
 }

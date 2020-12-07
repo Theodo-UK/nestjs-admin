@@ -1,3 +1,3 @@
 export class AdminWidget {
-  template: string
+  template: string;
 }

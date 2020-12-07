@@ -1,4 +1,4 @@
-const AdminUser = require('nestjs-admin').AdminUserEntity
+const AdminUser = require('nestjs-admin').AdminUserEntity;
 
 module.exports = {
   type: 'postgres',
@@ -10,4 +10,4 @@ module.exports = {
   entities: [__dirname + '/dist/**/*.entity.js', AdminUser],
   migrations: ['dist/migration/*.js'],
   synchronize: false,
-}
+};
