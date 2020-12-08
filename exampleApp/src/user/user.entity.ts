@@ -7,9 +7,9 @@ import {
   UpdateDateColumn,
   JoinTable,
   ManyToMany,
-} from 'typeorm'
-import { Agency } from './agency.entity'
-import { Group } from './group.entity'
+} from 'typeorm';
+import { Agency } from './agency.entity';
+import { Group } from './group.entity';
 
 export enum Gender {
   MALE = 'male',
@@ -20,101 +20,101 @@ export enum Gender {
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ length: 50, nullable: true })
-  firstName: string
+  firstName: string;
 
   @Column({ length: 50, nullable: true })
-  lastName: string
+  lastName: string;
 
   @Column({ length: 100, nullable: true })
-  password: string
+  password: string;
 
   @Column({ length: 100, nullable: true })
-  email: string
+  email: string;
 
   @Column('simple-array', { nullable: true })
-  roles: string[]
+  roles: string[];
 
   @Column('simple-array', { nullable: true })
-  moreRoles: string[]
+  moreRoles: string[];
 
   @Column('text', { nullable: true })
-  description: string
+  description: string;
 
   @ManyToOne(type => Agency, agency => agency.users, { eager: true })
-  agency: Agency
+  agency: Agency;
 
   @ManyToMany(type => Group)
   @JoinTable()
-  groups: Group[]
+  groups: Group[];
 
   @Column({ nullable: true })
-  weight: number
+  weight: number;
 
   @Column('integer', { nullable: true })
-  age: number
+  age: number;
 
   @Column('int', { nullable: true })
-  numberOfSiblings: number
+  numberOfSiblings: number;
 
   @Column('smallint', { nullable: true })
-  fingerCount: number
+  fingerCount: number;
 
   @Column('bigint', { nullable: true })
-  atomCount: number
+  atomCount: number;
 
   @Column('float', { nullable: true })
-  height: number
+  height: number;
 
   @Column('decimal', { nullable: true })
-  bmi: number
+  bmi: number;
 
   @Column({ nullable: true })
-  birthdate: Date
+  birthdate: Date;
 
   @Column('date', { nullable: true })
-  deathdate: Date
+  deathdate: Date;
 
   @Column('time', { nullable: true })
-  birthtime: Date
+  birthtime: Date;
 
   @Column('timestamp', { nullable: true })
-  hireDatetime: Date
+  hireDatetime: Date;
 
   @Column('boolean', { nullable: true })
-  isActive: boolean
+  isActive: boolean;
 
   @Column('boolean', { nullable: false, default: true })
-  isCool: boolean
+  isCool: boolean;
 
   @Column('json', { nullable: true })
-  additionalData: any
+  additionalData: any;
 
   @Column('enum', { enum: Gender, nullable: true })
-  gender: Gender
+  gender: Gender;
 
   @CreateDateColumn()
-  createdDate: Date
+  createdDate: Date;
 
   @UpdateDateColumn()
-  updatedDate: Date
+  updatedDate: Date;
 
   get fullName() {
     if (this.firstName) {
       if (this.lastName) {
-        return `${this.firstName} ${this.lastName}`
+        return `${this.firstName} ${this.lastName}`;
       }
-      return this.firstName
+      return this.firstName;
     }
-    return this.lastName
+    return this.lastName;
   }
 
   toString() {
     if (this.fullName) {
-      return `${this.id} - ${this.fullName}`
+      return `${this.id} - ${this.fullName}`;
     }
-    return `${this.id}`
+    return `${this.id}`;
   }
 }

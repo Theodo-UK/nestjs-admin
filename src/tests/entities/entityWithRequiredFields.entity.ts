@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from '../../utils/typeormProxy'
+import { Entity, Column, PrimaryGeneratedColumn } from '../../utils/typeormProxy';
 
 enum TestEnum {
   first = 'first',
@@ -9,17 +9,17 @@ enum TestEnum {
 @Entity('dummyentities')
 export class EntityWithRequiredFields {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column({ length: 50 })
-  requiredString: string
+  requiredString: string;
 
   @Column('enum', { enum: TestEnum })
-  requiredEnum: TestEnum
+  requiredEnum: TestEnum;
 
   @Column({ length: 50, nullable: true })
-  nullableString: string
+  nullableString: string;
 
   @Column('enum', { enum: TestEnum, nullable: true })
-  nullableEnum: TestEnum
+  nullableEnum: TestEnum;
 }

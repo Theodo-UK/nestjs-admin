@@ -1,17 +1,17 @@
-const React = require('react')
+const React = require('react');
 
-const CompLibrary = require('../../core/CompLibrary.js')
+const CompLibrary = require('../../core/CompLibrary.js');
 
-const Container = CompLibrary.Container
-const GridBlock = CompLibrary.GridBlock
+const Container = CompLibrary.Container;
+const GridBlock = CompLibrary.GridBlock;
 
 class HomeSplash extends React.Component {
   render() {
-    const { siteConfig, language = '' } = this.props
-    const { baseUrl, docsUrl } = siteConfig
-    const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`
-    const langPart = `${language ? `${language}/` : ''}`
-    const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`
+    const { siteConfig, language = '' } = this.props;
+    const { baseUrl, docsUrl } = siteConfig;
+    const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
+    const langPart = `${language ? `${language}/` : ''}`;
+    const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`;
 
     const SplashContainer = props => (
       <div className="homeContainer">
@@ -19,7 +19,7 @@ class HomeSplash extends React.Component {
           <div className="wrapper homeWrapper">{props.children}</div>
         </div>
       </div>
-    )
+    );
 
     const PromoSection = props => (
       <div className="section promoSection">
@@ -27,7 +27,7 @@ class HomeSplash extends React.Component {
           <div className="pluginRowBlock">{props.children}</div>
         </div>
       </div>
-    )
+    );
 
     const Button = props => (
       <div className="pluginWrapper buttonWrapper">
@@ -35,7 +35,7 @@ class HomeSplash extends React.Component {
           {props.children}
         </a>
       </div>
-    )
+    );
 
     return (
       <SplashContainer>
@@ -46,20 +46,20 @@ class HomeSplash extends React.Component {
           <Button href={docUrl('contributing')}>Contribute</Button>
         </PromoSection>
       </SplashContainer>
-    )
+    );
   }
 }
 
 class Index extends React.Component {
   render() {
-    const { config: siteConfig, language = '' } = this.props
-    const { baseUrl } = siteConfig
+    const { config: siteConfig, language = '' } = this.props;
+    const { baseUrl } = siteConfig;
 
     const Block = props => (
       <Container padding={['bottom', 'top']} id={props.id} background={props.background}>
         <GridBlock align="center" contents={props.children} layout={props.layout} />
       </Container>
-    )
+    );
 
     const Features = () => (
       <Block layout="threeColumn">
@@ -86,7 +86,7 @@ class Index extends React.Component {
           },
         ]}
       </Block>
-    )
+    );
 
     const List = () => (
       <Block background="dark">
@@ -102,7 +102,7 @@ class Index extends React.Component {
           },
         ]}
       </Block>
-    )
+    );
 
     const Form = () => (
       <Block background="light">
@@ -118,7 +118,7 @@ class Index extends React.Component {
           },
         ]}
       </Block>
-    )
+    );
 
     return (
       <div>
@@ -129,8 +129,8 @@ class Index extends React.Component {
           <Form />
         </div>
       </div>
-    )
+    );
   }
 }
 
-module.exports = Index
+module.exports = Index;

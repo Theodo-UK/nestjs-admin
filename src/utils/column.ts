@@ -1,4 +1,4 @@
-import { ColumnType } from 'typeorm'
+import { ColumnType } from 'typeorm';
 
 export type IntegerColumnType =
   | NumberConstructor
@@ -14,7 +14,7 @@ export type IntegerColumnType =
   | 'int8'
   | 'int64'
   | 'unsigned big int'
-  | 'long'
+  | 'long';
 
 export type DecimalColumnType =
   | 'numeric'
@@ -24,9 +24,9 @@ export type DecimalColumnType =
   | 'real'
   | 'double'
   | 'double precision'
-  | 'fixed'
+  | 'fixed';
 
-export type NumberColumnType = IntegerColumnType | DecimalColumnType
+export type NumberColumnType = IntegerColumnType | DecimalColumnType;
 
 export type DateType =
   | 'date'
@@ -39,10 +39,10 @@ export type DateType =
   | 'timestamp'
   | 'timestamp without time zone'
   | 'timestamp with time zone'
-  | 'timestamp with local time zone'
+  | 'timestamp with local time zone';
 
-export type BooleanType = 'boolean' | 'bool'
-export type EnumType = 'enum'
+export type BooleanType = 'boolean' | 'bool';
+export type EnumType = 'enum';
 
 export function isIntegerType(type: ColumnType): type is IntegerColumnType {
   return [
@@ -61,7 +61,7 @@ export function isIntegerType(type: ColumnType): type is IntegerColumnType {
     'unsigned big int',
     'long',
     // @ts-ignore
-  ].includes(type)
+  ].includes(type);
 }
 
 export function isDecimalType(type: ColumnType): type is DecimalColumnType {
@@ -75,11 +75,11 @@ export function isDecimalType(type: ColumnType): type is DecimalColumnType {
     'double precision',
     'fixed',
     // @ts-ignore
-  ].includes(type)
+  ].includes(type);
 }
 
 export function isNumberType(type: ColumnType): type is NumberColumnType {
-  return isDecimalType(type) || isIntegerType(type)
+  return isDecimalType(type) || isIntegerType(type);
 }
 
 export function isDateType(type: ColumnType): type is DateType {
@@ -97,7 +97,7 @@ export function isDateType(type: ColumnType): type is DateType {
     'timestamp with time zone',
     'timestamp with local time zone',
     // @ts-ignore
-  ].includes(type)
+  ].includes(type);
 }
 
 export function isBooleanType(type: ColumnType): type is BooleanType {
@@ -106,7 +106,7 @@ export function isBooleanType(type: ColumnType): type is BooleanType {
     'boolean',
     'bool',
     // @ts-ignore
-  ].includes(type)
+  ].includes(type);
 }
 
 export function isEnumType(type: ColumnType): type is EnumType {
@@ -114,5 +114,5 @@ export function isEnumType(type: ColumnType): type is EnumType {
     'enum',
     'simple-enum',
     // @ts-ignore
-  ].includes(type)
+  ].includes(type);
 }

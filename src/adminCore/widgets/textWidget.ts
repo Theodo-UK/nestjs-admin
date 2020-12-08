@@ -1,5 +1,5 @@
-import { Widget, BaseWidget } from './widget.interface'
+import { Widget, BaseWidget } from './widget.interface';
 
 export default class TextWidget extends BaseWidget {
-  template = 'widgets/text.njk'
+  template = 'widgets/text.njk';
 }

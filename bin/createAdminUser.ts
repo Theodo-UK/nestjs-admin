@@ -1,14 +1,14 @@
-import { INestApplicationContext } from '@nestjs/common'
-import { prompt } from 'inquirer'
-import { AdminUserService } from '../src/adminUser/adminUser.service'
+import { INestApplicationContext } from '@nestjs/common';
+import { prompt } from 'inquirer';
+import { AdminUserService } from '../src/adminUser/adminUser.service';
 
 export async function createAdminUser(app: INestApplicationContext) {
-  const adminUserService = app.get(AdminUserService)
+  const adminUserService = app.get(AdminUserService);
 
   type Answers = {
-    username: string
-    password: string
-  }
+    username: string;
+    password: string;
+  };
 
   const { username, password }: Answers = await prompt([
     {
@@ -21,7 +21,7 @@ export async function createAdminUser(app: INestApplicationContext) {
       name: 'password',
       message: 'Password:',
     },
-  ])
+  ]);
 
-  await adminUserService.create(username, password)
+  await adminUserService.create(username, password);
 }

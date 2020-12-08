@@ -9,7 +9,7 @@
 // site configuration options.
 
 // List of projects/orgs using your project for the users page.
-const users = []
+const users = [];
 
 const siteConfig = {
   title: 'NestJS Admin',
@@ -61,6 +61,6 @@ const siteConfig = {
   twitterImage: 'img/logo-with-name.png',
 
   // enableUpdateTime: true,
-}
+};
 
-module.exports = siteConfig
+module.exports = siteConfig;

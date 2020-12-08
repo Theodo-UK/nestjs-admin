@@ -1,5 +1,5 @@
-import { Widget, BaseWidget } from './widget.interface'
+import { Widget, BaseWidget } from './widget.interface';
 
 export default class DecimalWidget extends BaseWidget {
-  template = 'widgets/decimal.njk'
+  template = 'widgets/decimal.njk';
 }

@@ -1,18 +1,18 @@
-import { Module } from '@nestjs/common'
-import * as pgConnect from 'connect-pg-simple'
-import * as session from 'express-session'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { Module } from '@nestjs/common';
+import * as pgConnect from 'connect-pg-simple';
+import * as session from 'express-session';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   AdminCoreModuleFactory,
   AdminAuthModuleFactory,
   DefaultAdminSite,
   AdminUserEntity,
-} from 'nestjs-admin'
-import { UserCredentialValidator } from '../user/userCredentialValidator'
-import { User } from '../user/user.entity'
+} from 'nestjs-admin';
+import { UserCredentialValidator } from '../user/userCredentialValidator';
+import { User } from '../user/user.entity';
 
-const sessionDBUrl = process.env.SESSION_DB_URL
-const PgSession = pgConnect(session)
+const sessionDBUrl = process.env.SESSION_DB_URL;
+const PgSession = pgConnect(session);
 const AdminCoreModule = AdminCoreModuleFactory.createAdminCoreModule({
   appConfig: {
     session: {
@@ -22,12 +22,12 @@ const AdminCoreModule = AdminCoreModuleFactory.createAdminCoreModule({
           : undefined,
     },
   },
-})
+});
 
 const AdminAuthModule = AdminAuthModuleFactory.createAdminAuthModule({
   credentialValidator: UserCredentialValidator,
   imports: [TypeOrmModule.forFeature([User])],
-})
+});
 
 @Module({
   imports: [AdminCoreModule, AdminAuthModule],
@@ -35,6 +35,6 @@ const AdminAuthModule = AdminAuthModuleFactory.createAdminAuthModule({
 })
 export class BackofficeModule {
   constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('Administration', AdminUserEntity)
+    adminSite.register('Administration', AdminUserEntity);
   }
 }

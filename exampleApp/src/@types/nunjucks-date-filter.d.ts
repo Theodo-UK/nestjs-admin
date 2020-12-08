@@ -1,1 +1,1 @@
-declare module 'nunjucks-date-filter'
+declare module 'nunjucks-date-filter';

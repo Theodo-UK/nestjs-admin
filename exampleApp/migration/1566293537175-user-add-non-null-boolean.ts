@@ -1,11 +1,11 @@
-import { MigrationInterface, QueryRunner } from 'typeorm'
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class userAddNonNullBoolean1566293537175 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.query(`ALTER TABLE "users" ADD "isCool" boolean NOT NULL DEFAULT true`)
+    await queryRunner.query(`ALTER TABLE "users" ADD "isCool" boolean NOT NULL DEFAULT true`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "isCool"`)
+    await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "isCool"`);
   }
 }

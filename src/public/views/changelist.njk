@@ -12,9 +12,19 @@
 
 <div class="admin-title">
   <div><h3>{{ metadata.name | prettyPrint }}</h3> <span class="admin-changelist__count">({{ count }} results)</span></div>
-  <a href="{{ 'add' | adminUrl(section, metadata, entity) }}">
-    <button class="btn btn-primary">Add {{ metadata.name | prettyPrint}}</button>
-  </a>
+  <div class="admin-changelist__list-actions">
+    {% if adminEntity.listActions %}
+      {% for action in adminEntity.listActions %}
+        <form method="POST" action="{{ 'listAction' | adminUrl(section, metadata) }}">
+          <input type="hidden" name="listActionIndex" value="{{ loop.index0 }}">
+          <button class="btn btn-secondary">{{ action.label }}</button>
+        </form>
+      {% endfor %}
+    {% endif %}
+    <a href="{{ 'add' | adminUrl(section, metadata, entity) }}">
+      <button class="btn btn-primary">Add {{ metadata.name | prettyPrint}}</button>
+    </a>
+  </div>
 </div>
 
 <div class="admin-content">

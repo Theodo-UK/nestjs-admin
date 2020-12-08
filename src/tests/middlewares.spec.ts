@@ -1,82 +1,82 @@
-import * as request from 'supertest'
-import { createAndStartTestApp, TestApplication } from './utils/testApp'
-import { User } from '../../exampleApp/src/user/user.entity'
+import * as request from 'supertest';
+import { createAndStartTestApp, TestApplication } from './utils/testApp';
+import { User } from '../../exampleApp/src/user/user.entity';
 
 const middlewareMock = (req, res, next) => {
   try {
-    req.flash = jest.fn()
-    next()
+    req.flash = jest.fn();
+    next();
   } catch (e) {
     // tslint:disable-next-line
-    console.warn(e)
+    console.warn(e);
   }
-}
+};
 
-const flashMock = jest.fn().mockImplementation(middlewareMock)
+const flashMock = jest.fn().mockImplementation(middlewareMock);
 jest.mock('connect-flash', () => {
-  return () => flashMock
-})
+  return () => flashMock;
+});
 
-const sessionMock = jest.fn().mockImplementation(middlewareMock)
+const sessionMock = jest.fn().mockImplementation(middlewareMock);
 jest.mock('express-session', () => {
-  return () => sessionMock
-})
+  return () => sessionMock;
+});
 
-const middlewares = [flashMock, sessionMock]
+const middlewares = [flashMock, sessionMock];
 
 describe('Middlewares', () => {
-  let app: TestApplication
+  let app: TestApplication;
 
   beforeAll(async () => {
-    app = await createAndStartTestApp({ registerEntities: [User] })
-  })
+    app = await createAndStartTestApp({ registerEntities: [User] });
+  });
 
   beforeEach(async () => {
-    await app.startTest()
-  })
+    await app.startTest();
+  });
 
   afterEach(async () => {
-    await app.stopTest()
+    await app.stopTest();
     middlewares.forEach(middleware => {
-      middleware.mockClear()
-    })
-  })
+      middleware.mockClear();
+    });
+  });
 
   afterAll(async () => {
-    await app.close()
-  })
+    await app.close();
+  });
 
   it('should be defined', () => {
-    expect(app).toBeDefined()
-  })
+    expect(app).toBeDefined();
+  });
 
   it('should apply middlewares on /admin routes', async () => {
-    const server = app.getHttpServer()
+    const server = app.getHttpServer();
     middlewares.forEach(middleware => {
-      expect(middleware).toHaveBeenCalledTimes(0)
-    })
+      expect(middleware).toHaveBeenCalledTimes(0);
+    });
 
-    await request(server).get(`/admin`)
-    await request(server).get(`/admin/`)
-    await request(server).get(`/admin/user`)
+    await request(server).get(`/admin`);
+    await request(server).get(`/admin/`);
+    await request(server).get(`/admin/user`);
 
     middlewares.forEach(middleware => {
-      expect(middleware).toHaveBeenCalledTimes(3)
-    })
-  })
+      expect(middleware).toHaveBeenCalledTimes(3);
+    });
+  });
 
   it('should not apply middlewares on non /admin routes', async () => {
-    const server = app.getHttpServer()
+    const server = app.getHttpServer();
     middlewares.forEach(middleware => {
-      expect(middleware).toHaveBeenCalledTimes(0)
-    })
+      expect(middleware).toHaveBeenCalledTimes(0);
+    });
 
-    await request(server).get(`/admin2`)
-    await request(server).get(`/`)
-    await request(server).get(`/test`)
+    await request(server).get(`/admin2`);
+    await request(server).get(`/`);
+    await request(server).get(`/test`);
 
     middlewares.forEach(middleware => {
-      expect(middleware).toHaveBeenCalledTimes(0)
-    })
-  })
-})
+      expect(middleware).toHaveBeenCalledTimes(0);
+    });
+  });
+});

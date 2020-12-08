@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common'
-import { AdminCoreModuleFactory } from './adminCore/adminCore.module'
-import DefaultAdminSite from './adminCore/adminSite'
-import AdminUserEntity from './adminUser/adminUser.entity'
-import { AdminUserModule } from './adminUser/adminUser.module'
+import { Module } from '@nestjs/common';
+import { AdminCoreModuleFactory } from './adminCore/adminCore.module';
+import DefaultAdminSite from './adminCore/adminSite';
+import AdminUserEntity from './adminUser/adminUser.entity';
+import { AdminUserModule } from './adminUser/adminUser.module';
 
-const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
+const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({});
 
 @Module({
   imports: [DefaultCoreModule, AdminUserModule],
@@ -12,6 +12,6 @@ const DefaultCoreModule = AdminCoreModuleFactory.createAdminCoreModule({})
 })
 export default class DefaultAdminModule {
   constructor(private readonly adminSite: DefaultAdminSite) {
-    adminSite.register('Administration', AdminUserEntity)
+    adminSite.register('Administration', AdminUserEntity);
   }
 }
