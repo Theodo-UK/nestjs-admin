@@ -10,6 +10,7 @@ executors:
           - POSTGRES_USER=seed
           - POSTGRES_PASSWORD=Ge0rgesMoustaki
           - PGPORT=5434
+          - TERM=xterm
 
 commands:
   yarn-install:
@@ -71,6 +72,8 @@ jobs:
   test-e2e:
     executor: defaults_typescript
     working_directory: ~/nestjs-admin
+    docker:
+      - image: cypress/base:10
     environment:
       NODE_ENV: test
     steps:
