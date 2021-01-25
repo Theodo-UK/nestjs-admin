@@ -9,7 +9,7 @@ import { WidgetConstructor } from './widgets/widget.interface';
 import { Request, Response } from 'express';
 
 export type ListActionHandler = (request: Request, response: Response) => MaybePromise<void>;
-export type ListAction = { label: string; action: ListActionHandler };
+export type ListAction = { label: string; action: ListActionHandler } | {label: string; url: string; method?: string};
 export type ChangeActionHandler = (
   entity: object,
   request: Request,
