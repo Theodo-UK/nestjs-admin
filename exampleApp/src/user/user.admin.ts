@@ -18,7 +18,10 @@ export class UserAdmin extends AdminEntity {
   entity = User;
   listDisplay = ['id', 'firstName', 'lastName', 'email', 'createdDate'];
   searchFields = ['firstName', 'lastName', 'email'];
-  listActions = [{ label: 'Create random', action: this.createRandom }];
+  listActions = [
+    { label: 'Create random', action: this.createRandom },
+    { label: 'Delete all', url: '/admin/user/group/delete-all' },
+  ];
   changeActions = [{ label: 'Duplicate', action: this.duplicate }];
 
   widgets = {

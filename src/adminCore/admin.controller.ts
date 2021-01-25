@@ -209,6 +209,7 @@ export class DefaultAdminController {
   ) {
     const { adminEntity, section, metadata } = await this.getAdminModels(params);
 
+    // @ts-ignore
     const listAction = adminEntity.listActions[listActionIndex].action;
     const boundedListAction = listAction.bind(adminEntity);
     await boundedListAction(request, response);
