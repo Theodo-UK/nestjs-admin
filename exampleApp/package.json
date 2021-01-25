@@ -49,6 +49,7 @@
     "@types/node-sass-middleware": "^0.0.31",
     "@types/passport": "^1.0.1",
     "@types/supertest": "2.0.7",
+    "cypress": "^6.3.0",
     "faker": "^4.1.0",
     "jest": "24.7.1",
     "jest-cli": "^24.9.0",
