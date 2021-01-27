@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node_postgres:
     docker:
-      - image: circleci/node:10.13.0
+      - image: circleci/node:10.19.0
         environment: # overrides the .env
           - DB_USERNAME=seed
           - DB_PASSWORD=Ge0rgesMoustaki
@@ -17,7 +17,7 @@ executors:
           - PGPORT=5434
   node_mysql:
     docker:
-      - image: circleci/node:10.13.0
+      - image: circleci/node:10.19.0
       - image: circleci/mysql:8.0.4
         command: [--default-authentication-plugin=mysql_native_password]
         environment:
