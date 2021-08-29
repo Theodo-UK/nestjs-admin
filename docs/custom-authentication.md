@@ -3,7 +3,7 @@ id: custom-authentication
 title: Custom authentication
 ---
 
-NestJS does not provide a built-in concept of "user". It is up to the application developper to define it if it makes sense in their application. To be able to be secure and usable out-of-the-box, NestJS Admin provides an AdminUser entity that contains a `username` and a `password` properties. You can create a new AdminUser from the command line (`npx nestjs-admin createAdminUser`) or through the admin interface directly: these credentials will allow you to login into the admin interface.
+NestJS does not provide a built-in concept of "user". It is up to the application developer to define it if it makes sense in their application. To be able to be secure and usable out-of-the-box, NestJS Admin provides an AdminUser entity that contains a `username` and a `password` properties. You can create a new AdminUser from the command line (`npx nestjs-admin createAdminUser`) or through the admin interface directly: these credentials will allow you to login into the admin interface.
 
 NestJS Admin provides way to customize this behavior.
 
