@@ -31,7 +31,7 @@ export class AdminUserService implements EntitySubscriberInterface<AdminUser> {
     return compareSync(password, adminUser.password);
   }
 
-  beforeInsert(event: InsertEvent<AdminUser>) {
+  beforeInsert(event: InsertEvent<AdminUser & { hasPasswordBeenHashed?: boolean }>) {
     event.entity.password = this.hashPassword(event.entity.password);
   }
   beforeUpdate(event: UpdateEvent<AdminUser>) {
